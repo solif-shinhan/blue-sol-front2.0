@@ -15,7 +15,9 @@ const KEYS_TO_CLEAR = [
   'userSocialLink',
   'userPattern',
   'userCharacter',
-  'alumniData'
+  'alumniData',
+  'registerData',
+  'registerUserRole'
 ]
 
 function RegisterPage() {
@@ -29,14 +31,17 @@ function RegisterPage() {
   }, [])
 
   const handleHighSchool = () => {
+    localStorage.setItem('registerUserRole', 'JUNIOR')
     navigate('/register/scholarship')
   }
 
   const handleUniversity = () => {
+    localStorage.setItem('registerUserRole', 'SENIOR')
     navigate('/register/scholarship')
   }
 
   const handleAlumni = () => {
+    localStorage.setItem('registerUserRole', 'GRADUATE')
     navigate('/register/alumni')
   }
 

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { login } from '@/services/authService'
 import type { LoginFormData, LoginFormErrors } from './types'
 
 const INITIAL_FORM_DATA: LoginFormData = {
@@ -53,12 +54,29 @@ export function useLoginForm() {
 
     setIsLoading(true)
 
-    // TODO: Replace with actual API call
-    setTimeout(() => {
+    try {
+      const response = await login({
+        loginId: formData.userId,
+        password: formData.password
+      })
+
+      if (response.success) {
+        const isFirstTimeUser = !localStorage.getItem('hasCompletedOnboarding')
+        navigate(isFirstTimeUser ? '/onboarding' : '/home')
+      } else {
+        setErrors({
+          userId: '',
+          password: response.message || '로그인에 실패했습니다.'
+        })
+      }
+    } catch (error) {
+      setErrors({
+        userId: '',
+        password: error instanceof Error ? error.message : '로그인에 실패했습니다.'
+      })
+    } finally {
       setIsLoading(false)
-      const isFirstTimeUser = !localStorage.getItem('hasCompletedOnboarding')
-      navigate(isFirstTimeUser ? '/onboarding' : '/home')
-    }, 1000)
+    }
   }
 
   const handleSignUp = () => {

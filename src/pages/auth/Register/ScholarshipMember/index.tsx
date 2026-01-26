@@ -79,6 +79,16 @@ function ScholarshipMemberPage() {
     e?.preventDefault()
     if (!isFormValid) return
 
+    // 기본 정보를 localStorage에 저장
+    localStorage.setItem('registerData', JSON.stringify({
+      name: formData.name,
+      scholarNumber: formData.scholarshipId,
+      phone: formData.phone,
+      email: formData.email,
+      region: formData.region,
+      schoolName: formData.school
+    }))
+
     // Navigate to next step - credentials setup
     navigate('/register/scholarship/credentials')
   }

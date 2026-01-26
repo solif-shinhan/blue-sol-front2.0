@@ -33,9 +33,17 @@ function AlumniRegisterPage() {
 
   const handleSubmit = () => {
     if (isFormValid) {
-      // Save data and navigate to registration complete page
-      localStorage.setItem('alumniData', JSON.stringify(formData))
-      navigate('/register/complete')
+      // 기본 정보를 localStorage에 저장 (ScholarshipMember와 동일한 형식)
+      localStorage.setItem('registerData', JSON.stringify({
+        name: formData.name,
+        scholarNumber: formData.scholarshipNumber,
+        phone: formData.phoneNumber,
+        email: formData.email,
+        region: '',
+        schoolName: ''
+      }))
+      // Navigate to credentials setup page
+      navigate('/register/scholarship/credentials')
     }
   }
 
