@@ -1,0 +1,529 @@
+# Design System Rules - 푸른 SOL (Purun-SOL)
+
+> Shinhan Scholarship Foundation Web App
+> This document defines how to translate Figma designs into code using the existing design system.
+
+---
+
+## 1. Token Definitions
+
+### Location
+Design tokens are defined in **`src/styles/variables.css`** as CSS custom properties (`:root` scope).
+
+### Color Tokens
+
+```css
+/* Primary Colors - Shinhan Blue */
+--color-primary: #0046FF;           /* Shinhan Blue */
+--color-primary-dark: #14307C;      /* Dark Blue */
+--color-primary-default: #074ED8;   /* Blue default (main CTA color) */
+--color-primary-light: #3971E0;     /* Blue Light */
+--color-primary-lighter: #BFD5FF;   /* Light Blue I */
+
+/* Secondary Colors */
+--color-secondary: #FF7316;         /* Sub Orange */
+--color-secondary-light: #FF9A56;
+
+/* Neutral Colors */
+--color-black: #000000;
+--color-dark-gray: #222222;         /* Dark Gray II (primary text alt) */
+--color-dark-gray-light: #848484;   /* Dark Gray I */
+--color-gray-dark: #A6A6A6;         /* Gray */
+--color-gray: #C8C8C8;              /* Light Gray III */
+--color-gray-light: #E6E6E6;        /* Light Gray II (borders) */
+--color-gray-lighter: #F5F5F5;
+--color-white: #FFFFFF;
+
+/* Background Colors */
+--color-bg-blue-gray: #F3F6FB;      /* BG Blue gray */
+--color-bg-blue-light: #E6EFFF;     /* Light Blue II */
+--color-bg-primary: #FFFFFF;
+--color-bg-secondary: #F5F7FA;
+--color-bg-tertiary: #E8EDF5;
+
+/* Text Colors */
+--color-text-primary: #1A1A1A;
+--color-text-secondary: #666666;
+--color-text-tertiary: #999999;
+--color-text-disabled: #CCCCCC;
+--color-text-inverse: #FFFFFF;
+
+/* Semantic Colors */
+--color-success: #00C853;
+--color-warning: #FFB300;
+--color-error: #FF3D00;
+--color-info: #2196F3;
+```
+
+### Typography Tokens
+
+```css
+/* Font Families */
+--font-heading: 'ONE-Shinhan', 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+--font-body: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+
+/* Font Sizes */
+--text-xs: 0.75rem;      /* 12px */
+--text-sm: 0.875rem;     /* 14px */
+--text-base: 1rem;       /* 16px */
+--text-lg: 1.125rem;     /* 18px */
+--text-xl: 1.25rem;      /* 20px */
+--text-2xl: 1.5rem;      /* 24px */
+--text-3xl: 1.875rem;    /* 30px */
+--text-4xl: 2.25rem;     /* 36px */
+--text-5xl: 3rem;        /* 48px */
+
+/* Font Weights */
+--font-normal: 400;
+--font-medium: 500;
+--font-semibold: 600;
+--font-bold: 700;
+
+/* Line Heights */
+--leading-tight: 1.25;
+--leading-snug: 1.375;
+--leading-normal: 1.5;
+--leading-relaxed: 1.625;
+--leading-loose: 2;
+```
+
+### Spacing Tokens
+
+```css
+--space-0: 0;
+--space-1: 0.25rem;      /* 4px */
+--space-2: 0.5rem;       /* 8px */
+--space-3: 0.75rem;      /* 12px */
+--space-4: 1rem;         /* 16px */
+--space-5: 1.25rem;      /* 20px */
+--space-6: 1.5rem;       /* 24px */
+--space-8: 2rem;         /* 32px */
+--space-10: 2.5rem;      /* 40px */
+--space-12: 3rem;        /* 48px */
+--space-16: 4rem;        /* 64px */
+--space-20: 5rem;        /* 80px */
+```
+
+### Border Radius Tokens
+
+```css
+--radius-none: 0;
+--radius-sm: 0.25rem;    /* 4px */
+--radius-md: 0.5rem;     /* 8px */
+--radius-lg: 0.75rem;    /* 12px */
+--radius-xl: 1rem;       /* 16px */
+--radius-2xl: 1.5rem;    /* 24px */
+--radius-full: 9999px;
+```
+
+### Shadow Tokens
+
+```css
+--shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+--shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+--shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+--shadow-card: 0 0 30px 0 rgba(27, 37, 56, 0.1);        /* Figma card shadow */
+--shadow-solid-card: 0 0 46px 0 rgba(0, 0, 0, 0.1);     /* SOLID card shadow */
+```
+
+### Layout Tokens
+
+```css
+--container-width: 393px;       /* Figma frame width (FIXED) */
+--container-height: 852px;      /* Figma frame height (FIXED) */
+--nav-height: 56px;
+--bottom-nav-height: 64px;
+```
+
+---
+
+## 2. Component Library
+
+### Location
+All reusable components are in **`src/components/`**, each in its own folder with:
+- `index.tsx` — Component logic
+- `ComponentName.module.css` — Scoped styles
+
+### Available Components
+
+| Component | Path | Purpose |
+|-----------|------|---------|
+| `BackHeader` | `src/components/BackHeader/` | Top navigation with back arrow and optional progress bar |
+| `PageHeader` | `src/components/PageHeader/` | Page title with optional subtitle |
+| `PageTitle` | `src/components/PageTitle/` | Title with bold + light text variants |
+| `CTAButton` | `src/components/CTAButton/` | Call-to-action button (`primary` / `secondary`) |
+| `FormRow` | `src/components/FormRow/` | Input field with label |
+| `ListItem` | `src/components/ListItem/` | Reusable list row with avatar/icon |
+| `MenuGrid` | `src/components/MenuGrid/` | Grid layout for menu items |
+| `Carousel` | `src/components/Carousel/` | Horizontal carousel slider |
+| `FooterButtons` | `src/components/FooterButtons/` | Fixed bottom button area |
+| `MainLayout` | `src/components/layout/MainLayout.tsx` | Main app shell with bottom nav |
+| `AuthLayout` | `src/components/layout/AuthLayout.tsx` | Auth pages shell |
+| `BottomNavigation` | `src/components/layout/BottomNavigation.tsx` | 5-tab bottom nav bar |
+
+### Component Architecture Pattern
+
+```tsx
+// src/components/ComponentName/index.tsx
+import styles from './ComponentName.module.css'
+
+interface ComponentNameProps {
+  // Props with TypeScript types
+  text: string
+  variant?: 'primary' | 'secondary'
+  disabled?: boolean
+  onClick?: () => void
+}
+
+function ComponentName({ text, variant = 'primary', disabled = false, onClick }: ComponentNameProps) {
+  return (
+    <div className={`${styles.root} ${styles[variant]}`}>
+      {text}
+    </div>
+  )
+}
+
+export default ComponentName
+```
+
+### CTAButton Usage Example
+
+```tsx
+import CTAButton from '@components/CTAButton'
+
+// Primary (blue filled, 360x52, rounded)
+<CTAButton text="다음" onClick={handleNext} />
+
+// Secondary (white with border)
+<CTAButton text="취소" variant="secondary" onClick={handleCancel} />
+
+// Disabled
+<CTAButton text="입력해주세요" disabled />
+```
+
+**CTAButton specs (from Figma):**
+- Width: 360px, Height: 52px
+- Border radius: 26px (pill shape)
+- Font: Pretendard 18px Bold
+- Primary: `#074ED8` background, white text
+- Secondary: white background, `#222222` text, `1px solid #E6E6E6` border
+
+---
+
+## 3. Frameworks & Libraries
+
+| Category | Technology | Version |
+|----------|-----------|---------|
+| **UI Framework** | React | 18.3.1 |
+| **Language** | TypeScript | 5.6.2 |
+| **Bundler** | Vite | 6.0.5 |
+| **Routing** | React Router DOM | 7.1.1 |
+| **QR Codes** | qrcode.react | 4.2.0 |
+| **Linting** | ESLint + TypeScript ESLint | 9.17.0 |
+
+### Path Aliases (vite.config.ts)
+
+```typescript
+'@'           → './src'
+'@components' → './src/components'
+'@pages'      → './src/pages'
+'@styles'     → './src/styles'
+'@hooks'      → './src/hooks'
+'@api'        → './src/api'
+'@types'      → './src/types'
+'@assets'     → './src/assets'
+```
+
+---
+
+## 4. Asset Management
+
+### Fonts (`src/assets/fonts/`)
+| Font | Weights | Usage |
+|------|---------|-------|
+| ONE-Shinhan | 300 (Light), 500 (Medium) | Headings, brand text |
+| Pretendard | 400, 500, 600, 700 | Body text, UI elements |
+
+Font faces defined in: `src/styles/fonts.css`
+
+### Images (`src/assets/images/`)
+- PNG format for photos and complex graphics
+- Organized in subdirectories: `network/`, `exchange-mentoring/`
+- Referenced via Vite imports: `import img from '@assets/images/filename.png'`
+
+### Static Assets (`public/`)
+- SVG icons and logos served directly
+- Referenced by URL path: `<img src="/icon.svg" />`
+
+---
+
+## 5. Icon System
+
+### Icon Storage
+- **Public SVG files**: `public/*.svg` (navigation, UI icons)
+- **Inline SVGs**: Used in `BottomNavigation.tsx` for active/inactive states
+- **Image assets**: Some icons in `src/assets/images/` as PNG
+
+### Icon List (public/)
+| File | Usage |
+|------|-------|
+| `←.svg` | Back navigation arrow |
+| `+.svg` | Add/create action |
+| `x.svg` | Close/dismiss |
+| `eyes.svg` | View/visibility |
+| `talk.svg` | Chat/messaging |
+| `jam_write.svg` | Write/compose |
+| `glasses.svg` | Search/discover |
+| `logo.svg` | App logo |
+| `shinhan-logo.svg` | Shinhan brand logo |
+| `dismisscircle.svg` | Input clear button |
+| `멘토링.svg` | Mentoring icon |
+
+### Icon Usage Pattern
+
+```tsx
+// From public/ directory (static path)
+<img src="/←.svg" alt="뒤로가기" />
+<img src="/logo.svg" alt="로고" />
+
+// From assets/ directory (Vite import)
+import networkIcon from '@assets/images/network/icon.png'
+<img src={networkIcon} alt="네트워크" />
+
+// Inline SVG (for dynamic styling like active states)
+<svg width="24" height="24" viewBox="0 0 24 24">
+  <path d="..." fill={isActive ? '#074ED8' : '#848484'} />
+</svg>
+```
+
+### Icon Naming Convention
+- Korean names for domain-specific icons (e.g., `멘토링.svg`)
+- Descriptive English names for UI icons (e.g., `dismisscircle.svg`)
+- Special characters allowed (e.g., `←.svg`, `+.svg`)
+
+---
+
+## 6. Styling Approach
+
+### Methodology: CSS Modules
+- Every component has a co-located `.module.css` file
+- No global CSS framework (no Tailwind, no styled-components)
+- Class names are locally scoped via CSS Modules
+
+### Style File Pattern
+
+```css
+/* ComponentName.module.css */
+.root {
+  display: flex;
+  align-items: center;
+  /* Use px values matching Figma exactly */
+  width: 360px;
+  height: 52px;
+  border-radius: 26px;
+  /* Use hardcoded hex colors from Figma */
+  background-color: #074ED8;
+  color: #FFFFFF;
+  /* Typography */
+  font-family: 'Pretendard', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+}
+```
+
+### Key Styling Rules
+
+1. **Units**: Use `px` for all fixed dimensions (matching Figma)
+2. **Colors**: Use hex values directly from Figma (prefer CSS variables for consistency, but raw hex is also used)
+3. **No responsive design**: Fixed 393x852 viewport
+4. **Global styles**: Only resets and base typography in `src/styles/global.css`
+5. **Large pages**: Split into multiple CSS files (e.g., `Home-1.module.css`, `Home-2.module.css`)
+
+### Figma Auto Layout → CSS Flexbox Mapping
+
+| Figma Property | CSS Equivalent |
+|----------------|---------------|
+| Auto Layout (Horizontal) | `display: flex; flex-direction: row;` |
+| Auto Layout (Vertical) | `display: flex; flex-direction: column;` |
+| Gap: Auto | `justify-content: space-between;` |
+| Gap: `N` | `gap: Npx;` |
+| Packed (Start) | `justify-content: flex-start;` |
+| Packed (Center) | `justify-content: center;` |
+| Packed (End) | `justify-content: flex-end;` |
+| Space Between | `justify-content: space-between;` |
+| Align: Top | `align-items: flex-start;` |
+| Align: Center | `align-items: center;` |
+| Align: Bottom | `align-items: flex-end;` |
+| Fill Container (width) | `width: 100%;` or `flex: 1;` |
+| Hug Contents | `width: fit-content;` |
+
+---
+
+## 7. Project Structure
+
+```
+purun-sol/
+├── public/                     # Static SVG icons, logos
+├── src/
+│   ├── api/                    # API client (fetch-based)
+│   │   ├── client.ts
+│   │   └── index.ts
+│   ├── assets/
+│   │   ├── fonts/              # OTF font files
+│   │   └── images/             # PNG/SVG image assets
+│   │       ├── network/
+│   │       └── exchange-mentoring/
+│   ├── components/             # Reusable UI components
+│   │   ├── layout/             # Layout shells (MainLayout, AuthLayout, BottomNav)
+│   │   ├── BackHeader/
+│   │   ├── PageHeader/
+│   │   ├── PageTitle/
+│   │   ├── CTAButton/
+│   │   ├── FormRow/
+│   │   ├── ListItem/
+│   │   ├── MenuGrid/
+│   │   ├── Carousel/
+│   │   └── FooterButtons/
+│   ├── hooks/                  # Custom React hooks
+│   ├── pages/                  # Route-level page components
+│   │   ├── auth/               # Login, Register, Onboarding
+│   │   ├── Home/
+│   │   ├── Exchange/
+│   │   ├── Growth/
+│   │   ├── Mentoring/
+│   │   ├── Notifications/
+│   │   └── MyPage/
+│   ├── styles/                 # Global styles & tokens
+│   │   ├── variables.css       # Design tokens
+│   │   ├── global.css          # Resets & base styles
+│   │   └── fonts.css           # @font-face declarations
+│   ├── types/                  # TypeScript type definitions
+│   ├── App.tsx                 # Route configuration
+│   └── main.tsx                # Entry point
+├── package.json
+├── tsconfig.json
+├── vite.config.ts
+└── eslint.config.js
+```
+
+### Page Organization Pattern
+Each page folder contains:
+- `index.tsx` or `PageName.tsx` — Page component
+- `PageName.module.css` — Page styles
+- For large pages: split into `PageName-1.module.css`, `PageName-2.module.css`, etc.
+
+---
+
+## 8. Figma-to-Code Implementation Rules
+
+### Fixed Frame Constraint
+```tsx
+// Every page MUST be wrapped in this container
+<div style={{
+  width: '393px',
+  height: '852px',
+  position: 'relative',
+  overflow: 'hidden'
+}}>
+  {/* Page content */}
+</div>
+```
+
+### When Implementing from Figma
+
+1. **Match exactly**: Colors, fonts, spacing, sizes — all from Figma
+2. **Never guess**: If design details are unclear, ask the user
+3. **Icons/images**: Always ask the user before substituting any asset
+4. **px units**: Use pixel values matching Figma measurements
+5. **File size limit**: Keep files under 400 lines; split if needed
+6. **CSS Modules**: Always use `.module.css` for component styles
+7. **No responsive**: This is a fixed 393×852 layout only
+
+### Component Creation Checklist
+- [ ] TypeScript interface for props
+- [ ] CSS Module file with matching name
+- [ ] Fixed dimensions matching Figma frame
+- [ ] Colors from Figma (hardcoded hex or CSS variables)
+- [ ] Font family: `'Pretendard'` for body, `'ONE-Shinhan'` for headings
+- [ ] Exported as default from `index.tsx`
+
+---
+
+## 9. Bottom Navigation Structure
+
+5 tabs with fixed 64px height:
+
+| Tab | Icon | Route | Label |
+|-----|------|-------|-------|
+| Home | house | `/home` | 홈 |
+| Exchange | people | `/exchange` | 교류 |
+| Growth | tree | `/growth` | 성장 |
+| Notifications | bell | `/notifications` | 알림 |
+| MyPage | person | `/mypage` | MY |
+
+Active state color: `#074ED8` (primary-default)
+Inactive state color: `#848484` (dark-gray-light)
+
+---
+
+## 10. API Integration Pattern
+
+```typescript
+// src/api/client.ts - Fetch-based API client
+import { apiClient } from '@api'
+
+// GET request
+const data = await apiClient.get<ResponseType>('/endpoint')
+
+// POST request
+const result = await apiClient.post<ResponseType>('/endpoint', { body: payload })
+
+// Base URL: VITE_API_URL environment variable
+// Auth: Bearer token pattern
+```
+
+---
+
+## 11. State Management
+
+- **No external state library** (no Redux, Zustand, etc.)
+- React hooks only: `useState`, `useEffect`, `useCallback`, `useMemo`
+- Custom hooks in `src/hooks/` (e.g., `useLocalStorage`)
+- Route state via React Router (`useNavigate`, `useParams`, `useLocation`)
+
+---
+
+## 12. Build & Development
+
+```bash
+# Development
+npm run dev        # Starts Vite dev server on port 3000
+
+# Production build
+npm run build      # TypeScript compile + Vite build
+
+# Preview production build
+npm run preview
+
+# Lint
+npm run lint
+```
+
+---
+
+## 13. Key Conventions Summary
+
+| Rule | Value |
+|------|-------|
+| Frame size | 393 × 852 px (FIXED) |
+| Styling | CSS Modules (`.module.css`) |
+| Units | px (matching Figma) |
+| Primary font | Pretendard |
+| Heading font | ONE-Shinhan |
+| Primary color | #074ED8 |
+| Secondary color | #FF7316 |
+| Max file lines | 400 |
+| Component export | Default from `index.tsx` |
+| Path aliases | `@components`, `@pages`, `@styles`, etc. |
+| State management | React hooks only |
+| API client | Fetch-based, `src/api/client.ts` |

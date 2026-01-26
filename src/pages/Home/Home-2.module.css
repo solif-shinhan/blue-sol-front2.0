@@ -1,0 +1,330 @@
+/* ==========================================================================
+   Home Page Styles - Part 2
+   SOLID Card Modal, QR Code Modal
+   ========================================================================== */
+
+/* ==========================================================================
+   SOLID Card Modal
+   ========================================================================== */
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F3F6FB 100%);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modalContent {
+  width: 100%;
+  max-width: 393px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 50px;
+  padding: 0 16px;
+  margin-top: 53px;
+}
+
+.modalBackButton {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.modalBackButton img {
+  width: 18px;
+  height: 18px;
+}
+
+.modalTitle {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-dark-gray-light);
+  line-height: 1.2;
+  letter-spacing: -0.36px;
+}
+
+.modalHeaderSpacer {
+  width: 50px;
+}
+
+.modalCard {
+  width: 330px;
+  height: 500px;
+  background-color: var(--color-white);
+  border-radius: 24px;
+  box-shadow: 0px 0px 46px rgba(0, 0, 0, 0.1);
+  padding: 32px 23px;
+  position: relative;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.modalProfileSection {
+  display: flex;
+  align-items: flex-end;
+  gap: 11px;
+  margin-top: 71px;
+  margin-bottom: 20px;
+}
+
+.modalProfileName {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 37px;
+  font-weight: 700;
+  color: var(--color-dark-gray);
+  line-height: 1;
+}
+
+.modalProfileBadge {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #868686;
+  letter-spacing: -0.62px;
+  line-height: 1.2;
+}
+
+.modalProfileTag {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: #306FE1;
+  opacity: 0.5;
+  letter-spacing: -0.62px;
+  line-height: 1.2;
+}
+
+.modalGoalList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modalGoalItem1,
+.modalGoalItem2,
+.modalGoalItem3 {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.37px;
+  opacity: 0.5;
+  margin: 0;
+}
+
+.modalGoalItem1 {
+  color: var(--color-primary-default);
+}
+
+.modalGoalItem2 {
+  color: #3971E0;
+}
+
+.modalGoalItem3 {
+  color: #BFD5FF;
+}
+
+.modalInterestTags {
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+  display: flex;
+  gap: 8px;
+}
+
+.modalInterestTag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 16px 4px 5px;
+  background-color: #F2F2F2;
+  border-radius: 16px;
+  height: 31px;
+}
+
+.modalTagIcon {
+  width: 22px;
+  height: 22px;
+  background-color: var(--color-gray);
+  border-radius: 50%;
+}
+
+.modalInterestTag span {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-dark-gray);
+  line-height: 1.2;
+  letter-spacing: -0.63px;
+}
+
+.modalActions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.modalActionButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 13px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.modalActionIcon {
+  width: 62px;
+  height: 62px;
+  background-color: var(--color-white);
+  border-radius: 50%;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+}
+
+.modalActionButton span {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-dark-gray);
+  line-height: 1.2;
+}
+
+/* ==========================================================================
+   QR Code Modal - New Design
+   ========================================================================== */
+
+.qrModalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+
+.qrModalCard {
+  width: 330px;
+  height: 550px;
+  background-color: var(--color-white);
+  border-radius: 24px;
+  box-shadow: 0px 0px 47px rgba(0, 0, 0, 0.1);
+  padding: 32px 21px;
+  position: relative;
+  overflow: hidden;
+}
+
+.qrCardLogo {
+  margin-bottom: 50px;
+}
+
+.qrLogoSol {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 20px;
+  font-weight: 300;
+  color: var(--color-dark-gray);
+}
+
+.qrLogoId {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-primary-default);
+}
+
+.qrProfileSection {
+  display: flex;
+  align-items: flex-end;
+  gap: 11px;
+  margin-bottom: 40px;
+}
+
+.qrProfileName {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 37px;
+  font-weight: 700;
+  color: #000000;
+  line-height: 1;
+}
+
+.qrProfileBadge {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #868686;
+  letter-spacing: -0.62px;
+  line-height: 1.2;
+}
+
+.qrProfileTag {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #306FE1;
+  opacity: 0.5;
+  letter-spacing: -0.62px;
+  line-height: 1.2;
+}
+
+.qrCodeBox {
+  width: 288px;
+  height: 288px;
+  background-color: #EEEEEE;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.qrCodeBox svg {
+  border-radius: 16px;
+}
+
+.qrCloseButtonCircle {
+  width: 62px;
+  height: 62px;
+  background-color: var(--color-white);
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.qrCloseButtonCircle img {
+  width: 34px;
+  height: 34px;
+}

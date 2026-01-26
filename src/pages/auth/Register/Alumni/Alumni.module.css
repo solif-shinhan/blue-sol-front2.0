@@ -1,0 +1,201 @@
+/* ==========================================================================
+   Alumni Register Page - Figma Design (805:3885)
+   Size: 393px x 852px, Background: White
+   ========================================================================== */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #FFFFFF;
+  position: relative;
+}
+
+/* ==========================================================================
+   Title Section
+   Position: top 150px, left 16px
+   ========================================================================== */
+
+.titleSection {
+  padding: 32px 17px 0 17px;
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  line-height: 1.4;
+  letter-spacing: -0.56px;
+  color: #222222;
+  margin: 0;
+}
+
+.titleMedium {
+  font-weight: 500;
+}
+
+.titleLight {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  font-weight: 300;
+  line-height: 1.4;
+  letter-spacing: -0.56px;
+  color: #222222;
+}
+
+.subtitle {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  font-weight: 300;
+  line-height: 1.4;
+  letter-spacing: -0.56px;
+  color: #222222;
+  margin: 0;
+}
+
+/* ==========================================================================
+   Page Header Override
+   ========================================================================== */
+
+.pageHeader {
+  padding: 0 17px !important;
+  margin-top: 31px;
+  margin-bottom: 0 !important;
+}
+
+/* ==========================================================================
+   Form Section
+   Position: top 278px
+   ========================================================================== */
+
+.formSection {
+  padding: 0 17px;
+  margin-top: 50px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 359px;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 50px 17px 0 17px;
+  width: 359px;
+}
+
+.formRow {
+  display: flex;
+  height: 40px;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.label {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  color: #222222;
+  line-height: 1.2;
+  letter-spacing: -0.64px;
+  flex-shrink: 0;
+}
+
+.input {
+  width: 240px;
+  height: 40px;
+  padding: 13px 11px;
+  background-color: #FFFFFF;
+  border: 1px solid #E6E6E6;
+  border-radius: 12px;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 700;
+  color: #222222;
+  line-height: 1.2;
+}
+
+.input::placeholder {
+  color: #848484;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #074ED8;
+}
+
+/* ==========================================================================
+   Submit Button
+   Position: bottom 80px
+   ========================================================================== */
+
+.buttonWrapper {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 360px;
+}
+
+.submitButton {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 360px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #074ED8;
+  opacity: 0.2;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 30px;
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.2;
+  cursor: not-allowed;
+  transition: opacity 0.15s ease;
+}
+
+.submitButton.active {
+  opacity: 1;
+  cursor: pointer;
+}
+
+.submitButton.active:hover {
+  background-color: #003acc;
+}
+
+.submitButton.active:active {
+  transform: scale(0.98);
+}
+
+/* ==========================================================================
+   Footer
+   Position: bottom, centered at y=795
+   ========================================================================== */
+
+.footer {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footerLogo {
+  height: 22px;
+  width: auto;
+}

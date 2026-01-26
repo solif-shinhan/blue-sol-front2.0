@@ -1,0 +1,237 @@
+/* ==========================================================================
+   Exchange Page Styles - Part 3
+   자치회 활동 Section (캐러셀 스타일), Slider Dots, 자치회 등록 CTA
+   ========================================================================== */
+
+.councilSection {
+  margin-bottom: 30px;
+}
+
+.councilHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5px;
+  margin-bottom: 16px;
+}
+
+.councilCarousel {
+  position: relative;
+  overflow: hidden;
+}
+
+.councilTrack {
+  display: flex;
+  gap: 20px;
+  transition: transform 0.3s ease;
+  cursor: grab;
+}
+
+.councilTrack:active {
+  cursor: grabbing;
+}
+
+.councilCard {
+  min-width: 360px;
+  width: 360px;
+  height: 120px;
+  background-color: #FFFFFF;
+  border-radius: 24px;
+  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  cursor: pointer;
+}
+
+/* 카드 공통 내부 요소 */
+.cardLabel {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #848484;
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.cardTitle {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #222222;
+  line-height: 1.2;
+}
+
+.cardIcon {
+  position: absolute;
+  right: 18px;
+  top: 35px;
+  width: 50px;
+  height: 50px;
+  background-color: #F2F2F2;
+  border-radius: 50%;
+}
+
+/* 카드 1: 예산 카드 */
+.councilCardBudget {
+  padding: 20px 23px;
+}
+
+.cardAmount {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.cardAmountValue {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  color: #074ED8;
+}
+
+.cardAmountSuffix {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  color: #222222;
+}
+
+.progressBar {
+  position: absolute;
+  bottom: 20px;
+  left: 23px;
+  width: 225px;
+  height: 6px;
+  background-color: #F2F2F2;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #074ED8 0%, #3971E0 100%);
+  border-radius: 3px;
+}
+
+/* 카드 2 & 3: 활동 카드 */
+.councilCardActivity {
+  padding: 20px 19px;
+}
+
+.cardDescription {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #848484;
+  line-height: 1.2;
+  margin-top: 20px;
+}
+
+.profileGroup {
+  position: absolute;
+  bottom: 18px;
+  left: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.profileCircleSmall {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid white;
+  margin-left: -4px;
+}
+
+.profileCircleSmall:first-child {
+  margin-left: 0;
+}
+
+.profileBlue { background-color: #074ED8; }
+.profileLightBlue { background-color: #3971E0; }
+.profileGray { background-color: #E6E6E6; }
+
+.councilDots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.councilDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #C8C8C8;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border: none;
+  padding: 0;
+}
+
+.councilDotActive {
+  background-color: #222222;
+}
+
+/* ==========================================================================
+   Slider Dots
+   ========================================================================== */
+
+.sliderDots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #C8C8C8;
+  transition: background-color 0.2s ease;
+}
+
+.dotActive {
+  background: #074ED8;
+}
+
+/* ==========================================================================
+   자치회 등록 CTA 카드 (자치회 없을 때)
+   ========================================================================== */
+
+.councilRegisterCard {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 16px;
+  background: #FFFFFF;
+  border-radius: 24px;
+  box-shadow: 0px 0px 30px rgba(27, 37, 56, 0.1);
+  cursor: pointer;
+}
+
+.councilRegisterSubtitle {
+  font-family: 'Pretendard', var(--font-body);
+  font-size: 16px;
+  font-weight: 700;
+  color: #848484;
+  line-height: 1.2;
+}
+
+.councilRegisterTitle {
+  font-family: 'Pretendard', var(--font-body);
+  font-size: 20px;
+  font-weight: 700;
+  color: #074ED8;
+  line-height: 1.2;
+}
+
+.councilRegisterDesc {
+  font-family: 'Pretendard', var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: #848484;
+  line-height: 1.2;
+}

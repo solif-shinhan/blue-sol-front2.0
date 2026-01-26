@@ -1,0 +1,110 @@
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  background-color: var(--color-white);
+  text-align: left;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.item:hover {
+  background-color: var(--color-gray-lighter);
+}
+
+/* Card variant (Exchange 스타일) */
+.card {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+/* List variant (Notifications 스타일) */
+.list {
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--color-gray-light);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.list:first-child {
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.list:last-child {
+  border-bottom: none;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+.list:only-child {
+  border-radius: var(--radius-lg);
+}
+
+/* Unread state */
+.unread {
+  background-color: var(--color-primary-lighter);
+}
+
+.unread:hover {
+  background-color: #a8c4ff;
+}
+
+/* Avatar */
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary-lighter);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-sm);
+  font-weight: var(--font-bold);
+  flex-shrink: 0;
+}
+
+/* Icon */
+.icon {
+  font-size: var(--text-xl);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+/* Content */
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+.text {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-1);
+  line-height: var(--leading-snug);
+}
+
+.text strong {
+  color: var(--color-text-primary);
+}
+
+.time {
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+}
+
+/* Unread dot */
+.unreadDot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary);
+  flex-shrink: 0;
+  margin-top: var(--space-1);
+}

@@ -1,0 +1,343 @@
+/* ==========================================================================
+   Login Page Styles - Figma Design (805:3753)
+   Size: 393px x 852px
+   ========================================================================== */
+
+/* ==========================================================================
+   Layout
+   ========================================================================== */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #FFFFFF;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   Hero Section (393px x 440px)
+   ========================================================================== */
+
+.heroSection {
+  width: 100%;
+  height: 440px;
+  flex: 0 0 440px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 38px;
+  padding-bottom: 24px;
+  background-color: #EEEEEE;
+}
+
+.tagline {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.2;
+  letter-spacing: -0.36px;
+  color: #C8C8C8;
+  margin-bottom: 11px;
+}
+
+.logoText {
+  display: flex;
+  align-items: center;
+  gap: 9.17px;
+}
+
+.logoPurun {
+  width: 56.25px;
+  height: 28.15px;
+}
+
+.logoSol {
+  width: 69.94px;
+  height: 29px;
+}
+
+/* ==========================================================================
+   Form Section
+   ========================================================================== */
+
+.formSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  padding-top: 24px;
+  background-color: #FFFFFF;
+}
+
+.formTitle {
+  width: 100%;
+  max-width: 324px;
+  margin: 0 auto 16px;
+  padding-left: 4px;
+  box-sizing: border-box;
+  font-family: 'ONE-Shinhan', var(--font-heading);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 120%;
+  letter-spacing: -0.36px;
+  color: #000;
+}
+
+.form {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+/* ==========================================================================
+   Input Field - Figma: Frame 2087338796
+   ========================================================================== */
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  max-width: 324px;
+}
+
+/* Input Wrapper */
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  width: 100%;
+  height: 40px;
+  padding: 13px 11px;
+  gap: 10px;
+  border: 1px solid #E6E6E6;
+  border-radius: 12px;
+  background-color: #FFFFFF;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease;
+}
+
+/* Active state - blue border when has value */
+.inputWrapperActive {
+  border: 1px solid #074ED8;
+}
+
+.inputWrapperError {
+  border-color: #FF3B30 !important;
+}
+
+/* Base input (hidden but functional) */
+.input {
+  flex: 1;
+  height: 100%;
+  padding: 0;
+  border: none !important;
+  background: transparent;
+  font-family: 'Pretendard', var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.64px;
+  color: #222222;
+  outline: none !important;
+  caret-color: #0046FF;
+  box-shadow: none !important;
+}
+
+.input:focus {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.input::placeholder {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.64px;
+  color: #A6A6A6;
+}
+
+/* Hidden input - shared base styles */
+.hiddenPasswordInput,
+.hiddenTextInput {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  z-index: 2;
+  cursor: text;
+}
+
+/* Display containers - shared base styles */
+.textDisplayContainer,
+.passwordDotsContainer {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Text display */
+.textDisplay {
+  display: flex;
+  align-items: center;
+  font-family: 'Pretendard', var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.64px;
+  color: #222222;
+}
+
+/* Password dots */
+.passwordDots {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.passwordDot {
+  width: 10px;
+  height: 10px;
+  flex-shrink: 0;
+}
+
+/* Blue blinking cursor (20px height) */
+.blueCursor {
+  display: inline-block;
+  width: 1px;
+  height: 20px;
+  background-color: #0046FF;
+  margin-left: 3px;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+
+  0%,
+  50% {
+    opacity: 1;
+  }
+
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Placeholder text */
+.placeholderText {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.64px;
+  color: #A6A6A6;
+}
+
+/* Error states */
+.inputError {
+  border-color: #FF3B30 !important;
+}
+
+.errorMessage {
+  font-size: 12px;
+  color: #FF3B30;
+  margin-top: 4px;
+  padding-left: 4px;
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
+.loginButton {
+  width: 100%;
+  max-width: 360px;
+  height: 52px;
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 26px;
+  background-color: #BFD5FF;
+  color: #FFFFFF;
+  border: none;
+  font-family: 'Pretendard', var(--font-body);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.2;
+  cursor: not-allowed;
+  transition: background-color 0.15s ease;
+}
+
+.loginButtonActive {
+  background-color: #074ED8;
+  cursor: pointer;
+}
+
+.loginButtonActive:hover {
+  background-color: #0641b5;
+}
+
+.loginButtonActive:active {
+  transform: scale(0.98);
+}
+
+.signUpButton {
+  width: 100%;
+  max-width: 360px;
+  height: 52px;
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 26px;
+  background-color: #F3F6FB;
+  color: #222222;
+  border: 1px solid #EEEEEE;
+  font-family: 'Pretendard', var(--font-body);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.signUpButton:hover {
+  background-color: #E8EDF5;
+  border-color: #D8D8D8;
+}
+
+.signUpButton:active {
+  transform: scale(0.98);
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+.footer {
+  margin-top: auto;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footerLogo {
+  height: 22px;
+  width: auto;
+}

@@ -1,0 +1,430 @@
+/* ==========================================================================
+   Home Page Styles - Part 3
+   News Slider, Council Carousel, Lecture Grid
+   ========================================================================== */
+
+/* ==========================================================================
+   새로운 소식 (News Section)
+   ========================================================================== */
+
+.newsSection {
+  margin-bottom: 30px;
+  background-color: #F3F6FB;
+}
+
+.sectionTitle {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-dark-gray);
+  line-height: 1.2;
+  letter-spacing: -0.36px;
+  padding: 0 5px;
+  margin-bottom: 16px;
+}
+
+.newsSlider {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-snap-type: x mandatory;
+  cursor: grab;
+  -webkit-overflow-scrolling: touch;
+}
+
+.newsSlider:active {
+  cursor: grabbing;
+}
+
+.newsSlider::-webkit-scrollbar {
+  display: none;
+}
+
+.newsSliderTrack {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+}
+
+.newsCard {
+  width: 360px;
+  min-width: 360px;
+  height: 100px;
+  background-color: var(--color-white);
+  border-radius: 24px;
+  box-shadow: var(--shadow-card);
+  padding: 22px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  scroll-snap-align: start;
+  user-select: none;
+}
+
+.newsCardContent h3 {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-dark-gray);
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.newsCard:first-child .newsCardContent h3 {
+  margin-bottom: 12px;
+}
+
+.newsCardContent p {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-gray-dark);
+  line-height: 1.2;
+  margin: 0;
+}
+
+.newsCardIcon {
+  width: 50px;
+  height: 50px;
+  background-color: var(--color-gray-light);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.sliderDots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-gray);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.dotActive {
+  background-color: var(--color-dark-gray);
+}
+
+/* ==========================================================================
+   푸른 SOL 역량강화 (Growth Section)
+   ========================================================================== */
+
+.growthSection {
+  margin-bottom: 30px;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0;
+  margin-bottom: 16px;
+}
+
+.moreButton {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-gray-dark);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.categoryTabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.categoryTabs::-webkit-scrollbar {
+  display: none;
+}
+
+.categoryTab {
+  padding: 7px 12px;
+  background-color: #FFF;
+  border-radius: 20px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+  line-height: 1.4;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.categoryTabActive {
+  background-color: #074ed8;
+  color: #FFF;
+}
+
+.lectureGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 172px);
+  gap: 16px;
+}
+
+.lectureCard {
+  width: 172px;
+  height: 201px;
+  background-color: #FFFFFF;
+  border-radius: 24px;
+  box-shadow: 0px 0px 30px rgba(27, 37, 56, 0.1);
+  position: relative;
+  overflow: visible;
+}
+
+.lectureThumbnail {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 6px;
+  width: 158px;
+  height: 94px;
+  background-color: #E6E6E6;
+  border-radius: 18px 18px 0 0;
+  overflow: hidden;
+}
+
+.lectureThumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lectureInfo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 105px;
+  width: 147px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.lectureTextGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.lectureCategory {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #848484;
+  line-height: 1.4;
+  display: block;
+}
+
+.lectureTitle {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #222222;
+  line-height: 1.2;
+  letter-spacing: -0.32px;
+}
+
+.lectureSpeaker {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #848484;
+  line-height: 1.4;
+}
+
+/* ==========================================================================
+   자치회 활동 Section
+   ========================================================================== */
+
+.councilSection {
+  margin-bottom: 30px;
+}
+
+.councilHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5px;
+  margin-bottom: 16px;
+}
+
+.councilCarousel {
+  position: relative;
+  overflow: hidden;
+}
+
+.councilTrack {
+  display: flex;
+  gap: 20px;
+  transition: transform 0.3s ease;
+  cursor: grab;
+}
+
+.councilTrack:active {
+  cursor: grabbing;
+}
+
+.councilCard {
+  min-width: 360px;
+  width: 360px;
+  height: 120px;
+  background-color: var(--color-white);
+  border-radius: 24px;
+  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* 카드 공통 내부 요소 */
+.cardLabel {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-gray-dark);
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.cardTitle {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-dark-gray);
+  line-height: 1.2;
+}
+
+.cardIcon {
+  position: absolute;
+  right: 18px;
+  top: 35px;
+  width: 50px;
+  height: 50px;
+  background-color: var(--color-gray-light);
+  border-radius: 50%;
+}
+
+/* 카드 1: 예산 카드 */
+.councilCardBudget {
+  padding: 20px 23px;
+}
+
+.cardAmount {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.cardAmountValue {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  color: var(--color-primary-default);
+}
+
+.cardAmountSuffix {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  color: var(--color-dark-gray);
+}
+
+.progressBar {
+  position: absolute;
+  bottom: 20px;
+  left: 23px;
+  width: 225px;
+  height: 6px;
+  background-color: var(--color-gray-light);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #074ED8 0%, #3971E0 100%);
+  border-radius: 3px;
+}
+
+/* 카드 2 & 3: 활동 카드 */
+.councilCardActivity {
+  padding: 20px 19px;
+}
+
+.cardDescription {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-gray-dark);
+  line-height: 1.2;
+  margin-top: 20px;
+}
+
+.profileGroup {
+  position: absolute;
+  bottom: 18px;
+  left: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.profileCircle {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid white;
+  margin-left: -4px;
+}
+
+.profileCircle:first-child {
+  margin-left: 0;
+}
+
+.profileBlue {
+  background-color: #074ED8;
+}
+
+.profileLightBlue {
+  background-color: #3971E0;
+}
+
+.profileGray {
+  background-color: #E6E6E6;
+}
+
+.councilDots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.councilDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-gray);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border: none;
+  padding: 0;
+}
+
+.councilDotActive {
+  background-color: var(--color-dark-gray);
+}

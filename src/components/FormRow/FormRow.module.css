@@ -1,0 +1,103 @@
+.formRow {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+/* Horizontal variant - 라벨과 인풋이 가로로 배치 */
+.formRow.horizontal {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0;
+  height: 40px;
+  width: 359px;
+}
+
+.label {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: var(--font-medium);
+  color: #222222;
+  line-height: 1.2;
+}
+
+/* Horizontal label style */
+.labelHorizontal {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.64px;
+  flex-shrink: 0;
+  width: 100px;
+}
+
+.required {
+  color: var(--color-error);
+  margin-left: 2px;
+}
+
+.input {
+  width: 100%;
+  height: 40px;
+  padding: 0 11px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: var(--font-normal);
+  color: #222222;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-gray-light);
+  border-radius: 8px;
+  outline: none;
+  transition: border-color var(--transition-fast);
+  box-sizing: border-box;
+}
+
+.input::placeholder {
+  color: #848484;
+}
+
+/* Horizontal input style */
+.inputHorizontal {
+  width: 240px;
+  min-width: 240px;
+  max-width: 240px;
+  height: 40px;
+  padding: 13px 11px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.inputHorizontal::placeholder {
+  font-size: 14px;
+  font-weight: 600;
+  color: #848484;
+}
+
+.input:focus {
+  border-color: var(--color-primary-default);
+}
+
+.input:disabled {
+  background-color: var(--color-gray-lighter);
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+}
+
+.inputError {
+  border-color: var(--color-error);
+}
+
+.inputError:focus {
+  border-color: var(--color-error);
+}
+
+.errorMessage {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: var(--font-normal);
+  color: var(--color-error);
+  line-height: 1.2;
+}

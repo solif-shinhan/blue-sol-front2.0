@@ -1,0 +1,167 @@
+.container {
+  width: 393px;
+  height: 852px;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, #074ED8 0%, #3971E0 100%);
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  height: 56px;
+  box-sizing: border-box;
+}
+
+.closeButton {
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.closeIcon {
+  width: 24px;
+  height: 24px;
+  filter: brightness(0) invert(1);
+}
+
+.headerTitle {
+  flex: 1;
+  text-align: center;
+  font-family: 'ONE-Shinhan', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.headerRight {
+  width: 28px;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 40px 20px;
+}
+
+.title {
+  font-family: 'ONE-Shinhan', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 40px;
+}
+
+.categoryList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.categoryButton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 56px;
+  padding: 0 20px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.categoryButton:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.categoryButton.selected {
+  background: #FFFFFF;
+  border-color: #FFFFFF;
+}
+
+.categoryText {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: #FFFFFF;
+}
+
+.categoryButton.selected .categoryText {
+  color: #074ED8;
+}
+
+.checkIcon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.categoryButton.selected .checkIcon {
+  background: #074ED8;
+  border-color: #074ED8;
+}
+
+.checkMark {
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 700;
+  display: none;
+}
+
+.categoryButton.selected .checkMark {
+  display: block;
+}
+
+.footer {
+  padding: 20px;
+  padding-bottom: 34px;
+}
+
+.nextButton {
+  width: 100%;
+  height: 52px;
+  background: #FFFFFF;
+  border: none;
+  border-radius: 12px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #074ED8;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nextButton:disabled {
+  background: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.5);
+  cursor: not-allowed;
+}
+
+.nextButton:not(:disabled):hover {
+  background: rgba(255, 255, 255, 0.9);
+}

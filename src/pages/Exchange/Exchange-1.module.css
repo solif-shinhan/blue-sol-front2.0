@@ -1,0 +1,260 @@
+/* ==========================================================================
+   Exchange Page Styles - Part 1
+   Container, Tabs, Network Card, Council Slider
+   ========================================================================== */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F3F6FB 100%);
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+}
+
+/* ==========================================================================
+   Tab Navigation
+   ========================================================================== */
+
+.tabNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 70px 17px 0;
+  position: relative;
+  z-index: 10;
+}
+
+.tabs {
+  display: flex;
+  align-items: center;
+}
+
+.tab {
+  padding: 10px 14px;
+  font-family: 'ONE-Shinhan', var(--font-heading);
+  font-size: 18px;
+  font-weight: 300;
+  color: #848484;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  line-height: 1.2;
+  letter-spacing: -0.36px;
+}
+
+.tabActive {
+  color: #222222;
+  border-bottom-color: #222222;
+}
+
+.tabNavRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.iconButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.profileCircle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #E6E6E6;
+}
+
+/* ==========================================================================
+   Content Area
+   ========================================================================== */
+
+.content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 20px 17px 100px;
+}
+
+/* ==========================================================================
+   Section Common Styles
+   ========================================================================== */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5px;
+}
+
+.sectionTitle {
+  font-family: 'ONE-Shinhan', var(--font-heading);
+  font-size: 18px;
+  font-weight: 500;
+  color: #222222;
+  line-height: 1.2;
+  letter-spacing: -0.36px;
+  padding: 0 10px;
+}
+
+.sectionHeader .sectionTitle {
+  padding: 0;
+}
+
+.moreButton {
+  font-family: 'Pretendard', var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: #848484;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   Network Card (나의 교류망)
+   ========================================================================== */
+
+.networkCard {
+  background: #FFFFFF;
+  border-radius: 24px;
+  box-shadow: 0px 0px 30px rgba(27, 37, 56, 0.1);
+  overflow: hidden;
+  width: 361px;
+}
+
+.networkHeader {
+  padding: 19px 21px 0;
+}
+
+.networkSubtitle {
+  font-family: 'Pretendard', var(--font-body);
+  font-size: 18px;
+  font-weight: 500;
+  color: #222222;
+  line-height: 1.2;
+}
+
+.friendsList {
+  display: flex;
+  gap: 8px;
+  padding: 16px 11px;
+  overflow-x: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.friendsList::-webkit-scrollbar {
+  display: none;
+}
+
+.addFriendButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  min-width: 60px;
+  width: 60px;
+  cursor: pointer;
+}
+
+.plusIconCircle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px dashed #C8C8C8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+}
+
+.plusIcon {
+  font-size: 24px;
+  color: #C8C8C8;
+  line-height: 1;
+}
+
+.addFriendText {
+  font-family: 'Pretendard', var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  color: #222222;
+  text-align: center;
+  letter-spacing: -0.24px;
+  line-height: 1.2;
+}
+
+.friendItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  min-width: 60px;
+  width: 60px;
+}
+
+.friendAvatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #E6E6E6;
+}
+
+.friendName {
+  font-family: 'Pretendard', var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  color: #848484;
+  text-align: center;
+  letter-spacing: -0.24px;
+  line-height: 1.2;
+  width: 100%;
+}
+
+.viewNetworkButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 361px;
+  height: 48px;
+  border-top: 1px solid #E6E6E6;
+  background: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+  cursor: pointer;
+  font-family: 'Pretendard', var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: #074ED8;
+  line-height: 1.4;
+}
+
+.arrowIcon {
+  width: 24px;
+  height: 24px;
+}
+

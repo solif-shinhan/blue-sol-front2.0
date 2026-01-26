@@ -1,0 +1,358 @@
+/* ==========================================================================
+   나의 SOLID Page Styles
+   ========================================================================== */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F3F6FB 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 57px 17px 0;
+  height: 107px;
+  box-sizing: border-box;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.backButton img {
+  width: 18px;
+  height: 18px;
+}
+
+.headerTitle {
+  font-family: 'ONE-Shinhan', var(--font-heading);
+  font-size: 18px;
+  font-weight: 500;
+  color: #848484;
+  letter-spacing: -0.36px;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.searchButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.searchButton img {
+  width: 24px;
+  height: 24px;
+}
+
+/* ==========================================================================
+   Friends Horizontal Scroll
+   ========================================================================== */
+
+.friendsScrollWrapper {
+  width: 100%;
+  padding: 20px 0;
+  overflow: hidden;
+}
+
+.friendsScroll {
+  display: flex;
+  gap: 8px;
+  padding: 0 17px;
+  overflow-x: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.friendsScroll::-webkit-scrollbar {
+  display: none;
+}
+
+.friendItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  min-width: 60px;
+  width: 60px;
+  cursor: pointer;
+}
+
+.friendAvatarWrapper {
+  position: relative;
+  width: 60px;
+  height: 60px;
+}
+
+.friendAvatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #E6EFFF 0%, #D9E6FF 100%);
+}
+
+.selectedBorder {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-57%, -50%);
+  width: 107px;
+  height: 120px;
+  pointer-events: none;
+}
+
+.friendName {
+  font-family: 'Pretendard', var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  color: #848484;
+  text-align: center;
+  letter-spacing: -0.24px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.friendNameActive {
+  color: #074ED8;
+}
+
+/* ==========================================================================
+   Profile Card
+   ========================================================================== */
+
+.profileCard {
+  position: relative;
+  width: 290px;
+  height: 470px;
+  margin: 0 auto;
+  background: #FFFFFF;
+  border-radius: 23px;
+  box-shadow: 0px 0px 30px rgba(27, 37, 56, 0.1);
+  overflow: hidden;
+}
+
+.cardBackground {
+  position: absolute;
+  top: 80px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='300' height='400' viewBox='0 0 300 400' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M150 100 Q200 150 180 200 Q160 250 200 300 Q240 350 200 400' stroke='%23E6EFFF' stroke-width='80' fill='none' opacity='0.3'/%3E%3Cpath d='M50 150 Q100 200 80 250 Q60 300 100 350' stroke='%23E6EFFF' stroke-width='60' fill='none' opacity='0.2'/%3E%3C/svg%3E");
+  background-size: cover;
+  background-position: center;
+  opacity: 0.5;
+  mix-blend-mode: multiply;
+}
+
+.solidLogo {
+  position: relative;
+  padding: 31px 0 0 25px;
+  font-family: 'Pretendard', var(--font-body);
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.solidBlue {
+  color: #074ED8;
+}
+
+.solidBlack {
+  color: #222222;
+}
+
+.profileInfo {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  padding: 38px 0 0 22px;
+}
+
+.profileName {
+  font-family: 'Pretendard', var(--font-body);
+  font-size: 36px;
+  font-weight: 700;
+  color: #222222;
+  line-height: 1;
+}
+
+.profileBadge {
+  font-family: 'Pretendard', var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  color: #868686;
+  letter-spacing: -0.6px;
+  line-height: 1.2;
+  padding-bottom: 4px;
+}
+
+.profileTag {
+  font-family: 'Pretendard', var(--font-body);
+  font-size: 15px;
+  font-weight: 400;
+  color: #306FE1;
+  opacity: 0.5;
+  letter-spacing: -0.6px;
+  line-height: 1.2;
+  padding-bottom: 4px;
+}
+
+/* ==========================================================================
+   Goals List
+   ========================================================================== */
+
+.goalsList {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 30px 22px 0;
+}
+
+.goalItem {
+  font-family: 'Pretendard', var(--font-body);
+  font-size: 18px;
+  font-weight: 700;
+  color: #074ED8;
+  letter-spacing: -0.36px;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.goalItem:nth-child(1) {
+  color: #074ED8;
+}
+
+.goalItem:nth-child(2) {
+  color: #3971E0;
+}
+
+.goalItem:nth-child(3) {
+  color: #BFD5FF;
+}
+
+/* ==========================================================================
+   Interest Tags
+   ========================================================================== */
+
+.interestTags {
+  position: absolute;
+  bottom: 30px;
+  left: 22px;
+  display: flex;
+  gap: 8px;
+}
+
+.interestTag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 30px;
+  padding: 0 15px 0 5px;
+  background: #F2F2F2;
+  border-radius: 15px;
+}
+
+.interestIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 21px;
+  height: 21px;
+  font-size: 14px;
+}
+
+.interestLabel {
+  font-family: 'Pretendard', var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  color: #222222;
+  letter-spacing: -0.6px;
+  line-height: 1.2;
+}
+
+/* ==========================================================================
+   Bottom Buttons
+   ========================================================================== */
+
+.bottomButtons {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  width: calc(100% - 34px);
+  max-width: 360px;
+}
+
+.cheerButton {
+  flex: 2;
+  height: 52px;
+  background: #074ED8;
+  border: none;
+  border-radius: 30px;
+  font-family: 'Pretendard', var(--font-body);
+  font-size: 18px;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: -0.36px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cheerButton:hover {
+  background: #0542B5;
+}
+
+.cheerButton:active {
+  transform: scale(0.98);
+}
+
+.messageButton {
+  flex: 1;
+  height: 52px;
+  background: #C5ED52;
+  border: none;
+  border-radius: 30px;
+  font-family: 'Pretendard', var(--font-body);
+  font-size: 18px;
+  font-weight: 700;
+  color: #222222;
+  letter-spacing: -0.36px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.messageButton:hover {
+  background: #B8E045;
+}
+
+.messageButton:active {
+  transform: scale(0.98);
+}

@@ -1,0 +1,275 @@
+/* ==========================================================================
+   Board Page Styles - Figma Design (node-id: 967-3445)
+   ========================================================================== */
+
+.container {
+  width: 393px;
+  height: 852px;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F3F6FB 100%);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================================================
+   Content Wrapper
+   ========================================================================== */
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 16px;
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.contentWrapper::-webkit-scrollbar {
+  display: none;
+}
+
+/* ==========================================================================
+   Header Section
+   ========================================================================== */
+
+.headerSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  width: 360px;
+  flex-shrink: 0;
+}
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 360px;
+  padding: 0 5px;
+  box-sizing: border-box;
+}
+
+.headerTitle {
+  font-family: 'ONE-Shinhan', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #222222;
+}
+
+.moreButton {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #848484;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* ==========================================================================
+   Filter Tabs
+   ========================================================================== */
+
+.filterTabs {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.filterTab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: none;
+  background: #FFFFFF;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #222222;
+  cursor: pointer;
+  flex-shrink: 0;
+  box-shadow: 0px 0px 30px 0px rgba(27, 37, 56, 0.1);
+}
+
+.filterTab.active {
+  background: #848484;
+  color: #FFFFFF;
+}
+
+/* ==========================================================================
+   Card List
+   ========================================================================== */
+
+.cardList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  width: 361px;
+}
+
+.card {
+  width: 360px;
+  height: 120px;
+  border-radius: 24px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  cursor: pointer;
+  box-shadow: 0px 0px 30px 0px rgba(27, 37, 56, 0.1);
+}
+
+.cardImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 24px;
+}
+
+.cardGradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 24px;
+  background: linear-gradient(
+    to right,
+    #0a1834 30.4%,
+    rgba(10, 24, 52, 0.8) 50.14%,
+    rgba(10, 24, 52, 0.1) 100%
+  );
+}
+
+.cardContent {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 20px;
+  height: 100%;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 148px;
+}
+
+.cardTextGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.cardCategory {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.2;
+  color: #C5ED52;
+}
+
+.cardTitle {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.2;
+  color: #FFFFFF;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+/* ==========================================================================
+   Card Stats
+   ========================================================================== */
+
+.cardStats {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  width: 100%;
+}
+
+.statGroup {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+}
+
+.statItem {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+}
+
+.statIcon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  filter: brightness(0) invert(0.78);
+}
+
+.statText {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 1.2;
+  letter-spacing: -0.48px;
+  color: #C8C8C8;
+}
+
+.statDivider {
+  width: 1px;
+  height: 10px;
+  background: #C8C8C8;
+  flex-shrink: 0;
+}
+
+.statDate {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 1.2;
+  letter-spacing: -0.48px;
+  color: #C8C8C8;
+}
+
+/* ==========================================================================
+   Empty State
+   ========================================================================== */
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  width: 100%;
+  gap: 12px;
+}
+
+.emptyText {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  color: #848484;
+}

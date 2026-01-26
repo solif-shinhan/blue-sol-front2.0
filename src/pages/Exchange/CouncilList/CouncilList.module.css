@@ -1,0 +1,324 @@
+.container {
+  width: 393px;
+  height: 852px;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: linear-gradient(to bottom, #FFFFFF, #F3F6FB);
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Safe Zone */
+.safeZone {
+  width: 393px;
+  height: 53px;
+  background: #FFFFFF;
+  flex-shrink: 0;
+}
+
+/* Header */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  width: 393px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFFFFF;
+}
+
+.backButton {
+  position: absolute;
+  left: 17px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.backButton img {
+  width: 24px;
+  height: 24px;
+}
+
+.headerTitle {
+  font-family: 'ONE-Shinhan', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #848484;
+  text-align: center;
+}
+
+.searchButton {
+  position: absolute;
+  right: 17px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.searchButton img {
+  width: 24px;
+  height: 24px;
+}
+
+/* Content */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: flex-start;
+  width: 361px;
+  margin: 0 auto;
+  padding-top: 20px;
+  padding-bottom: 30px;
+}
+
+/* 나의 자치회 card */
+.myCouncilCard {
+  width: 361px;
+  height: 120px;
+  border-radius: 24px;
+  box-shadow: 0 0 30px 0 rgba(27, 37, 56, 0.1);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+  cursor: pointer;
+}
+
+.myCouncilBg {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  pointer-events: none;
+}
+
+.myCouncilBg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 24px;
+}
+
+.myCouncilOverlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  background: linear-gradient(to right, #0A1834 30%, rgba(10, 24, 52, 0.8) 50%, rgba(10, 24, 52, 0.1));
+}
+
+.myCouncilContent {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 148px;
+}
+
+.myCouncilTitles {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.myCouncilLabel {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.2;
+  color: #C5ED52;
+  margin: 0;
+}
+
+.myCouncilName {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.2;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.myCouncilMeta {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.myCouncilMetaText {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #848484;
+}
+
+.metaDivider {
+  width: 1px;
+  height: 10px;
+  background-color: #848484;
+  border-radius: 1px;
+}
+
+/* 자치회 section */
+.councilSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 361px;
+}
+
+.sectionTitle {
+  font-family: 'ONE-Shinhan', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #222222;
+  padding-left: 5px;
+}
+
+/* Grid */
+.councilGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 172px);
+  gap: 16px;
+  width: 100%;
+  justify-content: center;
+}
+
+/* Council Card */
+.councilCard {
+  width: 172px;
+  height: 240px;
+  border-radius: 24px;
+  box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: #4a5568;
+}
+
+.cardBg {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  pointer-events: none;
+}
+
+.cardBg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 24px;
+}
+
+.cardGradient {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 35%, #000000);
+}
+
+.cardContent {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 172px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 10px 0;
+}
+
+.cardInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.cardTexts {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 10px;
+  width: 100%;
+}
+
+.cardRegion {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #C5ED52;
+  margin: 0;
+}
+
+.cardTitle {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.2;
+  letter-spacing: -0.32px;
+  color: #FFFFFF;
+  height: 38px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  margin: 0;
+}
+
+.cardMeta {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  padding: 0 14px;
+  width: 100%;
+}
+
+.cardMetaText {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.2;
+  color: #C8C8C8;
+}
+
+.cardMetaDivider {
+  width: 1px;
+  height: 8px;
+  background-color: #C8C8C8;
+  border-radius: 1px;
+}

@@ -1,0 +1,239 @@
+/* ==========================================================================
+   Application History Page Styles - Figma Design (node-id: 1077-3290)
+   ========================================================================== */
+
+.container {
+  width: 393px;
+  height: 852px;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F3F6FB 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+
+.header {
+  position: absolute;
+  top: 54px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 393px;
+  height: 50px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.headerInner {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  left: 17px;
+  top: 13px;
+  width: 241px;
+}
+
+.backButton {
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.backButton img {
+  width: 24px;
+  height: 24px;
+}
+
+.headerTitle {
+  font-family: 'ONE-Shinhan', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #848484;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   Tab Bar
+   ========================================================================== */
+
+.tabBar {
+  position: absolute;
+  top: 116px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 360px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  background: #FFFFFF;
+  border: 1px solid #EEEEEE;
+  border-radius: 30px;
+  box-shadow: 0px 0px 30px 0px rgba(27, 37, 56, 0.1);
+}
+
+.tab {
+  flex: 1 0 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #848484;
+  box-sizing: border-box;
+}
+
+.tabActive {
+  background: #074ED8;
+  color: #FFFFFF;
+}
+
+/* ==========================================================================
+   Application List
+   ========================================================================== */
+
+.listContainer {
+  position: absolute;
+  top: 164px;
+  left: 0;
+  width: 393px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow-y: auto;
+  max-height: calc(852px - 164px);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.listContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.listItem {
+  width: 100%;
+  height: 116px;
+  border-bottom: 1px solid #E6E6E6;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.listItemInner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, calc(-50% + 1px));
+  width: 359px;
+  height: 88px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+/* Item Header: Profile + Name + Date */
+.itemHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.itemProfile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.profileImage {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  object-fit: cover;
+  background: #E6E6E6;
+}
+
+.profileName {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #222222;
+  flex-shrink: 0;
+}
+
+.itemDate {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.2;
+  color: #848484;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* Item Content: Title + Preview */
+.itemContent {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+  width: 100%;
+  flex: 1 0 0;
+  min-height: 0;
+  white-space: pre-wrap;
+}
+
+.itemTitle {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.2;
+  color: #222222;
+  width: 100%;
+  flex: 1 0 0;
+  min-height: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.itemPreview {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #848484;
+  width: 100%;
+  flex: 1 0 0;
+  min-height: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

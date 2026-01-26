@@ -1,0 +1,101 @@
+/* ==========================================================================
+   Participants Section (참여 인원 목록) Styles
+   ========================================================================== */
+
+.participantsSection {
+  padding: 30px 17px 0;
+  width: 360px;
+  margin: 0 auto;
+}
+
+.participantsList {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.participantsList::-webkit-scrollbar {
+  display: none;
+}
+
+.participantItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  min-width: 60px;
+  width: 60px;
+}
+
+.avatarWrapper {
+  position: relative;
+  width: 60px;
+  height: 60px;
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #E6E6E6;
+}
+
+.removeButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: #555555;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+}
+
+.removeX {
+  color: #FFFFFF;
+  font-size: 8px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.participantName {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1.2;
+  letter-spacing: -0.24px;
+  color: #848484;
+  text-align: center;
+  width: 100%;
+}
+
+.participantNameMe {
+  color: #222222;
+}
+
+.addButton {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px dashed #C8C8C8;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+}
+
+.addPlus {
+  font-size: 24px;
+  color: #C8C8C8;
+  line-height: 1;
+}

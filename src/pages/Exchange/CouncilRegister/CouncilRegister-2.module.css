@@ -1,0 +1,165 @@
+/* ==========================================================================
+   Council Register Page Styles - Part 2
+   Goal Section, Submit Button, Success Modal
+   ========================================================================== */
+
+/* ==========================================================================
+   Goal Section
+   ========================================================================== */
+
+.goalSection {
+    margin-bottom: 30px;
+}
+
+.goalSectionTitle {
+    font-family: 'Pretendard', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #222222;
+    line-height: 1.2;
+    letter-spacing: -0.32px;
+    margin-bottom: 16px;
+}
+
+.goalTextarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 13px 11px;
+    border: 1px solid #E6E6E6;
+    border-radius: 12px;
+    background-color: #FFFFFF;
+    font-family: 'Pretendard', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #222222;
+    line-height: 1.4;
+    letter-spacing: -0.64px;
+    outline: none;
+    resize: none;
+    transition: border-color 0.15s ease;
+    box-sizing: border-box;
+}
+
+.goalTextarea::placeholder {
+    color: #A6A6A6;
+}
+
+.goalTextarea:focus {
+    border-color: #074ED8;
+}
+
+.goalTextareaActive {
+    border-color: #074ED8;
+}
+
+/* ==========================================================================
+   Submit Button
+   ========================================================================== */
+
+.submitButtonContainer {
+    padding: 16px 17px;
+    padding-bottom: 34px;
+    background-color: #FFFFFF;
+}
+
+.submitButton {
+    width: 100%;
+    height: 52px;
+    border-radius: 26px;
+    border: none;
+    font-family: 'Pretendard', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.submitButtonDisabled {
+    background-color: #BFD5FF;
+    color: #FFFFFF;
+    cursor: not-allowed;
+}
+
+.submitButtonActive {
+    background-color: #074ED8;
+    color: #FFFFFF;
+}
+
+.submitButtonActive:hover {
+    background-color: #0641b5;
+}
+
+.submitButtonActive:active {
+    transform: scale(0.98);
+}
+
+/* ==========================================================================
+   Success Modal
+   ========================================================================== */
+
+.successModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, #FFFFFF 0%, #F3F6FB 100%);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.successContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0 40px;
+}
+
+.successIcon {
+    width: 120px;
+    height: 120px;
+    background-color: #E6E6E6;
+    border-radius: 50%;
+    margin-bottom: 30px;
+}
+
+.successMessage {
+    font-family: 'Pretendard', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: #848484;
+    line-height: 1.4;
+    margin-bottom: 16px;
+}
+
+.successTitle {
+    font-family: 'Pretendard', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #074ED8;
+    line-height: 1.2;
+    margin-bottom: 60px;
+}
+
+.successLogo {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.successLogoIcon {
+    width: 18px;
+    height: 18px;
+}
+
+.successLogoText {
+    font-family: 'Pretendard', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #848484;
+}

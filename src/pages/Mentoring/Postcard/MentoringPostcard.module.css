@@ -1,0 +1,276 @@
+.container {
+  width: 393px;
+  height: 852px;
+  position: relative;
+  background: linear-gradient(to bottom, #ffffff, #f3f6fb);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* 상단 카드 */
+.topCard {
+  width: 393px;
+  height: 295px;
+  background: #ffffff;
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0px 0px 30px 0px rgba(27, 37, 56, 0.1);
+  position: relative;
+}
+
+/* 헤더 */
+.header {
+  width: 393px;
+  height: 50px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.closeButton {
+  position: absolute;
+  left: 17px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.closeButton img {
+  width: 24px;
+  height: 24px;
+}
+
+.headerTitle {
+  font-family: 'OneShinhan', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #848484;
+  text-align: center;
+  margin: 0;
+}
+
+/* 사진 업로드 */
+.photoSection {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  padding-left: 17px;
+  padding-top: 17px;
+}
+
+.addPhotoButton {
+  width: 54px;
+  height: 54px;
+  border: 1.5px dashed #a6a6a6;
+  border-radius: 10px;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.addPhotoButton img {
+  width: 20px;
+  height: 20px;
+}
+
+.photoItem {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.photoImage {
+  width: 58px;
+  height: 54px;
+  border-radius: 10px;
+  object-fit: cover;
+  display: block;
+  margin-top: 7px;
+}
+
+.photoDeleteButton {
+  position: absolute;
+  top: 0;
+  right: -5px;
+  width: 17px;
+  height: 17px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 폼 영역 */
+.formArea {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 360px;
+  margin: 30px auto 0;
+}
+
+.formSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.sectionLabelWrap {
+  padding: 0 5px;
+}
+
+.sectionLabel {
+  font-family: 'OneShinhan', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #222222;
+  margin: 0;
+}
+
+/* 제목 입력 */
+.titleInput {
+  width: 100%;
+  height: 40px;
+  background: #f3f6fb;
+  border-radius: 12px;
+  border: none;
+  padding: 0 11px;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.2;
+  letter-spacing: -0.64px;
+  color: #222222;
+  box-sizing: border-box;
+}
+
+.titleInput::placeholder {
+  color: #868686;
+}
+
+/* 카테고리 탭 */
+.categoryTabs {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.categoryTab {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: none;
+  background: #ffffff;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #222222;
+  cursor: pointer;
+  box-shadow: 0px 0px 30px 0px rgba(27, 37, 56, 0.1);
+}
+
+.categoryTabActive {
+  background: #c5ed52;
+}
+
+/* 텍스트에어리어 */
+.textarea {
+  width: 100%;
+  height: 120px;
+  background: #ffffff;
+  border-radius: 12px;
+  border: none;
+  padding: 13px 11px;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #222222;
+  resize: none;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 30px 0px rgba(27, 37, 56, 0.1);
+}
+
+.textarea::placeholder {
+  color: #848484;
+}
+
+/* 멘토링 방식 */
+.methodsGrid {
+  display: flex;
+  gap: 13px;
+  width: 100%;
+}
+
+.methodItem {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  width: 80px;
+}
+
+.methodButton {
+  width: 80px;
+  height: 80px;
+  background: #ffffff;
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0px 0px 30px 0px rgba(27, 37, 56, 0.1);
+  cursor: pointer;
+}
+
+.methodButtonActive {
+  border: 2px solid #074ED8;
+}
+
+.methodLabel {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #222222;
+  text-align: center;
+}
+
+/* 신청하기 버튼 */
+.submitButton {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 360px;
+  height: 52px;
+  background: #abc8ff;
+  border-radius: 30px;
+  border: none;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.2;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.submitButtonActive {
+  background: #074ED8;
+}

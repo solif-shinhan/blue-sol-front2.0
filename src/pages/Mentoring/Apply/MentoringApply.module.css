@@ -1,0 +1,384 @@
+/* ==========================================================================
+   Mentoring Apply Page Styles - Figma Design
+   ========================================================================== */
+
+.container {
+  width: 393px;
+  height: 852px;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F3F6FB 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   Profile Card (상단 멘토 정보)
+   ========================================================================== */
+
+.profileCard {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 393px;
+  height: 337px;
+  background: #FFFFFF;
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0px 0px 30px rgba(27, 37, 56, 0.1);
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 69px;
+  left: 0;
+  width: 393px;
+  height: 50px;
+}
+
+.closeButton {
+  position: absolute;
+  left: 17px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.closeButton img {
+  width: 24px;
+  height: 24px;
+}
+
+.headerTitle {
+  font-family: 'OneShinhan', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: #848484;
+  line-height: 1.2;
+  letter-spacing: -0.36px;
+  text-align: center;
+}
+
+/* ==========================================================================
+   Mentor Info
+   ========================================================================== */
+
+.mentorInfo {
+  position: absolute;
+  top: 132px;
+  left: 0;
+  width: 393px;
+  padding: 0 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.mentorNameRow {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.mentorName {
+  font-family: 'OneShinhan', sans-serif;
+  font-size: 28px;
+  font-weight: 500;
+  color: #000000;
+  line-height: 1.4;
+  letter-spacing: -0.56px;
+}
+
+.mentorRole {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #868686;
+  line-height: 1.2;
+}
+
+.mentorOrg {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: #3971E0;
+  line-height: 1.2;
+}
+
+.mentorIntro {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #222222;
+  line-height: 1.4;
+  white-space: pre-wrap;
+}
+
+/* ==========================================================================
+   Form Area
+   ========================================================================== */
+
+.formArea {
+  position: absolute;
+  top: 370px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.formSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.sectionHeader {
+  padding: 0 5px;
+}
+
+.sectionTitle {
+  font-family: 'OneShinhan', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: #222222;
+  line-height: 1.2;
+  letter-spacing: -0.36px;
+}
+
+/* ==========================================================================
+   Category Tabs
+   ========================================================================== */
+
+.categoryTabs {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.categoryTab {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: none;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #222222;
+  line-height: 1.4;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  background-color: #FFFFFF;
+  box-shadow: 0px 0px 30px rgba(27, 37, 56, 0.1);
+}
+
+.categoryTabActive {
+  background-color: #C5ED52;
+}
+
+/* ==========================================================================
+   Textarea
+   ========================================================================== */
+
+.textareaWrapper {
+  width: 100%;
+  height: 120px;
+  background: #FFFFFF;
+  border: 1px solid #E6E6E6;
+  border-radius: 12px;
+  box-shadow: 0px 0px 30px rgba(27, 37, 56, 0.1);
+  overflow: hidden;
+}
+
+.textarea {
+  width: 100%;
+  height: 100%;
+  padding: 13px 11px;
+  border: none;
+  outline: none;
+  resize: none;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #222222;
+  line-height: 1.4;
+  box-sizing: border-box;
+}
+
+.textarea::placeholder {
+  color: #848484;
+}
+
+/* ==========================================================================
+   Mentoring Methods
+   ========================================================================== */
+
+.methodsGrid {
+  display: flex;
+  gap: 13px;
+  width: 100%;
+}
+
+.methodItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 80px;
+}
+
+.methodButton {
+  width: 80px;
+  height: 80px;
+  background: #FFFFFF;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  box-shadow: 0px 0px 30px rgba(27, 37, 56, 0.1);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.methodButtonActive {
+  border-color: #074ED8;
+  background: #E6EFFF;
+}
+
+.methodLabel {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #222222;
+  line-height: 1.4;
+  text-align: center;
+  white-space: pre-wrap;
+}
+
+/* ==========================================================================
+   Submit Button
+   ========================================================================== */
+
+.submitButton {
+  position: absolute;
+  bottom: 34px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 360px;
+  height: 52px;
+  background: #BFD5FF;
+  border-radius: 30px;
+  border: none;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1.2;
+  cursor: not-allowed;
+  transition: background-color 0.15s ease;
+}
+
+.submitButtonActive {
+  background: #074ED8;
+  cursor: pointer;
+}
+
+.submitButtonActive:hover {
+  opacity: 0.9;
+}
+
+/* ==========================================================================
+   Complete Modal
+   ========================================================================== */
+
+.modalOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 393px;
+  height: 852px;
+  background-color: #FFFFFF;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 27px;
+  width: 233px;
+}
+
+.modalIcon {
+  width: 158px;
+  height: 158px;
+  border-radius: 50%;
+  background-color: #D9D9D9;
+}
+
+.modalTextWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+}
+
+.modalSubText {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #848484;
+  line-height: 1.46;
+  text-align: center;
+}
+
+.modalMainText {
+  font-family: 'OneShinhan', sans-serif;
+  font-size: 28px;
+  font-weight: 500;
+  color: #074ED8;
+  line-height: 1.4;
+  letter-spacing: -0.56px;
+  text-align: center;
+}
+
+.modalFooter {
+  position: absolute;
+  bottom: 57px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 104px;
+}
+
+.modalFooterLogo {
+  height: 21.598px;
+  width: 21.681px;
+  object-fit: contain;
+}
+
+.modalFooterText {
+  height: 13.05px;
+  width: 79.093px;
+  object-fit: contain;
+}

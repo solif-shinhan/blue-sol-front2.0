@@ -1,0 +1,35 @@
+/* ==========================================================================
+   Page Title Component - Shared across Register pages
+   Based on Figma Design (805:3782)
+   ========================================================================== */
+
+.container {
+    padding: 31px 16px 0 16px;
+}
+
+.title {
+    font-family: 'ONE-Shinhan', var(--font-heading);
+    font-size: 28px;
+    line-height: 1.4;
+    letter-spacing: -0.56px;
+    color: #222222;
+    margin: 0;
+}
+
+.titleBold {
+    font-weight: 500;
+}
+
+.titleLight {
+    font-weight: 300;
+}
+
+.subtitle {
+    font-family: 'ONE-Shinhan', var(--font-heading);
+    font-size: 28px;
+    font-weight: 300;
+    line-height: 1.4;
+    letter-spacing: -0.56px;
+    color: #222222;
+    margin: 0;
+}

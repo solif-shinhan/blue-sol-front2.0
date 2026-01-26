@@ -1,0 +1,54 @@
+/* ==========================================================================
+   Font Configuration - 푸른 SOL
+   Using local OTF font files
+   ========================================================================== */
+
+/* One신한 - Primary Headings (Shinhan Bank Corporate Font) */
+@font-face {
+  font-family: 'ONE-Shinhan';
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  src: url('../assets/fonts/OneShinhanLight.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'ONE-Shinhan';
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: url('../assets/fonts/OneShinhanMedium.otf') format('opentype');
+}
+
+/* Pretendard - Body Text */
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('../assets/fonts/Pretendard-Regular.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: url('../assets/fonts/Pretendard-Medium.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: url('../assets/fonts/Pretendard-SemiBold.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url('../assets/fonts/Pretendard-Bold.otf') format('opentype');
+}
