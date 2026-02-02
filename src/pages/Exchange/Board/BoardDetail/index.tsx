@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import styles from './BoardDetail.module.css'
 import { Post, Comment } from '../../types'
+import backArrowIcon from '@/assets/images/Glyph_ undefined.svg'
 
 // 샘플 게시글 데이터
 const SAMPLE_POST: Post = {
@@ -99,7 +100,7 @@ function BoardDetailPage() {
     <div className={styles.container}>
       <header className={styles.header}>
         <button className={styles.backButton} onClick={handleBack}>
-          <img src="/←.svg" alt="뒤로가기" className={styles.backIcon} />
+          <img src={backArrowIcon} alt="뒤로가기" className={styles.backIcon} />
         </button>
         <span className={styles.headerTitle}>게시글</span>
         <button className={styles.moreButton} onClick={handleMore}>

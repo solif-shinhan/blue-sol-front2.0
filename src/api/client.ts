@@ -49,7 +49,16 @@ class ApiClient {
 
     if (!response.ok) {
       const error = await response.json().catch(() => ({}))
-      throw new Error(error.message || `HTTP Error: ${response.status}`)
+      // 상세 에러 메시지 추출
+      let errorMessage = error.message || `HTTP Error: ${response.status}`
+      if (error.errors) {
+        if (Array.isArray(error.errors)) {
+          errorMessage += ': ' + error.errors.join(', ')
+        } else if (typeof error.errors === 'object') {
+          errorMessage += ': ' + Object.values(error.errors).join(', ')
+        }
+      }
+      throw new Error(errorMessage)
     }
 
     return response.json()

@@ -1,4 +1,6 @@
-import styles from './MyCouncilActivity.module.css'
+import styles1 from './MyCouncilActivity-1.module.css'
+import styles2 from './MyCouncilActivity-2.module.css'
+const styles = { ...styles1, ...styles2 }
 import councilBg from '@/assets/images/council-activities.png'
 import activityDotsImg from '@/assets/images/myactivitysummary/Frame 2087338740.svg'
 import newsIcon from '@/assets/images/myactivitysummary/Frame 17.svg'

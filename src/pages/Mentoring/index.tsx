@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import styles from './Mentoring.module.css'
+import styles1 from './Mentoring-1.module.css'
+import styles2 from './Mentoring-2.module.css'
+
+const styles = { ...styles1, ...styles2 }
 
 // SVG imports
 import backArrowIcon from '@/assets/images/exchange-mentoring/back-arrow.svg'
@@ -29,14 +32,14 @@ const MENTORS = [
     name: '신한철',
     role: '멘토',
     organization: 'SO&L 글로벌자산운용 대표',
-    image: 'https://www.figma.com/api/mcp/asset/a6305e4d-5fab-4a15-8b03-c79e00bcc2a7',
+    image: '',
   },
   {
     id: 2,
     name: '한민선',
     role: '멘토',
     organization: 'SO&L 글로벌자산운용 대표',
-    image: 'https://www.figma.com/api/mcp/asset/e2e3c557-5201-4881-a68a-cf34c9f3be16',
+    image: '',
   },
 ]
 
@@ -47,7 +50,7 @@ const MENTOR_REVIEWS = [
     author: '강**',
     mentorName: '신한철 멘토님',
     content: '신한철 멘토님께 대학 입시 컨설팅을 받았습니다. 제가 생각하지 못했던 지점을 바로 이야기 해주셔서...',
-    image: 'https://www.figma.com/api/mcp/asset/24117198-6767-41f5-b3db-33f568bc2f66',
+    image: '',
   },
 ]
 

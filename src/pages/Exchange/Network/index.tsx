@@ -2,6 +2,7 @@ import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles from './Network.module.css'
 import { FRIENDS_DATA } from '../constants'
+import backArrowIcon from '@/assets/images/Glyph_ undefined.svg'
 
 // public 폴더 SVG 경로
 const glassesIcon = '/glasses.svg'
@@ -29,7 +30,7 @@ function NetworkPage() {
       {/* 헤더 */}
       <header className={styles.header}>
         <button className={styles.backButton} onClick={handleBack}>
-          <img src="/←.svg" alt="뒤로가기" />
+          <img src={backArrowIcon} alt="뒤로가기" />
         </button>
         <h1 className={styles.headerTitle}>나의 SOLID</h1>
         <button className={styles.searchButton}>

@@ -1,0 +1,314 @@
+/* 나의 자치회 활동 페이지 스타일 (1/2) - 기본 레이아웃, 히어로, 탭, 콘텐츠, 예산, 뉴스 */
+.container {
+  width: 393px;
+  height: 852px;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: linear-gradient(to bottom, #FFFFFF, #F3F6FB);
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.container::-webkit-scrollbar {
+  display: none;
+}
+
+/* 히어로 섹션 */
+.hero {
+  position: relative;
+  width: 393px;
+  height: 329px;
+  border-radius: 0 0 32px 32px;
+  box-shadow: 0 0 30px 0 rgba(27, 37, 56, 0.1);
+  overflow: hidden;
+}
+.heroBg {
+  position: absolute;
+  inset: 0;
+}
+.heroBg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.heroGradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 37.84%, rgba(0, 0, 0, 0.8) 73.17%);
+}
+
+/* 헤더 (히어로 위) */
+.header {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  width: 393px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  z-index: 10;
+}
+.backButton {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+.backButton img {
+  width: 24px;
+  height: 24px;
+}
+.headerTitle {
+  font-family: 'ONE-Shinhan', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #FFFFFF;
+  text-align: center;
+}
+.editButton {
+  width: 38px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+.editButton img {
+  width: 100%;
+  height: 100%;
+}
+
+/* 히어로 콘텐츠 */
+.heroContent {
+  position: absolute;
+  left: 26px;
+  top: 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.heroMeta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.heroMetaText {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #FFFFFF;
+}
+.heroMetaDate {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #EEEEEE;
+}
+.heroMetaDivider {
+  height: 12px;
+}
+.heroTitle {
+  font-family: 'ONE-Shinhan', sans-serif;
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.4;
+  letter-spacing: -0.56px;
+  color: #FFFFFF;
+  margin: 0;
+}
+.heroDescription {
+  position: absolute;
+  left: 26px;
+  top: 244px;
+  width: 340px;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #E6E6E6;
+}
+
+/* 탭 네비게이션 */
+.tabBar {
+  display: flex;
+  align-items: center;
+  width: 360px;
+  height: 36px;
+  margin: 30px auto 0;
+  background: #FFFFFF;
+  border: 1px solid #EEEEEE;
+  border-radius: 30px;
+  box-shadow: 0 0 30px 0 rgba(27, 37, 56, 0.1);
+}
+.tabItem {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #848484;
+}
+.tabItemActive {
+  background: #074ED8;
+  color: #FFFFFF;
+}
+
+/* 콘텐츠 영역 */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 30px 16px 0;
+  width: 361px;
+  margin: 0 auto;
+}
+
+/* 활동 요약 */
+.activitySummary {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 0 5px;
+}
+.activityCount {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.activityCountText {
+  font-family: 'ONE-Shinhan', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #222222;
+}
+.activityCountText span {
+  font-family: 'ONE-Shinhan', sans-serif;
+  font-weight: 300;
+  line-height: 1.4;
+}
+.activityCountHighlight {
+  color: #074ED8;
+  font-weight: 500;
+}
+.activityDots {
+  width: 112px;
+  height: 42px;
+}
+.activityDots img {
+  width: 100%;
+  height: 100%;
+}
+
+/* 예산 */
+.budgetSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.budgetRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.2;
+  color: #222222;
+}
+.budgetBar {
+  width: 100%;
+  height: 6px;
+  background: #E6E6E6;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.budgetBarFill {
+  height: 100%;
+  background: linear-gradient(90deg, #074ED8 0%, #3971E0 100%);
+  border-radius: 3px;
+}
+
+/* 새로운 소식 */
+.newsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.newsSectionTitle {
+  font-family: 'ONE-Shinhan', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #222222;
+  padding: 0 5px;
+}
+.newsCard {
+  position: relative;
+  width: 100%;
+  height: 100px;
+  background: #FFFFFF;
+  border-radius: 24px;
+  box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.1);
+}
+.newsCardContent {
+  position: absolute;
+  left: 20px;
+  top: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 255px;
+}
+.newsCardTitle {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.2;
+  color: #222222;
+  margin: 0;
+}
+.newsCardSubtitle {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.2;
+  color: #848484;
+  margin: 0;
+}
+.newsCardIcon {
+  position: absolute;
+  right: 22px;
+  top: 25px;
+  width: 50px;
+  height: 50px;
+}
+.newsCardIcon img {
+  width: 100%;
+  height: 100%;
+}

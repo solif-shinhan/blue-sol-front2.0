@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import styles from './MyCouncilActivity.module.css'
+import styles1 from './MyCouncilActivity-1.module.css'
+import styles2 from './MyCouncilActivity-2.module.css'
+const styles = { ...styles1, ...styles2 }
 import { BackHeader } from '@/components/BackHeader'
 import heroBgImg from '@/assets/images/myactivitysummary/Frame 2147230564.png'
 import editIcon from '@/assets/images/myactivitysummary/Union.svg'

@@ -1,0 +1,225 @@
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 50px;
+  padding: 0 16px;
+  margin-top: 53px;
+}
+
+.headerSpacer {
+  width: 50px;
+}
+
+.headerTitle {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-dark-gray-light);
+  line-height: 1.2;
+  letter-spacing: -0.36px;
+}
+
+/* Card */
+.card {
+  width: 330px;
+  height: 500px;
+  background-color: var(--color-white);
+  border-radius: 24px;
+  box-shadow: 0px 0px 46px rgba(0, 0, 0, 0.1);
+  padding: 32px 23px;
+  position: relative;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.solidLogo {
+  margin-bottom: 71px;
+}
+
+.solidLogoSol {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 20px;
+  font-weight: 300;
+  color: var(--color-dark-gray);
+}
+
+.solidLogoId {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-primary-default);
+}
+
+.profileSection {
+  display: flex;
+  align-items: flex-end;
+  gap: 11px;
+  margin-bottom: 20px;
+}
+
+.profileName {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 37px;
+  font-weight: 700;
+  color: var(--color-dark-gray);
+  line-height: 1;
+}
+
+.profileBadge {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #868686;
+  letter-spacing: -0.62px;
+  line-height: 1.2;
+}
+
+.profileTag {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: #306FE1;
+  opacity: 0.5;
+  letter-spacing: -0.62px;
+  line-height: 1.2;
+}
+
+.goalList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.goalItem1,
+.goalItem2,
+.goalItem3 {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.37px;
+  opacity: 0.5;
+  margin: 0;
+}
+
+.goalItem1 {
+  color: var(--color-primary-default);
+}
+
+.goalItem2 {
+  color: #3971E0;
+}
+
+.goalItem3 {
+  color: #BFD5FF;
+}
+
+.interestTags {
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+  display: flex;
+  gap: 8px;
+}
+
+.interestTag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 16px 4px 5px;
+  background-color: #F2F2F2;
+  border-radius: 16px;
+  height: 31px;
+}
+
+.tagIcon {
+  width: 22px;
+  height: 22px;
+  background-color: var(--color-gray);
+  border-radius: 50%;
+}
+
+.interestTag span {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-dark-gray);
+  line-height: 1.2;
+  letter-spacing: -0.63px;
+}
+
+/* Add Network Button */
+.addNetworkButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 330px;
+  height: 56px;
+  margin-top: 32px;
+  background: linear-gradient(90deg, #074ED8 0%, #3971E0 100%);
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.addNetworkButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 4px 16px rgba(7, 78, 216, 0.3);
+}
+
+.addNetworkButton:active {
+  transform: translateY(0);
+}
+
+.addNetworkButtonAdded {
+  background: #10B981;
+  cursor: default;
+}
+
+.addNetworkButtonAdded:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.addNetworkIcon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.addNetworkButton span {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1.2;
+}
+
+/* Footer */
+.footer {
+  margin-top: auto;
+  padding-bottom: 40px;
+}
+
+.footerText {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #848484;
+  line-height: 1.2;
+}

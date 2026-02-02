@@ -347,3 +347,11 @@
   background-color: #EBF2FF;
   color: #074ED8;
 }
+
+.dropdownItemHighlighted {
+  background-color: #F5F7FA;
+}
+
+.dropdownItemHighlighted.dropdownItemSelected {
+  background-color: #EBF2FF;
+}

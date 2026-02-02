@@ -20,5 +20,36 @@ export default defineConfig({
   server: {
     port: 3000,
     open: true,
+    proxy: {
+      '/api': {
+        target: 'https://api.bluesol.site',
+        changeOrigin: true,
+        secure: true,
+      },
+    },
+    // HMR 최적화
+    hmr: {
+      overlay: true,
+    },
+    watch: {
+      usePolling: false,
+      ignored: ['**/node_modules/**', '**/dist/**', '**/.git/**'],
+    },
   },
+  // 의존성 사전 번들링
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'react-router-dom'],
+    exclude: [],
+  },
+  // CSS 최적화
+  css: {
+    devSourcemap: false,
+  },
+  // 빌드 최적화
+  build: {
+    sourcemap: false,
+    cssCodeSplit: true,
+  },
+  // 캐시 활성화
+  cacheDir: 'node_modules/.vite',
 })

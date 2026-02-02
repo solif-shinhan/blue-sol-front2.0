@@ -48,7 +48,10 @@ function ScholarshipMemberPage() {
     school: ''
   })
   const [isRegionDropdownOpen, setIsRegionDropdownOpen] = useState(false)
+  const [highlightedIndex, setHighlightedIndex] = useState(-1)
   const regionDropdownRef = useRef<HTMLDivElement>(null)
+  const regionTriggerRef = useRef<HTMLDivElement>(null)
+  const schoolInputRef = useRef<HTMLInputElement>(null)
 
   // 드롭다운 외부 클릭 시 닫기
   useEffect(() => {
@@ -72,7 +75,23 @@ function ScholarshipMemberPage() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
-    setFormData(prev => ({ ...prev, [name]: value }))
+
+    if (name === 'phone') {
+      const numbers = value.replace(/[^0-9]/g, '')
+      let formattedValue = ''
+
+      if (numbers.length <= 3) {
+        formattedValue = numbers
+      } else if (numbers.length <= 7) {
+        formattedValue = `${numbers.slice(0, 3)}-${numbers.slice(3)}`
+      } else {
+        formattedValue = `${numbers.slice(0, 3)}-${numbers.slice(3, 7)}-${numbers.slice(7, 11)}`
+      }
+
+      setFormData(prev => ({ ...prev, [name]: formattedValue }))
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }))
+    }
   }
 
   const handleSubmit = (e?: React.FormEvent) => {
@@ -100,6 +119,65 @@ function ScholarshipMemberPage() {
   const handleRegionSelect = (region: string) => {
     setFormData(prev => ({ ...prev, region }))
     setIsRegionDropdownOpen(false)
+    setHighlightedIndex(-1)
+    // 지역 선택 후 학교 입력 필드로 포커스 이동
+    setTimeout(() => {
+      schoolInputRef.current?.focus()
+    }, 0)
+  }
+
+  // 드롭다운 키보드 핸들러
+  const handleDropdownKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (!isRegionDropdownOpen) {
+      // 드롭다운이 닫혀있을 때 Enter, Space, ArrowDown으로 열기
+      if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowDown') {
+        e.preventDefault()
+        setIsRegionDropdownOpen(true)
+        setHighlightedIndex(formData.region ? REGIONS.indexOf(formData.region) : 0)
+      }
+    } else {
+      // 드롭다운이 열려있을 때
+      switch (e.key) {
+        case 'ArrowDown':
+          e.preventDefault()
+          setHighlightedIndex(prev =>
+            prev < REGIONS.length - 1 ? prev + 1 : 0
+          )
+          break
+        case 'ArrowUp':
+          e.preventDefault()
+          setHighlightedIndex(prev =>
+            prev > 0 ? prev - 1 : REGIONS.length - 1
+          )
+          break
+        case 'Enter':
+        case ' ':
+          e.preventDefault()
+          if (highlightedIndex >= 0 && highlightedIndex < REGIONS.length) {
+            handleRegionSelect(REGIONS[highlightedIndex])
+          }
+          break
+        case 'Escape':
+          e.preventDefault()
+          setIsRegionDropdownOpen(false)
+          setHighlightedIndex(-1)
+          break
+        case 'Tab':
+          // Tab 키를 누르면 현재 하이라이트된 항목 선택 후 다음 필드로 이동
+          if (highlightedIndex >= 0 && highlightedIndex < REGIONS.length) {
+            handleRegionSelect(REGIONS[highlightedIndex])
+          } else if (formData.region) {
+            // 이미 선택된 값이 있으면 드롭다운 닫고 다음으로 이동
+            setIsRegionDropdownOpen(false)
+            setTimeout(() => {
+              schoolInputRef.current?.focus()
+            }, 0)
+          } else {
+            setIsRegionDropdownOpen(false)
+          }
+          break
+      }
+    }
   }
 
   return (
@@ -174,20 +252,29 @@ function ScholarshipMemberPage() {
             <label className={styles.label}>지역</label>
             <div className={styles.dropdownContainer} ref={regionDropdownRef}>
               <div
+                ref={regionTriggerRef}
                 className={`${styles.input} ${styles.dropdownTrigger} ${isRegionDropdownOpen ? styles.dropdownOpen : ''}`}
                 onClick={() => setIsRegionDropdownOpen(!isRegionDropdownOpen)}
+                onKeyDown={handleDropdownKeyDown}
+                tabIndex={0}
+                role="combobox"
+                aria-expanded={isRegionDropdownOpen}
+                aria-haspopup="listbox"
+                aria-label="지역 선택"
               >
                 <span className={formData.region ? styles.dropdownValue : styles.dropdownPlaceholder}>
                   {formData.region || '입력해주세요'}
                 </span>
               </div>
               {isRegionDropdownOpen && (
-                <div className={styles.dropdownList}>
-                  {REGIONS.map((region) => (
+                <div className={styles.dropdownList} role="listbox">
+                  {REGIONS.map((region, index) => (
                     <div
                       key={region}
-                      className={`${styles.dropdownItem} ${formData.region === region ? styles.dropdownItemSelected : ''}`}
+                      className={`${styles.dropdownItem} ${formData.region === region ? styles.dropdownItemSelected : ''} ${highlightedIndex === index ? styles.dropdownItemHighlighted : ''}`}
                       onClick={() => handleRegionSelect(region)}
+                      role="option"
+                      aria-selected={formData.region === region}
                     >
                       {region}
                     </div>
@@ -199,6 +286,7 @@ function ScholarshipMemberPage() {
 
           {/* 학교 */}
           <FormRow
+            ref={schoolInputRef}
             label="학교"
             name="school"
             type="text"

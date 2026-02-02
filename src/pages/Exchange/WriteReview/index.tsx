@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import styles from './WriteReview.module.css'
+import styles1 from './WriteReview-1.module.css'
+import styles2 from './WriteReview-2.module.css'
+
+const styles = { ...styles1, ...styles2 }
 import backArrowIcon from '@/assets/images/writing/Glyph_ undefined.svg'
 import dividerIcon from '@/assets/images/writing/Vector 12.svg'
 

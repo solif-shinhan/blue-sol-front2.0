@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import MainLayout from '@components/layout/MainLayout'
 import AuthLayout from '@components/layout/AuthLayout'
+import PublicLayout from '@components/layout/PublicLayout'
 
 // Pages
 import HomePage from '@pages/Home'
@@ -12,6 +13,7 @@ import CouncilListPage from '@pages/Exchange/CouncilList'
 import MyCouncilActivityPage from '@pages/Exchange/MyCouncilActivity'
 import MemberAddPage from '@pages/Exchange/MemberAdd'
 import WriteReviewPage from '@pages/Exchange/WriteReview'
+import ParticipantEditPage from '@pages/Exchange/WriteReview/ParticipantEdit'
 import ReceiptAttachPage from '@pages/Exchange/ReceiptAttach'
 import WritePage from '@pages/Exchange/Write'
 import WriteFormPage from '@pages/Exchange/Write/WriteForm'
@@ -19,6 +21,8 @@ import BoardPage from '@pages/Exchange/Board'
 import BoardDetailPage from '@pages/Exchange/Board/BoardDetail'
 import GrowthPage from '@pages/Growth'
 import NotificationsPage from '@pages/Notifications'
+import NotificationDetailPage from '@pages/Notifications/NotificationDetail'
+import ActivityDetailPage from '@pages/Notifications/ActivityDetail'
 import MyPagePage from '@pages/MyPage'
 import LoginPage from '@pages/auth/Login'
 import OnboardingPage from '@pages/auth/Onboarding'
@@ -32,11 +36,18 @@ import MentoringApplyPage from '@pages/Mentoring/Apply'
 import MentoringPostcardPage from '@pages/Mentoring/Postcard'
 import MentoringReviewPage from '@pages/Mentoring/Review'
 import ApplicationHistoryPage from '@pages/Mentoring/ApplicationHistory'
+import GoalsPage from '@pages/Goals'
+import PublicProfilePage from '@pages/PublicProfile'
 
 function App() {
   return (
     <div className="app-container">
       <Routes>
+        {/* Public Routes - NFC card landing page */}
+        <Route element={<PublicLayout />}>
+          <Route path="/profile/:userId" element={<PublicProfilePage />} />
+        </Route>
+
         {/* Auth Routes - Login is the main entry point */}
         <Route element={<AuthLayout />}>
           <Route path="/" element={<LoginPage />} />
@@ -55,6 +66,7 @@ function App() {
           <Route path="/home" element={<HomePage />} />
           <Route path="/solid" element={<HomePage />} />
           <Route path="/solid/edit" element={<HomePage />} />
+          <Route path="/goals" element={<GoalsPage />} />
 
           {/* Exchange Tab */}
           <Route path="/exchange" element={<ExchangePage />} />
@@ -73,6 +85,7 @@ function App() {
           <Route path="/exchange/mentoring/history" element={<ApplicationHistoryPage />} />
           <Route path="/exchange/write" element={<WritePage />} />
           <Route path="/exchange/write/review" element={<WriteReviewPage />} />
+          <Route path="/exchange/write/review/participants" element={<ParticipantEditPage />} />
           <Route path="/exchange/write/review/receipt" element={<ReceiptAttachPage />} />
           <Route path="/exchange/write/form" element={<WriteFormPage />} />
           <Route path="/exchange/board" element={<BoardPage />} />
@@ -88,6 +101,8 @@ function App() {
 
           {/* Notifications Tab */}
           <Route path="/notifications" element={<NotificationsPage />} />
+          <Route path="/notifications/:id" element={<NotificationDetailPage />} />
+          <Route path="/notifications/activity/:id" element={<ActivityDetailPage />} />
           <Route path="/notifications/messages" element={<NotificationsPage />} />
 
           {/* MyPage Tab */}

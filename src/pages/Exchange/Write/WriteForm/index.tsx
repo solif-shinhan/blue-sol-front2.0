@@ -2,6 +2,7 @@ import { useState, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import styles from './WriteForm.module.css'
 import { BoardCategory } from '../../types'
+import backArrowIcon from '@/assets/images/Glyph_ undefined.svg'
 
 const MAX_TITLE_LENGTH = 50
 const MAX_CONTENT_LENGTH = 2000
@@ -93,7 +94,7 @@ function WriteFormPage() {
     <div className={styles.container}>
       <header className={styles.header}>
         <button className={styles.backButton} onClick={handleBack}>
-          <img src="/←.svg" alt="뒤로가기" className={styles.backIcon} />
+          <img src={backArrowIcon} alt="뒤로가기" className={styles.backIcon} />
         </button>
         <span className={styles.headerTitle}>글쓰기</span>
         <button

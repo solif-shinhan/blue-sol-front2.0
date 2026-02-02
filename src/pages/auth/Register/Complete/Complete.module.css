@@ -37,8 +37,8 @@
 .avatar {
   width: 158px;
   height: 158px;
-  border-radius: 50%;
-  background-color: #E6E6E6;
+  /* border-radius: 50%; -- Removing border-radius as the image might not be circular or might have its own transparency */
+  object-fit: contain;
   flex-shrink: 0;
 }
 
@@ -68,7 +68,8 @@
   font-size: 20px;
   font-weight: 600;
   line-height: 1.2;
-  color: #A6A6A6;
+  letter-spacing: -0.4px;
+  color: #848484;
   margin: 0;
   white-space: pre-wrap;
 }

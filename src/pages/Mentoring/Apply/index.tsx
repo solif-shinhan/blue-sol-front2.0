@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import styles from './MentoringApply.module.css'
 
 // 모달 이미지 assets
-const modalLogoImg = 'https://www.figma.com/api/mcp/asset/33880964-d4bc-43f2-8f7a-29b1f027333c'
-const modalTextImg = 'https://www.figma.com/api/mcp/asset/b0d21257-d5be-463a-84f0-15d5c848c09e'
+const modalLogoImg = ''
+const modalTextImg = ''
 
 // 카테고리 옵션
 const CATEGORY_OPTIONS = ['학업', '취업', '금전', '기타']

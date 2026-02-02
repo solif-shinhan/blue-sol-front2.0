@@ -67,11 +67,31 @@ export async function signup(data: SignupRequest): Promise<SignupResponse> {
 }
 
 // 로그아웃
-export function logout(): void {
-  localStorage.removeItem('token')
-  localStorage.removeItem('userId')
-  localStorage.removeItem('userRole')
-  apiClient.setToken(null)
+export async function logout(): Promise<void> {
+  try {
+    // 토큰 설정 후 API 호출
+    const token = localStorage.getItem('token')
+    if (token) {
+      apiClient.setToken(token)
+      await apiClient.post('/api/auth/logout')
+    }
+  } catch (error) {
+    console.error('로그아웃 API 호출 실패:', error)
+  } finally {
+    // API 성공/실패와 관계없이 로컬 데이터 정리
+    localStorage.removeItem('token')
+    localStorage.removeItem('userId')
+    localStorage.removeItem('userRole')
+    localStorage.removeItem('userName')
+    localStorage.removeItem('userInterests')
+    localStorage.removeItem('userGoals')
+    localStorage.removeItem('completedGoals')
+    localStorage.removeItem('userSnsId')
+    localStorage.removeItem('userSocialLink')
+    localStorage.removeItem('userPattern')
+    localStorage.removeItem('userCharacter')
+    apiClient.setToken(null)
+  }
 }
 
 // 저장된 토큰으로 인증 상태 복원

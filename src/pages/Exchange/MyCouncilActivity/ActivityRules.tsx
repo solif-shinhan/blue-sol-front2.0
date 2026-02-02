@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import styles from './MyCouncilActivity.module.css'
+import styles1 from './MyCouncilActivity-1.module.css'
+import styles2 from './MyCouncilActivity-2.module.css'
+const styles = { ...styles1, ...styles2 }
 
 const INITIAL_RULES = [
   { id: 1, text: "공지 올라오면 '체크 이모티콘' 남겨주기" },

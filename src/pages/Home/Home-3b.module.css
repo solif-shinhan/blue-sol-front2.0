@@ -1,0 +1,222 @@
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(171, 227, 255, 0.8) 100%);
+}
+
+.lectureInfo.colorPink {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 226, 234, 0.8) 100%);
+}
+
+.lectureTextGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.lectureCategory {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #14307C;
+  line-height: 1.4;
+  display: block;
+}
+
+.lectureTitle {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+  letter-spacing: -0.32px;
+  height: 38px;
+}
+
+.lectureSpeaker {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #eee;
+  line-height: 1.2;
+}
+
+/* ==========================================================================
+   자치회 활동 Section
+   ========================================================================== */
+
+.councilSection {
+  margin-bottom: 30px;
+}
+
+.councilHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5px;
+  margin-bottom: 16px;
+}
+
+.councilCarousel {
+  position: relative;
+  overflow: hidden;
+}
+
+.councilTrack {
+  display: flex;
+  gap: 20px;
+  transition: transform 0.3s ease;
+  cursor: grab;
+}
+
+.councilTrack:active {
+  cursor: grabbing;
+}
+
+.councilCard {
+  min-width: 360px;
+  width: 360px;
+  height: 120px;
+  background-color: var(--color-white);
+  border-radius: 24px;
+  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* 카드 공통 내부 요소 */
+.cardLabel {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-gray-dark);
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.cardTitle {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-dark-gray);
+  line-height: 1.2;
+}
+
+.cardIcon {
+  position: absolute;
+  right: 18px;
+  top: 35px;
+  width: 50px;
+  height: 50px;
+  background-color: var(--color-gray-light);
+  border-radius: 50%;
+}
+
+/* 카드 1: 예산 카드 */
+.councilCardBudget {
+  padding: 20px 23px;
+}
+
+.cardAmount {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.cardAmountValue {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  color: var(--color-primary-default);
+}
+
+.cardAmountSuffix {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  color: var(--color-dark-gray);
+}
+
+.progressBar {
+  position: absolute;
+  bottom: 20px;
+  left: 23px;
+  width: 225px;
+  height: 6px;
+  background-color: var(--color-gray-light);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #074ED8 0%, #3971E0 100%);
+  border-radius: 3px;
+}
+
+/* 카드 2 & 3: 활동 카드 */
+.councilCardActivity {
+  padding: 20px 19px;
+}
+
+.cardDescription {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-gray-dark);
+  line-height: 1.2;
+  margin-top: 20px;
+}
+
+.profileGroup {
+  position: absolute;
+  bottom: 18px;
+  left: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.profileCircle {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid white;
+  margin-left: -4px;
+}
+
+.profileCircle:first-child {
+  margin-left: 0;
+}
+
+.profileBlue {
+  background-color: #074ED8;
+}
+
+.profileLightBlue {
+  background-color: #3971E0;
+}
+
+.profileGray {
+  background-color: #E6E6E6;
+}
+
+.councilDots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.councilDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-gray);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border: none;
+  padding: 0;
+}
+
+.councilDotActive {
+  background-color: var(--color-dark-gray);
+}

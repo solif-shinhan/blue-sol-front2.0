@@ -202,30 +202,53 @@
    ========================================================================== */
 
 .councilRegisterCard {
-  display: flex;
-  flex-direction: column;
+  position: relative;
+  width: 360px;
+  height: 120px;
   padding: 20px;
-  gap: 16px;
   background: #FFFFFF;
   border-radius: 24px;
   box-shadow: 0px 0px 30px rgba(27, 37, 56, 0.1);
   cursor: pointer;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .councilRegisterSubtitle {
   font-family: 'Pretendard', var(--font-body);
   font-size: 16px;
   font-weight: 700;
-  color: #848484;
   line-height: 1.2;
+  background: linear-gradient(90deg, #3971E0 0%, #94BFFF 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #3971E0; /* Fallback */
+  width: fit-content;
+  margin: 0;
 }
 
 .councilRegisterTitle {
   font-family: 'Pretendard', var(--font-body);
   font-size: 20px;
   font-weight: 700;
-  color: #074ED8;
+  color: #14307C;
   line-height: 1.2;
+  width: fit-content;
+  margin: 0;
+}
+
+.councilRegisterTextGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 2;
+}
+
+.councilRegisterTitles {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .councilRegisterDesc {
@@ -233,5 +256,17 @@
   font-size: 14px;
   font-weight: 600;
   color: #848484;
-  line-height: 1.2;
+  line-height: 1.4;
+  width: fit-content;
+  margin: 0;
+}
+
+.councilRegisterImage {
+  position: absolute;
+  right: 24px;
+  top: 17px;
+  width: 73px;
+  height: 80px;
+  object-fit: contain;
+  z-index: 1;
 }

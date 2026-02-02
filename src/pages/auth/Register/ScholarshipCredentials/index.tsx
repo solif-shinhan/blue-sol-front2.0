@@ -71,6 +71,9 @@ function ScholarshipCredentialsPage() {
       })
 
       if (signupResponse.success) {
+        // 회원가입 성공 후 사용자 이름 저장 (Home에서 사용)
+        localStorage.setItem('userName', registerData.name)
+
         // 회원가입 성공 후 자동 로그인
         const loginResponse = await login({
           loginId: formData.username,

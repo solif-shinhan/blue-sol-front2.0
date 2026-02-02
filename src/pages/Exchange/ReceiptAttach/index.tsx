@@ -9,16 +9,29 @@ interface ReceiptImage {
   preview: string
 }
 
+type TabType = '내가 보낸 신청서' | '받은 신청서'
+
+interface LocationState {
+  expenseIndex?: number
+  prevTitle?: string
+  prevDateTime?: string
+  prevLocation?: string
+  prevExpenses?: string[]
+  prevStep?: number
+}
+
 function ReceiptAttachPage() {
   const navigate = useNavigate()
   const location = useLocation()
-  const expenseIndex = (location.state as { expenseIndex?: number })?.expenseIndex ?? 0
+  const locationState = (location.state as LocationState) ?? {}
+  const expenseIndex = locationState.expenseIndex ?? 0
 
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [receiptImages, setReceiptImages] = useState<ReceiptImage[]>([])
   const [isProcessing, setIsProcessing] = useState(false)
   const [recognizedAmount, setRecognizedAmount] = useState<number>(0)
   const [totalAmount, setTotalAmount] = useState<number>(0)
+  const [activeTab, setActiveTab] = useState<TabType>('내가 보낸 신청서')
 
   const handleClose = () => {
     navigate(-1)
@@ -67,6 +80,11 @@ function ReceiptAttachPage() {
       state: {
         receiptAmount: totalAmount,
         expenseIndex,
+        prevTitle: locationState.prevTitle,
+        prevDateTime: locationState.prevDateTime,
+        prevLocation: locationState.prevLocation,
+        prevExpenses: locationState.prevExpenses,
+        prevStep: locationState.prevStep,
       },
     })
   }
@@ -85,20 +103,58 @@ function ReceiptAttachPage() {
         ref={fileInputRef}
         type="file"
         accept="image/*"
+        capture="environment"
         onChange={handleFileSelect}
         style={{ display: 'none' }}
       />
 
+      {/* 배경 이미지 (영수증) */}
+      {receiptImages.length > 0 && (
+        <div className={styles.backgroundImage}>
+          <img
+            src={receiptImages[receiptImages.length - 1].preview}
+            alt="영수증"
+            className={styles.backgroundImg}
+          />
+          <div className={styles.backgroundOverlay} />
+        </div>
+      )}
+
+      {/* 상태바 영역 */}
+      <div className={styles.statusBar} />
+
       {/* 헤더 */}
       <header className={styles.header}>
-        <button className={styles.closeButton} onClick={handleClose}>
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M1 1L15 15M15 1L1 15" stroke="#222222" strokeWidth="2" strokeLinecap="round"/>
-          </svg>
-        </button>
-        <h1 className={styles.headerTitle}>영수증 첨부</h1>
-        <div className={styles.headerSpacer}></div>
+        <div className={styles.headerContent}>
+          <button className={styles.closeButton} onClick={handleClose}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          </button>
+          <span className={styles.headerTitle}>나의 자치회</span>
+        </div>
       </header>
+
+      {/* 탭 스위치 */}
+      <div className={styles.tabSwitch}>
+        <button
+          className={`${styles.tabButton} ${activeTab === '내가 보낸 신청서' ? styles.tabActive : ''}`}
+          onClick={() => setActiveTab('내가 보낸 신청서')}
+        >
+          내가 보낸 신청서
+        </button>
+        <button
+          className={`${styles.tabButton} ${activeTab === '받은 신청서' ? styles.tabActive : ''}`}
+          onClick={() => setActiveTab('받은 신청서')}
+        >
+          받은 신청서
+        </button>
+      </div>
+
+      {/* 스캔 영역 표시 (녹색 테두리) */}
+      {receiptImages.length > 0 && (
+        <div className={styles.scanArea} />
+      )}
 
       {/* 메인 콘텐츠 */}
       <div className={styles.content}>
@@ -115,49 +171,45 @@ function ReceiptAttachPage() {
             <p className={styles.emptyText}>터치하여 영수증을 촬영하거나<br/>갤러리에서 선택하세요</p>
           </div>
         ) : (
-          /* 이미지 있을 때 - 영수증 미리보기 */
-          <div className={styles.receiptPreview}>
-            <img
-              src={receiptImages[receiptImages.length - 1].preview}
-              alt="영수증"
-              className={styles.receiptImage}
-            />
-            {isProcessing && (
-              <div className={styles.processingOverlay}>
-                <div className={styles.processingSpinner}></div>
-                <p className={styles.processingText}>영수증 정보를 인식 중입니다.</p>
-              </div>
-            )}
-          </div>
+          /* 인식 중 메시지 */
+          isProcessing && (
+            <div className={styles.processingBadge}>
+              <span className={styles.processingText}>영수증 정보를 인식 중입니다.</span>
+            </div>
+          )
         )}
       </div>
 
       {/* 하단 결과 영역 */}
       {receiptImages.length > 0 && (
         <div className={styles.resultSection}>
-          <div className={styles.resultRow}>
-            <span className={styles.resultLabel}>현재 영수증 인식액</span>
-            <span className={styles.resultAmount}>
-              {recognizedAmount.toLocaleString()}원
-            </span>
-          </div>
-          <div className={styles.resultRow}>
-            <span className={styles.resultLabel}>오늘의 총 지출액</span>
-            <span className={styles.resultAmountBlue}>
-              {totalAmount.toLocaleString()}원
-            </span>
+          <div className={styles.resultInfo}>
+            <div className={styles.resultRow}>
+              <span className={styles.resultLabel}>현재 영수증 인식액</span>
+              <span className={styles.resultAmountWhite}>
+                {recognizedAmount.toLocaleString()}원
+              </span>
+            </div>
+            <div className={styles.resultRow}>
+              <span className={styles.resultLabel}>오늘의 총 지출액</span>
+              <span className={styles.resultAmountGreen}>
+                {totalAmount.toLocaleString()}원
+              </span>
+            </div>
           </div>
 
           {/* 썸네일 카운트 */}
-          <div className={styles.thumbnailSection}>
-            <div className={styles.thumbnailWrapper}>
-              <img
-                src={receiptImages[receiptImages.length - 1].preview}
-                alt=""
-                className={styles.thumbnail}
-              />
-              <span className={styles.thumbnailCount}>{receiptImages.length}</span>
+          <div className={styles.thumbnailWrapper}>
+            <div className={styles.thumbnail}>
+              {receiptImages.length > 0 && (
+                <img
+                  src={receiptImages[receiptImages.length - 1].preview}
+                  alt=""
+                  className={styles.thumbnailImg}
+                />
+              )}
             </div>
+            <span className={styles.thumbnailCount}>{receiptImages.length}</span>
           </div>
         </div>
       )}

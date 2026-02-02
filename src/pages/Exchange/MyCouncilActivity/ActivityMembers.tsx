@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom'
-import styles from './MyCouncilActivity.module.css'
+import styles1 from './MyCouncilActivity-1.module.css'
+import styles2 from './MyCouncilActivity-2.module.css'
+const styles = { ...styles1, ...styles2 }
 
 const COUNCIL_MEMBERS = [
   { id: 1, name: '김지환', isLeader: true, type: '고등학생', region: '제주' },

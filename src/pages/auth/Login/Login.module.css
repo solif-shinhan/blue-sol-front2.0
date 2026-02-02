@@ -29,7 +29,7 @@
   justify-content: flex-end;
   padding: 38px;
   padding-bottom: 24px;
-  background-color: #EEEEEE;
+  /* background-color: #EEEEEE; -- Replaced by image */
 }
 
 .tagline {
@@ -38,7 +38,7 @@
   font-weight: 300;
   line-height: 1.2;
   letter-spacing: -0.36px;
-  color: #C8C8C8;
+  color: #222222;
   margin-bottom: 11px;
 }
 

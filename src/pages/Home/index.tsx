@@ -3,12 +3,13 @@ import { useNavigate } from 'react-router-dom'
 import styles1 from './Home-1.module.css'
 import styles2 from './Home-2.module.css'
 import styles3 from './Home-3.module.css'
+import styles4 from './Home-4.module.css'
 import bellIcon from '@/assets/images/bell.svg'
 import { SolidCardModal } from './components/SolidCardModal'
 import { QRCodeModal } from './components/QRCodeModal'
 import { NEWS_ITEMS, LECTURE_ITEMS, QUICK_MENU_ITEMS } from './Home.constants'
 
-const styles = { ...styles1, ...styles2, ...styles3 }
+const styles = { ...styles1, ...styles2, ...styles3, ...styles4 }
 
 function HomePage() {
   const navigate = useNavigate()

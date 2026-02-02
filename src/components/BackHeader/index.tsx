@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import styles from './BackHeader.module.css'
+import backArrowIcon from '@/assets/images/Glyph_ undefined.svg'
 
 interface BackHeaderProps {
   /** 뒤로가기 클릭 시 이동할 경로. 미지정 시 history.back() */
@@ -42,8 +43,8 @@ export function BackHeader({
     }
   }
 
-  // 테마에 따른 아이콘 선택
-  const backIcon = theme === 'dark' ? '/←-white.svg' : '/←.svg'
+  // 테마에 관계없이 동일한 아이콘 사용
+  const backIcon = backArrowIcon
 
   // 버튼과 진행바 사이 gap (totalSteps에 따라)
   const getGap = () => {

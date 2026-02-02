@@ -7,9 +7,10 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100%;
-    background-color: #FFFFFF;
+    min-height: 100%;
+    background: linear-gradient(180deg, #FFFFFF 0%, #F3F6FB 100%);
     position: relative;
+    padding-bottom: 140px;
 }
 
 /* ==========================================================================
@@ -20,25 +21,37 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 50px;
-    padding: 0 16px;
-    padding-top: 53px;
+    height: 40px;
+    padding: 0 22px;
+    margin-top: 70px;
+}
+
+.headerLeft {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.headerRight {
+    width: 24px;
+    height: 24px;
 }
 
 .backButton {
-    width: 50px;
-    height: 50px;
+    width: 24px;
+    height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: none;
     border: none;
     cursor: pointer;
+    padding: 0;
 }
 
 .backButton img {
-    width: 18px;
-    height: 18px;
+    width: 24px;
+    height: 24px;
 }
 
 .headerTitle {
@@ -46,7 +59,7 @@
     font-size: 18px;
     font-weight: 500;
     color: #848484;
-    line-height: 1.2;
+    line-height: 1.4;
     letter-spacing: -0.36px;
 }
 
@@ -126,24 +139,24 @@
 }
 
 .inputField {
-    flex: 1;
+    width: 240px;
     height: 40px;
     padding: 0 11px;
     border: 1px solid #E6E6E6;
     border-radius: 12px;
     background-color: #FFFFFF;
     font-family: 'Pretendard', sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     color: #222222;
-    line-height: 1.2;
-    letter-spacing: -0.64px;
+    line-height: 1.4;
     outline: none;
     transition: border-color 0.15s ease;
+    box-sizing: border-box;
 }
 
 .inputField::placeholder {
-    color: #A6A6A6;
+    color: #848484;
 }
 
 .inputField:focus {

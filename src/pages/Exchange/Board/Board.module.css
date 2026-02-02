@@ -1,15 +1,167 @@
 /* ==========================================================================
-   Board Page Styles - Figma Design (node-id: 967-3445)
+   Board Page Styles - Figma Design (node-id: 1105-2347)
    ========================================================================== */
 
 .container {
   width: 393px;
-  height: 852px;
+  min-height: 852px;
   position: relative;
   overflow: hidden;
   background: linear-gradient(180deg, #FFFFFF 0%, #F3F6FB 100%);
   display: flex;
   flex-direction: column;
+}
+
+/* ==========================================================================
+   Safe Area & Header
+   ========================================================================== */
+
+.safeArea {
+  height: 57px;
+  flex-shrink: 0;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  height: 44px;
+  flex-shrink: 0;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.headerTitle {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.4;
+  color: #222222;
+}
+
+.searchButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* ==========================================================================
+   Category Cards Section
+   ========================================================================== */
+
+.categorySection {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  padding: 16px;
+  flex-shrink: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.categorySection::-webkit-scrollbar {
+  display: none;
+}
+
+.categoryCard {
+  width: 110px;
+  height: 110px;
+  background: #FFFFFF;
+  border-radius: 24px;
+  box-shadow: 0px 0px 30px 0px rgba(27, 37, 56, 0.1);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 14px;
+  box-sizing: border-box;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.categoryImage {
+  position: absolute;
+  top: 14px;
+  right: 10px;
+  width: 54px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.categoryTextGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: auto;
+}
+
+.categoryTitle {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.4;
+  color: #14307C;
+}
+
+.categorySubtitle {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.4;
+  color: #14307C;
+}
+
+/* ==========================================================================
+   Filter Tabs
+   ========================================================================== */
+
+.filterTabsSection {
+  display: flex;
+  padding: 0 16px;
+  gap: 0;
+  flex-shrink: 0;
+}
+
+.filterTabButton {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 0;
+  background: none;
+  border: none;
+  border-bottom: 2px solid #EEEEEE;
+  cursor: pointer;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #C8C8C8;
+  transition: all 0.2s ease;
+}
+
+.filterTabButton.active {
+  color: #074ED8;
+  border-bottom-color: #074ED8;
 }
 
 /* ==========================================================================
@@ -33,225 +185,148 @@
 }
 
 /* ==========================================================================
-   Header Section
+   Post Card List
    ========================================================================== */
 
-.headerSection {
+.postList {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  align-items: flex-start;
-  width: 360px;
-  flex-shrink: 0;
+  width: 100%;
 }
 
-.headerRow {
+.postCard {
+  width: 100%;
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+  cursor: pointer;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #F0F0F0;
+}
+
+.postCard:last-child {
+  border-bottom: none;
+}
+
+.postContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.postMeta {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 360px;
-  padding: 0 5px;
-  box-sizing: border-box;
-}
-
-.headerTitle {
-  font-family: 'ONE-Shinhan', sans-serif;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 1.4;
-  letter-spacing: -0.36px;
-  color: #222222;
-}
-
-.moreButton {
-  font-family: 'Pretendard', sans-serif;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 1.4;
-  color: #848484;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-}
-
-/* ==========================================================================
-   Filter Tabs
-   ========================================================================== */
-
-.filterTabs {
-  display: flex;
   gap: 6px;
-  align-items: center;
-  flex-shrink: 0;
 }
 
-.filterTab {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px 14px;
-  border-radius: 20px;
-  border: none;
-  background: #FFFFFF;
-  font-family: 'Pretendard', sans-serif;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 1.4;
-  color: #222222;
-  cursor: pointer;
-  flex-shrink: 0;
-  box-shadow: 0px 0px 30px 0px rgba(27, 37, 56, 0.1);
-}
-
-.filterTab.active {
-  background: #848484;
-  color: #FFFFFF;
-}
-
-/* ==========================================================================
-   Card List
-   ========================================================================== */
-
-.cardList {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  align-items: flex-start;
-  width: 361px;
-}
-
-.card {
-  width: 360px;
-  height: 120px;
-  border-radius: 24px;
-  position: relative;
-  overflow: hidden;
-  flex-shrink: 0;
-  cursor: pointer;
-  box-shadow: 0px 0px 30px 0px rgba(27, 37, 56, 0.1);
-}
-
-.cardImage {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 24px;
-}
-
-.cardGradient {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 24px;
-  background: linear-gradient(
-    to right,
-    #0a1834 30.4%,
-    rgba(10, 24, 52, 0.8) 50.14%,
-    rgba(10, 24, 52, 0.1) 100%
-  );
-}
-
-.cardContent {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  align-items: flex-start;
-  padding: 20px;
-  height: 100%;
-  justify-content: center;
-  box-sizing: border-box;
-  width: 148px;
-}
-
-.cardTextGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  align-items: flex-start;
-  width: 100%;
-}
-
-.cardCategory {
+.postCategory {
   font-family: 'Pretendard', sans-serif;
   font-weight: 700;
-  font-size: 16px;
-  line-height: 1.2;
-  color: #C5ED52;
-}
-
-.cardTitle {
-  font-family: 'Pretendard', sans-serif;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 1.2;
-  color: #FFFFFF;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 200px;
-}
-
-/* ==========================================================================
-   Card Stats
-   ========================================================================== */
-
-.cardStats {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-  width: 100%;
-}
-
-.statGroup {
-  display: flex;
-  gap: 2px;
-  align-items: center;
-}
-
-.statItem {
-  display: flex;
-  gap: 2px;
-  align-items: center;
-}
-
-.statIcon {
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
-  filter: brightness(0) invert(0.78);
-}
-
-.statText {
-  font-family: 'Pretendard', sans-serif;
-  font-weight: 600;
   font-size: 12px;
   line-height: 1.2;
-  letter-spacing: -0.48px;
-  color: #C8C8C8;
+  color: #074ED8;
 }
 
-.statDivider {
+.postMetaDivider {
   width: 1px;
   height: 10px;
   background: #C8C8C8;
-  flex-shrink: 0;
 }
 
-.statDate {
+.postStats {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.postStatsItem {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.postStatsIcon {
+  width: 14px;
+  height: 14px;
+  opacity: 0.5;
+}
+
+.postStatsText {
   font-family: 'Pretendard', sans-serif;
   font-weight: 600;
   font-size: 12px;
   line-height: 1.2;
   letter-spacing: -0.48px;
   color: #C8C8C8;
+}
+
+.postDate {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 1.2;
+  letter-spacing: -0.48px;
+  color: #C8C8C8;
+}
+
+.postTitle {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.2;
+  color: #222222;
+}
+
+.postDescription {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #848484;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.postImage {
+  width: 90px;
+  height: 90px;
+  border-radius: 16px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   FAB Button
+   ========================================================================== */
+
+.fabButton {
+  position: fixed;
+  bottom: 100px;
+  right: calc(50% - 393px/2 + 16px);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #074ED8;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 4px 12px rgba(7, 78, 216, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  z-index: 100;
+}
+
+.fabButton:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 6px 16px rgba(7, 78, 216, 0.4);
 }
 
 /* ==========================================================================

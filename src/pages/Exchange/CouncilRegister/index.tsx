@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import styles1 from './CouncilRegister-1.module.css'
 import styles2 from './CouncilRegister-2.module.css'
 import { useCouncilStatus } from '@/hooks'
+import backArrowIcon from '@/assets/images/IOS Arrow/undefined/Glyph_ undefined.svg'
 
 // Merge styles
 const styles = { ...styles1, ...styles2 }
@@ -99,13 +100,13 @@ export function CouncilRegister() {
         <div className={styles.container}>
             {/* Header */}
             <header className={styles.header}>
-                <button className={styles.backButton} onClick={handleBack}>
-                    <img src="/←.svg" alt="뒤로가기" />
-                </button>
-                <h1 className={styles.headerTitle}>자치회 등록하기</h1>
-                <button className={styles.searchButton}>
-                    <img src="/search.svg" alt="검색" />
-                </button>
+                <div className={styles.headerLeft}>
+                    <button className={styles.backButton} onClick={handleBack}>
+                        <img src={backArrowIcon} alt="뒤로가기" />
+                    </button>
+                    <h1 className={styles.headerTitle}>자치회 등록하기</h1>
+                </div>
+                <div className={styles.headerRight} />
             </header>
 
             {/* Content */}
@@ -182,8 +183,8 @@ export function CouncilRegister() {
                             <div key={member.id} className={styles.memberItem}>
                                 <div
                                     className={`${styles.memberAvatar} ${member.avatarColor === 'blue' ? styles.memberAvatarBlue :
-                                            member.avatarColor === 'lightBlue' ? styles.memberAvatarLightBlue :
-                                                styles.memberAvatarGray
+                                        member.avatarColor === 'lightBlue' ? styles.memberAvatarLightBlue :
+                                            styles.memberAvatarGray
                                         }`}
                                 />
                                 <span className={styles.memberName}>{member.name}</span>

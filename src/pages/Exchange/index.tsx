@@ -10,6 +10,9 @@ import { COUNCIL_ITEMS } from '../Home/Home.constants'
 import { FRIENDS_SIMPLE } from './constants'
 import { useCouncilStatus } from '@/hooks'
 
+// 깃발 이미지 (public 폴더)
+const flagImage = '/flag1.png'
+
 // Merge styles
 const styles = { ...styles1, ...styles2, ...styles3 }
 
@@ -201,9 +204,14 @@ function ExchangePage() {
             </>
           ) : (
             <div className={styles.councilRegisterCard} onClick={() => navigate('/exchange/council/register')}>
-              <p className={styles.councilRegisterSubtitle}>아직 자치회에 등록하지 않았어요</p>
-              <p className={styles.councilRegisterTitle}>자치회 등록하기</p>
-              <p className={styles.councilRegisterDesc}>소속감과 경험 쌓기를 한번에!</p>
+              <div className={styles.councilRegisterTextGroup}>
+                <div className={styles.councilRegisterTitles}>
+                  <p className={styles.councilRegisterSubtitle}>아직 자치회에 등록하지 않았어요</p>
+                  <p className={styles.councilRegisterTitle}>나의 자치회 등록하기</p>
+                </div>
+                <p className={styles.councilRegisterDesc}>너와 내가 만드는 우리의 울타리</p>
+              </div>
+              <img src={flagImage} alt="" className={styles.councilRegisterImage} />
             </div>
           )}
         </section>

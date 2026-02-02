@@ -1,3 +1,4 @@
+/* 자치회 목록 페이지 스타일 */
 .container {
   width: 393px;
   height: 852px;
@@ -8,12 +9,11 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-
 .container::-webkit-scrollbar {
   display: none;
 }
 
-/* Safe Zone */
+/* 세이프존 */
 .safeZone {
   width: 393px;
   height: 53px;
@@ -21,7 +21,7 @@
   flex-shrink: 0;
 }
 
-/* Header */
+/* 헤더 */
 .header {
   position: sticky;
   top: 0;
@@ -33,7 +33,6 @@
   justify-content: center;
   background: #FFFFFF;
 }
-
 .backButton {
   position: absolute;
   left: 17px;
@@ -49,12 +48,10 @@
   border: none;
   padding: 0;
 }
-
 .backButton img {
   width: 24px;
   height: 24px;
 }
-
 .headerTitle {
   font-family: 'ONE-Shinhan', sans-serif;
   font-weight: 500;
@@ -64,7 +61,6 @@
   color: #848484;
   text-align: center;
 }
-
 .searchButton {
   position: absolute;
   right: 17px;
@@ -80,13 +76,12 @@
   border: none;
   padding: 0;
 }
-
 .searchButton img {
   width: 24px;
   height: 24px;
 }
 
-/* Content */
+/* 컨텐츠 */
 .content {
   display: flex;
   flex-direction: column;
@@ -98,7 +93,7 @@
   padding-bottom: 30px;
 }
 
-/* 나의 자치회 card */
+/* 나의 자치회 카드 */
 .myCouncilCard {
   width: 361px;
   height: 120px;
@@ -112,28 +107,24 @@
   padding: 20px;
   cursor: pointer;
 }
-
 .myCouncilBg {
   position: absolute;
   inset: 0;
   border-radius: 24px;
   pointer-events: none;
 }
-
 .myCouncilBg img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 24px;
 }
-
 .myCouncilOverlay {
   position: absolute;
   inset: 0;
   border-radius: 24px;
   background: linear-gradient(to right, #0A1834 30%, rgba(10, 24, 52, 0.8) 50%, rgba(10, 24, 52, 0.1));
 }
-
 .myCouncilContent {
   position: relative;
   z-index: 1;
@@ -142,13 +133,11 @@
   gap: 16px;
   width: 148px;
 }
-
 .myCouncilTitles {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
-
 .myCouncilLabel {
   font-family: 'Pretendard', sans-serif;
   font-weight: 700;
@@ -157,7 +146,6 @@
   color: #C5ED52;
   margin: 0;
 }
-
 .myCouncilName {
   font-family: 'Pretendard', sans-serif;
   font-weight: 700;
@@ -166,13 +154,11 @@
   color: #FFFFFF;
   margin: 0;
 }
-
 .myCouncilMeta {
   display: flex;
   gap: 6px;
   align-items: center;
 }
-
 .myCouncilMetaText {
   font-family: 'Pretendard', sans-serif;
   font-weight: 600;
@@ -180,7 +166,6 @@
   line-height: 1.4;
   color: #848484;
 }
-
 .metaDivider {
   width: 1px;
   height: 10px;
@@ -188,14 +173,90 @@
   border-radius: 1px;
 }
 
-/* 자치회 section */
+/* 자치회 등록 카드 */
+.councilRegisterCard {
+  width: 361px;
+  height: 120px;
+  border-radius: 24px;
+  background-color: #FFFFFF;
+  box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.1);
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+  cursor: pointer;
+  overflow: hidden;
+}
+.councilRegisterTextGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 2;
+  width: 100%;
+}
+.councilRegisterSubtitle {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.2;
+  background: linear-gradient(90deg, #3971E0 0%, #94BFFF 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #3971E0;
+  margin: 0;
+}
+.councilRegisterTitle {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.2;
+  color: #14307C;
+  margin: 0 0 6px 0;
+}
+.councilRegisterDesc {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #848484;
+  margin: 0;
+}
+.councilRegisterImage {
+  position: absolute;
+  right: 24px;
+  top: 17px;
+  width: 73px;
+  height: 80px;
+  object-fit: contain;
+  z-index: 1;
+}
+
+/* 자치회 섹션 */
 .councilSection {
   display: flex;
   flex-direction: column;
   gap: 16px;
   width: 361px;
 }
-
+.councilHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.browseButton {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #848484;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
 .sectionTitle {
   font-family: 'ONE-Shinhan', sans-serif;
   font-weight: 500;
@@ -206,7 +267,7 @@
   padding-left: 5px;
 }
 
-/* Grid */
+/* 그리드 */
 .councilGrid {
   display: grid;
   grid-template-columns: repeat(2, 172px);
@@ -215,7 +276,7 @@
   justify-content: center;
 }
 
-/* Council Card */
+/* 자치회 카드 */
 .councilCard {
   width: 172px;
   height: 240px;
@@ -226,28 +287,24 @@
   cursor: pointer;
   background-color: #4a5568;
 }
-
 .cardBg {
   position: absolute;
   inset: 0;
   border-radius: 24px;
   pointer-events: none;
 }
-
 .cardBg img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 24px;
 }
-
 .cardGradient {
   position: absolute;
   inset: 0;
   border-radius: 24px;
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 35%, #000000);
 }
-
 .cardContent {
   position: absolute;
   bottom: 0;
@@ -259,14 +316,12 @@
   justify-content: flex-end;
   padding: 10px 0;
 }
-
 .cardInfo {
   display: flex;
   flex-direction: column;
   gap: 6px;
   width: 100%;
 }
-
 .cardTexts {
   display: flex;
   flex-direction: column;
@@ -274,7 +329,6 @@
   padding: 0 10px;
   width: 100%;
 }
-
 .cardRegion {
   font-family: 'Pretendard', sans-serif;
   font-weight: 600;
@@ -283,7 +337,6 @@
   color: #C5ED52;
   margin: 0;
 }
-
 .cardTitle {
   font-family: 'Pretendard', sans-serif;
   font-weight: 700;
@@ -299,7 +352,6 @@
   -webkit-box-orient: vertical;
   margin: 0;
 }
-
 .cardMeta {
   display: flex;
   gap: 6px;
@@ -307,7 +359,6 @@
   padding: 0 14px;
   width: 100%;
 }
-
 .cardMetaText {
   font-family: 'Pretendard', sans-serif;
   font-weight: 400;
@@ -315,7 +366,6 @@
   line-height: 1.2;
   color: #C8C8C8;
 }
-
 .cardMetaDivider {
   width: 1px;
   height: 8px;

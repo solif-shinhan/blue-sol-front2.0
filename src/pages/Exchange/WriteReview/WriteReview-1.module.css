@@ -1,0 +1,231 @@
+/* ==========================================================================
+   WriteReview (자치회 활동 후기 작성) Page Styles
+   ========================================================================== */
+
+.container {
+  width: 393px;
+  height: 852px;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: linear-gradient(to bottom, #FFFFFF, #F3F6FB);
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+}
+
+/* ==========================================================================
+   Upper Card (Header + Images + Title)
+   ========================================================================== */
+
+.upperCard {
+  position: relative;
+  width: 393px;
+  background: #FFFFFF;
+  border-radius: 20px;
+  box-shadow: 0 0 30px 0 rgba(27, 37, 56, 0.1);
+  padding-bottom: 24px;
+  overflow: hidden;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 60px 22px 0;
+  height: 90px;
+}
+
+.backButton {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.backButton img {
+  width: 24px;
+  height: 24px;
+}
+
+.headerTitle {
+  font-family: 'ONE-Shinhan', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #848484;
+  text-align: center;
+}
+
+/* Image Upload Section */
+.imageSection {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  padding: 16px 17px 0;
+}
+
+.addImageButton {
+  width: 54px;
+  height: 54px;
+  border-radius: 10px;
+  border: 2px dashed #ABC8FF;
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.addImagePlus {
+  font-size: 24px;
+  color: #074ED8;
+  line-height: 1;
+}
+
+.imageList {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.imageItem {
+  position: relative;
+  display: inline-grid;
+}
+
+.imageThumb {
+  width: 54px;
+  height: 54px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-top: 7px;
+}
+
+.imageRemoveButton {
+  position: absolute;
+  top: 0;
+  right: -4px;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: #555555;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+}
+
+.imageRemoveX {
+  color: #FFFFFF;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Title Section */
+.titleSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px 17px 0;
+  width: 360px;
+}
+
+.titleLabel {
+  font-family: 'ONE-Shinhan', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #222222;
+  padding: 0 5px;
+}
+
+.titleInput {
+  width: 100%;
+  height: 40px;
+  background: #F3F6FB;
+  border-radius: 12px;
+  border: none;
+  padding: 13px 11px;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.2;
+  letter-spacing: -0.64px;
+  color: #222222;
+  box-sizing: border-box;
+}
+
+.titleInput::placeholder {
+  color: #868686;
+}
+
+/* ==========================================================================
+   Form Section (기본 내용)
+   ========================================================================== */
+
+.formSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 30px 17px 0;
+  width: 360px;
+  margin: 0 auto;
+}
+
+.formHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5px;
+  width: 345px;
+}
+
+.formTitle {
+  font-family: 'ONE-Shinhan', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #222222;
+}
+
+.stepIndicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 24px 0;
+}
+
+.stepDot {
+  width: 25px;
+  height: 4px;
+  border-radius: 10px;
+  background: #E6E6E6;
+}
+
+.stepDotActive {
+  background: #074ED8;
+}
+
+/* Form Fields */
+.formFields {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}

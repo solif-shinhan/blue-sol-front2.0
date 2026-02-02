@@ -23,28 +23,28 @@ const REVIEWS = [
         author: '강**',
         mentorName: '신한철 멘토님',
         content: '신한철 멘토님께 대학 입시 컨설팅을 받았습니다. 제가 생각하지 못했던 지점을 바로 이야기 해주셔서...',
-        image: 'https://www.figma.com/api/mcp/asset/24117198-6767-41f5-b3db-33f568bc2f66',
+        image: '',
     },
     {
         id: 2,
         author: '박**',
         mentorName: '김희숙 멘토님',
         content: '김희숙 멘토님께 대학 입시 컨설팅을 받았습니다. 제가 생각하지 못했던 지점을 바로 이야기 해주셔서...',
-        image: 'https://www.figma.com/api/mcp/asset/e2e3c557-5201-4881-a68a-cf34c9f3be16',
+        image: '',
     },
     {
         id: 3,
         author: '김**',
         mentorName: '최민선 멘토님',
         content: '최민선 멘토님께 대학 입시 컨설팅을 받았습니다. 제가 생각하지 못했던 지점을 바로 이야기 해주셔서...',
-        image: 'https://www.figma.com/api/mcp/asset/a6305e4d-5fab-4a15-8b03-c79e00bcc2a7',
+        image: '',
     },
     {
         id: 4,
         author: '김**',
         mentorName: '박민지 멘토님',
         content: '바로 이야기 해주셔서...',
-        image: 'https://www.figma.com/api/mcp/asset/24117198-6767-41f5-b3db-33f568bc2f66',
+        image: '',
     },
 ]
 

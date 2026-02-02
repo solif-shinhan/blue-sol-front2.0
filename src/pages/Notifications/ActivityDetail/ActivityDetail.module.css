@@ -1,0 +1,269 @@
+.container {
+  width: 393px;
+  min-height: 852px;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F3F6FB 100%);
+  position: relative;
+  overflow-y: auto;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 70px 21px 0;
+  height: 110px;
+}
+
+.backButton {
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.backButton svg {
+  width: 24px;
+  height: 24px;
+}
+
+.headerTitle {
+  font-family: 'OneShinhan', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #848484;
+}
+
+/* Content */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px 17px;
+}
+
+/* Sender Info Section */
+.senderSection {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.senderAvatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #E6E6E6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.senderAvatarText {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 10px;
+  color: #848484;
+}
+
+.senderInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.senderName {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #000000;
+}
+
+.senderTime {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.2;
+  color: #727272;
+}
+
+/* Title Section */
+.titleSection {
+  padding-bottom: 16px;
+  border-bottom: 1px solid #E6E6E6;
+}
+
+.activityTitle {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1.3;
+  color: #000000;
+  margin: 0;
+}
+
+/* Body Content */
+.bodySection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.subTitle {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.4;
+  color: #074ED8;
+  margin: 0;
+}
+
+.contentText {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #222222;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+/* Activity Stats */
+.activityStats {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.statItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.statItem svg {
+  width: 18px;
+  height: 18px;
+}
+
+.statItem span {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 1.2;
+  letter-spacing: -0.48px;
+  color: #C8C8C8;
+}
+
+/* CTA Section for 교류 */
+.ctaSection {
+  display: flex;
+  gap: 10px;
+  padding: 20px 0;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 393px;
+  margin: 0 auto;
+  padding: 20px 17px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #FFFFFF 20%);
+}
+
+.ctaButtonPrimary {
+  flex: 1;
+  height: 52px;
+  background: #074ED8;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.4;
+  color: #FFFFFF;
+}
+
+.ctaButtonPrimary:hover {
+  background: #0A3A8C;
+}
+
+.ctaButtonSecondary {
+  width: 110px;
+  height: 52px;
+  background: #C5ED52;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.4;
+  color: #222222;
+}
+
+.ctaButtonSecondary:hover {
+  background: #B5DD42;
+}
+
+/* CTA Section for 쪽지 */
+.ctaSectionSingle {
+  padding: 20px 0;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 393px;
+  margin: 0 auto;
+  padding: 20px 17px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #FFFFFF 20%);
+}
+
+.ctaButtonFull {
+  width: 100%;
+  height: 52px;
+  background: #074ED8;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.4;
+  color: #FFFFFF;
+}
+
+.ctaButtonFull:hover {
+  background: #0A3A8C;
+}
+
+/* Empty State */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 20px;
+  text-align: center;
+}
+
+.emptyIcon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.emptyText {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  color: #848484;
+}
