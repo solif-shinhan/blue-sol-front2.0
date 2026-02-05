@@ -1,9 +1,6 @@
-// Layout Components
 export { default as MainLayout } from './layout/MainLayout'
 export { default as AuthLayout } from './layout/AuthLayout'
-export { default as BottomNavigation } from './layout/BottomNavigation'
 
-// Common Components
 export { BackHeader } from './BackHeader'
 export { PageHeader } from './PageHeader'
 export { FormRow } from './FormRow'

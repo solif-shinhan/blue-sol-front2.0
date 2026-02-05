@@ -8,12 +8,25 @@ export function HeroSection() {
     <div
       className={styles.heroSection}
       style={{
-        backgroundImage: `linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #FFFFFF 100%), url(${loginBack})`,
-        backgroundSize: '100% 117px, cover',
-        backgroundPosition: 'bottom, center',
-        backgroundRepeat: 'no-repeat'
+        backgroundImage: `url(${loginBack})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center top',
+        backgroundRepeat: 'no-repeat',
+        backgroundColor: '#FFFFFF',
+        position: 'relative'
       }}
     >
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: '117px',
+          background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #FFFFFF 100%)',
+          pointerEvents: 'none'
+        }}
+      />
       <p className={styles.tagline}>너와 나, 우리 솔잎들의 꿈을 응원해</p>
       <h1 className={styles.logoText}>
         <img src={purunLogo} alt="푸른" className={styles.logoPurun} />

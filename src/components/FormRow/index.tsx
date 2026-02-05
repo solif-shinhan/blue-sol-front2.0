@@ -2,29 +2,17 @@ import { forwardRef } from 'react'
 import styles from './FormRow.module.css'
 
 interface FormRowProps {
-  /** 라벨 텍스트 */
   label: string
-  /** input name 속성 */
   name: string
-  /** input type */
   type?: 'text' | 'password' | 'email' | 'tel' | 'number'
-  /** placeholder 텍스트 */
   placeholder?: string
-  /** 현재 값 */
   value: string
-  /** 값 변경 핸들러 */
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  /** 에러 메시지 */
   error?: string
-  /** 필수 필드 여부 */
   required?: boolean
-  /** 비활성화 여부 */
   disabled?: boolean
-  /** autocomplete 속성 */
   autoComplete?: string
-  /** 레이아웃 변형: vertical(기본) 또는 horizontal(라벨-인풋 가로 배치) */
   variant?: 'vertical' | 'horizontal'
-  /** 추가 클래스명 */
   className?: string
 }
 

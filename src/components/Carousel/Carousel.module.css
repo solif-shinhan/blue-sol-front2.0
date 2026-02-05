@@ -28,7 +28,6 @@
   cursor: pointer;
 }
 
-/* Position variants */
 .center {
   opacity: 1;
   transform: scale(1);
@@ -47,7 +46,6 @@
   opacity: 0.7;
 }
 
-/* Dots */
 .dots {
   display: flex;
   justify-content: center;

@@ -1,6 +1,7 @@
 import styles1 from '../Home-1.module.css'
 import styles2 from '../Home-2.module.css'
 import styles3 from '../Home-3.module.css'
+import backArrowIcon from '@/assets/images/Glyph_ undefined.svg'
 
 const styles = { ...styles1, ...styles2, ...styles3 }
 
@@ -24,16 +25,14 @@ export function SolidCardModal({
   return (
     <div className={styles.modalOverlay} onClick={onClose}>
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-        {/* Header */}
         <div className={styles.modalHeader}>
           <button className={styles.modalBackButton} onClick={onClose}>
-            <img src="/←.svg" alt="뒤로가기" />
+            <img src={backArrowIcon} alt="뒤로가기" />
           </button>
           <span className={styles.modalTitle}>나의 SOLID</span>
           <div className={styles.modalHeaderSpacer} />
         </div>
 
-        {/* Card */}
         <div className={styles.modalCard}>
           <div className={styles.solidLogo}>
             <span className={styles.solidLogoSol}>SOL</span>
@@ -61,7 +60,6 @@ export function SolidCardModal({
           </div>
         </div>
 
-        {/* Action Buttons */}
         <div className={styles.modalActions}>
           <button className={styles.modalActionButton} onClick={onNetwork}>
             <div className={styles.modalActionIcon} />

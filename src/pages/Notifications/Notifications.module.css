@@ -6,7 +6,6 @@
   overflow-y: auto;
 }
 
-/* Header */
 .header {
   display: flex;
   align-items: center;
@@ -41,7 +40,6 @@
   color: #848484;
 }
 
-/* Content */
 .content {
   display: flex;
   flex-direction: column;
@@ -50,7 +48,6 @@
   padding: 12px 16.5px 0;
 }
 
-/* Tab Section */
 .tabSection {
   display: flex;
   flex-direction: column;
@@ -58,7 +55,6 @@
   width: 360px;
 }
 
-/* Main Tabs (공지사항 / 활동) */
 .mainTabs {
   display: flex;
   align-items: center;
@@ -93,7 +89,6 @@
   color: #FFFFFF;
 }
 
-/* Filter Tabs (전체 / 안읽음) */
 .filterTabs {
   display: flex;
   gap: 6px;
@@ -120,7 +115,6 @@
   background: #C5ED52;
 }
 
-/* Notification List */
 .notificationList {
   display: flex;
   flex-direction: column;
@@ -140,7 +134,6 @@
   background-color: rgba(0, 0, 0, 0.02);
 }
 
-/* Notification Header Row */
 .notificationHeader {
   display: flex;
   align-items: center;
@@ -202,7 +195,6 @@
   border-radius: 50%;
 }
 
-/* Notification Content */
 .notificationContent {
   display: flex;
   flex-direction: column;
@@ -230,7 +222,6 @@
   white-space: nowrap;
 }
 
-/* Activity Stats (자치회 활동) */
 .activityStats {
   display: flex;
   align-items: center;
@@ -258,7 +249,6 @@
   color: #C8C8C8;
 }
 
-/* Empty State */
 .emptyState {
   display: flex;
   flex-direction: column;

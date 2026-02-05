@@ -1,10 +1,5 @@
-/**
- * Type Exports - 푸른 SOL
- */
-
 export * from './navigation'
 
-// User Types
 export interface User {
   id: string
   email: string
@@ -14,7 +9,6 @@ export interface User {
   createdAt: string
 }
 
-// SOLID Profile Types
 export interface Solid {
   id: string
   userId: string
@@ -25,7 +19,6 @@ export interface Solid {
   isPublic: boolean
 }
 
-// API Response Types
 export interface ApiResponse<T> {
   success: boolean
   data: T

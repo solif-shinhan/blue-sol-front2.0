@@ -1,9 +1,4 @@
-/**
- * API Client - 푸른 SOL
- * Base configuration for API requests
- */
-
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api'
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
 
 interface RequestConfig extends RequestInit {
   params?: Record<string, string>
@@ -48,20 +43,40 @@ class ApiClient {
     })
 
     if (!response.ok) {
-      const error = await response.json().catch(() => ({}))
-      // 상세 에러 메시지 추출
-      let errorMessage = error.message || `HTTP Error: ${response.status}`
+      const errorText = await response.text()
+      console.error('[apiClient] Error response:', {
+        status: response.status,
+        statusText: response.statusText,
+        url: url,
+        body: errorText
+      })
+
+      let error: Record<string, unknown> = {}
+      try {
+        error = JSON.parse(errorText)
+      } catch {
+        // JSON 파싱 실패 시 텍스트 그대로 사용
+      }
+
+      let errorMessage = (error.message as string) || `HTTP Error: ${response.status}`
       if (error.errors) {
         if (Array.isArray(error.errors)) {
           errorMessage += ': ' + error.errors.join(', ')
         } else if (typeof error.errors === 'object') {
-          errorMessage += ': ' + Object.values(error.errors).join(', ')
+          errorMessage += ': ' + Object.values(error.errors as Record<string, string>).join(', ')
         }
       }
       throw new Error(errorMessage)
     }
 
-    return response.json()
+    const data = await response.json()
+
+    // 백엔드 응답에 success 필드가 없는 경우 code로 판단
+    if (data && typeof data === 'object' && 'code' in data && !('success' in data)) {
+      data.success = data.code === 'SUCCESS' || data.code === '200' || data.code === 'OK'
+    }
+
+    return data
   }
 
   async get<T>(endpoint: string, params?: Record<string, string>): Promise<T> {

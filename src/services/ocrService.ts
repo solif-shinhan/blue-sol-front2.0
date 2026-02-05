@@ -1,4 +1,3 @@
-// Google Cloud Vision OCR API Service
 const GOOGLE_VISION_API_KEY = import.meta.env.VITE_GOOGLE_VISION_API_KEY || ''
 
 const VISION_API_URL = `https://vision.googleapis.com/v1/images:annotate?key=${GOOGLE_VISION_API_KEY}`
@@ -15,15 +14,11 @@ interface VisionApiResponse {
   }>
 }
 
-/**
- * 이미지 파일을 base64로 변환
- */
 function fileToBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
     reader.onload = () => {
       const result = reader.result as string
-      // data:image/...;base64, 부분 제거
       const base64 = result.split(',')[1]
       resolve(base64)
     }
@@ -32,11 +27,7 @@ function fileToBase64(file: File): Promise<string> {
   })
 }
 
-/**
- * 텍스트에서 합계 금액 추출
- */
 function extractTotalAmount(text: string): number {
-  // 합계, 합 계, 총액, 총합, 결제금액, 카드결제 등의 패턴 탐색
   const patterns = [
     /합\s*계[:\s]*([0-9,]+)/,
     /총\s*액[:\s]*([0-9,]+)/,
@@ -58,7 +49,6 @@ function extractTotalAmount(text: string): number {
     }
   }
 
-  // 패턴 못 찾을 경우 가장 큰 숫자를 합계로 추정
   const numbers = text.match(/[0-9,]{3,}/g)
   if (numbers) {
     const amounts = numbers
@@ -73,9 +63,6 @@ function extractTotalAmount(text: string): number {
   return 0
 }
 
-/**
- * Google Vision API를 사용하여 영수증에서 금액 인식
- */
 export async function recognizeReceipt(file: File): Promise<{ amount: number; fullText: string }> {
   const base64Image = await fileToBase64(file)
 

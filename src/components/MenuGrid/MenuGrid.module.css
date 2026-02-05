@@ -52,7 +52,6 @@
   line-height: var(--leading-snug);
 }
 
-/* Badge */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -70,7 +69,6 @@
   color: var(--color-text-secondary);
 }
 
-/* Status */
 .status {
   font-size: var(--text-xs);
   color: var(--color-primary);

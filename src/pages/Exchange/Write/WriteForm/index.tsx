@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import styles from './WriteForm.module.css'
 import { BoardCategory } from '../../types'
 import backArrowIcon from '@/assets/images/Glyph_ undefined.svg'
+import { createPost, CATEGORY_MAP } from '@/services'
 
 const MAX_TITLE_LENGTH = 50
 const MAX_CONTENT_LENGTH = 2000
@@ -18,7 +19,6 @@ function WriteFormPage() {
   const [content, setContent] = useState('')
   const [images, setImages] = useState<{ file: File; preview: string }[]>([])
 
-  // 카테고리가 없으면 선택 페이지로 이동
   if (!category) {
     navigate('/exchange/write')
     return null
@@ -73,22 +73,34 @@ function WriteFormPage() {
     })
   }
 
-  const handleComplete = () => {
-    if (!title.trim() || !content.trim()) return
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-    // TODO: API 호출로 게시글 등록
-    console.log('게시글 등록:', {
-      category,
-      title,
-      content,
-      images: images.map((img) => img.file),
-    })
+  const handleComplete = async () => {
+    if (!title.trim() || !content.trim() || !category || isSubmitting) return
 
-    // 게시판 목록으로 이동
-    navigate('/exchange/board', { state: { category } })
+    setIsSubmitting(true)
+    try {
+      const apiCategory = CATEGORY_MAP[category] || 'ETC'
+      const response = await createPost({
+        boardId: 1, // 기본 게시판 ID
+        title: title.trim(),
+        content: content.trim(),
+        category: apiCategory,
+      })
+
+      if (response.success) {
+        alert('게시글이 등록되었습니다.')
+        navigate('/exchange/board', { state: { category } })
+      }
+    } catch (err) {
+      console.error('게시글 등록 실패:', err)
+      alert('게시글 등록에 실패했습니다.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
-  const isFormValid = title.trim().length > 0 && content.trim().length > 0
+  const isFormValid = title.trim().length > 0 && content.trim().length > 0 && !isSubmitting
 
   return (
     <div className={styles.container}>
@@ -102,7 +114,7 @@ function WriteFormPage() {
           disabled={!isFormValid}
           onClick={handleComplete}
         >
-          완료
+          {isSubmitting ? '등록 중...' : '완료'}
         </button>
       </header>
 

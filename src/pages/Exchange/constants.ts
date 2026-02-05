@@ -1,4 +1,3 @@
-// 교류망 친구 데이터 (Exchange, Network, NetworkAdd에서 공통 사용)
 export interface FriendData {
   id: number
   name: string
@@ -99,13 +98,11 @@ export const FRIENDS_DATA: FriendData[] = [
   },
 ]
 
-// Exchange 메인 페이지 간단 친구 목록 (FRIENDS_DATA에서 파생)
 export const FRIENDS_SIMPLE = FRIENDS_DATA.slice(0, 6).map(f => ({
   id: f.id,
   name: f.name,
 }))
 
-// NetworkAdd 관심사 추천 유저 (이름만)
 export const INTEREST_USERS = [
   { id: 1, name: '강건우' },
   { id: 2, name: '권유현' },

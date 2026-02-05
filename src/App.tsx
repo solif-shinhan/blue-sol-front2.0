@@ -1,74 +1,95 @@
+import { lazy, Suspense, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import MainLayout from '@components/layout/MainLayout'
 import AuthLayout from '@components/layout/AuthLayout'
 import PublicLayout from '@components/layout/PublicLayout'
+import { restoreAuth } from '@/services'
+import { OnboardingProvider } from '@features/02-onboarding/context/OnboardingContext'
 
-// Pages
-import HomePage from '@pages/Home'
-import ExchangePage from '@pages/Exchange'
-import NetworkPage from '@pages/Exchange/Network'
-import NetworkAddPage from '@pages/Exchange/NetworkAdd'
-import CouncilRegisterPage from '@pages/Exchange/CouncilRegister'
-import CouncilListPage from '@pages/Exchange/CouncilList'
-import MyCouncilActivityPage from '@pages/Exchange/MyCouncilActivity'
-import MemberAddPage from '@pages/Exchange/MemberAdd'
-import WriteReviewPage from '@pages/Exchange/WriteReview'
-import ParticipantEditPage from '@pages/Exchange/WriteReview/ParticipantEdit'
-import ReceiptAttachPage from '@pages/Exchange/ReceiptAttach'
-import WritePage from '@pages/Exchange/Write'
-import WriteFormPage from '@pages/Exchange/Write/WriteForm'
-import BoardPage from '@pages/Exchange/Board'
-import BoardDetailPage from '@pages/Exchange/Board/BoardDetail'
-import GrowthPage from '@pages/Growth'
-import NotificationsPage from '@pages/Notifications'
-import NotificationDetailPage from '@pages/Notifications/NotificationDetail'
-import ActivityDetailPage from '@pages/Notifications/ActivityDetail'
-import MyPagePage from '@pages/MyPage'
-import LoginPage from '@pages/auth/Login'
-import OnboardingPage from '@pages/auth/Onboarding'
-import RegisterPage from '@pages/auth/Register'
-import ScholarshipMemberPage from '@pages/auth/Register/ScholarshipMember'
-import ScholarshipCredentialsPage from '@pages/auth/Register/ScholarshipCredentials'
-import AlumniRegisterPage from '@pages/auth/Register/Alumni'
-import RegisterCompletePage from '@pages/auth/Register/Complete'
-import MentoringPage from '@pages/Mentoring'
-import MentoringApplyPage from '@pages/Mentoring/Apply'
-import MentoringPostcardPage from '@pages/Mentoring/Postcard'
-import MentoringReviewPage from '@pages/Mentoring/Review'
-import ApplicationHistoryPage from '@pages/Mentoring/ApplicationHistory'
-import GoalsPage from '@pages/Goals'
-import PublicProfilePage from '@pages/PublicProfile'
+const HomePage = lazy(() => import('@pages/Home'))
+const ExchangePage = lazy(() => import('@pages/Exchange'))
+const NetworkPage = lazy(() => import('@pages/Exchange/Network'))
+const NetworkAddPage = lazy(() => import('@pages/Exchange/NetworkAdd'))
+const CouncilRegisterPage = lazy(() => import('@pages/Exchange/CouncilRegister'))
+const CouncilListPage = lazy(() => import('@pages/Exchange/CouncilList'))
+const MyCouncilActivityPage = lazy(() => import('@pages/Exchange/MyCouncilActivity'))
+const MemberAddPage = lazy(() => import('@pages/Exchange/MemberAdd'))
+const WriteReviewPage = lazy(() => import('@pages/Exchange/WriteReview'))
+const ParticipantEditPage = lazy(() => import('@pages/Exchange/WriteReview/ParticipantEdit'))
+const ReceiptAttachPage = lazy(() => import('@pages/Exchange/ReceiptAttach'))
+const WritePage = lazy(() => import('@pages/Exchange/Write'))
+const WriteFormPage = lazy(() => import('@pages/Exchange/Write/WriteForm'))
+const BoardPage = lazy(() => import('@pages/Exchange/Board'))
+const BoardDetailPage = lazy(() => import('@pages/Exchange/Board/BoardDetail'))
+const GrowthPage = lazy(() => import('@pages/Growth'))
+const NotificationsPage = lazy(() => import('@pages/Notifications'))
+const NotificationDetailPage = lazy(() => import('@pages/Notifications/NotificationDetail'))
+const ActivityDetailPage = lazy(() => import('@pages/Notifications/ActivityDetail'))
+const MyPagePage = lazy(() => import('@pages/MyPage'))
+const MentoringPage = lazy(() => import('@pages/Mentoring'))
+const MentoringApplyPage = lazy(() => import('@pages/Mentoring/Apply'))
+const MentoringPostcardPage = lazy(() => import('@pages/Mentoring/Postcard'))
+const MentoringReviewPage = lazy(() => import('@pages/Mentoring/Review'))
+const ApplicationHistoryPage = lazy(() => import('@pages/Mentoring/ApplicationHistory'))
+const GoalsPage = lazy(() => import('@pages/Goals'))
+const PublicProfilePage = lazy(() => import('@pages/PublicProfile'))
+
+const LoginPage = lazy(() => import('@pages/auth/Login-new'))
+const RegisterTypePage = lazy(() => import('@pages/auth/Register-new'))
+const RegisterInfoPage = lazy(() => import('@pages/auth/Register-new/ScholarInfo'))
+const RegisterCredentialsPage = lazy(() => import('@pages/auth/Register-new/Credentials'))
+const RegisterCompletePage = lazy(() => import('@pages/auth/Register-new/Complete'))
+const AlumniRegisterPage = lazy(() => import('@pages/auth/Register/Alumni'))
+
+const OnboardingStartPage = lazy(() => import('@pages/auth/Onboarding-new/Start'))
+const OnboardingInterestsPage = lazy(() => import('@pages/auth/Onboarding-new/Interests'))
+const OnboardingNicknamePage = lazy(() => import('@pages/auth/Onboarding-new/Nickname'))
+const OnboardingGoalsPage = lazy(() => import('@pages/auth/Onboarding-new/Goals'))
+const OnboardingCharacterPage = lazy(() => import('@pages/auth/Onboarding-new/Character'))
+const OnboardingColorPage = lazy(() => import('@pages/auth/Onboarding-new/Color'))
+const OnboardingPreviewPage = lazy(() => import('@pages/auth/Onboarding-new/Preview'))
+const OnboardingCompletePage = lazy(() => import('@pages/auth/Onboarding-new/Complete'))
+
+const PageLoader = () => <div style={{ padding: '20px', textAlign: 'center' }}>로딩 중...</div>
 
 function App() {
+  useEffect(() => {
+    restoreAuth()
+  }, [])
+
   return (
+    <OnboardingProvider>
     <div className="app-container">
-      <Routes>
-        {/* Public Routes - NFC card landing page */}
+      <Suspense fallback={<PageLoader />}>
+        <Routes>
         <Route element={<PublicLayout />}>
           <Route path="/profile/:userId" element={<PublicProfilePage />} />
         </Route>
 
-        {/* Auth Routes - Login is the main entry point */}
         <Route element={<AuthLayout />}>
           <Route path="/" element={<LoginPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/onboarding" element={<OnboardingPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/register/scholarship" element={<ScholarshipMemberPage />} />
-          <Route path="/register/scholarship/credentials" element={<ScholarshipCredentialsPage />} />
+          <Route path="/register" element={<RegisterTypePage />} />
+          <Route path="/register/scholarship" element={<RegisterInfoPage />} />
+          <Route path="/register/scholarship/credentials" element={<RegisterCredentialsPage />} />
           <Route path="/register/alumni" element={<AlumniRegisterPage />} />
           <Route path="/register/complete" element={<RegisterCompletePage />} />
+          <Route path="/onboarding" element={<OnboardingStartPage />} />
+          <Route path="/onboarding/interests" element={<OnboardingInterestsPage />} />
+          <Route path="/onboarding/nickname" element={<OnboardingNicknamePage />} />
+          <Route path="/onboarding/goals" element={<OnboardingGoalsPage />} />
+          <Route path="/onboarding/character" element={<OnboardingCharacterPage />} />
+          <Route path="/onboarding/color" element={<OnboardingColorPage />} />
+          <Route path="/onboarding/preview" element={<OnboardingPreviewPage />} />
+          <Route path="/onboarding/complete" element={<OnboardingCompletePage />} />
         </Route>
 
-        {/* Main App Routes with Bottom Navigation */}
         <Route element={<MainLayout />}>
-          {/* Home Tab */}
           <Route path="/home" element={<HomePage />} />
           <Route path="/solid" element={<HomePage />} />
           <Route path="/solid/edit" element={<HomePage />} />
           <Route path="/goals" element={<GoalsPage />} />
 
-          {/* Exchange Tab */}
           <Route path="/exchange" element={<ExchangePage />} />
           <Route path="/exchange/network" element={<NetworkPage />} />
           <Route path="/exchange/network/add" element={<NetworkAddPage />} />
@@ -91,7 +112,6 @@ function App() {
           <Route path="/exchange/board" element={<BoardPage />} />
           <Route path="/exchange/board/:postId" element={<BoardDetailPage />} />
 
-          {/* Growth Tab */}
           <Route path="/growth" element={<GrowthPage />} />
           <Route path="/growth/tree" element={<GrowthPage />} />
           <Route path="/growth/goals" element={<GrowthPage />} />
@@ -99,18 +119,18 @@ function App() {
           <Route path="/growth/bucket" element={<GrowthPage />} />
           <Route path="/growth/programs" element={<GrowthPage />} />
 
-          {/* Notifications Tab */}
           <Route path="/notifications" element={<NotificationsPage />} />
           <Route path="/notifications/:id" element={<NotificationDetailPage />} />
           <Route path="/notifications/activity/:id" element={<ActivityDetailPage />} />
           <Route path="/notifications/messages" element={<NotificationsPage />} />
 
-          {/* MyPage Tab */}
           <Route path="/mypage" element={<MyPagePage />} />
           <Route path="/mypage/edit" element={<MyPagePage />} />
         </Route>
       </Routes>
+      </Suspense>
     </div>
+    </OnboardingProvider>
   )
 }
 

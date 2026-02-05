@@ -1,13 +1,5 @@
-/* ==========================================================================
-   Global Styles - 푸른 SOL
-   ========================================================================== */
-
 @import './fonts.css';
 @import './variables.css';
-
-/* ==========================================================================
-   CSS Reset & Base Styles
-   ========================================================================== */
 
 *,
 *::before,
@@ -44,10 +36,6 @@ body {
   align-items: flex-start;
   overflow-x: hidden;
 }
-
-/* ==========================================================================
-   Typography
-   ========================================================================== */
 
 h1,
 h2,
@@ -86,7 +74,7 @@ h6 {
 }
 
 p {
-  margin-bottom: var(--space-4);
+  margin: 0;
 }
 
 a {
@@ -98,10 +86,6 @@ a {
 a:hover {
   color: var(--color-primary-light);
 }
-
-/* ==========================================================================
-   Form Elements
-   ========================================================================== */
 
 button,
 input,
@@ -123,26 +107,16 @@ button:disabled {
   opacity: 0.6;
 }
 
-/* global.css - 리셋만 유지 */
 input,
 textarea {
   font-family: inherit;
   font-size: inherit;
-  /* border, padding 등 제거 - 각 컴포넌트에서 정의 */
 }
-
-/* ==========================================================================
-   Lists
-   ========================================================================== */
 
 ul,
 ol {
   list-style: none;
 }
-
-/* ==========================================================================
-   Images
-   ========================================================================== */
 
 img,
 svg {
@@ -150,10 +124,6 @@ svg {
   max-width: 100%;
   height: auto;
 }
-
-/* ==========================================================================
-   App Container
-   ========================================================================== */
 
 #root {
   width: 100%;
@@ -163,7 +133,6 @@ svg {
   justify-content: center;
 }
 
-/* Figma 고정 프레임 (393 x 852) */
 .app-container {
   width: var(--container-width);
   min-width: var(--container-width);
@@ -179,16 +148,10 @@ svg {
   flex-shrink: 0;
 }
 
-/* Main content area with bottom nav padding */
 .main-content {
   flex: 1;
-  padding-bottom: calc(var(--bottom-nav-height) + var(--safe-area-bottom));
   overflow-y: auto;
 }
-
-/* ==========================================================================
-   Utility Classes
-   ========================================================================== */
 
 .visually-hidden {
   position: absolute;
@@ -224,10 +187,6 @@ svg {
   overflow: hidden;
 }
 
-/* ==========================================================================
-   Scrollbar Styling
-   ========================================================================== */
-
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -246,20 +205,22 @@ svg {
   background: var(--color-gray-dark);
 }
 
-/* ==========================================================================
-   Focus Styles
-   ========================================================================== */
-
 :focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 
-/* ==========================================================================
-   Selection
-   ========================================================================== */
-
 ::selection {
   background-color: var(--color-primary-lighter);
   color: var(--color-primary-dark);
+}
+
+/* 스크롤바 숨김 유틸리티 클래스 */
+.hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }

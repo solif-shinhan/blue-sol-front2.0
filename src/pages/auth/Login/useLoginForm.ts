@@ -61,20 +61,16 @@ export function useLoginForm() {
       })
 
       if (response.success) {
-        // 교류망 추가 대기 중인 경우 처리
         const pendingNetworkAdd = localStorage.getItem('pendingNetworkAdd')
         if (pendingNetworkAdd) {
-          // 교류망에 추가
           const existingNetwork = JSON.parse(localStorage.getItem('userNetwork') || '[]')
           if (!existingNetwork.includes(pendingNetworkAdd)) {
             existingNetwork.push(pendingNetworkAdd)
             localStorage.setItem('userNetwork', JSON.stringify(existingNetwork))
           }
-          // 대기 상태 클리어
           localStorage.removeItem('pendingNetworkAdd')
         }
 
-        // returnUrl이 있으면 해당 페이지로, 없으면 기존 로직
         const returnUrl = localStorage.getItem('returnUrl')
         if (returnUrl) {
           localStorage.removeItem('returnUrl')

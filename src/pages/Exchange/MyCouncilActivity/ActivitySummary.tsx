@@ -15,7 +15,6 @@ const PAST_ACTIVITIES = [
 function ActivitySummary() {
   return (
     <>
-      {/* 활동 요약 */}
       <div className={styles.activitySummary}>
         <div className={styles.activityCount}>
           <div className={styles.activityCountText}>
@@ -39,7 +38,6 @@ function ActivitySummary() {
         </div>
       </div>
 
-      {/* 새로운 소식 */}
       <div className={styles.newsSection}>
         <h2 className={styles.newsSectionTitle}>새로운 소식</h2>
         <div className={styles.newsCard}>
@@ -53,7 +51,6 @@ function ActivitySummary() {
         </div>
       </div>
 
-      {/* 지난 활동 */}
       <div className={styles.pastSection}>
         <div className={styles.pastSectionHeader}>
           <h2 className={styles.pastSectionTitle}>지난 활동</h2>

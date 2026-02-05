@@ -1,4 +1,3 @@
-/* 나의 자치회 활동 페이지 스타일 (1/2) - 기본 레이아웃, 히어로, 탭, 콘텐츠, 예산, 뉴스 */
 .container {
   width: 393px;
   height: 852px;
@@ -13,7 +12,6 @@
   display: none;
 }
 
-/* 히어로 섹션 */
 .hero {
   position: relative;
   width: 393px;
@@ -37,7 +35,6 @@
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 37.84%, rgba(0, 0, 0, 0.8) 73.17%);
 }
 
-/* 헤더 (히어로 위) */
 .header {
   position: absolute;
   top: 50px;
@@ -90,7 +87,6 @@
   height: 100%;
 }
 
-/* 히어로 콘텐츠 */
 .heroContent {
   position: absolute;
   left: 26px;
@@ -142,7 +138,6 @@
   color: #E6E6E6;
 }
 
-/* 탭 네비게이션 */
 .tabBar {
   display: flex;
   align-items: center;
@@ -176,7 +171,6 @@
   color: #FFFFFF;
 }
 
-/* 콘텐츠 영역 */
 .content {
   display: flex;
   flex-direction: column;
@@ -186,7 +180,6 @@
   margin: 0 auto;
 }
 
-/* 활동 요약 */
 .activitySummary {
   display: flex;
   flex-direction: column;
@@ -224,7 +217,6 @@
   height: 100%;
 }
 
-/* 예산 */
 .budgetSection {
   display: flex;
   flex-direction: column;
@@ -253,7 +245,6 @@
   border-radius: 3px;
 }
 
-/* 새로운 소식 */
 .newsSection {
   display: flex;
   flex-direction: column;

@@ -2,14 +2,11 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles from './MentoringApply.module.css'
 
-// 모달 이미지 assets
 const modalLogoImg = ''
 const modalTextImg = ''
 
-// 카테고리 옵션
 const CATEGORY_OPTIONS = ['학업', '취업', '금전', '기타']
 
-// 멘토링 방식 옵션
 const MENTORING_METHODS = [
   { id: 'note', label: '쪽지 상담' },
   { id: 'video', label: '화상 미팅' },
@@ -17,7 +14,6 @@ const MENTORING_METHODS = [
   { id: 'face', label: '대면 상담' },
 ]
 
-// 멘토 데이터 (실제로는 props나 상태로 받아야 함)
 const MENTOR_DATA = {
   name: '신한철',
   role: '멘토',
@@ -47,18 +43,15 @@ function MentoringApplyPage() {
   }
 
   const handleSubmit = () => {
-    // 신청 처리 로직
     console.log({
       mentor: MENTOR_DATA.name,
       category: selectedCategory,
       method: selectedMethod,
       content,
     })
-    // 완료 모달 표시
     setShowCompleteModal(true)
   }
 
-  // 모달이 열리면 3초 후 멘토링 페이지로 이동
   useEffect(() => {
     if (showCompleteModal) {
       const timer = setTimeout(() => {
@@ -72,14 +65,11 @@ function MentoringApplyPage() {
     navigate('/exchange/mentoring')
   }
 
-  // 멘토링 방식 선택 + 내용 작성 둘 다 필요
   const isSubmitEnabled = content.trim().length > 0 && selectedMethod !== null
 
   return (
     <div className={styles.container}>
-      {/* 멘토 프로필 카드 */}
       <div className={styles.profileCard}>
-        {/* 헤더 */}
         <header className={styles.header}>
           <button className={styles.closeButton} onClick={handleClose}>
             <img src="/x.svg" alt="닫기" />
@@ -87,7 +77,6 @@ function MentoringApplyPage() {
           <h1 className={styles.headerTitle}>멘토링 신청하기</h1>
         </header>
 
-        {/* 멘토 정보 */}
         <div className={styles.mentorInfo}>
           <div className={styles.mentorNameRow}>
             <span className={styles.mentorName}>{MENTOR_DATA.name}</span>
@@ -98,9 +87,7 @@ function MentoringApplyPage() {
         </div>
       </div>
 
-      {/* 폼 영역 */}
       <div className={styles.formArea}>
-        {/* 고민 카테고리 선택 */}
         <div className={styles.formSection}>
           <div className={styles.sectionHeader}>
             <h2 className={styles.sectionTitle}>고민되는 내용을 작성해주세요</h2>
@@ -127,7 +114,6 @@ function MentoringApplyPage() {
           </div>
         </div>
 
-        {/* 멘토링 방식 선택 */}
         <div className={styles.formSection}>
           <div className={styles.sectionHeader}>
             <h2 className={styles.sectionTitle}>가능한 멘토링 방식을 선택해주세요</h2>
@@ -140,7 +126,6 @@ function MentoringApplyPage() {
                     }`}
                   onClick={() => handleMethodSelect(method.id)}
                 >
-                  {/* 아이콘 자리 */}
                 </button>
                 <span className={styles.methodLabel}>{method.label}</span>
               </div>
@@ -149,7 +134,6 @@ function MentoringApplyPage() {
         </div>
       </div>
 
-      {/* 신청하기 버튼 */}
       <button
         className={`${styles.submitButton} ${isSubmitEnabled ? styles.submitButtonActive : ''}`}
         onClick={handleSubmit}
@@ -158,7 +142,6 @@ function MentoringApplyPage() {
         신청하기
       </button>
 
-      {/* 멘토링 신청 완료 모달 */}
       {showCompleteModal && (
         <div className={styles.modalOverlay} onClick={handleModalClick}>
           <div className={styles.modalContent}>

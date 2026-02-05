@@ -219,12 +219,32 @@
   flex: 1;
 }
 
+.commentAuthorRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
 .commentAuthor {
   font-family: 'Pretendard', sans-serif;
   font-size: 13px;
   font-weight: 600;
   color: #191F28;
-  margin-bottom: 4px;
+}
+
+.deleteButton {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 12px;
+  color: #ADB5BD;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.deleteButton:hover {
+  color: #FF5252;
 }
 
 .commentText {
@@ -283,6 +303,23 @@
   display: flex;
   gap: 12px;
   align-items: center;
+}
+
+.anonymousCheckbox {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 12px;
+  color: #8B95A1;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.anonymousCheckbox input {
+  width: 16px;
+  height: 16px;
+  accent-color: #074ED8;
 }
 
 .commentInput {

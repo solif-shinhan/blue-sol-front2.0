@@ -1,8 +1,3 @@
-/* ==========================================================================
-   Exchange Page Styles - Part 3
-   자치회 활동 Section (캐러셀 스타일), Slider Dots, 자치회 등록 CTA
-   ========================================================================== */
-
 .councilSection {
   margin-bottom: 30px;
 }
@@ -44,7 +39,6 @@
   cursor: pointer;
 }
 
-/* 카드 공통 내부 요소 */
 .cardLabel {
   font-family: 'Pretendard', sans-serif;
   font-size: 16px;
@@ -72,7 +66,6 @@
   border-radius: 50%;
 }
 
-/* 카드 1: 예산 카드 */
 .councilCardBudget {
   padding: 20px 23px;
 }
@@ -114,7 +107,6 @@
   border-radius: 3px;
 }
 
-/* 카드 2 & 3: 활동 카드 */
 .councilCardActivity {
   padding: 20px 19px;
 }
@@ -174,10 +166,6 @@
   background-color: #222222;
 }
 
-/* ==========================================================================
-   Slider Dots
-   ========================================================================== */
-
 .sliderDots {
   display: flex;
   justify-content: center;
@@ -196,10 +184,6 @@
 .dotActive {
   background: #074ED8;
 }
-
-/* ==========================================================================
-   자치회 등록 CTA 카드 (자치회 없을 때)
-   ========================================================================== */
 
 .councilRegisterCard {
   position: relative;
@@ -223,7 +207,7 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  color: #3971E0; /* Fallback */
+  color: #3971E0;
   width: fit-content;
   margin: 0;
 }

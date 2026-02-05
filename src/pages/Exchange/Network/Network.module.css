@@ -1,7 +1,3 @@
-/* ==========================================================================
-   나의 SOLID Page Styles
-   ========================================================================== */
-
 .container {
   display: flex;
   flex-direction: column;
@@ -11,10 +7,6 @@
   position: relative;
   overflow: hidden;
 }
-
-/* ==========================================================================
-   Header
-   ========================================================================== */
 
 .header {
   display: flex;
@@ -68,10 +60,6 @@
   width: 24px;
   height: 24px;
 }
-
-/* ==========================================================================
-   Friends Horizontal Scroll
-   ========================================================================== */
 
 .friendsScrollWrapper {
   width: 100%;
@@ -139,10 +127,6 @@
 .friendNameActive {
   color: #074ED8;
 }
-
-/* ==========================================================================
-   Profile Card
-   ========================================================================== */
 
 .profileCard {
   position: relative;
@@ -222,10 +206,6 @@
   padding-bottom: 4px;
 }
 
-/* ==========================================================================
-   Goals List
-   ========================================================================== */
-
 .goalsList {
   position: relative;
   display: flex;
@@ -255,10 +235,6 @@
 .goalItem:nth-child(3) {
   color: #BFD5FF;
 }
-
-/* ==========================================================================
-   Interest Tags
-   ========================================================================== */
 
 .interestTags {
   position: absolute;
@@ -295,10 +271,6 @@
   letter-spacing: -0.6px;
   line-height: 1.2;
 }
-
-/* ==========================================================================
-   Bottom Buttons
-   ========================================================================== */
 
 .bottomButtons {
   position: absolute;
@@ -355,4 +327,47 @@
 
 .messageButton:active {
   transform: scale(0.98);
+}
+
+.cheerButton:disabled {
+  background: #CCCCCC;
+  cursor: not-allowed;
+}
+
+.loadingState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  font-family: 'Pretendard', var(--font-body);
+  font-size: 14px;
+  color: #888888;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex: 1;
+  font-family: 'Pretendard', var(--font-body);
+  font-size: 14px;
+  color: #888888;
+}
+
+.addButton {
+  padding: 12px 24px;
+  background: #074ED8;
+  border: none;
+  border-radius: 24px;
+  font-family: 'Pretendard', var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+.addButton:hover {
+  background: #0542B5;
 }

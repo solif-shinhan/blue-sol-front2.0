@@ -1,23 +1,14 @@
 import styles from './ListItem.module.css'
 
 interface ListItemProps {
-  /** 아바타 텍스트 (이름 첫 글자 등) */
   avatar?: string
-  /** 아바타 대신 아이콘/이모지 사용 */
   icon?: string
-  /** 메인 텍스트 (HTML 지원) */
   children: React.ReactNode
-  /** 시간 텍스트 */
   time?: string
-  /** 읽지 않음 상태 */
   unread?: boolean
-  /** 읽지 않음 표시 점 보이기 */
   showUnreadDot?: boolean
-  /** 클릭 핸들러 */
   onClick?: () => void
-  /** 스타일 변형 */
   variant?: 'card' | 'list'
-  /** 추가 클래스명 */
   className?: string
 }
 

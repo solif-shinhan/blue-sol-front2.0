@@ -1,13 +1,9 @@
 import { useState, useEffect, useCallback } from 'react'
 
-/**
- * Custom hook for persisting state in localStorage
- */
 export function useLocalStorage<T>(
   key: string,
   initialValue: T
 ): [T, (value: T | ((prev: T) => T)) => void, () => void] {
-  // Get stored value or use initial value
   const readValue = useCallback((): T => {
     if (typeof window === 'undefined') {
       return initialValue
@@ -24,7 +20,6 @@ export function useLocalStorage<T>(
 
   const [storedValue, setStoredValue] = useState<T>(readValue)
 
-  // Set value in state and localStorage
   const setValue = useCallback(
     (value: T | ((prev: T) => T)) => {
       try {
@@ -39,7 +34,6 @@ export function useLocalStorage<T>(
     [key, storedValue]
   )
 
-  // Remove value from localStorage
   const removeValue = useCallback(() => {
     try {
       window.localStorage.removeItem(key)
@@ -49,7 +43,6 @@ export function useLocalStorage<T>(
     }
   }, [initialValue, key])
 
-  // Listen for changes in other tabs/windows
   useEffect(() => {
     const handleStorageChange = () => {
       setStoredValue(readValue())

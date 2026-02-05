@@ -1,8 +1,3 @@
-/**
- * Navigation Types - 푸른 SOL
- * Based on Information Architecture
- */
-
 export type TabName = 'home' | 'exchange' | 'growth' | 'notifications' | 'mypage'
 
 export interface TabItem {
@@ -51,7 +46,6 @@ export const TAB_ITEMS: TabItem[] = [
   },
 ]
 
-// Route param types
 export interface SolidParams {
   userId?: string
 }

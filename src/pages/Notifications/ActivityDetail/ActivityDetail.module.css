@@ -6,7 +6,6 @@
   overflow-y: auto;
 }
 
-/* Header */
 .header {
   display: flex;
   align-items: center;
@@ -41,7 +40,6 @@
   color: #848484;
 }
 
-/* Content */
 .content {
   display: flex;
   flex-direction: column;
@@ -49,7 +47,6 @@
   padding: 20px 17px;
 }
 
-/* Sender Info Section */
 .senderSection {
   display: flex;
   align-items: center;
@@ -95,7 +92,6 @@
   color: #727272;
 }
 
-/* Title Section */
 .titleSection {
   padding-bottom: 16px;
   border-bottom: 1px solid #E6E6E6;
@@ -110,7 +106,6 @@
   margin: 0;
 }
 
-/* Body Content */
 .bodySection {
   display: flex;
   flex-direction: column;
@@ -136,7 +131,6 @@
   white-space: pre-wrap;
 }
 
-/* Activity Stats */
 .activityStats {
   display: flex;
   align-items: center;
@@ -164,7 +158,6 @@
   color: #C8C8C8;
 }
 
-/* CTA Section for 교류 */
 .ctaSection {
   display: flex;
   gap: 10px;
@@ -215,7 +208,6 @@
   background: #B5DD42;
 }
 
-/* CTA Section for 쪽지 */
 .ctaSectionSingle {
   padding: 20px 0;
   position: fixed;
@@ -246,7 +238,6 @@
   background: #0A3A8C;
 }
 
-/* Empty State */
 .emptyState {
   display: flex;
   flex-direction: column;

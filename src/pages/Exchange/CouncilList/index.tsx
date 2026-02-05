@@ -1,11 +1,12 @@
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles from './CouncilList.module.css'
 import councilBg from '@/assets/images/council-activities.png'
 import associationCat from '@/assets/images/exchange-mentoring/association-cat.png'
 import backArrowIcon from '@/assets/images/Glyph_ undefined.svg'
-// flag1.png is in public folder, use direct path
+import { getCouncilList, getMyCouncil, Council } from '@/services'
+
 const flagImage = '/flag1.png'
-import { useCouncilStatus } from '@/hooks'
 
 interface CouncilItem {
   id: number
@@ -17,35 +18,63 @@ interface CouncilItem {
   image?: string
 }
 
-const COUNCIL_LIST: CouncilItem[] = [
-  { id: 1, region: '제주 자치회', name: '제주 최강 신한이들', description: '한달에 한번 봉사활동!', date: '2025.02.19', members: 9, image: associationCat },
-  { id: 2, region: '서울 자치회', name: '서울 자치회가 세상을', description: '바꾼다!', date: '2025.02.19', members: 9, image: associationCat },
-  { id: 3, region: '경북 자치회', name: '경북 자치회/우리는 영어', description: '공부 열심히 해요 :)', date: '2025.02.19', members: 9, image: associationCat },
-  { id: 4, region: '서울 자치회', name: '우리는 열심히 하면서', description: '즐겁게 하는 자치회', date: '2025.02.19', members: 9, image: associationCat },
-  { id: 5, region: '충남 자치회', name: '어떤 일이든 서로 의지하', description: '고 도우면서 함께해요!', date: '2025.02.19', members: 9, image: associationCat },
-  { id: 6, region: '부산 자치회', name: '공기 좋고 인프가 좋은', description: '부산 자치회로 GO!', date: '2025.02.19', members: 9, image: associationCat },
-  { id: 7, region: '경남 자치회', name: '우리 자치회는 서로의 멘', description: '토이자 멘티에요~', date: '2025.02.19', members: 9, image: associationCat },
-  { id: 8, region: '서울 자치회', name: '우리의 우정은 10년 이상', description: '까지 함께하자!', date: '2025.02.19', members: 9, image: associationCat },
-]
+function formatDate(dateString: string): string {
+  const date = new Date(dateString)
+  return date.toLocaleDateString('ko-KR', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).replace(/\. /g, '.').replace(/\.$/, '')
+}
+
+function mapCouncilToItem(council: Council): CouncilItem {
+  return {
+    id: council.councilId,
+    region: council.region || '지역 미지정',
+    name: council.name,
+    description: council.description,
+    date: formatDate(council.createdAt),
+    members: council.memberCount,
+    image: associationCat,
+  }
+}
 
 function CouncilListPage() {
   const navigate = useNavigate()
-  const { hasCouncil } = useCouncilStatus()
+  const [councils, setCouncils] = useState<CouncilItem[]>([])
+  const [myCouncil, setMyCouncil] = useState<CouncilItem | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
 
-  // For testing/visuals, if the user context implies no council, we show the registration card.
-  // The user hook dictates this.
-  // TEMP: Force null to show Register Card as per user request for design implementation
-  const myCouncil: any = null
-  /* hasCouncil
-    ? { name: '제주 최강 신한이들', date: '2025.02.19', members: 9 }
-    : null */
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true)
+      try {
+        const [listRes, myRes] = await Promise.all([
+          getCouncilList(),
+          getMyCouncil().catch(() => null),
+        ])
+
+        if (listRes.success) {
+          setCouncils(listRes.data.map(mapCouncilToItem))
+        }
+
+        if (myRes?.success && myRes.data) {
+          setMyCouncil(mapCouncilToItem(myRes.data))
+        }
+      } catch (err) {
+        console.error('자치회 조회 실패:', err)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [])
 
   return (
     <div className={styles.container}>
-      {/* Safe Zone */}
       <div className={styles.safeZone} />
 
-      {/* Header */}
       <div className={styles.header}>
         <button className={styles.backButton} onClick={() => navigate(-1)}>
           <img src={backArrowIcon} alt="뒤로가기" />
@@ -53,10 +82,10 @@ function CouncilListPage() {
         <span className={styles.headerTitle}>자치회 둘러보기</span>
       </div>
 
-      {/* Content */}
       <div className={styles.content}>
-        {/* 나의 자치회 or 등록하기 카드 */}
-        {myCouncil ? (
+        {isLoading ? (
+          <div style={{ padding: '40px', textAlign: 'center' }}>로딩 중...</div>
+        ) : myCouncil ? (
           <div className={styles.myCouncilCard} onClick={() => navigate('/exchange/council/activity')}>
             <div className={styles.myCouncilBg}>
               <img src={councilBg} alt="" />
@@ -91,34 +120,39 @@ function CouncilListPage() {
           </section>
         )}
 
-        {/* 자치회 리스트 */}
         <div className={styles.councilSection}>
           <h2 className={styles.sectionTitle}>자치회</h2>
-          <div className={styles.councilGrid}>
-            {COUNCIL_LIST.map((council) => (
-              <div key={council.id} className={styles.councilCard}>
-                <div className={styles.cardBg}>
-                  {council.image && <img src={council.image} alt="" />}
-                  <div className={styles.cardGradient} />
-                </div>
-                <div className={styles.cardContent}>
-                  <div className={styles.cardInfo}>
-                    <div className={styles.cardTexts}>
-                      <p className={styles.cardRegion}>{council.region}</p>
-                      <p className={styles.cardTitle}>
-                        {council.name}{council.description ? `\n${council.description}` : ''}
-                      </p>
-                    </div>
-                    <div className={styles.cardMeta}>
-                      <span className={styles.cardMetaText}>{council.date}</span>
-                      <div className={styles.cardMetaDivider} />
-                      <span className={styles.cardMetaText}>{council.members}명</span>
+          {councils.length === 0 && !isLoading ? (
+            <div style={{ padding: '20px', textAlign: 'center', color: '#888' }}>
+              등록된 자치회가 없습니다.
+            </div>
+          ) : (
+            <div className={styles.councilGrid}>
+              {councils.map((council) => (
+                <div key={council.id} className={styles.councilCard}>
+                  <div className={styles.cardBg}>
+                    {council.image && <img src={council.image} alt="" />}
+                    <div className={styles.cardGradient} />
+                  </div>
+                  <div className={styles.cardContent}>
+                    <div className={styles.cardInfo}>
+                      <div className={styles.cardTexts}>
+                        <p className={styles.cardRegion}>{council.region}</p>
+                        <p className={styles.cardTitle}>
+                          {council.name}{council.description ? `\n${council.description}` : ''}
+                        </p>
+                      </div>
+                      <div className={styles.cardMeta}>
+                        <span className={styles.cardMetaText}>{council.date}</span>
+                        <div className={styles.cardMetaDivider} />
+                        <span className={styles.cardMetaText}>{council.members}명</span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

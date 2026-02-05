@@ -1,4 +1,3 @@
-/* 기본 페이지 헤더 (Home, Exchange, Growth 등) */
 .header {
   margin-bottom: var(--space-6);
 }
@@ -20,7 +19,6 @@
   line-height: var(--leading-normal);
 }
 
-/* 폼 스타일 헤더 (Register, Alumni 등) */
 .formHeader {
   padding: 0 var(--space-4);
   margin-bottom: var(--space-8);

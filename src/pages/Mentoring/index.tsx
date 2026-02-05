@@ -5,7 +5,6 @@ import styles2 from './Mentoring-2.module.css'
 
 const styles = { ...styles1, ...styles2 }
 
-// SVG imports
 import backArrowIcon from '@/assets/images/exchange-mentoring/back-arrow.svg'
 import calendarIcon from '@/assets/images/exchange-mentoring/calendar.svg'
 import profilePlaceholder from '@/assets/images/exchange-mentoring/profile-placeholder.svg'
@@ -13,19 +12,15 @@ import statusBadgeIcon from '@/assets/images/exchange-mentoring/status-badge.svg
 import dividerIcon from '@/assets/images/exchange-mentoring/divider.svg'
 import searchIcon from '@/assets/images/exchange-mentoring/search.svg'
 
-// 멘토링 상태 탭
 const STATUS_TABS = ['응원하기', '경험 나누기']
 
-// 멘토 필터 탭
 const MENTOR_FILTER_TABS = ['전체', '학업고민', '취업고민', '인생의 멘토']
 
-// 나의 멘토링 현황 데이터
 const MY_MENTORING_STATUS = [
   { id: 1, label: '명함 디자인', status: '수신 확인 중' },
   { id: 2, label: '명함 디자인', status: '교류중' },
 ]
 
-// 멘토 데이터
 const MENTORS = [
   {
     id: 1,
@@ -43,7 +38,6 @@ const MENTORS = [
   },
 ]
 
-// 멘토 후기 데이터
 const MENTOR_REVIEWS = [
   {
     id: 1,
@@ -80,7 +74,6 @@ function MentoringPage() {
 
   return (
     <div className={styles.container}>
-      {/* 헤더 */}
       {isSearchMode ? (
         <header className={styles.searchHeader}>
           <button className={styles.backButton} onClick={handleBack} style={{ position: 'static' }}>
@@ -123,16 +116,13 @@ function MentoringPage() {
         </header>
       )}
 
-      {/* 메인 콘텐츠 */}
       <div className={styles.content}>
-        {/* 나의 멘토링 현황 */}
         <section className={styles.section}>
           <div className={styles.sectionHeader}>
             <h2 className={styles.sectionTitle}>나의 멘토링 현황</h2>
             <button className={styles.moreButton}>더보기</button>
           </div>
 
-          {/* 상태 탭 */}
           <div className={styles.filterTabs}>
             {STATUS_TABS.map((tab) => (
               <button
@@ -145,7 +135,6 @@ function MentoringPage() {
             ))}
           </div>
 
-          {/* 멘토링 상태 카드들 */}
           <div className={styles.statusCardsContainer}>
             {MY_MENTORING_STATUS.map((item) => (
               <div key={item.id} className={styles.statusCard}>
@@ -162,14 +151,12 @@ function MentoringPage() {
           </div>
         </section>
 
-        {/* 성장의 숲 멘토 섹션 */}
         <section className={styles.section}>
           <div className={styles.sectionHeader}>
             <h2 className={styles.sectionTitle}>성장의 숲에 10명의 멘토가 있어요</h2>
             <button className={styles.moreButton}>더보기</button>
           </div>
 
-          {/* 멘토 필터 탭 */}
           <div className={styles.filterTabs}>
             {MENTOR_FILTER_TABS.map((tab) => (
               <button
@@ -182,7 +169,6 @@ function MentoringPage() {
             ))}
           </div>
 
-          {/* 멘토 카드들 */}
           <div className={styles.mentorCardsContainer}>
             {MENTORS.map((mentor) => (
               <div key={mentor.id} className={styles.mentorCard}>
@@ -214,7 +200,6 @@ function MentoringPage() {
           </div>
         </section>
 
-        {/* 맞춤 멘토링 신청 엽서 */}
         <section className={styles.section}>
           <div className={styles.sectionHeader}>
             <h2 className={styles.sectionTitle}>원하는 멘토가 없다면, 신한이 도와줄께!</h2>
@@ -235,7 +220,6 @@ function MentoringPage() {
           </div>
         </section>
 
-        {/* 멘토링 후기 */}
         <section className={styles.section}>
           <div className={styles.sectionHeader}>
             <h2 className={styles.sectionTitle}>멘토링 후기</h2>

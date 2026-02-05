@@ -1,1 +1,0 @@
-export { useCarousel } from './useCarousel'

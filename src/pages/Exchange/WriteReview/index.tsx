@@ -28,7 +28,6 @@ function WriteReviewPage() {
   const [reviewText, setReviewText] = useState('')
   const [images, setImages] = useState<ImageItem[]>([])
 
-  // 영수증 첨부 결과 수신
   useEffect(() => {
     if (location.state?.receiptAmount !== undefined) {
       const { receiptAmount, expenseIndex } = location.state as { receiptAmount: number; expenseIndex: number }
@@ -67,7 +66,6 @@ function WriteReviewPage() {
 
   return (
     <div className={styles.container}>
-      {/* Upper Card */}
       <div className={styles.upperCard}>
         <div className={styles.header}>
           <button className={styles.backButton} onClick={() => step > 1 ? setStep(step - 1) : navigate(-1)}>
@@ -106,7 +104,6 @@ function WriteReviewPage() {
         </div>
       </div>
 
-      {/* Form Section */}
       <div className={styles.formSection}>
         <div className={styles.formHeader}>
           <p className={styles.formTitle}>{STEP_TITLES[step - 1]}</p>
@@ -117,11 +114,9 @@ function WriteReviewPage() {
           </div>
         </div>
 
-        {/* Step 1 & 2: Form fields */}
         {step <= 2 && (
           <>
             <div className={styles.formFields}>
-              {/* 진행장소 */}
               <div className={styles.formRow} style={{ opacity: step === 1 ? 1 : 0.5 }}>
                 <span className={styles.formLabel}>진행장소</span>
                 {step === 1 ? (
@@ -139,7 +134,6 @@ function WriteReviewPage() {
                 )}
               </div>
 
-              {/* 지출 내역 */}
               {step >= 2 && (
                 <div className={styles.formRow}>
                   <span className={styles.formLabel}>지출 내역</span>
@@ -154,7 +148,6 @@ function WriteReviewPage() {
               )}
             </div>
 
-            {/* Step 2: 지출 내역 상세 */}
             {step === 2 && (
               <>
                 <div className={styles.divider}>
@@ -183,7 +176,6 @@ function WriteReviewPage() {
           </>
         )}
 
-        {/* Step 3: 후기 작성 */}
         {step === 3 && (
           <div className={styles.reviewSection}>
             <div className={styles.reviewQuestionRow}>
@@ -205,7 +197,6 @@ function WriteReviewPage() {
         )}
       </div>
 
-      {/* Footer Button */}
       <div className={styles.footer}>
         <button
           className={`${styles.nextButton} ${isStepValid() ? styles.nextButtonActive : ''}`}

@@ -1,30 +1,19 @@
 import styles from './MenuGrid.module.css'
 
 interface MenuItemData {
-  /** 고유 ID */
   id: string
-  /** 아이콘 (이모지 또는 컴포넌트) */
   icon: React.ReactNode
-  /** 제목 */
   title: string
-  /** 설명 */
   description?: string
-  /** 클릭 핸들러 */
   onClick?: () => void
-  /** 배지 텍스트 */
   badge?: string
-  /** 배지 타입 */
   badgeType?: 'required' | 'optional'
-  /** 상태 텍스트 */
   status?: string
 }
 
 interface MenuGridProps {
-  /** 메뉴 아이템 목록 */
   items: MenuItemData[]
-  /** 열 개수 */
   columns?: 2 | 3 | 4
-  /** 추가 클래스명 */
   className?: string
 }
 
@@ -68,7 +57,6 @@ export function MenuGrid({
   )
 }
 
-/** 단일 메뉴 아이템 컴포넌트 (개별 사용용) */
 export function MenuItem({
   icon,
   title,

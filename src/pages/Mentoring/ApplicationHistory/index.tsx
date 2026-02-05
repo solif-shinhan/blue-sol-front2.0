@@ -5,7 +5,6 @@ import styles from './ApplicationHistory.module.css'
 import backArrowIcon from '@/assets/images/exchange-mentoring/back-arrow.svg'
 import profilePlaceholder from '@/assets/images/exchange-mentoring/dot-small.svg'
 
-// 신청서 데이터 타입
 interface Application {
   id: number
   name: string
@@ -15,7 +14,6 @@ interface Application {
   profileImage?: string
 }
 
-// 샘플 데이터
 const SENT_APPLICATIONS: Application[] = [
   {
     id: 1,
@@ -62,7 +60,6 @@ function ApplicationHistoryPage() {
 
   return (
     <div className={styles.container}>
-      {/* 헤더 */}
       <div className={styles.header}>
         <div className={styles.headerInner}>
           <button className={styles.backButton} onClick={handleBack}>
@@ -72,7 +69,6 @@ function ApplicationHistoryPage() {
         </div>
       </div>
 
-      {/* 탭 바 */}
       <div className={styles.tabBar}>
         <button
           className={`${styles.tab} ${activeTab === 'sent' ? styles.tabActive : ''}`}
@@ -88,7 +84,6 @@ function ApplicationHistoryPage() {
         </button>
       </div>
 
-      {/* 신청서 리스트 */}
       <div className={styles.listContainer}>
         {applications.map((item) => (
           <div key={item.id} className={styles.listItem}>

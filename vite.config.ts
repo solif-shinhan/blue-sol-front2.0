@@ -15,6 +15,7 @@ export default defineConfig({
       '@api': path.resolve(__dirname, './src/api'),
       '@types': path.resolve(__dirname, './src/types'),
       '@assets': path.resolve(__dirname, './src/assets'),
+      '@features': path.resolve(__dirname, './src/features'),
     },
   },
   server: {
@@ -33,7 +34,13 @@ export default defineConfig({
     },
     watch: {
       usePolling: false,
-      ignored: ['**/node_modules/**', '**/dist/**', '**/.git/**'],
+      ignored: [
+        '**/node_modules/**',
+        '**/dist/**',
+        '**/.git/**',
+        '**/tsconfig.tsbuildinfo',
+        '**/*.tsbuildinfo',
+      ],
     },
   },
   // 의존성 사전 번들링
@@ -49,6 +56,21 @@ export default defineConfig({
   build: {
     sourcemap: false,
     cssCodeSplit: true,
+    // 청크 크기 경고 제한 증가 (이미지가 많아서)
+    chunkSizeWarningLimit: 1000,
+    // 롤업 옵션 최적화
+    rollupOptions: {
+      output: {
+        // 청크를 더 세밀하게 분리
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+        },
+        // 청크 파일명 최적화
+        chunkFileNames: 'assets/js/[name]-[hash].js',
+        entryFileNames: 'assets/js/[name]-[hash].js',
+        assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
+      },
+    },
   },
   // 캐시 활성화
   cacheDir: 'node_modules/.vite',

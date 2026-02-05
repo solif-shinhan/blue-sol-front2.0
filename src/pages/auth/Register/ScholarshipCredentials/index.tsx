@@ -24,7 +24,6 @@ function ScholarshipCredentialsPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
 
-  // Check if form is valid (all fields filled and passwords match)
   const isFormValid =
     formData.username.trim() !== '' &&
     formData.password.trim() !== '' &&
@@ -45,9 +44,13 @@ function ScholarshipCredentialsPage() {
     setError('')
 
     try {
-      // localStorage에서 저장된 데이터 가져오기
+      console.log('[ScholarshipCredentials] handleSubmit 시작')
+
       const registerDataStr = localStorage.getItem('registerData')
       const userRole = localStorage.getItem('registerUserRole') as UserRole || 'SENIOR'
+
+      console.log('[ScholarshipCredentials] registerDataStr:', registerDataStr)
+      console.log('[ScholarshipCredentials] userRole:', userRole)
 
       if (!registerDataStr) {
         setError('회원 정보가 없습니다. 처음부터 다시 시도해주세요.')
@@ -56,9 +59,12 @@ function ScholarshipCredentialsPage() {
       }
 
       const registerData = JSON.parse(registerDataStr)
+      console.log('[ScholarshipCredentials] registerData:', registerData)
 
-      // 회원가입 API 호출
-      const signupResponse = await signup({
+      // userName을 미리 저장 (API 성공/실패와 관계없이 온보딩에서 사용)
+      localStorage.setItem('userName', registerData.name)
+
+      const signupPayload = {
         loginId: formData.username,
         password: formData.password,
         name: registerData.name,
@@ -68,26 +74,24 @@ function ScholarshipCredentialsPage() {
         userRole: userRole,
         region: registerData.region,
         schoolName: registerData.schoolName
-      })
+      }
+
+      console.log('[ScholarshipCredentials] signup payload:', { ...signupPayload, password: '***' })
+
+      const signupResponse = await signup(signupPayload)
 
       if (signupResponse.success) {
-        // 회원가입 성공 후 사용자 이름 저장 (Home에서 사용)
-        localStorage.setItem('userName', registerData.name)
-
-        // 회원가입 성공 후 자동 로그인
         const loginResponse = await login({
           loginId: formData.username,
           password: formData.password
         })
 
-        // 임시 저장 데이터 삭제
-        localStorage.removeItem('registerData')
+        // registerData는 온보딩에서 사용하므로 온보딩 완료 시 삭제
         localStorage.removeItem('registerUserRole')
 
         if (loginResponse.success) {
           navigate('/register/complete')
         } else {
-          // 로그인 실패 시에도 회원가입은 완료됐으므로 완료 페이지로 이동
           navigate('/register/complete')
         }
       } else {
@@ -106,7 +110,6 @@ function ScholarshipCredentialsPage() {
 
   return (
     <div className={styles.container}>
-      {/* Header with Back Button and Progress */}
       <BackHeader
         onBack={handleBack}
         showProgress
@@ -114,7 +117,6 @@ function ScholarshipCredentialsPage() {
         currentStep={3}
       />
 
-      {/* Title Section */}
       <PageHeader
         variant="form"
         titleBold="아이디와 비밀번호"
@@ -123,7 +125,6 @@ function ScholarshipCredentialsPage() {
         className={styles.pageHeader}
       />
 
-      {/* Form Section */}
       <div className={styles.formSection}>
         <div className={styles.form}>
           <FormRow
@@ -161,14 +162,12 @@ function ScholarshipCredentialsPage() {
         </div>
       </div>
 
-      {/* Error Message */}
       {error && (
         <div className={styles.errorMessage}>
           {error}
         </div>
       )}
 
-      {/* Submit Button */}
       <div className={styles.buttonWrapper}>
         <CTAButton
           text={isLoading ? '처리 중...' : '가입 및 로그인'}
@@ -177,7 +176,6 @@ function ScholarshipCredentialsPage() {
         />
       </div>
 
-      {/* Footer Logo */}
       <div className={styles.footer}>
         <img src={flogo} alt="신한장학재단" className={styles.footerLogo} />
       </div>

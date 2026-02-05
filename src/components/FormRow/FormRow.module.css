@@ -5,7 +5,6 @@
   width: 100%;
 }
 
-/* Horizontal variant - 라벨과 인풋이 가로로 배치 */
 .formRow.horizontal {
   flex-direction: row;
   align-items: center;
@@ -23,7 +22,6 @@
   line-height: 1.2;
 }
 
-/* Horizontal label style */
 .labelHorizontal {
   font-size: 16px;
   font-weight: 600;
@@ -57,7 +55,6 @@
   color: #848484;
 }
 
-/* Horizontal input style */
 .inputHorizontal {
   width: 240px;
   min-width: 240px;

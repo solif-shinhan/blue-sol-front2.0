@@ -10,14 +10,12 @@ interface PublicSolidCardProps {
 function PublicSolidCard({ userData, onAddNetwork, isAdded }: PublicSolidCardProps) {
   return (
     <div className={styles.container}>
-      {/* Header */}
       <div className={styles.header}>
         <div className={styles.headerSpacer} />
         <span className={styles.headerTitle}>SOLID 프로필</span>
         <div className={styles.headerSpacer} />
       </div>
 
-      {/* Card */}
       <div className={styles.card}>
         <div className={styles.solidLogo}>
           <span className={styles.solidLogoSol}>SOL</span>
@@ -46,7 +44,6 @@ function PublicSolidCard({ userData, onAddNetwork, isAdded }: PublicSolidCardPro
         </div>
       </div>
 
-      {/* Add to Network Button */}
       <button
         className={`${styles.addNetworkButton} ${isAdded ? styles.addNetworkButtonAdded : ''}`}
         onClick={onAddNetwork}
@@ -66,7 +63,6 @@ function PublicSolidCard({ userData, onAddNetwork, isAdded }: PublicSolidCardPro
         <span>{isAdded ? '교류망에 추가됨' : '교류망 추가하기'}</span>
       </button>
 
-      {/* Footer */}
       <div className={styles.footer}>
         <span className={styles.footerText}>푸른 SOL</span>
       </div>

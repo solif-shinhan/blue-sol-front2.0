@@ -10,16 +10,12 @@ import { COUNCIL_ITEMS } from '../Home/Home.constants'
 import { FRIENDS_SIMPLE } from './constants'
 import { useCouncilStatus } from '@/hooks'
 
-// 깃발 이미지 (public 폴더)
 const flagImage = '/flag1.png'
 
-// Merge styles
 const styles = { ...styles1, ...styles2, ...styles3 }
 
-// 게시판 카테고리
 const BOARD_CATEGORIES = ['사회', '인성', '과학', '취업']
 
-// 게시글 데이터
 const BOARD_POSTS = [
   {
     id: 1,
@@ -65,7 +61,6 @@ function ExchangePage() {
   const councilDragging = useRef(false)
   const councilStartX = useRef(0)
 
-  // 탭 이동 핸들러
   const handleTabClick = (tab: string) => {
     if (tab === '홈') {
       navigate('/home')
@@ -74,7 +69,6 @@ function ExchangePage() {
     }
   }
 
-  // 자치회 활동 캐러셀 핸들러
   const goToCouncilSlide = useCallback((index: number) => {
     let targetIndex = index
     if (index < 0) targetIndex = COUNCIL_ITEMS.length - 1
@@ -97,7 +91,6 @@ function ExchangePage() {
 
   return (
     <div className={styles.container}>
-      {/* 탭 네비게이션 */}
       <nav className={styles.tabNav}>
         <div className={styles.tabs}>
           <button className={styles.tab} onClick={() => handleTabClick('홈')}>홈</button>
@@ -112,9 +105,7 @@ function ExchangePage() {
         </div>
       </nav>
 
-      {/* 메인 콘텐츠 */}
       <div className={styles.content}>
-        {/* 나의 교류망 */}
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>나의 교류망</h2>
           <div className={styles.networkCard}>
@@ -142,7 +133,6 @@ function ExchangePage() {
           </div>
         </section>
 
-        {/* 자치회 활동 */}
         <section className={styles.councilSection}>
           <div className={styles.councilHeader}>
             <h2 className={styles.sectionTitle}>자치회 활동</h2>
@@ -216,7 +206,6 @@ function ExchangePage() {
           )}
         </section>
 
-        {/* 멘토링 */}
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>멘토링</h2>
           <div className={styles.mentoringCard} onClick={() => navigate('/exchange/mentoring')} style={{ cursor: 'pointer' }}>
@@ -229,7 +218,6 @@ function ExchangePage() {
           </div>
         </section>
 
-        {/* 게시판 */}
         <section className={styles.section}>
           <div className={styles.sectionHeader}>
             <h2 className={styles.sectionTitle}>게시판</h2>
@@ -267,14 +255,12 @@ function ExchangePage() {
           </div>
         </section>
 
-        {/* 푸터 */}
         <footer className={styles.footer}>
           <button className={styles.logoutButton}>로그아웃</button>
           <div className={styles.footerLogo}>신한장학재단</div>
         </footer>
       </div>
 
-      {/* FAB 메뉴 오버레이 */}
       {isFabMenuOpen && (
         <div className={styles.fabOverlay} onClick={() => setIsFabMenuOpen(false)}>
           <div className={styles.fabMenu} onClick={(e) => e.stopPropagation()}>
@@ -289,7 +275,6 @@ function ExchangePage() {
         </div>
       )}
 
-      {/* 글쓰기 FAB */}
       <button
         className={`${styles.fab} ${isFabMenuOpen ? styles.fabActive : ''}`}
         onClick={() => setIsFabMenuOpen(!isFabMenuOpen)}

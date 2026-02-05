@@ -6,7 +6,6 @@ import flogo from '@assets/images/flogo.svg'
 function RegisterCompletePage() {
   const navigate = useNavigate()
 
-  // localStorage에서 사용자 이름 가져오기
   const userName = localStorage.getItem('userName') || '회원'
 
   const handleStart = () => {
@@ -15,7 +14,6 @@ function RegisterCompletePage() {
 
   return (
     <div className={styles.container} onClick={handleStart}>
-      {/* Content Section */}
       <div className={styles.content}>
         <img
           src={registerCompleteImage}
@@ -31,7 +29,6 @@ function RegisterCompletePage() {
         </div>
       </div>
 
-      {/* Footer - Same position as Register page */}
       <div className={styles.footer}>
         <img src={flogo} alt="신한장학재단" className={styles.footerLogo} />
       </div>

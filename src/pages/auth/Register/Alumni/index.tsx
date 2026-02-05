@@ -7,7 +7,6 @@ import CTAButton from '@components/CTAButton'
 import styles from './Alumni.module.css'
 import flogo from '@assets/images/flogo.svg'
 
-// 한국 지역 목록
 const REGIONS = [
   '서울',
   '경기',
@@ -42,7 +41,6 @@ function AlumniRegisterPage() {
   const [isRegionDropdownOpen, setIsRegionDropdownOpen] = useState(false)
   const regionDropdownRef = useRef<HTMLDivElement>(null)
 
-  // 드롭다운 외부 클릭 시 닫기
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (regionDropdownRef.current && !regionDropdownRef.current.contains(event.target as Node)) {
@@ -93,7 +91,6 @@ function AlumniRegisterPage() {
 
   const handleSubmit = () => {
     if (isFormValid) {
-      // 기본 정보를 localStorage에 저장 (ScholarshipMember와 동일한 형식)
       localStorage.setItem('registerData', JSON.stringify({
         name: formData.name,
         scholarNumber: formData.scholarshipNumber,
@@ -102,14 +99,12 @@ function AlumniRegisterPage() {
         region: formData.region,
         schoolName: formData.schoolName
       }))
-      // Navigate to credentials setup page
       navigate('/register/scholarship/credentials')
     }
   }
 
   return (
     <div className={styles.container}>
-      {/* Header with Back Button and Progress */}
       <BackHeader
         onBack={handleBack}
         showProgress
@@ -117,7 +112,6 @@ function AlumniRegisterPage() {
         currentStep={2}
       />
 
-      {/* Title Section */}
       <PageHeader
         variant="form"
         titleBold="졸업생 기본 정보"
@@ -126,7 +120,6 @@ function AlumniRegisterPage() {
         className={styles.pageHeader}
       />
 
-      {/* Form Section 1 */}
       <div className={styles.formSection}>
         <div className={styles.form}>
           <FormRow
@@ -171,10 +164,8 @@ function AlumniRegisterPage() {
         </div>
       </div>
 
-      {/* Form Section 2 */}
       <div className={styles.formSectionSecond}>
         <div className={styles.formSecond}>
-          {/* 지역 - 드롭다운 */}
           <div className={styles.inputRow}>
             <label className={styles.label}>지역</label>
             <div className={styles.dropdownContainer} ref={regionDropdownRef}>
@@ -202,7 +193,6 @@ function AlumniRegisterPage() {
             </div>
           </div>
 
-          {/* 학교 - FormRow 사용 (schoolName) */}
           <FormRow
             label="학교"
             name="schoolName"
@@ -215,7 +205,6 @@ function AlumniRegisterPage() {
         </div>
       </div>
 
-      {/* Submit Button */}
       <div className={styles.buttonWrapper}>
         <CTAButton
           text="다음"
@@ -224,7 +213,6 @@ function AlumniRegisterPage() {
         />
       </div>
 
-      {/* Footer */}
       <div className={styles.footer}>
         <img src={flogo} alt="신한장학재단" className={styles.footerLogo} />
       </div>

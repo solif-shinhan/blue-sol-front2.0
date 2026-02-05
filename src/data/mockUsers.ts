@@ -1,5 +1,3 @@
-// 목업 사용자 데이터 (NFC 카드 연동용)
-
 export interface MockUser {
   id: string
   name: string
@@ -50,7 +48,6 @@ export const MOCK_USERS: Record<string, MockUser> = {
     goals: ['CFA 취득', '투자 포트폴리오 구축', '금융권 취업'],
     interests: ['금융', '경제']
   },
-  // 심사위원 카드
   'judge-001': {
     id: 'judge-001',
     name: '심사위원A',
@@ -69,12 +66,10 @@ export const MOCK_USERS: Record<string, MockUser> = {
   }
 }
 
-// 사용자 ID로 목업 데이터 조회
 export function getMockUserById(userId: string): MockUser | null {
   return MOCK_USERS[userId] || null
 }
 
-// 모든 목업 사용자 목록
 export function getAllMockUsers(): MockUser[] {
   return Object.values(MOCK_USERS)
 }

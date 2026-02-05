@@ -27,20 +27,17 @@
     transform: scale(0.98);
 }
 
-/* Primary - Blue filled */
 .primary {
     background-color: #074ED8;
     color: #FFFFFF;
 }
 
-/* Secondary - White with border */
 .secondary {
     background-color: #FFFFFF;
     color: #222222;
     border: 1px solid #E6E6E6;
 }
 
-/* Disabled state colors */
 .primary:disabled {
     background-color: #074ED8;
 }

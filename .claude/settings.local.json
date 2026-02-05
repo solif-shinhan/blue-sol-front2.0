@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run build:*)",
+      "Bash(npx tsc:*)",
+      "WebFetch(domain:stg-api.bluesol.site)",
+      "Bash(npm run dev:*)",
+      "WebFetch(domain:www.figma.com)",
+      "Bash(npx kill-port:*)",
+      "Bash(wc:*)",
+      "Bash(git remote set-url:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}

@@ -15,7 +15,6 @@ function GoalsPage() {
   const [mode, setMode] = useState<Mode>('view')
   const [newGoalText, setNewGoalText] = useState('')
 
-  // localStorage에서 목표 데이터 로드
   const [goals, setGoals] = useState<Goal[]>(() => {
     const savedGoals = localStorage.getItem('userGoals')
     const savedCompletedGoals = localStorage.getItem('completedGoals')
@@ -37,7 +36,6 @@ function GoalsPage() {
   const totalCount = goals.length
   const mainGoal = goals[0]?.text || '목표를 설정해주세요'
 
-  // 목표 저장
   const saveGoals = (updatedGoals: Goal[]) => {
     const goalTexts = updatedGoals.map(g => g.text)
     const completedIds = updatedGoals.filter(g => g.completed).map(g => g.id)
@@ -46,7 +44,6 @@ function GoalsPage() {
     setGoals(updatedGoals)
   }
 
-  // 목표 달성 토글
   const toggleComplete = (id: number) => {
     if (mode !== 'complete') return
     const updatedGoals = goals.map(g =>
@@ -55,14 +52,12 @@ function GoalsPage() {
     saveGoals(updatedGoals)
   }
 
-  // 목표 삭제
   const deleteGoal = (id: number) => {
     if (goals.length <= 1) return
     const updatedGoals = goals.filter(g => g.id !== id)
     saveGoals(updatedGoals)
   }
 
-  // 목표 추가
   const addGoal = () => {
     if (!newGoalText.trim()) return
     const newGoal: Goal = {
@@ -76,7 +71,6 @@ function GoalsPage() {
     setMode('view')
   }
 
-  // 모드 변경
   const handleModeChange = (newMode: Mode) => {
     if (mode === newMode) {
       setMode('view')
@@ -86,7 +80,6 @@ function GoalsPage() {
     }
   }
 
-  // 저장 버튼 클릭
   const handleSave = () => {
     if (mode === 'add' && newGoalText.trim()) {
       addGoal()
@@ -94,12 +87,10 @@ function GoalsPage() {
     setMode('view')
   }
 
-  // 뒤로가기
   const handleBack = () => {
     navigate(-1)
   }
 
-  // 메인 목표 텍스트 분리 (줄바꿈용)
   const splitMainGoal = (text: string) => {
     const words = text.split(' ')
     if (words.length <= 3) return { line1: text, line2: '' }
@@ -114,13 +105,11 @@ function GoalsPage() {
 
   return (
     <div className={styles.container}>
-      {/* Status Bar */}
       <div className={styles.statusBar}>
         <div className={styles.notch} />
         <span className={styles.statusTime}>3:14</span>
       </div>
 
-      {/* Header Navigation */}
       <div className={styles.headerNav}>
         <button className={styles.backButton} onClick={handleBack}>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -135,7 +124,6 @@ function GoalsPage() {
         </div>
       </div>
 
-      {/* Hero Section */}
       <div className={styles.heroSection}>
         <div className={styles.heroText}>
           <div className={styles.heroSubtitle}>
@@ -161,7 +149,6 @@ function GoalsPage() {
         </div>
       </div>
 
-      {/* Goals Section */}
       <div className={styles.goalsSection}>
         <div className={styles.goalsSectionHeader}>
           <h2 className={styles.goalsSectionTitle}>나의 목표</h2>
@@ -193,7 +180,6 @@ function GoalsPage() {
         </div>
 
         <div className={styles.goalList}>
-          {/* 추가 모드일 때 입력 필드 표시 */}
           {mode === 'add' && (
             <div className={styles.addGoalCard}>
               <input
@@ -207,7 +193,6 @@ function GoalsPage() {
             </div>
           )}
 
-          {/* 목표 카드들 */}
           {goals.map((goal, index) => (
             <div
               key={goal.id}
@@ -240,7 +225,6 @@ function GoalsPage() {
         </div>
       </div>
 
-      {/* 저장 버튼 (add, complete, delete 모드일 때 표시) */}
       {mode !== 'view' && (
         <div className={styles.saveButtonContainer}>
           <button

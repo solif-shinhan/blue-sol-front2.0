@@ -39,10 +39,6 @@
   line-height: 1.2;
 }
 
-/* ==========================================================================
-   자치회 활동 Section
-   ========================================================================== */
-
 .councilSection {
   margin-bottom: 30px;
 }
@@ -83,7 +79,6 @@
   user-select: none;
 }
 
-/* 카드 공통 내부 요소 */
 .cardLabel {
   font-family: 'Pretendard', sans-serif;
   font-size: 16px;
@@ -111,7 +106,6 @@
   border-radius: 50%;
 }
 
-/* 카드 1: 예산 카드 */
 .councilCardBudget {
   padding: 20px 23px;
 }
@@ -153,7 +147,6 @@
   border-radius: 3px;
 }
 
-/* 카드 2 & 3: 활동 카드 */
 .councilCardActivity {
   padding: 20px 19px;
 }

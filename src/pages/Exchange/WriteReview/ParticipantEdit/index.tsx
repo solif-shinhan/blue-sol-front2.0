@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles from './ParticipantEdit.module.css'
 
-// 참여 인원 아바타 이미지들
 import avatar1 from '@/assets/images/exchange-write/exchange-wirte-review/34d0cfd7134cc05f15dd1efb5183b8bba793f850.png'
 import avatar2 from '@/assets/images/exchange-write/exchange-wirte-review/6274fd76ac528e10ab53c6a60ec2b7781a4bf077.png'
 import avatar3 from '@/assets/images/exchange-write/exchange-wirte-review/4bf002daa7ad9b2fb6987fa94a968c96d5e411a4.png'
@@ -10,14 +9,12 @@ import avatar4 from '@/assets/images/exchange-write/exchange-wirte-review/3a123e
 import avatar5 from '@/assets/images/exchange-write/exchange-wirte-review/4f312a8b6806350bc51a53e37425ab024d322097.png'
 import avatar6 from '@/assets/images/exchange-write/exchange-wirte-review/a32743961912e3f72471dab1912efd76555d7042.png'
 
-// 나의 교류망 아바타 이미지들
 import networkAvatar1 from '@/assets/images/exchange-write/exchange-wirte-review/ffc6bfc78b5804d6ee5a1c0d336a7687f204514b.png'
 import networkAvatar2 from '@/assets/images/exchange-write/exchange-wirte-review/869537da727321f48230bb0930f0c23ea23895ea.png'
 import networkAvatar3 from '@/assets/images/exchange-write/exchange-wirte-review/411bc11b158f68b15d2ea2f4e6f61187dc97745f.png'
 import networkAvatar4 from '@/assets/images/exchange-write/exchange-wirte-review/840598ca4b77909e47616ff974f748923e3e909d.png'
 import networkAvatar5 from '@/assets/images/exchange-write/exchange-wirte-review/945fe4cdb322250cf07a77427087abb9fc88c1cf.png'
 
-// 아이콘
 import backArrowIcon from '@/assets/images/writing/Glyph_ undefined.svg'
 
 interface Participant {
@@ -54,7 +51,6 @@ const NETWORK_PEOPLE: NetworkPerson[] = [
     { id: 105, name: '안진선', avatar: networkAvatar5, type: '고등학생', region: '제주' },
 ]
 
-// 전체 검색용 더미 데이터
 const ALL_PEOPLE: NetworkPerson[] = [
     { id: 201, name: '김신한', avatar: networkAvatar1, type: '고등학생', region: '제주' },
     { id: 202, name: '박민철', avatar: networkAvatar2, type: '고등학생', region: '제주' },
@@ -84,7 +80,6 @@ function ParticipantEditPage() {
     }
 
     const handleAddPerson = (person: NetworkPerson) => {
-        // 이미 참여자 목록에 있으면 무시
         if (participants.some((p) => p.name === person.name)) return
 
         const newParticipant: Participant = {
@@ -133,7 +128,6 @@ function ParticipantEditPage() {
 
     return (
         <div className={styles.container}>
-            {/* Header */}
             <div className={styles.header}>
                 <button className={styles.backButton} onClick={handleBack}>
                     <img src={backArrowIcon} alt="뒤로가기" />
@@ -141,14 +135,12 @@ function ParticipantEditPage() {
                 <span className={styles.headerTitle}>참여 인원 수정</span>
             </div>
 
-            {/* 활동 참여 인원 섹션 */}
             <div className={styles.participantSection}>
                 <div className={styles.sectionHeader}>
                     <span className={styles.sectionTitle}>활동 참여 인원</span>
                     <span className={styles.participantCount}>{participants.length}명</span>
                 </div>
 
-                {/* 참여 인원 아바타 목록 (수평 스크롤) */}
                 <div className={styles.participantList}>
                     {participants.map((participant) => (
                         <div key={participant.id} className={styles.participantItem}>
@@ -178,9 +170,7 @@ function ParticipantEditPage() {
                 </div>
             </div>
 
-            {/* 하단 카드 영역 */}
             <div className={styles.bottomCard}>
-                {/* 탭 전환 */}
                 <div className={styles.tabContainer}>
                     <button
                         className={`${styles.tab} ${activeTab === 'network' ? styles.tabActive : ''}`}
@@ -196,7 +186,6 @@ function ParticipantEditPage() {
                     </button>
                 </div>
 
-                {/* 검색 입력창 */}
                 <div className={styles.searchContainer}>
                     <input
                         type="text"
@@ -213,7 +202,6 @@ function ParticipantEditPage() {
                     </button>
                 </div>
 
-                {/* 나의 교류망 탭 */}
                 {activeTab === 'network' && (
                     <>
                         <div className={styles.listHeader}>
@@ -243,7 +231,6 @@ function ParticipantEditPage() {
                     </>
                 )}
 
-                {/* 전체 검색 탭 */}
                 {activeTab === 'search' && (
                     <>
                         <div className={styles.listHeader}>
@@ -271,7 +258,6 @@ function ParticipantEditPage() {
                             ))}
                         </div>
 
-                        {/* 추가하기 버튼 */}
                         <button
                             className={styles.addButton}
                             onClick={handleAddSelected}

@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import styles from './MyPage.module.css'
 import bellIcon from '@/assets/images/bell.svg'
 
-// 임시 활동 데이터 (추후 API 연동)
 const ACTIVITIES = [
   {
     id: 1,
@@ -37,7 +36,6 @@ const ACTIVITIES = [
 function MyPagePage() {
   const navigate = useNavigate()
 
-  // localStorage에서 사용자 데이터 가져오기
   const userData = useMemo(() => {
     const userName = localStorage.getItem('userName')
     const registerData = localStorage.getItem('registerData')
@@ -66,7 +64,6 @@ function MyPagePage() {
 
   return (
     <div className={styles.container}>
-      {/* Tab Navigation */}
       <nav className={styles.tabNav}>
         <div className={styles.tabs}>
           <button className={styles.tab} onClick={() => handleTabClick('홈')}>홈</button>
@@ -81,9 +78,7 @@ function MyPagePage() {
         </div>
       </nav>
 
-      {/* Content */}
       <div className={styles.content}>
-        {/* Profile Section */}
         <div className={styles.profileSection}>
           <div className={styles.avatar}></div>
           <div className={styles.profileInfo}>
@@ -94,10 +89,8 @@ function MyPagePage() {
           </div>
         </div>
 
-        {/* Divider */}
         <div className={styles.divider}></div>
 
-        {/* Dashboard Section */}
         <div className={styles.dashboardSection}>
           <div className={styles.sectionHeader}>
             <span className={styles.sectionTitle}>활동 대시보드</span>
@@ -123,7 +116,6 @@ function MyPagePage() {
                 </div>
               </div>
             </div>
-            {/* Pie Chart Placeholder */}
             <div className={styles.pieChart}>
               <svg viewBox="0 0 126 126" fill="none">
                 <circle cx="63" cy="63" r="50" stroke="#E6E6E6" strokeWidth="20" fill="none" />
@@ -167,7 +159,6 @@ function MyPagePage() {
           </div>
         </div>
 
-        {/* Activity Section */}
         <div className={styles.activitySection}>
           <div className={styles.activityHeader}>
             <span className={styles.sectionTitle}>나의 지난 활동</span>

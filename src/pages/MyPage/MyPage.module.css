@@ -6,7 +6,6 @@
   overflow-y: auto;
 }
 
-/* Tab Navigation */
 .tabNav {
   display: flex;
   justify-content: space-between;
@@ -59,7 +58,6 @@
   border: 1px solid #D7D7D7;
 }
 
-/* Content Area */
 .content {
   display: flex;
   flex-direction: column;
@@ -68,7 +66,6 @@
   padding-top: 35px;
 }
 
-/* Profile Section */
 .profileSection {
   display: flex;
   flex-direction: column;
@@ -125,14 +122,12 @@
   color: #FFFFFF;
 }
 
-/* Divider */
 .divider {
   width: 100%;
   height: 6px;
   background-color: #F3F6FB;
 }
 
-/* Dashboard Section */
 .dashboardSection {
   width: 360px;
 }
@@ -235,7 +230,6 @@
   height: 100%;
 }
 
-/* Activity Section */
 .activitySection {
   width: 361px;
   padding-bottom: 30px;

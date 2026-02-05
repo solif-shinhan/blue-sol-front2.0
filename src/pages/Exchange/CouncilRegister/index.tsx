@@ -4,8 +4,8 @@ import styles1 from './CouncilRegister-1.module.css'
 import styles2 from './CouncilRegister-2.module.css'
 import { useCouncilStatus } from '@/hooks'
 import backArrowIcon from '@/assets/images/IOS Arrow/undefined/Glyph_ undefined.svg'
+import { createCouncil } from '@/services'
 
-// Merge styles
 const styles = { ...styles1, ...styles2 }
 
 interface TeamMember {
@@ -19,7 +19,6 @@ export function CouncilRegister() {
     const { setHasCouncil } = useCouncilStatus()
     const [showSuccess, setShowSuccess] = useState(false)
 
-    // Form state
     const [formData, setFormData] = useState({
         councilName: '',
         leader: '',
@@ -29,10 +28,8 @@ export function CouncilRegister() {
         activityGoal: ''
     })
 
-    // Team members (mock data for filled state)
     const [teamMembers, setTeamMembers] = useState<TeamMember[]>([])
 
-    // Check if form is valid
     const isFormValid =
         formData.councilName.trim() !== '' &&
         formData.leader.trim() !== '' &&
@@ -47,7 +44,6 @@ export function CouncilRegister() {
     }
 
     const handleAddMember = () => {
-        // Mock: Add a random member
         const colors: TeamMember['avatarColor'][] = ['blue', 'lightBlue', 'gray']
         const names = ['추가하기', '김강무', '최태환', '김윤혁', '신대현', '도윤팸']
         const newMember: TeamMember = {
@@ -58,14 +54,33 @@ export function CouncilRegister() {
         setTeamMembers(prev => [...prev, newMember])
     }
 
-    const handleSubmit = () => {
-        if (isFormValid) {
-            setHasCouncil(true)
-            setShowSuccess(true)
-            // Auto close after 3 seconds
-            setTimeout(() => {
-                navigate('/exchange')
-            }, 3000)
+    const [isSubmitting, setIsSubmitting] = useState(false)
+
+    const handleSubmit = async () => {
+        if (!isFormValid || isSubmitting) return
+
+        setIsSubmitting(true)
+        try {
+            const response = await createCouncil({
+                name: formData.councilName,
+                description: formData.activityGoal,
+                region: formData.activityRegion,
+                topic: formData.activityTopic,
+                goal: formData.activityGoal,
+            })
+
+            if (response.success) {
+                setHasCouncil(true)
+                setShowSuccess(true)
+                setTimeout(() => {
+                    navigate('/exchange')
+                }, 3000)
+            }
+        } catch (err) {
+            console.error('자치회 등록 실패:', err)
+            alert('자치회 등록에 실패했습니다.')
+        } finally {
+            setIsSubmitting(false)
         }
     }
 
@@ -98,7 +113,6 @@ export function CouncilRegister() {
 
     return (
         <div className={styles.container}>
-            {/* Header */}
             <header className={styles.header}>
                 <div className={styles.headerLeft}>
                     <button className={styles.backButton} onClick={handleBack}>
@@ -109,9 +123,7 @@ export function CouncilRegister() {
                 <div className={styles.headerRight} />
             </header>
 
-            {/* Content */}
             <main className={styles.content}>
-                {/* 기본 정보 입력 */}
                 <section className={styles.formSection}>
                     <h2 className={styles.formSectionTitle}>기본 정보 입력</h2>
                     <div className={styles.inputGroup}>
@@ -168,7 +180,6 @@ export function CouncilRegister() {
                     </div>
                 </section>
 
-                {/* 팀원 초대 */}
                 <section className={styles.teamSection}>
                     <h2 className={styles.teamSectionTitle}>팀원 초대</h2>
                     <p className={styles.teamSectionDescription}>
@@ -193,7 +204,6 @@ export function CouncilRegister() {
                     </div>
                 </section>
 
-                {/* 활동 목표 */}
                 <section className={styles.goalSection}>
                     <h2 className={styles.goalSectionTitle}>활동 목표</h2>
                     <textarea
@@ -205,7 +215,6 @@ export function CouncilRegister() {
                 </section>
             </main>
 
-            {/* Submit Button */}
             <div className={styles.submitButtonContainer}>
                 <button
                     className={`${styles.submitButton} ${isFormValid ? styles.submitButtonActive : styles.submitButtonDisabled}`}

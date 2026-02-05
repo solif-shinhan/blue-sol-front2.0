@@ -29,7 +29,6 @@
   margin-bottom: var(--space-3);
 }
 
-/* Tree Card */
 .treeCard {
   display: flex;
   gap: var(--space-4);
@@ -95,7 +94,6 @@
   color: var(--color-text-tertiary);
 }
 
-/* Bucket List */
 .bucketList {
   display: flex;
   flex-direction: column;
@@ -136,7 +134,6 @@
   color: var(--color-text-primary);
 }
 
-/* Program List */
 .programList {
   display: flex;
   flex-direction: column;

@@ -1,15 +1,10 @@
 import styles from './PageHeader.module.css'
 
 interface PageHeaderProps {
-  /** 메인 타이틀 */
   title: string
-  /** 서브타이틀 (선택) */
   subtitle?: string
-  /** 타이틀 스타일 변형 */
   variant?: 'default' | 'form'
-  /** 타이틀에서 강조할 부분 (form 변형에서 사용) */
   titleBold?: string
-  /** 추가 클래스명 */
   className?: string
 }
 

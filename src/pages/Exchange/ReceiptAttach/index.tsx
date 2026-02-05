@@ -41,7 +41,6 @@ function ReceiptAttachPage() {
     const file = e.target.files?.[0]
     if (!file) return
 
-    // input value 리셋 (같은 파일 재선택 가능하도록)
     e.target.value = ''
 
     const preview = URL.createObjectURL(file)
@@ -59,7 +58,6 @@ function ReceiptAttachPage() {
       setRecognizedAmount(result.amount)
       setTotalAmount((prev) => prev + result.amount)
     } catch {
-      // API 에러 시 임시 금액 사용 (데모용)
       const demoAmount = 7080
       setRecognizedAmount(demoAmount)
       setTotalAmount((prev) => prev + demoAmount)
@@ -98,7 +96,6 @@ function ReceiptAttachPage() {
 
   return (
     <div className={styles.container}>
-      {/* 숨겨진 파일 입력 */}
       <input
         ref={fileInputRef}
         type="file"
@@ -108,7 +105,6 @@ function ReceiptAttachPage() {
         style={{ display: 'none' }}
       />
 
-      {/* 배경 이미지 (영수증) */}
       {receiptImages.length > 0 && (
         <div className={styles.backgroundImage}>
           <img
@@ -120,10 +116,8 @@ function ReceiptAttachPage() {
         </div>
       )}
 
-      {/* 상태바 영역 */}
       <div className={styles.statusBar} />
 
-      {/* 헤더 */}
       <header className={styles.header}>
         <div className={styles.headerContent}>
           <button className={styles.closeButton} onClick={handleClose}>
@@ -135,7 +129,6 @@ function ReceiptAttachPage() {
         </div>
       </header>
 
-      {/* 탭 스위치 */}
       <div className={styles.tabSwitch}>
         <button
           className={`${styles.tabButton} ${activeTab === '내가 보낸 신청서' ? styles.tabActive : ''}`}
@@ -151,15 +144,12 @@ function ReceiptAttachPage() {
         </button>
       </div>
 
-      {/* 스캔 영역 표시 (녹색 테두리) */}
       {receiptImages.length > 0 && (
         <div className={styles.scanArea} />
       )}
 
-      {/* 메인 콘텐츠 */}
       <div className={styles.content}>
         {receiptImages.length === 0 ? (
-          /* 이미지 없을 때 - 첨부 안내 */
           <div className={styles.emptyState} onClick={triggerFileInput}>
             <div className={styles.emptyIcon}>
               <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
@@ -171,7 +161,6 @@ function ReceiptAttachPage() {
             <p className={styles.emptyText}>터치하여 영수증을 촬영하거나<br/>갤러리에서 선택하세요</p>
           </div>
         ) : (
-          /* 인식 중 메시지 */
           isProcessing && (
             <div className={styles.processingBadge}>
               <span className={styles.processingText}>영수증 정보를 인식 중입니다.</span>
@@ -180,7 +169,6 @@ function ReceiptAttachPage() {
         )}
       </div>
 
-      {/* 하단 결과 영역 */}
       {receiptImages.length > 0 && (
         <div className={styles.resultSection}>
           <div className={styles.resultInfo}>
@@ -198,7 +186,6 @@ function ReceiptAttachPage() {
             </div>
           </div>
 
-          {/* 썸네일 카운트 */}
           <div className={styles.thumbnailWrapper}>
             <div className={styles.thumbnail}>
               {receiptImages.length > 0 && (
@@ -214,7 +201,6 @@ function ReceiptAttachPage() {
         </div>
       )}
 
-      {/* 하단 버튼 */}
       <div className={styles.footer}>
         {receiptImages.length > 0 ? (
           <>

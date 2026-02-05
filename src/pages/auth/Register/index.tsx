@@ -8,7 +8,6 @@ import image176 from '@assets/images/register/image 176.png'
 import image177 from '@assets/images/register/image 177.png'
 import image178 from '@assets/images/register/image 178.png'
 
-// 새 회원가입 시 초기화해야 할 localStorage 키 목록
 const KEYS_TO_CLEAR = [
   'hasCouncil',
   'hasCompletedOnboarding',
@@ -26,7 +25,6 @@ const KEYS_TO_CLEAR = [
 function RegisterPage() {
   const navigate = useNavigate()
 
-  // 회원가입 시작 시 이전 사용자 데이터 초기화
   useEffect(() => {
     KEYS_TO_CLEAR.forEach(key => {
       localStorage.removeItem(key)
@@ -54,7 +52,6 @@ function RegisterPage() {
 
   return (
     <div className={styles.container}>
-      {/* Header */}
       <BackHeader
         onBack={handleBack}
         showProgress
@@ -62,7 +59,6 @@ function RegisterPage() {
         currentStep={1}
       />
 
-      {/* Title Section */}
       <PageHeader
         variant="form"
         titleBold="회원 가입 유형"
@@ -71,9 +67,7 @@ function RegisterPage() {
         className={styles.pageHeader}
       />
 
-      {/* Card Options */}
       <div className={styles.cardContainer}>
-        {/* Card 1 */}
         <button className={styles.card} onClick={handleHighSchool}>
           <div className={styles.cardContent}>
             <p className={styles.cardTitle}>중학생 및 고등학생</p>
@@ -84,7 +78,6 @@ function RegisterPage() {
           </div>
         </button>
 
-        {/* Card 2 */}
         <button className={styles.card} onClick={handleUniversity}>
           <div className={styles.cardContent}>
             <p className={styles.cardTitle}>대학생 및 대학원생</p>
@@ -95,7 +88,6 @@ function RegisterPage() {
           </div>
         </button>
 
-        {/* Card 3 */}
         <button className={styles.card} onClick={handleAlumni}>
           <div className={styles.cardContent}>
             <p className={styles.cardTitle}>장학재단 졸업생</p>
@@ -107,7 +99,6 @@ function RegisterPage() {
         </button>
       </div>
 
-      {/* Footer */}
       <div className={styles.footer}>
         <img src={flogo} alt="신한장학재단" className={styles.footerLogo} />
       </div>

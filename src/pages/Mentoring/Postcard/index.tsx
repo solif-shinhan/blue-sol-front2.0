@@ -53,9 +53,7 @@ function MentoringPostcardPage() {
 
   return (
     <div className={styles.container}>
-      {/* 상단 프로필 카드 영역 */}
       <div className={styles.topCard}>
-        {/* 헤더 */}
         <header className={styles.header}>
           <button className={styles.closeButton} onClick={handleClose}>
             <img src={closeIcon} alt="닫기" />
@@ -63,7 +61,6 @@ function MentoringPostcardPage() {
           <h1 className={styles.headerTitle}>맞춤 멘토링 신청 엽서</h1>
         </header>
 
-        {/* 사진 업로드 */}
         <div className={styles.photoSection}>
           <button className={styles.addPhotoButton} onClick={handleAddPhoto}>
             <img src={addIcon} alt="사진 추가" />
@@ -85,9 +82,7 @@ function MentoringPostcardPage() {
         </div>
       </div>
 
-      {/* 폼 영역 */}
       <div className={styles.formArea}>
-        {/* 제목 */}
         <div className={styles.formSection}>
           <div className={styles.sectionLabelWrap}>
             <p className={styles.sectionLabel}>제목</p>
@@ -101,7 +96,6 @@ function MentoringPostcardPage() {
           />
         </div>
 
-        {/* 고민 내용 */}
         <div className={styles.formSection}>
           <div className={styles.sectionLabelWrap}>
             <p className={styles.sectionLabel}>고민되는 내용을 작성해주세요</p>
@@ -125,7 +119,6 @@ function MentoringPostcardPage() {
           />
         </div>
 
-        {/* 멘토링 방식 */}
         <div className={styles.formSection}>
           <div className={styles.sectionLabelWrap}>
             <p className={styles.sectionLabel}>가능한 멘토링 방식을 선택해주세요</p>
@@ -144,7 +137,6 @@ function MentoringPostcardPage() {
         </div>
       </div>
 
-      {/* 신청하기 버튼 */}
       <button
         className={`${styles.submitButton} ${isSubmitEnabled ? styles.submitButtonActive : ''}`}
         onClick={handleSubmit}

@@ -2,25 +2,15 @@ import { useRef, useState, useCallback, useEffect } from 'react'
 import styles from './Carousel.module.css'
 
 interface CarouselProps<T> {
-  /** 아이템 배열 */
   items: T[]
-  /** 아이템 렌더링 함수 */
   renderItem: (item: T, isCenter: boolean) => React.ReactNode
-  /** 아이템 key 추출 함수 */
   keyExtractor: (item: T) => string
-  /** 현재 선택된 인덱스 (외부 제어) */
   selectedIndex?: number
-  /** 인덱스 변경 시 콜백 */
   onIndexChange?: (index: number) => void
-  /** 루프 활성화 */
   loop?: boolean
-  /** 스와이프 감도 (기본 50px) */
   swipeThreshold?: number
-  /** 하단 점 표시 여부 */
   showDots?: boolean
-  /** 추가 클래스명 */
   className?: string
-  /** 아이템 컨테이너 클래스명 */
   itemClassName?: string
 }
 
@@ -39,7 +29,6 @@ export function Carousel<T>({
   const [internalIndex, setInternalIndex] = useState(0)
   const currentIndex = controlledIndex ?? internalIndex
 
-  // Touch/Mouse handling refs
   const touchStartX = useRef(0)
   const touchEndX = useRef(0)
   const isDragging = useRef(false)
@@ -64,14 +53,12 @@ export function Carousel<T>({
     onIndexChange?.(newIndex)
   }, [items.length, loop, controlledIndex, onIndexChange])
 
-  // Sync internal state with controlled index
   useEffect(() => {
     if (controlledIndex !== undefined) {
       setInternalIndex(controlledIndex)
     }
   }, [controlledIndex])
 
-  // Touch handlers
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX
     isDragging.current = true
@@ -96,7 +83,6 @@ export function Carousel<T>({
     }
   }
 
-  // Mouse handlers (for desktop)
   const handleMouseDown = (e: React.MouseEvent) => {
     touchStartX.current = e.clientX
     isDragging.current = true
@@ -127,7 +113,6 @@ export function Carousel<T>({
     }
   }
 
-  // Get visible items (prev, current, next)
   const getVisibleItems = () => {
     const total = items.length
     if (total === 0) return []

@@ -7,7 +7,6 @@ import CTAButton from '@components/CTAButton'
 import styles from './ScholarshipMember.module.css'
 import flogo from '@assets/images/flogo.svg'
 
-// 한국 지역 목록
 const REGIONS = [
   '서울',
   '경기',
@@ -53,7 +52,6 @@ function ScholarshipMemberPage() {
   const regionTriggerRef = useRef<HTMLDivElement>(null)
   const schoolInputRef = useRef<HTMLInputElement>(null)
 
-  // 드롭다운 외부 클릭 시 닫기
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (regionDropdownRef.current && !regionDropdownRef.current.contains(event.target as Node)) {
@@ -64,7 +62,6 @@ function ScholarshipMemberPage() {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  // Check if form is valid (all fields filled)
   const isFormValid =
     formData.name.trim() !== '' &&
     formData.scholarshipId.trim() !== '' &&
@@ -98,7 +95,6 @@ function ScholarshipMemberPage() {
     e?.preventDefault()
     if (!isFormValid) return
 
-    // 기본 정보를 localStorage에 저장
     localStorage.setItem('registerData', JSON.stringify({
       name: formData.name,
       scholarNumber: formData.scholarshipId,
@@ -108,7 +104,6 @@ function ScholarshipMemberPage() {
       schoolName: formData.school
     }))
 
-    // Navigate to next step - credentials setup
     navigate('/register/scholarship/credentials')
   }
 
@@ -120,23 +115,19 @@ function ScholarshipMemberPage() {
     setFormData(prev => ({ ...prev, region }))
     setIsRegionDropdownOpen(false)
     setHighlightedIndex(-1)
-    // 지역 선택 후 학교 입력 필드로 포커스 이동
     setTimeout(() => {
       schoolInputRef.current?.focus()
     }, 0)
   }
 
-  // 드롭다운 키보드 핸들러
   const handleDropdownKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (!isRegionDropdownOpen) {
-      // 드롭다운이 닫혀있을 때 Enter, Space, ArrowDown으로 열기
       if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowDown') {
         e.preventDefault()
         setIsRegionDropdownOpen(true)
         setHighlightedIndex(formData.region ? REGIONS.indexOf(formData.region) : 0)
       }
     } else {
-      // 드롭다운이 열려있을 때
       switch (e.key) {
         case 'ArrowDown':
           e.preventDefault()
@@ -163,11 +154,9 @@ function ScholarshipMemberPage() {
           setHighlightedIndex(-1)
           break
         case 'Tab':
-          // Tab 키를 누르면 현재 하이라이트된 항목 선택 후 다음 필드로 이동
           if (highlightedIndex >= 0 && highlightedIndex < REGIONS.length) {
             handleRegionSelect(REGIONS[highlightedIndex])
           } else if (formData.region) {
-            // 이미 선택된 값이 있으면 드롭다운 닫고 다음으로 이동
             setIsRegionDropdownOpen(false)
             setTimeout(() => {
               schoolInputRef.current?.focus()
@@ -182,7 +171,6 @@ function ScholarshipMemberPage() {
 
   return (
     <div className={styles.container}>
-      {/* Header with Back Button and Progress */}
       <BackHeader
         onBack={handleBack}
         showProgress
@@ -190,7 +178,6 @@ function ScholarshipMemberPage() {
         currentStep={2}
       />
 
-      {/* Title Section */}
       <PageHeader
         variant="form"
         titleBold="장학생 기본 정보"
@@ -199,7 +186,6 @@ function ScholarshipMemberPage() {
         className={styles.pageHeader}
       />
 
-      {/* Form Section - First Group */}
       <div className={styles.formSection}>
         <div className={styles.form}>
           <FormRow
@@ -244,10 +230,8 @@ function ScholarshipMemberPage() {
         </div>
       </div>
 
-      {/* Form Section - Second Group */}
       <div className={styles.formSectionSecond}>
         <div className={styles.formSecond}>
-          {/* 지역 - 드롭다운 유지 */}
           <div className={styles.inputRow}>
             <label className={styles.label}>지역</label>
             <div className={styles.dropdownContainer} ref={regionDropdownRef}>
@@ -284,7 +268,6 @@ function ScholarshipMemberPage() {
             </div>
           </div>
 
-          {/* 학교 */}
           <FormRow
             ref={schoolInputRef}
             label="학교"
@@ -298,7 +281,6 @@ function ScholarshipMemberPage() {
         </div>
       </div>
 
-      {/* Submit Button */}
       <div className={styles.buttonWrapper}>
         <CTAButton
           text="다음"
@@ -307,7 +289,6 @@ function ScholarshipMemberPage() {
         />
       </div>
 
-      {/* Footer Logo */}
       <div className={styles.footer}>
         <img src={flogo} alt="신한장학재단" className={styles.footerLogo} />
       </div>

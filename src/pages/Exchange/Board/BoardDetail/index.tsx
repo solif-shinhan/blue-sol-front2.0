@@ -1,71 +1,114 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import styles from './BoardDetail.module.css'
-import { Post, Comment } from '../../types'
 import backArrowIcon from '@/assets/images/Glyph_ undefined.svg'
+import {
+  getComments,
+  createComment,
+  deleteComment,
+  getPostDetail,
+  likePost,
+  unlikePost,
+  type Comment as ApiComment,
+  CATEGORY_REVERSE_MAP,
+} from '@/services'
 
-// 샘플 게시글 데이터
-const SAMPLE_POST: Post = {
-  id: 1,
-  category: '활동후기',
-  title: '첫 봉사활동 후기입니다!',
-  content: `오늘 첫 봉사활동을 다녀왔습니다.
-
-아침 일찍 일어나서 준비하느라 힘들었지만, 도착해서 보니 많은 분들이 이미 와계셨어요.
-
-처음에는 어색했는데 함께 활동하다 보니 금방 친해졌습니다. 특히 어르신들께서 너무 반겨주셔서 뿌듯했어요.
-
-다음에도 꼭 참여하고 싶습니다!`,
-  authorName: '김철수',
-  createdAt: '2024.01.15 14:30',
-  viewCount: 42,
-  likeCount: 12,
-  commentCount: 3,
+// 시간 포맷 함수
+function formatDateTime(dateString: string): string {
+  const date = new Date(dateString)
+  return date.toLocaleString('ko-KR', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+  }).replace(/\. /g, '.').replace(/, /g, ' ')
 }
 
-// 샘플 댓글 데이터
-const SAMPLE_COMMENTS: Comment[] = [
-  {
-    id: 1,
-    postId: 1,
-    authorName: '이영희',
-    content: '저도 다음에 같이 가고 싶어요!',
-    createdAt: '2024.01.15 15:20',
-    likeCount: 2,
-  },
-  {
-    id: 2,
-    postId: 1,
-    authorName: '박민수',
-    content: '봉사활동 정보 공유해주세요~',
-    createdAt: '2024.01.15 16:45',
-    likeCount: 1,
-  },
-  {
-    id: 3,
-    postId: 1,
-    authorName: '최지은',
-    content: '뿌듯한 하루였겠네요 :)',
-    createdAt: '2024.01.15 18:00',
-    likeCount: 3,
-  },
-]
+interface DisplayPost {
+  id: number
+  category: string
+  title: string
+  content: string
+  authorName: string
+  createdAt: string
+  viewCount: number
+  likeCount: number
+  commentCount: number
+  images?: string[]
+  isLiked: boolean
+}
 
 function BoardDetailPage() {
   const navigate = useNavigate()
   const { postId } = useParams<{ postId: string }>()
   const [commentText, setCommentText] = useState('')
-  const [comments, setComments] = useState<Comment[]>(SAMPLE_COMMENTS)
+  const [isAnonymous, setIsAnonymous] = useState(false)
+  const [comments, setComments] = useState<ApiComment[]>([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [post, setPost] = useState<DisplayPost | null>(null)
+  const [isPostLoading, setIsPostLoading] = useState(true)
 
-  // TODO: postId로 실제 게시글 조회
-  const post = SAMPLE_POST
+  const currentUserId = Number(localStorage.getItem('userId') || '0')
+
+  // 게시글 상세 조회
+  const fetchPost = async () => {
+    if (!postId) return
+
+    setIsPostLoading(true)
+    try {
+      const response = await getPostDetail(Number(postId))
+      if (response.success) {
+        const data = response.data
+        setPost({
+          id: data.postId,
+          category: CATEGORY_REVERSE_MAP[data.category] || data.category,
+          title: data.title,
+          content: data.content,
+          authorName: data.authorName,
+          createdAt: formatDateTime(data.createdAt),
+          viewCount: data.viewCount || 0,
+          likeCount: data.likeCount,
+          commentCount: data.commentCount,
+          images: data.images,
+          isLiked: data.isLiked,
+        })
+      }
+    } catch (err) {
+      console.error('게시글 조회 실패:', err)
+    } finally {
+      setIsPostLoading(false)
+    }
+  }
+
+  // 댓글 목록 조회
+  const fetchComments = async () => {
+    if (!postId) return
+
+    setIsLoading(true)
+    try {
+      const response = await getComments(Number(postId))
+      if (response.success) {
+        setComments(response.data)
+      }
+    } catch (err) {
+      console.error('댓글 조회 실패:', err)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchPost()
+    fetchComments()
+  }, [postId])
 
   const handleBack = () => {
     navigate('/exchange/board')
   }
 
   const handleMore = () => {
-    // TODO: 더보기 메뉴 (수정, 삭제, 신고)
     console.log('더보기 메뉴')
   }
 
@@ -73,20 +116,41 @@ function BoardDetailPage() {
     setCommentText(e.target.value)
   }
 
-  const handleCommentSubmit = () => {
-    if (!commentText.trim()) return
+  const handleCommentSubmit = async () => {
+    if (!commentText.trim() || !postId || isSubmitting) return
 
-    const newComment: Comment = {
-      id: Date.now(),
-      postId: Number(postId),
-      authorName: '나',
-      content: commentText,
-      createdAt: new Date().toLocaleString('ko-KR'),
-      likeCount: 0,
+    setIsSubmitting(true)
+    try {
+      const response = await createComment(Number(postId), {
+        commentContent: commentText,
+        commentIsAnonymous: isAnonymous,
+      })
+
+      if (response.success) {
+        setComments((prev) => [...prev, response.data])
+        setCommentText('')
+        setIsAnonymous(false)
+      }
+    } catch (err) {
+      console.error('댓글 작성 실패:', err)
+      alert('댓글 작성에 실패했습니다.')
+    } finally {
+      setIsSubmitting(false)
     }
+  }
 
-    setComments((prev) => [...prev, newComment])
-    setCommentText('')
+  const handleDeleteComment = async (commentId: number) => {
+    if (!confirm('댓글을 삭제하시겠습니까?')) return
+
+    try {
+      const response = await deleteComment(commentId)
+      if (response.success) {
+        setComments((prev) => prev.filter((c) => c.commentId !== commentId))
+      }
+    } catch (err) {
+      console.error('댓글 삭제 실패:', err)
+      alert('댓글 삭제에 실패했습니다.')
+    }
   }
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -94,6 +158,68 @@ function BoardDetailPage() {
       e.preventDefault()
       handleCommentSubmit()
     }
+  }
+
+  const handleLike = async () => {
+    if (!postId || !post) return
+
+    try {
+      if (post.isLiked) {
+        const response = await unlikePost(Number(postId))
+        if (response.success) {
+          setPost({
+            ...post,
+            isLiked: false,
+            likeCount: post.likeCount - 1,
+          })
+        }
+      } else {
+        const response = await likePost(Number(postId))
+        if (response.success) {
+          setPost({
+            ...post,
+            isLiked: true,
+            likeCount: post.likeCount + 1,
+          })
+        }
+      }
+    } catch (err) {
+      console.error('좋아요 처리 실패:', err)
+    }
+  }
+
+  if (isPostLoading) {
+    return (
+      <div className={styles.container}>
+        <header className={styles.header}>
+          <button className={styles.backButton} onClick={handleBack}>
+            <img src={backArrowIcon} alt="뒤로가기" className={styles.backIcon} />
+          </button>
+          <span className={styles.headerTitle}>게시글</span>
+          <div style={{ width: 24 }} />
+        </header>
+        <div className={styles.content} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <span>로딩 중...</span>
+        </div>
+      </div>
+    )
+  }
+
+  if (!post) {
+    return (
+      <div className={styles.container}>
+        <header className={styles.header}>
+          <button className={styles.backButton} onClick={handleBack}>
+            <img src={backArrowIcon} alt="뒤로가기" className={styles.backIcon} />
+          </button>
+          <span className={styles.headerTitle}>게시글</span>
+          <div style={{ width: 24 }} />
+        </header>
+        <div className={styles.content} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <span>게시글을 찾을 수 없습니다.</span>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -152,29 +278,65 @@ function BoardDetailPage() {
           <p className={styles.postContent}>{post.content}</p>
         </div>
 
+        <div style={{ padding: '16px 20px', borderBottom: '1px solid #EEEEEE' }}>
+          <button
+            onClick={handleLike}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '8px 16px',
+              border: post.isLiked ? '1px solid #074ED8' : '1px solid #DDDDDD',
+              borderRadius: '20px',
+              background: post.isLiked ? '#EBF2FF' : '#FFFFFF',
+              color: post.isLiked ? '#074ED8' : '#666666',
+              fontSize: '14px',
+              cursor: 'pointer',
+            }}
+          >
+            <span>{post.isLiked ? '❤️' : '🤍'}</span>
+            <span>좋아요 {post.likeCount}</span>
+          </button>
+        </div>
+
         <div className={styles.commentSection}>
           <div className={styles.commentHeader}>
             <span className={styles.commentTitle}>댓글</span>
             <span className={styles.commentCount}>{comments.length}</span>
           </div>
 
-          {comments.length === 0 ? (
+          {isLoading ? (
+            <div className={styles.emptyComments}>
+              <span className={styles.emptyText}>로딩 중...</span>
+            </div>
+          ) : comments.length === 0 ? (
             <div className={styles.emptyComments}>
               <span className={styles.emptyText}>첫 댓글을 남겨보세요!</span>
             </div>
           ) : (
             <div className={styles.commentList}>
               {comments.map((comment) => (
-                <div key={comment.id} className={styles.commentItem}>
+                <div key={comment.commentId} className={styles.commentItem}>
                   <div className={styles.commentAvatar} />
                   <div className={styles.commentContent}>
-                    <span className={styles.commentAuthor}>{comment.authorName}</span>
-                    <p className={styles.commentText}>{comment.content}</p>
+                    <div className={styles.commentAuthorRow}>
+                      <span className={styles.commentAuthor}>
+                        {comment.commentIsAnonymous ? '익명' : comment.authorName}
+                      </span>
+                      {comment.authorId === currentUserId && (
+                        <button
+                          className={styles.deleteButton}
+                          onClick={() => handleDeleteComment(comment.commentId)}
+                        >
+                          삭제
+                        </button>
+                      )}
+                    </div>
+                    <p className={styles.commentText}>{comment.commentContent}</p>
                     <div className={styles.commentMeta}>
-                      <span className={styles.commentDate}>{comment.createdAt}</span>
-                      <button className={styles.commentLike}>
-                        ♡ {comment.likeCount}
-                      </button>
+                      <span className={styles.commentDate}>
+                        {formatDateTime(comment.createdAt)}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -183,11 +345,18 @@ function BoardDetailPage() {
           )}
         </div>
 
-        {/* 댓글 입력창 공간 확보 */}
         <div style={{ height: '80px' }} />
       </div>
 
       <div className={styles.commentInputWrapper}>
+        <label className={styles.anonymousCheckbox}>
+          <input
+            type="checkbox"
+            checked={isAnonymous}
+            onChange={(e) => setIsAnonymous(e.target.checked)}
+          />
+          <span>익명</span>
+        </label>
         <input
           type="text"
           className={styles.commentInput}
@@ -195,10 +364,11 @@ function BoardDetailPage() {
           value={commentText}
           onChange={handleCommentChange}
           onKeyPress={handleKeyPress}
+          disabled={isSubmitting}
         />
         <button
           className={styles.sendButton}
-          disabled={!commentText.trim()}
+          disabled={!commentText.trim() || isSubmitting}
           onClick={handleCommentSubmit}
         >
           <span className={styles.sendIcon}>→</span>

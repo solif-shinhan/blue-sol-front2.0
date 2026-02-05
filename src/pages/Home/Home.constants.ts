@@ -1,4 +1,3 @@
-// 새로운 소식 데이터
 export const NEWS_ITEMS = [
   {
     id: 1,
@@ -17,7 +16,6 @@ export const NEWS_ITEMS = [
   }
 ]
 
-// 자치회 활동 데이터
 export const COUNCIL_ITEMS = [
   {
     id: 1,
@@ -43,7 +41,6 @@ export const COUNCIL_ITEMS = [
   }
 ]
 
-// Types
 export interface NewsItem {
   id: number
   title: string
@@ -77,7 +74,6 @@ export interface CouncilReviewItem {
 
 export type CouncilItem = CouncilBudgetItem | CouncilActivityItem | CouncilReviewItem
 
-// 강의 데이터
 export const LECTURE_ITEMS = [
   {
     id: 1,
@@ -105,7 +101,6 @@ export const LECTURE_ITEMS = [
   }
 ]
 
-// 빠른 메뉴 데이터
 export const QUICK_MENU_ITEMS = [
   { id: 1, label: '쪽지함' },
   { id: 2, label: '게시판' },

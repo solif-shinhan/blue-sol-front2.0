@@ -1,22 +1,21 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles from './Board.module.css'
+import {
+  getPosts,
+  PostItem as ApiPostItem,
+  PostCategory,
+  CATEGORY_REVERSE_MAP,
+} from '@/services'
 
-// 카테고리 카드 이미지
 import warmReviewImg from '@/assets/images/exchage-board/f768656256cbf251b006a6560d7a884aecf6a277.png'
 import counselingImg from '@/assets/images/exchage-board/80112dee4520b196fff05166d3abf58e7377c037.png'
 import foundationNewsImg from '@/assets/images/exchage-board/6fecb3f4903a46cbe10992ced7057fb3c483ef00.png'
 
-// 게시글 썸네일 이미지
-import post1Img from '@/assets/images/exchage-board/27342ac6292fb7d2b87647841f5fab093bda09f6.png'
-import post2Img from '@/assets/images/exchage-board/cab8b7808d1d97f850dd3426c8d0c797a6635086.png'
-import post3Img from '@/assets/images/exchage-board/d4f7a21c18679b3a11ccac2197bafbc5ba2681dc.png'
-import post4Img from '@/assets/images/exchage-board/5c7309d017f9e322b8fc44af098ea915ecfa439b.png'
+import defaultPostImg from '@/assets/images/exchage-board/27342ac6292fb7d2b87647841f5fab093bda09f6.png'
 
-// 필터 탭 타입
 type FilterTab = '자치회 활동 후기' | '멘토링 후기'
 
-// 카테고리 카드 데이터
 interface CategoryCard {
   id: string
   title: string
@@ -24,7 +23,6 @@ interface CategoryCard {
   image: string
 }
 
-// 게시글 데이터
 interface PostItem {
   id: number
   category: string
@@ -36,7 +34,6 @@ interface PostItem {
   image: string
 }
 
-// 카테고리 카드 데이터
 const CATEGORY_CARDS: CategoryCard[] = [
   {
     id: 'warm-review',
@@ -58,60 +55,74 @@ const CATEGORY_CARDS: CategoryCard[] = [
   },
 ]
 
-// 샘플 게시글 데이터
-const POST_ITEMS: PostItem[] = [
-  {
-    id: 1,
-    category: '경북 자치회',
-    title: '공모전 준비 후기',
-    description: '공모전을 준비하면서 아이디어를 구체화하는 과정이 가장 어려웠습니다. 처음에는...',
-    viewCount: 25,
-    commentCount: 8,
-    date: '2026.02.19',
-    image: post1Img,
-  },
-  {
-    id: 2,
-    category: '인천 자치회',
-    title: '봉사활동 다녀온 후',
-    description: '자치회 구성원들과 함께 봉사활동에 참여했습니다. 단순히 활동을 수행하는 것...',
-    viewCount: 25,
-    commentCount: 8,
-    date: '2026.01.28',
-    image: post2Img,
-  },
-  {
-    id: 3,
-    category: '서울 자치회',
-    title: '친구들과 함께하는 스터디',
-    description: '자치회 내 스터디를 자율적으로 운영해보았습니다. 각자 목표가 달라 일정을...',
-    viewCount: 25,
-    commentCount: 8,
-    date: '2025.12.28',
-    image: post3Img,
-  },
-  {
-    id: 4,
-    category: '제주 자치회',
-    title: '우리들의 첫 만남',
-    description: '제주 지역 자치회 구성원들이 처음으로 만나는 날이었습니다. 처음에는...',
-    viewCount: 25,
-    commentCount: 8,
-    date: '2025.12.26',
-    image: post4Img,
-  },
-]
+// 필터탭 -> 카테고리 매핑
+const FILTER_TO_CATEGORY: Record<FilterTab, PostCategory> = {
+  '자치회 활동 후기': 'NOTICE',
+  '멘토링 후기': 'PROGRAM',
+}
+
+// 날짜 포맷 함수
+function formatDate(dateString: string): string {
+  const date = new Date(dateString)
+  return date.toLocaleDateString('ko-KR', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).replace(/\. /g, '.').replace(/\.$/, '')
+}
+
+// API 응답 -> UI 형식 변환
+function mapApiPostToUI(post: ApiPostItem): PostItem {
+  return {
+    id: post.postId,
+    category: CATEGORY_REVERSE_MAP[post.category] || post.category,
+    title: post.title,
+    description: post.content.length > 60 ? post.content.slice(0, 60) + '...' : post.content,
+    viewCount: post.viewCount || 0,
+    commentCount: post.commentCount,
+    date: formatDate(post.createdAt),
+    image: post.images?.[0] || defaultPostImg,
+  }
+}
 
 function BoardPage() {
   const navigate = useNavigate()
   const [activeFilter, setActiveFilter] = useState<FilterTab>('자치회 활동 후기')
+  const [posts, setPosts] = useState<PostItem[]>([])
+  const [isLoading, setIsLoading] = useState(false)
+
+  // 게시글 목록 조회
+  const fetchPosts = async (filter: FilterTab) => {
+    setIsLoading(true)
+    try {
+      const category = FILTER_TO_CATEGORY[filter]
+      const response = await getPosts({
+        boardId: 1, // 기본 게시판 ID
+        category,
+        page: 0,
+        size: 20,
+      })
+
+      if (response.success) {
+        const mappedPosts = response.data.content.map(mapApiPostToUI)
+        setPosts(mappedPosts)
+      }
+    } catch (err) {
+      console.error('게시글 조회 실패:', err)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchPosts(activeFilter)
+  }, [activeFilter])
 
   const handleBack = () => {
     navigate(-1)
   }
 
   const handleSearch = () => {
-    // TODO: 검색 기능 구현
     console.log('Search clicked')
   }
 
@@ -129,10 +140,8 @@ function BoardPage() {
 
   return (
     <div className={styles.container}>
-      {/* 상단 Safe Area */}
       <div className={styles.safeArea} />
 
-      {/* 헤더 */}
       <header className={styles.header}>
         <button className={styles.backButton} onClick={handleBack}>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -148,7 +157,6 @@ function BoardPage() {
         </button>
       </header>
 
-      {/* 카테고리 카드 섹션 */}
       <div className={styles.categorySection}>
         {CATEGORY_CARDS.map((card) => (
           <div
@@ -174,7 +182,6 @@ function BoardPage() {
         ))}
       </div>
 
-      {/* 필터 탭 */}
       <div className={styles.filterTabsSection}>
         <button
           className={`${styles.filterTabButton} ${activeFilter === '자치회 활동 후기' ? styles.active : ''}`}
@@ -190,18 +197,24 @@ function BoardPage() {
         </button>
       </div>
 
-      {/* 콘텐츠 영역 */}
       <div className={styles.contentWrapper}>
-        {/* 게시글 리스트 */}
+        {isLoading ? (
+          <div className={styles.loadingWrapper}>
+            <span>로딩 중...</span>
+          </div>
+        ) : posts.length === 0 ? (
+          <div className={styles.emptyWrapper}>
+            <span>게시글이 없습니다.</span>
+          </div>
+        ) : (
         <div className={styles.postList}>
-          {POST_ITEMS.map((post) => (
+          {posts.map((post) => (
             <div
               key={post.id}
               className={styles.postCard}
               onClick={() => handlePostClick(post.id)}
             >
               <div className={styles.postContent}>
-                {/* 메타 정보 */}
                 <div className={styles.postMeta}>
                   <span className={styles.postCategory}>{post.category}</span>
                   <div className={styles.postMetaDivider} />
@@ -224,14 +237,11 @@ function BoardPage() {
                   <span className={styles.postDate}>{post.date}</span>
                 </div>
 
-                {/* 제목 */}
                 <h3 className={styles.postTitle}>{post.title}</h3>
 
-                {/* 설명 */}
                 <p className={styles.postDescription}>{post.description}</p>
               </div>
 
-              {/* 썸네일 이미지 */}
               <img
                 src={post.image}
                 alt=""
@@ -243,9 +253,9 @@ function BoardPage() {
             </div>
           ))}
         </div>
+        )}
       </div>
 
-      {/* 글쓰기 FAB 버튼 */}
       <button className={styles.fabButton} onClick={handleWritePost}>
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path d="M12 20H21" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>

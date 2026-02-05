@@ -33,16 +33,13 @@ function PublicProfilePage() {
 
   const handleAddToNetwork = () => {
     if (!isAuthenticated()) {
-      // 비로그인 시 로그인 모달 표시
       setShowLoginModal(true)
     } else {
-      // 로그인 상태면 즉시 추가
       addToNetwork()
     }
   }
 
   const addToNetwork = () => {
-    // 교류망에 추가 (localStorage 기반)
     const existingNetwork = JSON.parse(localStorage.getItem('userNetwork') || '[]')
 
     if (!existingNetwork.includes(userId)) {
@@ -52,18 +49,14 @@ function PublicProfilePage() {
 
     setIsAdded(true)
 
-    // 3초 후 완료 상태 리셋
     setTimeout(() => {
       setIsAdded(false)
     }, 3000)
   }
 
   const handleLoginRedirect = () => {
-    // 로그인 후 돌아올 URL 저장
     localStorage.setItem('returnUrl', `/profile/${userId}`)
-    // 추가할 대상 저장
     localStorage.setItem('pendingNetworkAdd', userId || '')
-    // 로그인 페이지로 이동
     navigate('/login')
   }
 

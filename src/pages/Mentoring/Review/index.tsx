@@ -2,21 +2,17 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles from './MentoringReview.module.css'
 
-// 이미지 assets
 import backArrowIcon from '@/assets/images/exchange-mentoring/back-arrow.svg'
 import searchIcon from '@/assets/images/exchange-mentoring/search.svg'
 
-// 카테고리 옵션
 const CATEGORY_CARDS = [
     { id: 'activity', title: '따뜻한\n활동 후기', icon: '📝' },
     { id: 'counseling', title: '토닥토닥\n고민상담', icon: '💬' },
     { id: 'news', title: '장학재단\n소식', icon: '📢' },
 ]
 
-// 필터 탭
 const FILTER_TABS = ['자치회 활동 후기', '멘토링 후기']
 
-// 리뷰 데이터
 const REVIEWS = [
     {
         id: 1,
@@ -57,13 +53,11 @@ function MentoringReviewPage() {
     }
 
     const handleWriteReview = () => {
-        // 후기 작성 페이지로 이동 (추후 구현)
         console.log('후기 작성하기')
     }
 
     return (
         <div className={styles.container}>
-            {/* 헤더 */}
             <header className={styles.header}>
                 <button className={styles.backButton} onClick={handleBack}>
                     <img src={backArrowIcon} alt="뒤로가기" />
@@ -74,9 +68,7 @@ function MentoringReviewPage() {
                 </button>
             </header>
 
-            {/* 메인 콘텐츠 */}
             <div className={styles.content}>
-                {/* 카테고리 카드 */}
                 <div className={styles.categoryCards}>
                     {CATEGORY_CARDS.map((card) => (
                         <div key={card.id} className={styles.categoryCard}>
@@ -93,7 +85,6 @@ function MentoringReviewPage() {
                     ))}
                 </div>
 
-                {/* 필터 탭 */}
                 <div className={styles.filterTabs}>
                     {FILTER_TABS.map((tab) => (
                         <button
@@ -106,7 +97,6 @@ function MentoringReviewPage() {
                     ))}
                 </div>
 
-                {/* 리뷰 리스트 */}
                 <div className={styles.reviewList}>
                     {REVIEWS.map((review) => (
                         <div key={review.id} className={styles.reviewCard}>
@@ -126,7 +116,6 @@ function MentoringReviewPage() {
                 </div>
             </div>
 
-            {/* 하단 후기 작성 버튼 */}
             <div className={styles.writeButtonWrapper}>
                 <button className={styles.writeButton} onClick={handleWriteReview}>
                     멘토링 후기 작성하기

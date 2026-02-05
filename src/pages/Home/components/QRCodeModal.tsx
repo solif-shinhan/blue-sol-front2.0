@@ -21,26 +21,22 @@ export function QRCodeModal({
 }: QRCodeModalProps) {
   if (!isOpen) return null
 
-  // QR 코드에 담을 URL (프로필 공유용)
   const shareUrl = `${window.location.origin}/profile/${userId}`
 
   return (
     <div className={styles.qrModalOverlay} onClick={onClose}>
       <div className={styles.qrModalCard} onClick={(e) => e.stopPropagation()}>
-        {/* SOLID 로고 */}
         <div className={styles.qrCardLogo}>
           <span className={styles.qrLogoSol}>SOL</span>
           <span className={styles.qrLogoId}>ID</span>
         </div>
 
-        {/* 프로필 정보 */}
         <div className={styles.qrProfileSection}>
           <span className={styles.qrProfileName}>{userName}</span>
           <span className={styles.qrProfileBadge}>솔방울</span>
           <span className={styles.qrProfileTag}>체육교사꿈나무</span>
         </div>
 
-        {/* QR 코드 */}
         <div className={styles.qrCodeBox}>
           <QRCodeSVG
             value={shareUrl}
@@ -53,7 +49,6 @@ export function QRCodeModal({
         </div>
       </div>
 
-      {/* 닫기 버튼 */}
       <button className={styles.qrCloseButtonCircle} onClick={onClose}>
         <img src={xIcon} alt="닫기" />
       </button>
