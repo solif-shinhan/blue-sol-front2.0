@@ -21,9 +21,9 @@ export function HeroSection() {
           position: 'absolute',
           bottom: 0,
           left: 0,
-          right: 0,
-          height: '117px',
-          background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #FFFFFF 100%)',
+          width: '394px',
+          height: '165px',
+          background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.00) 0%, #FFF 100%)',
           pointerEvents: 'none'
         }}
       />

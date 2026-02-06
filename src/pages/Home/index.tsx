@@ -1,29 +1,50 @@
-import { useState, useRef, useEffect, useCallback } from 'react'
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles1 from './Home-1.module.css'
 import styles2 from './Home-2.module.css'
 import styles3 from './Home-3.module.css'
 import styles4 from './Home-4.module.css'
 import bellIcon from '@/assets/images/bell.svg'
+import imgFooterLogo from '@/assets/images/057453724e8f804d5306e38ceabfcf7513cbed10.png'
 import { SolidCardModal } from './components/SolidCardModal'
 import { QRCodeModal } from './components/QRCodeModal'
 import { LECTURE_ITEMS, QUICK_MENU_ITEMS, NEWS_ITEMS } from './Home.constants'
 import { getProfile, ProfileData } from '@/services/profileService'
 import { getNotifications, NotificationItem } from '@/services/notificationService'
-import { goalApi } from '@/api/api-2'
 import { logout } from '@/services/authService'
+import { userApi } from '@/api'
+import { SolidCardPreview } from '@/features/02-onboarding/components/SolidCardPreview-1'
+import { Character, BackgroundColor, Interest, DARK_PATTERNS } from '@/features/02-onboarding/types/card-1'
+import { mockInterests } from '@/features/02-onboarding/api/mock-card-1'
 
 const styles = { ...styles1, ...styles2, ...styles3, ...styles4 }
 
-// UserRole을 한글 배지로 변환
-const getRoleBadge = (userRole?: string): string => {
-  switch (userRole) {
-    case 'JUNIOR': return '솔방울'
-    case 'SENIOR': return '솔잎'
-    case 'GRADUATE': return '푸른솔'
-    case 'MASTER': return '솔마스터'
-    default: return '솔방울'
-  }
+// 프로필 interests(이름 배열)를 Interest 객체 배열로 변환
+const getInterestsWithIcons = (interestNames: string[]): Interest[] => {
+  return interestNames.map((name, idx) => {
+    const found = mockInterests.find(i => i.name === name)
+    return found || { id: `interest-${idx}`, name, icon: undefined }
+  })
+}
+
+// 프로필 데이터를 카드 props로 변환
+const buildCardProps = (profile: ProfileData) => {
+  const character: Character | null = profile.characterImageUrl
+    ? { id: profile.userCharacter, name: '캐릭터', imageUrl: profile.characterImageUrl }
+    : null
+
+  const backgroundColor: BackgroundColor | null = profile.backgroundImageUrl
+    ? {
+        id: profile.backgroundPattern,
+        name: '배경',
+        imageUrl: profile.backgroundImageUrl,
+        theme: DARK_PATTERNS.has(profile.backgroundPattern) ? 'dark' as const : 'light' as const,
+      }
+    : null
+
+  const interests = getInterestsWithIcons(profile.interests || [])
+
+  return { character, backgroundColor, interests }
 }
 
 function HomePage() {
@@ -32,9 +53,10 @@ function HomePage() {
   const [isCardModalOpen, setIsCardModalOpen] = useState(false)
   const [isQRModalOpen, setIsQRModalOpen] = useState(false)
   const [profile, setProfile] = useState<ProfileData | null>(null)
-  const [goalCount, setGoalCount] = useState({ current: 0, total: 10 })
+  const [region, setRegion] = useState('')
+  const [school, setSchool] = useState('')
   const [newsItems, setNewsItems] = useState<NotificationItem[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [, setIsLoading] = useState(true)
   const sliderRef = useRef<HTMLDivElement>(null)
   const isDragging = useRef(false)
   const startX = useRef(0)
@@ -45,26 +67,24 @@ function HomePage() {
     const loadData = async () => {
       setIsLoading(true)
       try {
-        // 프로필 조회
-        const profileRes = await getProfile()
-        if (profileRes.success) {
+        // 프로필 + 유저 정보 조회 (각각 실패해도 다른 요청에 영향 없도록)
+        const [profileRes, userRes] = await Promise.all([
+          getProfile().catch(() => null),
+          userApi.getMe().catch(() => null),
+        ])
+        if (profileRes && profileRes.success) {
           setProfile(profileRes.data)
         }
-
-        // 목표 개수 조회
-        try {
-          const goalRes = await goalApi.getCount()
-          if (goalRes.success) {
-            setGoalCount({ current: goalRes.data.goalCount, total: 10 })
-          }
-        } catch {
-          // 목표 API 실패 시 localStorage fallback
-          const savedGoals = localStorage.getItem('userGoals')
-          const completedGoals = localStorage.getItem('completedGoals')
-          if (savedGoals) {
-            const goals = JSON.parse(savedGoals)
-            const completed = completedGoals ? JSON.parse(completedGoals).length : 0
-            setGoalCount({ current: completed, total: goals.length || 10 })
+        // region/school: API 우선, localStorage fallback
+        if (userRes && userRes.success && userRes.data) {
+          setRegion(userRes.data.region || '')
+          setSchool(userRes.data.schoolName || '')
+        } else {
+          const rd = localStorage.getItem('registerData')
+          if (rd) {
+            const parsed = JSON.parse(rd)
+            setRegion(parsed.region || '')
+            setSchool(parsed.schoolName || '')
           }
         }
 
@@ -103,6 +123,11 @@ function HomePage() {
     await logout()
     navigate('/login')
   }
+
+  const cardProps = useMemo(() => {
+    if (!profile) return null
+    return buildCardProps(profile)
+  }, [profile])
 
   const handleQuickMenuClick = (label: string) => {
     switch (label) {
@@ -171,68 +196,40 @@ function HomePage() {
           <button className={styles.iconButton} onClick={handleBellClick}>
             <img src={bellIcon} alt="알림" width={28} height={28} />
           </button>
-          <div className={styles.profileCircle} onClick={() => navigate('/mypage')}></div>
+          <div className={styles.profileCircle} onClick={() => navigate('/mypage')}>
+            {profile?.characterImageUrl && (
+              <img src={profile.characterImageUrl} alt="프로필" style={{ width: '24px', height: '24px', objectFit: 'contain' }} />
+            )}
+          </div>
         </div>
       </nav>
 
       <div className={styles.content}>
-        <div className={styles.heroSection}>
-          <header className={styles.header}>
-            <p className={styles.headerSubtitle}>
-              <span className={styles.solText}>SOL</span>
-              <span className={styles.ifText}>IF</span>
-              <span>, 너의 꿈을 응원해</span>
-            </p>
-            <h1 className={styles.headerTitle}>
-              {isLoading ? '로딩 중...' : (profile?.solidGoalName || '목표를 설정해주세요')}
-            </h1>
-          </header>
-
-          <div className={styles.goalBadge}>
-            <span className={styles.goalLabel}>나의 목표</span>
-            <div className={styles.goalCount}>
-              <span className={styles.goalCurrent}>{String(goalCount.current).padStart(2, '0')}</span>
-              <span className={styles.goalDivider}>/</span>
-              <span className={styles.goalTotal}>{String(goalCount.total).padStart(2, '0')}</span>
-            </div>
-          </div>
-        </div>
-
-        <div className={styles.solidCard} onClick={handleCardClick} style={{ cursor: 'pointer' }}>
-          <div className={styles.solidLogo}>
-            <span className={styles.solidLogoSol}>SOL</span>
-            <span className={styles.solidLogoId}>ID</span>
-          </div>
-          <div className={styles.profileSection}>
-            <span className={styles.profileName}>{profile?.userName || '사용자'}</span>
-            <span className={styles.profileBadge}>{getRoleBadge(localStorage.getItem('userRole') || undefined)}</span>
-            <span className={styles.profileTag}>{profile?.solidGoalName || ''}</span>
-          </div>
-          <div className={styles.goalList}>
-            {profile?.mainGoals?.slice(0, 3).map((goal, index) => (
-              <p key={index} className={styles[`goalItem${index + 1}` as keyof typeof styles]}>{goal}</p>
-            )) || (
-              <>
-                <p className={styles.goalItem1}>목표를 설정해주세요</p>
-              </>
-            )}
-          </div>
-          <div className={styles.interestTags}>
-            {profile?.interests?.slice(0, 2).map((interest, index) => (
-              <div key={index} className={styles.interestTag}>
-                <div className={styles.tagIcon}></div>
-                <span>{interest}</span>
-              </div>
-            )) || null}
-          </div>
+        <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '20px' }}>
+          <SolidCardPreview
+            character={cardProps?.character || null}
+            backgroundColor={cardProps?.backgroundColor || null}
+            userName={profile?.userName || '사용자'}
+            userRole={profile?.solidGoalName || ''}
+            interests={cardProps?.interests || []}
+            goals={profile?.mainGoals || []}
+            region={region}
+            school={school}
+            sinceYear="2026"
+            size="medium"
+            onClick={handleCardClick}
+          />
         </div>
 
         <div className={styles.bottomSection}>
+          <div className={styles.gradientOverlay} />
           <div className={styles.bottomContent}>
             <div className={styles.quickMenu}>
               {QUICK_MENU_ITEMS.map(item => (
                 <div key={item.id} className={styles.quickMenuItem} onClick={() => handleQuickMenuClick(item.label)}>
-                  <div className={styles.quickMenuIcon}></div>
+                  <div className={styles.quickMenuIcon}>
+                    {item.icon && <img src={item.icon} alt={item.label} />}
+                  </div>
                   <span>{item.label}</span>
                 </div>
               ))}
@@ -251,7 +248,9 @@ function HomePage() {
                         <h3>{item.title}</h3>
                         <p>{item.subtitle}</p>
                       </div>
-                      <div className={styles.newsCardIcon}></div>
+                      <div className={styles.newsCardIcon}>
+                        {item.icon && <img src={item.icon} alt="" style={{ width: item.iconWidth, height: item.iconHeight }} />}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -270,19 +269,24 @@ function HomePage() {
                 <button className={styles.moreButton}>더보기</button>
               </div>
               <div className={styles.categoryTabs}>
-                <button className={`${styles.categoryTab} ${styles.categoryTabActive}`}>사회</button>
+                <button className={`${styles.categoryTab} ${styles.categoryTabActive}`}>전체</button>
                 <button className={styles.categoryTab}>인성</button>
+                <button className={styles.categoryTab}>사회</button>
                 <button className={styles.categoryTab}>과학</button>
+                <button className={styles.categoryTab}>창업</button>
                 <button className={styles.categoryTab}>취업</button>
               </div>
               <div className={styles.lectureGrid}>
                 {LECTURE_ITEMS.map(lecture => (
                   <div key={lecture.id} className={styles.lectureCard}>
-                    <div className={styles.lectureThumbnail}></div>
-                    <div className={styles.lectureInfo}>
+                    <div className={styles.lectureBg}>
+                      <img src={lecture.image} alt={lecture.category} />
+                      <div className={styles.lectureBgOverlay} />
+                    </div>
+                    <div className={styles.lectureBottom}>
                       <div className={styles.lectureTextGroup}>
-                        <span className={styles.lectureCategory}>사회</span>
-                        <h4 className={styles.lectureTitle}>{lecture.title.split('\n').map((line, i) => <span key={i}>{line}{i === 0 && lecture.title.includes('\n') && <br />}</span>)}</h4>
+                        <span className={styles.lectureCategory}>{lecture.category}</span>
+                        <div className={styles.lectureTitle}>{lecture.title}</div>
                       </div>
                       <span className={styles.lectureSpeaker}>{lecture.speaker}</span>
                     </div>
@@ -293,15 +297,36 @@ function HomePage() {
 
             <footer className={styles.footer}>
               <button className={styles.logoutButton} onClick={handleLogout}>로그아웃</button>
-              <div className={styles.footerLogo}>신한장학재단</div>
+              <div className={styles.footerLogo}>
+                <img src={imgFooterLogo} alt="신한장학재단" />
+              </div>
             </footer>
           </div>
         </div>
       </div>
 
-      <SolidCardModal isOpen={isCardModalOpen} onClose={handleCardModalClose}
-        onShare={handleShare} onEdit={handleEdit} onNetwork={handleNetwork} />
-      <QRCodeModal isOpen={isQRModalOpen} onClose={handleQRModalClose} userName="김솔잎" />
+      <SolidCardModal
+        isOpen={isCardModalOpen}
+        onClose={handleCardModalClose}
+        onShare={handleShare}
+        onEdit={handleEdit}
+        onNetwork={handleNetwork}
+        character={cardProps?.character || null}
+        backgroundColor={cardProps?.backgroundColor || null}
+        userName={profile?.userName || '사용자'}
+        userRole={profile?.solidGoalName || ''}
+        interests={cardProps?.interests || []}
+        goals={profile?.mainGoals || []}
+        region={region}
+        school={school}
+        sinceYear="2026"
+      />
+      <QRCodeModal
+        isOpen={isQRModalOpen}
+        onClose={handleQRModalClose}
+        userName={profile?.userName || '사용자'}
+        userRole={profile?.solidGoalName || ''}
+      />
     </div>
   )
 }

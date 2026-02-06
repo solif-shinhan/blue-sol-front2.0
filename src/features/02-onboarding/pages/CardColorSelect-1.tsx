@@ -5,7 +5,7 @@ import { ProgressHeader } from '../../../components/ProgressHeader';
 import { ColorPalette } from '../components/ColorPalette-1';
 import { SolidCardPreview } from '../components/SolidCardPreview-1';
 import { profileAssetsApi } from '../../../api';
-import { Interest, BackgroundColor, Character } from '../types/card-1';
+import { Interest, BackgroundColor, Character, CardTheme, DARK_PATTERNS } from '../types/card-1';
 
 interface CardColorSelectProps {
   characterId: string;
@@ -50,6 +50,7 @@ export const CardColorSelect: React.FC<CardColorSelectProps> = ({
             id: bg.backgroundPattern,
             name: `배경 ${index + 1}`,
             imageUrl: bg.backgroundImageUrl,
+            theme: (bg.theme || (DARK_PATTERNS.has(bg.backgroundPattern) ? 'dark' : 'light')) as CardTheme,
           }));
           setBackgrounds(loadedBackgrounds);
           // 초기값이 없으면 첫 번째 배경 선택

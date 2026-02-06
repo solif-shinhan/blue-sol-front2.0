@@ -1,0 +1,368 @@
+/* Growth-3.module.css - 역량강화, 장학프로그램, 푸터 */
+
+/* 역량강화 섹션 */
+.strengthSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.strengthHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 73px;
+  width: 360px;
+}
+
+.strengthTitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5px;
+  width: 360px;
+}
+
+.strengthTitle {
+  font-family: 'OneShinhan', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #222222;
+}
+
+.moreButton {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #848484;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* 카테고리 탭 */
+.categoryTabs {
+  display: flex;
+  gap: 6px;
+  box-shadow: 0px 0px 30px rgba(27, 37, 56, 0.1);
+}
+
+.categoryTab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background-color: #FFFFFF;
+  border: none;
+  cursor: pointer;
+}
+
+.categoryTab span {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #222222;
+}
+
+.categoryTabActive {
+  background-color: #074ED8;
+}
+
+.categoryTabActive span {
+  color: #FFFFFF;
+}
+
+/* 강화 카드 그리드 */
+.strengthGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  width: 360px;
+}
+
+.strengthCard {
+  position: relative;
+  border-radius: 24px;
+  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  height: 240px;
+}
+
+.strengthCardBg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 24px;
+}
+
+.strengthCardBg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.strengthCardOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 35%, #000000 100%);
+  border-radius: 24px;
+}
+
+.strengthCardContent {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 172px;
+  height: 110px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0;
+  border-radius: 0 0 24px 24px;
+  backdrop-filter: blur(10px);
+  background: linear-gradient(-57.4deg, rgba(255, 172, 174, 0.12) 0%, rgba(255, 217, 0, 0.2) 100%),
+              linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, #074ED8 100%);
+}
+
+.strengthCardInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.strengthCardTexts {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 14px;
+  width: 100%;
+}
+
+.strengthCardCategory {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  background: linear-gradient(90deg, #FFFFFF 0%, #ABC8FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  opacity: 0.6;
+  width: 143px;
+}
+
+.strengthCardTitle {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.2;
+  letter-spacing: -0.32px;
+  color: #E6EFFF;
+  height: 38px;
+  width: 143px;
+}
+
+.strengthCardAuthor {
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  width: 100%;
+}
+
+.strengthCardAuthor span {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.2;
+  color: #ABC8FF;
+}
+
+/* 장학 프로그램 섹션 */
+.programSection {
+  display: flex;
+  flex-direction: column;
+  width: 360px;
+}
+
+.programHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5px;
+  width: 100%;
+}
+
+.programTitle {
+  font-family: 'OneShinhan', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #222222;
+}
+
+.programList {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.programItem {
+  position: relative;
+  width: 100%;
+  height: 140px;
+  border-bottom: 1px solid #E6E6E6;
+  overflow: hidden;
+}
+
+.programThumbnail {
+  position: absolute;
+  top: 15px;
+  left: 256px;
+  width: 105px;
+  height: 105px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.programThumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.programContent {
+  position: absolute;
+  top: 50%;
+  left: 138px;
+  transform: translate(-50%, -50%);
+  width: 234px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.programMeta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.programOrg {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #074ED8;
+}
+
+.programDivider {
+  width: 1px;
+  height: 12px;
+  background-color: #C8C8C8;
+}
+
+.programStats {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.programStat {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.programStatIcon {
+  width: 18px;
+  height: 18px;
+}
+
+.programStatText {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 1.2;
+  letter-spacing: -0.48px;
+  color: #C8C8C8;
+}
+
+.programDate {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 1.2;
+  letter-spacing: -0.48px;
+  color: #C8C8C8;
+}
+
+.programTexts {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.programItemTitle {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.2;
+  color: #000000;
+}
+
+.programDesc {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #848484;
+  width: 100%;
+}
+
+/* 푸터 */
+.footer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 13px;
+  width: 360px;
+  height: 160px;
+  padding: 40px 0;
+}
+
+.footerButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  padding: 10px 16px;
+  background-color: #FFFFFF;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.footerButton span {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #848484;
+}
+
+.footerLogo {
+  height: 17px;
+  width: 80px;
+  object-fit: contain;
+}

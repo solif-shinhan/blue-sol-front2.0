@@ -1,0 +1,300 @@
+/* Growth-2.module.css - 솔방울 버튼, 미션 리스트 */
+
+/* 솔방울 버튼 */
+.solbangulButton {
+  position: absolute;
+  top: 617px;
+  left: 206px;
+  width: 171px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.64) 100%);
+  border-radius: 30px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.solbangulIcon {
+  width: 46px;
+  height: 46px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.solbangulIcon img {
+  width: 39px;
+  height: 39px;
+  transform: rotate(-29.91deg);
+  object-fit: cover;
+}
+
+/* 메인 콘텐츠 영역 */
+.mainContent {
+  position: absolute;
+  top: 695px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* 상반기 미션 리스트 */
+.missionSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 360px;
+}
+
+.missionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.missionTitle {
+  padding: 0 5px;
+  font-family: 'OneShinhan', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #222222;
+}
+
+.missionDday {
+  font-family: 'OneShinhan', sans-serif;
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.4;
+  letter-spacing: -0.56px;
+  color: #14307C;
+  text-align: right;
+}
+
+/* 프로그레스 바 */
+.progressContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-end;
+  width: 100%;
+}
+
+.progressBar {
+  position: relative;
+  width: 360px;
+  height: 16px;
+}
+
+.progressBg {
+  position: absolute;
+  width: 360px;
+  height: 16px;
+  background-color: #E6EFFF;
+  border-radius: 65px;
+}
+
+.progressFill {
+  position: absolute;
+  width: 120px;
+  height: 16px;
+  background: linear-gradient(90deg, #398FE0 0%, #074ED8 100%);
+  border-radius: 20px;
+}
+
+/* 리워드 아이템들 */
+.rewardItems {
+  display: flex;
+  align-items: center;
+  gap: 55px;
+}
+
+.rewardItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 65px;
+}
+
+.rewardLabel {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.2;
+  text-align: center;
+  color: #222222;
+  width: 100%;
+}
+
+.rewardLabelInactive {
+  color: #848484;
+}
+
+.rewardButton {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  background-color: #FFFFFF;
+  border: 1px solid #3971E0;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.rewardButtonInactive {
+  border-color: #E6EFFF;
+}
+
+.rewardButtonContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.rewardIcon {
+  width: 18px;
+  height: 18px;
+  overflow: hidden;
+}
+
+.rewardIcon img {
+  width: 20px;
+  height: 20px;
+  transform: rotate(-29.91deg);
+  object-fit: cover;
+}
+
+.rewardText {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.2;
+  color: #848484;
+}
+
+/* 이번주 미션 리스트 */
+.weeklyMissionSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.weeklyMissionCards {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.weeklyMissionCards::-webkit-scrollbar {
+  display: none;
+}
+
+.missionCard {
+  flex-shrink: 0;
+  width: 160px;
+  height: 220px;
+  background-color: #FFFFFF;
+  border-radius: 24px;
+  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.missionCardIcon {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 110px;
+  height: 110px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.missionCardIcon img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
+
+.missionCardContent {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 12px 0;
+}
+
+.missionCardInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.missionCardTexts {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 10px;
+  width: 100%;
+}
+
+.missionCardCategory {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #074ED8;
+  width: 100%;
+}
+
+.missionCardTitle {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.2;
+  letter-spacing: -0.32px;
+  color: #222222;
+  height: 38px;
+  width: 100%;
+}
+
+.missionCardStatus {
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  width: 100%;
+}
+
+.missionCardStatus span {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.2;
+  color: #848484;
+}

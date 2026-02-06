@@ -1,0 +1,237 @@
+/* Growth-1.module.css - 컨테이너, 헤더, 상단 영역 */
+
+.container {
+  position: relative;
+  width: 393px;
+  height: 852px;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F3F6FB 100%);
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollContent {
+  position: relative;
+  min-height: 2157px;
+  padding-bottom: 40px;
+}
+
+/* 상단 배경 */
+.topBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 393px;
+  height: 626px;
+  background-color: #4A8EC9;
+}
+
+.topGraphic {
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 441px;
+  height: 703px;
+  overflow: hidden;
+}
+
+.topGraphicVideo {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 그라데이션 페이드 */
+.gradientFade {
+  position: absolute;
+  top: 520px;
+  left: 0;
+  width: 393px;
+  height: 185px;
+}
+
+.gradientFade img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 상단 네비게이션 */
+.topNav {
+  position: absolute;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 393px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 17px;
+  gap: 122px;
+  z-index: 10;
+}
+
+.tabMenu {
+  display: flex;
+  align-items: center;
+  height: 40px;
+}
+
+.tabItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.tabItem span {
+  font-family: 'OneShinhan', sans-serif;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.tabItemActive {
+  height: 45px;
+  border-bottom: 2px solid #FFFFFF;
+}
+
+.tabItemActive span {
+  font-weight: 500;
+  color: #FFFFFF;
+}
+
+.rightIcons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bellIcon {
+  width: 28px;
+  height: 28px;
+}
+
+.profileIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(171, 200, 255, 0.6) 0%, rgba(255, 233, 226, 0.6) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.profileIcon img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 23px;
+  height: 24px;
+  object-fit: contain;
+}
+
+/* 사용자 정보 섹션 */
+.userSection {
+  position: absolute;
+  top: 130px;
+  left: 17px;
+  width: 360px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 10;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.daysLabel {
+  height: 26px;
+  display: flex;
+  align-items: center;
+}
+
+.daysLabel img {
+  width: 167px;
+  height: 26px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+
+.userName {
+  font-family: 'OneShinhan', sans-serif;
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.4;
+  letter-spacing: -0.56px;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.goalSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 83px;
+  height: 71px;
+}
+
+.goalBadge {
+  width: 100%;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(243, 246, 251, 0.5);
+  border-radius: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.goalBadge span {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #14307C;
+}
+
+.goalCount {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 2px;
+  width: 100%;
+  height: 39px;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.2;
+  letter-spacing: -0.56px;
+}
+
+.goalCurrent {
+  color: #14307C;
+}
+
+.goalDivider,
+.goalTotal {
+  color: #E6EFFF;
+}

@@ -67,8 +67,13 @@
 .profileCircle {
   width: 32px;
   height: 32px;
-  border-radius: 50%;
-  background-color: var(--color-gray-light);
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(171, 200, 255, 0.6) 0%, rgba(255, 233, 226, 0.6) 100%), #FFFFFF;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
 .content {
@@ -118,46 +123,65 @@
 .goalBadge {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  width: 83px;
+  height: 110px;
 }
 
 .goalLabel {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 13px;
-  background-color: var(--color-bg-blue-gray);
-  border: 1px solid var(--color-bg-blue-light);
+  padding: 0 13px;
+  height: 28px;
+  width: 100%;
+  background: linear-gradient(90deg, rgba(171, 200, 255, 0.16) 0%, rgba(57, 113, 224, 0.16) 100%);
+  border: 1px solid #E6EFFF;
   border-radius: 20px;
   font-family: 'Pretendard', sans-serif;
   font-size: 14px;
   font-weight: 600;
-  color: var(--color-primary-default);
-  line-height: 1.2;
+  color: #074ED8;
+  line-height: 1.4;
 }
 
-.goalCount {
-  display: flex;
-  align-items: center;
-  gap: 2px;
+.goalCircle {
+  position: relative;
+  width: 70px;
+  height: 70px;
+}
+
+.goalCircleSvg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 70px;
+  height: 70px;
+  transform: rotate(-90deg);
+}
+
+.goalCircleText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   font-family: 'Pretendard', sans-serif;
-  font-size: 28px;
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: -0.56px;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.4px;
   text-align: right;
-  width: 100%;
-  justify-content: flex-end;
 }
 
 .goalCurrent {
-  color: var(--color-dark-gray);
+  color: #074ED8;
+  line-height: 1.2;
 }
 
 .goalDivider,
 .goalTotal {
-  color: var(--color-gray-light);
+  color: #E6E6E6;
+  line-height: 1.2;
 }
 
 .solidCard {
@@ -289,14 +313,14 @@
 }
 
 .bottomSection {
-  margin-top: -200px;
+  margin-top: -350px;
   position: relative;
   z-index: 10;
 }
 
 .gradientOverlay {
-  height: 120px;
-  background: linear-gradient(180deg, rgba(243, 246, 251, 0) 0%, var(--color-bg-blue-gray) 100%);
+  height: 135px;
+  background: linear-gradient(180deg, rgba(243, 246, 251, 0) 0%, #F3F6FB 100%);
 }
 
 .bottomContent {
@@ -322,7 +346,18 @@
   width: 62px;
   height: 62px;
   background-color: var(--color-white);
-  border-radius: 50%;
+  border-radius: 80px;
+  box-shadow: 0px 0px 16px rgba(27, 37, 56, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.quickMenuIcon img {
+  width: 37px;
+  height: 38px;
+  object-fit: contain;
 }
 
 .quickMenuItem span {
@@ -339,10 +374,13 @@
   justify-content: center;
   gap: 13px;
   padding: 40px 0;
+  height: 160px;
+  align-items: flex-start;
 }
 
 .logoutButton {
   padding: 6px 16px;
+  height: 28px;
   background-color: var(--color-white);
   border-radius: 20px;
   font-family: 'Pretendard', sans-serif;
@@ -350,18 +388,24 @@
   font-weight: 600;
   color: #848484;
   line-height: 1.4;
-  letter-spacing: -0.26px;
   border: none;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .footerLogo {
   padding: 6px 16px;
+  height: 28px;
   background-color: var(--color-white);
   border-radius: 20px;
-  font-family: 'Pretendard', sans-serif;
-  font-size: 13px;
-  font-weight: 400;
-  color: var(--color-dark-gray);
-  line-height: 1.2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footerLogo img {
+  height: 17px;
+  width: auto;
 }

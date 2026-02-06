@@ -60,7 +60,7 @@ export const getGoalsContainerStyle = (size: CardSize): React.CSSProperties => {
   };
 };
 
-export const getGoalStyle = (size: CardSize, index: number, theme: CardTheme = 'light'): React.CSSProperties => {
+export const getGoalStyle = (size: CardSize, index: number, _theme: CardTheme = 'light'): React.CSSProperties => {
   const isComplete = size === 'complete';
   const isMedium = size === 'medium';
   const isLarge = size === 'large';
@@ -70,7 +70,7 @@ export const getGoalStyle = (size: CardSize, index: number, theme: CardTheme = '
     fontWeight: 700,
     fontSize: isComplete ? '18px' : isMedium ? '20px' : isLarge ? '21px' : '12px',
     lineHeight: 1.2,
-    color: theme === 'light' ? colors.gray : colors.white,
+    color: colors.gray,
     letterSpacing: '-0.39px',
     opacity: index === 0 ? 0.8 : index === 1 ? 0.6 : 0.4,
     margin: 0,
@@ -95,7 +95,7 @@ export const getFooterStyle = (size: CardSize): React.CSSProperties => {
   };
 };
 
-export const getSchoolStyle = (size: CardSize, theme: CardTheme = 'light'): React.CSSProperties => {
+export const getSchoolStyle = (size: CardSize, _theme: CardTheme = 'light'): React.CSSProperties => {
   const isComplete = size === 'complete';
   const isMedium = size === 'medium';
   const isLarge = size === 'large';
@@ -105,12 +105,12 @@ export const getSchoolStyle = (size: CardSize, theme: CardTheme = 'light'): Reac
     fontWeight: 700,
     fontSize: isComplete ? '15px' : isMedium ? '17px' : isLarge ? '18px' : '10px',
     lineHeight: 1.2,
-    color: theme === 'light' ? colors.gray : colors.white,
+    color: colors.gray,
     letterSpacing: '-0.33px',
   };
 };
 
-export const getSinceStyle = (size: CardSize, theme: CardTheme = 'light'): React.CSSProperties => {
+export const getSinceStyle = (size: CardSize, _theme: CardTheme = 'light'): React.CSSProperties => {
   const isComplete = size === 'complete';
   const isMedium = size === 'medium';
   const isLarge = size === 'large';
@@ -120,7 +120,7 @@ export const getSinceStyle = (size: CardSize, theme: CardTheme = 'light'): React
     fontWeight: 300,
     fontSize: isComplete ? '14px' : isMedium ? '15px' : isLarge ? '17px' : '9px',
     lineHeight: 1.2,
-    color: theme === 'light' ? colors.gray : colors.white,
+    color: colors.gray,
     letterSpacing: '-0.31px',
   };
 };

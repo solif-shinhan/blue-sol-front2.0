@@ -76,11 +76,14 @@
 }
 
 .newsCardIcon {
-  width: 50px;
-  height: 50px;
-  background-color: var(--color-gray-light);
-  border-radius: 50%;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.newsCardIcon img {
+  object-fit: cover;
 }
 
 .sliderDots {
@@ -165,41 +168,50 @@
 
 .lectureCard {
   width: 172px;
-  height: 201px;
-  background-color: #FFFFFF;
+  height: 240px;
   border-radius: 24px;
-  box-shadow: 0px 0px 30px rgba(27, 37, 56, 0.1);
+  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
   position: relative;
-  overflow: visible;
-}
-
-.lectureThumbnail {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 6px;
-  width: 158px;
-  height: 94px;
-  background-color: #E6E6E6;
-  border-radius: 18px 18px 0 0;
   overflow: hidden;
 }
 
-.lectureThumbnail img {
+.lectureBg {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.lectureBg img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.lectureInfo {
+.lectureBgOverlay {
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 105px;
-  width: 147px;
+  inset: 0;
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 35%, #000000 100%);
+}
+
+.lectureBottom {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 172px;
+  height: 110px;
+  border-radius: 0 0 24px 24px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  background:
+    linear-gradient(-57.4deg, rgba(255, 172, 174, 0.12) 0%, rgba(255, 217, 0, 0.2) 100%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, #074ED8 100%);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  justify-content: center;
+  padding: 10px 14px;
+  gap: 6px;
 }
 
 .lectureTextGroup {
@@ -212,7 +224,29 @@
   font-family: 'Pretendard', sans-serif;
   font-size: 14px;
   font-weight: 600;
-  color: #848484;
   line-height: 1.4;
-  display: block;
+  opacity: 0.6;
+  background: linear-gradient(90deg, #FFFFFF 0%, #ABC8FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.lectureTitle {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #E6EFFF;
+  line-height: 1.2;
+  letter-spacing: -0.32px;
+  white-space: pre-line;
+  width: 143px;
+}
+
+.lectureSpeaker {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #ABC8FF;
+  line-height: 1.2;
 }

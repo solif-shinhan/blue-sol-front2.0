@@ -23,7 +23,9 @@ export interface ProfileData {
   mainGoals: string[]
   solidGoalName: string
   userCharacter: string
+  characterImageUrl: string
   backgroundPattern: string
+  backgroundImageUrl: string
   qrCodeUrl: string
   interests: string[]
 }

@@ -8,6 +8,7 @@ import { ApiResponse, PageResponse } from './api-1';
 export interface BackgroundOption {
   backgroundPattern: string;
   backgroundImageUrl: string;
+  theme?: 'light' | 'dark';
 }
 
 export interface CharacterOption {

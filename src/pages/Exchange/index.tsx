@@ -14,40 +14,38 @@ const flagImage = '/flag1.png'
 
 const styles = { ...styles1, ...styles2, ...styles3 }
 
-const BOARD_CATEGORIES = ['사회', '인성', '과학', '취업']
+const BOARD_CATEGORIES = ['활동 후기', '학업 고민', '취업 고민', '공지']
 
 const BOARD_POSTS = [
   {
     id: 1,
     category: '경북 자치회',
-    title: '우리들의 첫 만남',
-    likes: 5,
-    comments: 3,
+    title: '공모전 준비 후기',
+    description: '공모전을 준비하면서 아이디어를 구체화하는 과정이 가장 어려웠습니다. 처음에는..',
+    likes: 25,
+    comments: 8,
+    date: '2026.02.19',
     thumbnail: '/board-thumb-1.jpg',
   },
   {
     id: 2,
     category: '인천 자치회',
-    title: '친구들과 함께하는 스터디',
-    likes: 13,
-    comments: 6,
+    title: '봉사활동 다녀온 후',
+    description: '자치회 구성원들과 함께 봉사활동에 참여했습니다. 단순히 활동을 수행하는 것..',
+    likes: 25,
+    comments: 8,
+    date: '2026.01.28',
     thumbnail: '/board-thumb-2.jpg',
   },
   {
     id: 3,
-    category: '서울 자치회',
-    title: '봉사활동 다녀온 후',
+    category: '제주 자치회',
+    title: '우리들의 첫 만남',
+    description: '제주 지역 자치회 구성원들이 처음으로 모이는 자리였습니다. 서로 다른 배경을..',
     likes: 25,
     comments: 8,
+    date: '2025.12.26',
     thumbnail: '/board-thumb-3.jpg',
-  },
-  {
-    id: 4,
-    category: '서울 자치회',
-    title: '이번 활동에서 느낀 점',
-    likes: 16,
-    comments: 7,
-    thumbnail: '/board-thumb-4.jpg',
   },
 ]
 
@@ -136,7 +134,7 @@ function ExchangePage() {
         <section className={styles.councilSection}>
           <div className={styles.councilHeader}>
             <h2 className={styles.sectionTitle}>자치회 활동</h2>
-            {hasCouncil && <button className={styles.moreButton} onClick={() => navigate('/exchange/council/list')}>둘러보기</button>}
+            <button className={styles.moreButton} onClick={() => navigate('/exchange/council/list')}>둘러보기</button>
           </div>
           {hasCouncil ? (
             <>
@@ -210,8 +208,10 @@ function ExchangePage() {
           <h2 className={styles.sectionTitle}>멘토링</h2>
           <div className={styles.mentoringCard} onClick={() => navigate('/exchange/mentoring')} style={{ cursor: 'pointer' }}>
             <div className={styles.mentoringContent}>
-              <p className={styles.mentoringSubtitle}>경험과 지식의 보물창고</p>
-              <p className={styles.mentoringTitle}>나의 멘토님을 찾아볼까요?</p>
+              <div className={styles.mentoringTextGroup}>
+                <p className={styles.mentoringSubtitle}>경험과 지식의 보물창고</p>
+                <p className={styles.mentoringTitle}>나의 멘토님을 찾아볼까요?</p>
+              </div>
               <p className={styles.mentoringDescription}>나와 연결될 누군가를 찾아보세요</p>
             </div>
             <img src={mentoringIconImg} alt="" className={styles.mentoringIcon} />
@@ -238,18 +238,28 @@ function ExchangePage() {
             {BOARD_POSTS.map((post) => (
               <div key={post.id} className={styles.boardItem}>
                 <div className={styles.boardItemContent}>
-                  <span className={styles.boardCategory}>{post.category}</span>
-                  <h3 className={styles.boardTitle}>{post.title}</h3>
-                  <div className={styles.boardStats}>
-                    <span className={styles.boardStat}>
-                      <img src="/eyes.svg" alt="" className={styles.statIcon} /> {post.likes}
-                    </span>
-                    <span className={styles.boardStat}>
-                      <img src="/talk.svg" alt="" className={styles.statIcon} /> {post.comments}
-                    </span>
+                  <div className={styles.boardMeta}>
+                    <span className={styles.boardCategory}>{post.category}</span>
+                    <span className={styles.boardSeparator} />
+                    <div className={styles.boardStats}>
+                      <span className={styles.boardStat}>
+                        <img src="/eyes.svg" alt="" className={styles.statIcon} /> {post.likes}
+                      </span>
+                      <span className={styles.boardStat}>
+                        <img src="/talk.svg" alt="" className={styles.statIcon} /> {post.comments}
+                      </span>
+                    </div>
+                    <span className={styles.boardSeparator} />
+                    <span className={styles.boardDate}>{post.date}</span>
+                  </div>
+                  <div className={styles.boardTextGroup}>
+                    <h3 className={styles.boardTitle}>{post.title}</h3>
+                    <p className={styles.boardDescription}>{post.description}</p>
                   </div>
                 </div>
-                <div className={styles.boardThumbnail}></div>
+                <div className={styles.boardThumbnail}>
+                  <img src={post.thumbnail} alt="" className={styles.boardThumbnailImg} />
+                </div>
               </div>
             ))}
           </div>
@@ -257,7 +267,9 @@ function ExchangePage() {
 
         <footer className={styles.footer}>
           <button className={styles.logoutButton}>로그아웃</button>
-          <div className={styles.footerLogo}>신한장학재단</div>
+          <div className={styles.footerLogo}>
+            <img src="/assets/057453724e8f804d5306e38ceabfcf7513cbed10.png" alt="신한장학재단" className={styles.footerLogoImg} />
+          </div>
         </footer>
       </div>
 

@@ -28,8 +28,13 @@ import {
 const CardBackgroundImage: React.FC<{
   size: 'small' | 'medium' | 'large' | 'complete';
   imageUrl: string;
-}> = ({ size, imageUrl }) => {
+  gradientStart?: string;
+  gradientEnd?: string;
+}> = ({ size, imageUrl, gradientStart, gradientEnd }) => {
   const { width, topHeight } = cardDimensions[size];
+  const fallbackGradient = gradientStart && gradientEnd
+    ? `linear-gradient(180deg, ${gradientStart} 0%, ${gradientEnd} 100%)`
+    : undefined;
 
   return (
     <div
@@ -39,9 +44,9 @@ const CardBackgroundImage: React.FC<{
         left: 0,
         width: `${width}px`,
         height: `${topHeight}px`,
-        borderRadius: size === 'small' ? '28px 28px 0 30px' : size === 'medium' ? '30px 30px 0 30px' : '40px 40px 0 38px',
-        background: `url(${imageUrl}) center/cover no-repeat`,
-        overflow: 'hidden',
+        background: fallbackGradient
+          ? `url(${imageUrl}) center/cover no-repeat, ${fallbackGradient}`
+          : `url(${imageUrl}) center/cover no-repeat`,
       }}
     />
   );
@@ -153,7 +158,7 @@ export const SolidCardPreview: React.FC<SolidCardPreviewProps> = ({
   return (
     <div style={getCardStyle(size, !!onClick)} onClick={onClick} role={onClick ? 'button' : undefined}>
       {backgroundImageUrl ? (
-        <CardBackgroundImage size={size} imageUrl={backgroundImageUrl} />
+        <CardBackgroundImage size={size} imageUrl={backgroundImageUrl} gradientStart={gradientStart} gradientEnd={gradientEnd} />
       ) : (
         <CardBackgroundSvg
           size={size}
@@ -207,20 +212,18 @@ export const SolidCardPreview: React.FC<SolidCardPreviewProps> = ({
           ))}
         </div>
       )}
-      {(region || school || schoolName || sinceYear) && (
+      {(region || school || schoolName) && (
         <div style={getFooterStyle(size)}>
-          {(region || school || schoolName) && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '5.4px' }}>
-              {region && <span style={getSchoolStyle(size, theme)}>{region}</span>}
-              {region && school && (
-                <svg width="1" height="14" viewBox="0 0 1 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <line x1="0.5" y1="0" x2="0.5" y2="14" stroke={theme === 'light' ? '#848484' : '#FFFFFF'} strokeOpacity="0.5" />
-                </svg>
-              )}
-              {school && <span style={{ ...getSchoolStyle(size, theme), fontWeight: 400 }}>{school}</span>}
-              {!region && !school && schoolName && <span style={getSchoolStyle(size, theme)}>{schoolName}</span>}
-            </div>
-          )}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '5.4px' }}>
+            {region && <span style={getSchoolStyle(size, theme)}>{region}</span>}
+            {region && school && (
+              <svg width="1" height="14" viewBox="0 0 1 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <line x1="0.5" y1="0" x2="0.5" y2="14" stroke="#848484" strokeOpacity="0.5" />
+              </svg>
+            )}
+            {school && <span style={{ ...getSchoolStyle(size, theme), fontWeight: 400 }}>{school}</span>}
+            {!region && !school && schoolName && <span style={getSchoolStyle(size, theme)}>{schoolName}</span>}
+          </div>
           {sinceYear && <span style={getSinceStyle(size, theme)}>SINCE {sinceYear}</span>}
         </div>
       )}

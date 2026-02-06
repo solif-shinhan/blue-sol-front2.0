@@ -9,6 +9,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  animation: modalOverlayIn 0.35s ease-out forwards;
+}
+
+.modalOverlayClosing {
+  animation: modalOverlayOut 0.3s ease-in forwards;
 }
 
 .modalContent {
@@ -19,6 +24,51 @@
   flex-direction: column;
   align-items: center;
   position: relative;
+  animation: modalContentIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.modalContentClosing {
+  animation: modalContentOut 0.3s ease-in forwards;
+}
+
+@keyframes modalOverlayIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalOverlayOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes modalContentIn {
+  from {
+    opacity: 0;
+    transform: translateY(60px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes modalContentOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(60px) scale(0.95);
+  }
 }
 
 .modalHeader {

@@ -21,6 +21,16 @@ export interface Interest {
   icon?: string;
 }
 
+// 어두운 배경 패턴 (실제 S3 SVG 색상 분석 기반)
+export const DARK_PATTERNS = new Set([
+  'backgrounds/background_01.svg',
+  'backgrounds/background_09.svg',
+  'backgrounds/background_11.svg',
+  'backgrounds/background_13.svg',
+  'backgrounds/background_14.svg',
+  'backgrounds/background_16.svg',
+]);
+
 export interface OnboardingData {
   interests: string[];
   nickname: string;

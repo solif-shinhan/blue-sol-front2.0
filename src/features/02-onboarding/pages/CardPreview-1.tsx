@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { colors, frameSize } from '../../../styles/tokens';
 import { Button } from '../../../components/Button';
 import { ProgressHeader } from '../../../components/ProgressHeader';
 import { SolidCardPreview } from '../components/SolidCardPreview-1';
-import { getCharacterById, getBackgroundColorById } from '../api/mock-card-1';
+import { profileAssetsApi } from '../../../api';
 import { EditModal, EditTarget } from './CardPreview-2';
-import { Interest } from '../types/card-1';
+import { Interest, BackgroundColor, Character, CardTheme, DARK_PATTERNS } from '../types/card-1';
 
 export type { EditTarget } from './CardPreview-2';
 
@@ -41,9 +41,39 @@ export const CardPreview: React.FC<CardPreviewProps> = ({
   onNext,
 }) => {
   const [showEditModal, setShowEditModal] = useState(false);
+  const [character, setCharacter] = useState<Character | null>(null);
+  const [backgroundColor, setBackgroundColor] = useState<BackgroundColor | null>(null);
 
-  const character = getCharacterById(characterId);
-  const backgroundColor = getBackgroundColorById(colorId);
+  useEffect(() => {
+    const loadAssets = async () => {
+      try {
+        const [backgroundsRes, charactersRes] = await Promise.all([
+          profileAssetsApi.getBackgrounds(),
+          profileAssetsApi.getCharacters(),
+        ]);
+        if (backgroundsRes.success && backgroundsRes.data && colorId) {
+          const found = backgroundsRes.data.find(bg => bg.backgroundPattern === colorId);
+          if (found) {
+            setBackgroundColor({
+              id: found.backgroundPattern,
+              name: '배경',
+              imageUrl: found.backgroundImageUrl,
+              theme: (DARK_PATTERNS.has(found.backgroundPattern) ? 'dark' : 'light') as CardTheme,
+            });
+          }
+        }
+        if (charactersRes.success && charactersRes.data && characterId) {
+          const found = charactersRes.data.find(c => c.characterPattern === characterId);
+          if (found) {
+            setCharacter({ id: found.characterPattern, name: '캐릭터', imageUrl: found.characterImageUrl });
+          }
+        }
+      } catch (err) {
+        console.error('에셋 로드 실패:', err);
+      }
+    };
+    loadAssets();
+  }, [characterId, colorId]);
 
   const handleCardClick = () => {
     setShowEditModal(true);
@@ -102,8 +132,8 @@ export const CardPreview: React.FC<CardPreviewProps> = ({
   const cardContainerStyle: React.CSSProperties = {
     position: 'absolute',
     left: '50%',
-    top: '263px',
-    transform: 'translateX(-50%)',
+    top: 'calc(50% + 49px)',
+    transform: 'translate(-50%, -50%) scale(0.9)',
   };
 
   const buttonContainerStyle: React.CSSProperties = {
@@ -135,7 +165,7 @@ export const CardPreview: React.FC<CardPreviewProps> = ({
           region={region}
           school={school}
           sinceYear={sinceYear}
-          size="medium"
+          size="complete"
           onClick={handleCardClick}
         />
       </div>

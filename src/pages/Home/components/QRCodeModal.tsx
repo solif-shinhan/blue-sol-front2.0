@@ -11,13 +11,15 @@ interface QRCodeModalProps {
   onClose: () => void
   userId?: string
   userName?: string
+  userRole?: string
 }
 
 export function QRCodeModal({
   isOpen,
   onClose,
   userId = 'user-123',
-  userName = '김솔잎'
+  userName = '사용자',
+  userRole = '',
 }: QRCodeModalProps) {
   if (!isOpen) return null
 
@@ -34,7 +36,7 @@ export function QRCodeModal({
         <div className={styles.qrProfileSection}>
           <span className={styles.qrProfileName}>{userName}</span>
           <span className={styles.qrProfileBadge}>솔방울</span>
-          <span className={styles.qrProfileTag}>체육교사꿈나무</span>
+          <span className={styles.qrProfileTag}>{userRole}</span>
         </div>
 
         <div className={styles.qrCodeBox}>

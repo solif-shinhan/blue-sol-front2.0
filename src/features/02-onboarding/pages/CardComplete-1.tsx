@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { colors, frameSize } from '../../../styles/tokens';
 import { Button } from '../../../components/Button';
 import { SolidCardPreview } from '../components/SolidCardPreview-1';
-import { getCharacterById, getBackgroundColorById } from '../api/mock-card-1';
-import { Interest } from '../types/card-1';
+import { profileAssetsApi } from '../../../api';
+import { Interest, BackgroundColor, Character, CardTheme, DARK_PATTERNS } from '../types/card-1';
 
 interface CardCompleteProps {
   characterId: string;
@@ -30,8 +30,39 @@ export const CardComplete: React.FC<CardCompleteProps> = ({
   sinceYear = '2026',
   onComplete,
 }) => {
-  const character = getCharacterById(characterId);
-  const backgroundColor = getBackgroundColorById(colorId);
+  const [character, setCharacter] = useState<Character | null>(null);
+  const [backgroundColor, setBackgroundColor] = useState<BackgroundColor | null>(null);
+
+  useEffect(() => {
+    const loadAssets = async () => {
+      try {
+        const [backgroundsRes, charactersRes] = await Promise.all([
+          profileAssetsApi.getBackgrounds(),
+          profileAssetsApi.getCharacters(),
+        ]);
+        if (backgroundsRes.success && backgroundsRes.data && colorId) {
+          const found = backgroundsRes.data.find(bg => bg.backgroundPattern === colorId);
+          if (found) {
+            setBackgroundColor({
+              id: found.backgroundPattern,
+              name: '배경',
+              imageUrl: found.backgroundImageUrl,
+              theme: (DARK_PATTERNS.has(found.backgroundPattern) ? 'dark' : 'light') as CardTheme,
+            });
+          }
+        }
+        if (charactersRes.success && charactersRes.data && characterId) {
+          const found = charactersRes.data.find(c => c.characterPattern === characterId);
+          if (found) {
+            setCharacter({ id: found.characterPattern, name: '캐릭터', imageUrl: found.characterImageUrl });
+          }
+        }
+      } catch (err) {
+        console.error('에셋 로드 실패:', err);
+      }
+    };
+    loadAssets();
+  }, [characterId, colorId]);
 
   const containerStyle: React.CSSProperties = {
     position: 'relative',

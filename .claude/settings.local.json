@@ -9,7 +9,10 @@
       "Bash(npx kill-port:*)",
       "Bash(wc:*)",
       "Bash(git remote set-url:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "mcp__figma-mcp__get_screenshot"
     ]
   }
 }

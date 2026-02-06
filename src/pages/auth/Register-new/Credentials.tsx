@@ -97,6 +97,15 @@ const RegisterCredentialsPageWrapper = () => {
         // userName을 저장 (온보딩에서 사용)
         localStorage.setItem('userName', scholarInfo.name);
 
+        // registerData를 localStorage에 저장 (온보딩에서 region/school 사용)
+        localStorage.setItem('registerData', JSON.stringify({
+          name: scholarInfo.name,
+          phone: scholarInfo.phone,
+          email: scholarInfo.email,
+          region: scholarInfo.region,
+          schoolName: scholarInfo.school,
+        }));
+
         // 세션 스토리지에 credentials 저장 (Complete 페이지에서 필요할 수 있음)
         sessionStorage.setItem('register_credentials', JSON.stringify(data));
 

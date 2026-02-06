@@ -1,0 +1,46 @@
+/* Growth-4.module.css - 솔방울 모션 애니메이션 */
+
+/* 페이드 전환 */
+.transition {
+  transition: opacity 0.6s ease-in-out;
+}
+
+.fadeOut {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* 솔방울 획득 토스트 */
+.toast {
+  position: absolute;
+  top: 610px;
+  left: 17px;
+  width: 359px;
+  height: 88px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  z-index: 20;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+}
+
+.toastVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toastText {
+  padding: 17px 65px;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #FFFFFF;
+  white-space: pre-line;
+}
