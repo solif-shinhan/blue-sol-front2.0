@@ -1,0 +1,218 @@
+.container {
+  width: 393px;
+  min-height: 852px;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: linear-gradient(to bottom, #FFFFFF, #F3F6FB);
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Header */
+.header {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 393px;
+  height: 100px;
+  padding: 56px 16px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #FFFFFF;
+  z-index: 100;
+  box-sizing: border-box;
+}
+
+.backButton {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.headerTitle {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #222222;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.completeButton {
+  background: none;
+  border: none;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: #074ED8;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 116px 16px 120px;
+}
+
+/* Current Members */
+.currentMemberSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px;
+}
+
+.sectionTitle {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.4;
+  color: #222222;
+}
+
+.memberCount {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.2;
+  color: #074ED8;
+}
+
+.memberAvatarList {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.memberAvatarList::-webkit-scrollbar {
+  display: none;
+}
+
+.memberAvatarItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.memberAvatarWrapper {
+  position: relative;
+  width: 48px;
+  height: 48px;
+}
+
+.memberAvatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #E6E6E6;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.memberAvatarMe {
+  background: #074ED8;
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.removeButton {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 14px;
+  height: 14px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.memberAvatarName {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 11px;
+  line-height: 1.2;
+  color: #848484;
+  text-align: center;
+  max-width: 48px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.memberAvatarNameMe {
+  color: #222222;
+  font-weight: 700;
+}
+
+/* Tabs */
+.tabBar {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  background: #FFFFFF;
+  border: 1px solid #EEEEEE;
+  border-radius: 30px;
+  box-shadow: 0 0 30px 0 rgba(27, 37, 56, 0.1);
+  overflow: hidden;
+}
+
+.tabItem {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 30px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #848484;
+}
+
+.tabItemActive {
+  background: #074ED8;
+  color: #FFFFFF;
+}

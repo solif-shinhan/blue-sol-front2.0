@@ -1,0 +1,186 @@
+/* Search */
+.searchBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+  padding: 0 12px;
+  background: #FFFFFF;
+  border: 1px solid #E6E6E6;
+  border-radius: 16px;
+  box-shadow: 0 0 30px 0 rgba(27, 37, 56, 0.1);
+}
+
+.searchInput {
+  flex: 1;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.2;
+  color: #222222;
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+.searchInput::placeholder {
+  color: #848484;
+  font-weight: 400;
+}
+
+.searchIcon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+/* Member Section */
+.memberSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.memberSectionTitle {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.4;
+  color: #222222;
+  padding: 0 4px;
+}
+
+.memberList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Member Card */
+.memberCard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 60px;
+  background: #FFFFFF;
+  border-radius: 20px;
+  box-shadow: 0 0 30px 0 rgba(27, 37, 56, 0.1);
+  cursor: pointer;
+  border: 2px solid transparent;
+  box-sizing: border-box;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+
+.memberCardSelected {
+  border-color: #074ED8;
+  background: rgba(7, 78, 216, 0.04);
+}
+
+.memberCardInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: calc(100% - 40px);
+}
+
+.memberInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.memberProfileAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #E6E6E6;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.memberProfileImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.memberName {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.4;
+  letter-spacing: -0.51px;
+  color: #292929;
+  transition: color 0.15s;
+}
+
+.memberNameSelected {
+  color: #074ED8;
+}
+
+.memberMeta {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.memberMetaText {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #848484;
+}
+
+.memberMetaDivider {
+  width: 1px;
+  height: 14px;
+  background: #C8C8C8;
+}
+
+/* Bottom Button */
+.bottomButton {
+  position: fixed;
+  bottom: 61px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 360px;
+  height: 52px;
+  background: #074ED8;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.bottomButton:disabled {
+  background: #C8C8C8;
+  cursor: not-allowed;
+}
+
+.bottomButtonText {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.2;
+  color: #FFFFFF;
+}
+
+/* States */
+.loadingText {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 13px;
+  color: #848484;
+}
+
+.emptyState {
+  padding: 24px;
+  text-align: center;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  color: #848484;
+}
