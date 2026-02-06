@@ -6,13 +6,15 @@ import {
   PostItem as ApiPostItem,
   PostCategory,
   CATEGORY_REVERSE_MAP,
+  logout,
 } from '@/services'
 
 import warmReviewImg from '@/assets/images/exchage-board/f768656256cbf251b006a6560d7a884aecf6a277.png'
 import counselingImg from '@/assets/images/exchage-board/80112dee4520b196fff05166d3abf58e7377c037.png'
 import foundationNewsImg from '@/assets/images/exchage-board/6fecb3f4903a46cbe10992ced7057fb3c483ef00.png'
-
 import defaultPostImg from '@/assets/images/exchage-board/27342ac6292fb7d2b87647841f5fab093bda09f6.png'
+import shinhanLogo from '@/assets/images/exchage-board/shinhan-logo.png'
+const fabWriteIcon = '/jam_write.svg'
 
 type FilterTab = '자치회 활동 후기' | '멘토링 후기'
 
@@ -55,13 +57,11 @@ const CATEGORY_CARDS: CategoryCard[] = [
   },
 ]
 
-// 필터탭 -> 카테고리 매핑
 const FILTER_TO_CATEGORY: Record<FilterTab, PostCategory> = {
   '자치회 활동 후기': 'NOTICE',
   '멘토링 후기': 'PROGRAM',
 }
 
-// 날짜 포맷 함수
 function formatDate(dateString: string): string {
   const date = new Date(dateString)
   return date.toLocaleDateString('ko-KR', {
@@ -71,13 +71,12 @@ function formatDate(dateString: string): string {
   }).replace(/\. /g, '.').replace(/\.$/, '')
 }
 
-// API 응답 -> UI 형식 변환
 function mapApiPostToUI(post: ApiPostItem): PostItem {
   return {
     id: post.postId,
     category: CATEGORY_REVERSE_MAP[post.category] || post.category,
     title: post.title,
-    description: post.content.length > 60 ? post.content.slice(0, 60) + '...' : post.content,
+    description: post.content.length > 60 ? post.content.slice(0, 60) + '..' : post.content,
     viewCount: post.viewCount || 0,
     commentCount: post.commentCount,
     date: formatDate(post.createdAt),
@@ -87,17 +86,22 @@ function mapApiPostToUI(post: ApiPostItem): PostItem {
 
 function BoardPage() {
   const navigate = useNavigate()
+
+  const handleLogout = async () => {
+    await logout()
+    navigate('/login')
+  }
+
   const [activeFilter, setActiveFilter] = useState<FilterTab>('자치회 활동 후기')
   const [posts, setPosts] = useState<PostItem[]>([])
   const [isLoading, setIsLoading] = useState(false)
 
-  // 게시글 목록 조회
   const fetchPosts = async (filter: FilterTab) => {
     setIsLoading(true)
     try {
       const category = FILTER_TO_CATEGORY[filter]
       const response = await getPosts({
-        boardId: 1, // 기본 게시판 ID
+        boardId: 1,
         category,
         page: 0,
         size: 20,
@@ -142,13 +146,16 @@ function BoardPage() {
     <div className={styles.container}>
       <div className={styles.safeArea} />
 
+      {/* Header */}
       <header className={styles.header}>
-        <button className={styles.backButton} onClick={handleBack}>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M15 19L8 12L15 5" stroke="#222222" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
-        <span className={styles.headerTitle}>게시판</span>
+        <div className={styles.headerLeft}>
+          <button className={styles.backButton} onClick={handleBack}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M15 19L8 12L15 5" stroke="#222222" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+          <span className={styles.headerTitle}>게시판</span>
+        </div>
         <button className={styles.searchButton} onClick={handleSearch}>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
             <circle cx="11" cy="11" r="7" stroke="#222222" strokeWidth="2"/>
@@ -157,11 +164,12 @@ function BoardPage() {
         </button>
       </header>
 
+      {/* Category Cards */}
       <div className={styles.categorySection}>
-        {CATEGORY_CARDS.map((card) => (
+        {CATEGORY_CARDS.map((card, index) => (
           <div
             key={card.id}
-            className={styles.categoryCard}
+            className={`${styles.categoryCard} ${index > 0 ? styles.categoryCardInactive : ''}`}
             onClick={() => handleCategoryClick(card.id)}
           >
             <img
@@ -182,6 +190,7 @@ function BoardPage() {
         ))}
       </div>
 
+      {/* Filter Tabs */}
       <div className={styles.filterTabsSection}>
         <button
           className={`${styles.filterTabButton} ${activeFilter === '자치회 활동 후기' ? styles.active : ''}`}
@@ -197,6 +206,7 @@ function BoardPage() {
         </button>
       </div>
 
+      {/* Post List */}
       <div className={styles.contentWrapper}>
         {isLoading ? (
           <div className={styles.loadingWrapper}>
@@ -207,60 +217,69 @@ function BoardPage() {
             <span>게시글이 없습니다.</span>
           </div>
         ) : (
-        <div className={styles.postList}>
-          {posts.map((post) => (
-            <div
-              key={post.id}
-              className={styles.postCard}
-              onClick={() => handlePostClick(post.id)}
-            >
-              <div className={styles.postContent}>
-                <div className={styles.postMeta}>
-                  <span className={styles.postCategory}>{post.category}</span>
-                  <div className={styles.postMetaDivider} />
-                  <div className={styles.postStats}>
-                    <div className={styles.postStatsItem}>
-                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className={styles.postStatsIcon}>
-                        <path d="M7 2.5C4 2.5 1.5 5.5 1.5 7C1.5 8.5 4 11.5 7 11.5C10 11.5 12.5 8.5 12.5 7C12.5 5.5 10 2.5 7 2.5Z" stroke="#C8C8C8" strokeWidth="1.2"/>
-                        <circle cx="7" cy="7" r="2" stroke="#C8C8C8" strokeWidth="1.2"/>
-                      </svg>
-                      <span className={styles.postStatsText}>{post.viewCount}</span>
+          <div className={styles.postList}>
+            {posts.map((post) => (
+              <div
+                key={post.id}
+                className={styles.postCard}
+                onClick={() => handlePostClick(post.id)}
+              >
+                <div className={styles.postContent}>
+                  <div className={styles.postMeta}>
+                    <span className={styles.postCategory}>{post.category}</span>
+                    <div className={styles.postMetaDivider} />
+                    <div className={styles.postStats}>
+                      <div className={styles.postStatsItem}>
+                        <svg className={styles.postStatsIcon} width="18" height="18" viewBox="0 0 18 18" fill="none">
+                          <path d="M9 3.75C5.5 3.75 2.25 7.125 2.25 9C2.25 10.875 5.5 14.25 9 14.25C12.5 14.25 15.75 10.875 15.75 9C15.75 7.125 12.5 3.75 9 3.75Z" stroke="#C8C8C8" strokeWidth="1.2"/>
+                          <circle cx="9" cy="9" r="2.5" stroke="#C8C8C8" strokeWidth="1.2"/>
+                        </svg>
+                        <span className={styles.postStatsText}>{post.viewCount}</span>
+                      </div>
+                      <div className={styles.postStatsItem}>
+                        <svg className={styles.postStatsIcon} width="18" height="18" viewBox="0 0 18 18" fill="none">
+                          <path d="M3 13.5V5.25C3 4.14543 3.89543 3.25 5 3.25H13C14.1046 3.25 15 4.14543 15 5.25V10.5C15 11.6046 14.1046 12.5 13 12.5H6L3 13.5Z" stroke="#C8C8C8" strokeWidth="1.2" strokeLinejoin="round"/>
+                        </svg>
+                        <span className={styles.postStatsText}>{post.commentCount}</span>
+                      </div>
                     </div>
-                    <div className={styles.postStatsItem}>
-                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className={styles.postStatsIcon}>
-                        <path d="M2 10.5V4C2 3.17157 2.67157 2.5 3.5 2.5H10.5C11.3284 2.5 12 3.17157 12 4V8C12 8.82843 11.3284 9.5 10.5 9.5H4.5L2 10.5Z" stroke="#C8C8C8" strokeWidth="1.2" strokeLinejoin="round"/>
-                      </svg>
-                      <span className={styles.postStatsText}>{post.commentCount}</span>
-                    </div>
+                    <div className={styles.postMetaDivider} />
+                    <span className={styles.postDate}>{post.date}</span>
                   </div>
-                  <div className={styles.postMetaDivider} />
-                  <span className={styles.postDate}>{post.date}</span>
+
+                  <div className={styles.postTextContent}>
+                    <h3 className={styles.postTitle}>{post.title}</h3>
+                    <p className={styles.postDescription}>{post.description}</p>
+                  </div>
                 </div>
 
-                <h3 className={styles.postTitle}>{post.title}</h3>
-
-                <p className={styles.postDescription}>{post.description}</p>
+                <img
+                  src={post.image}
+                  alt=""
+                  className={styles.postImage}
+                  onError={(e) => {
+                    e.currentTarget.style.background = '#EEEEEE'
+                  }}
+                />
               </div>
-
-              <img
-                src={post.image}
-                alt=""
-                className={styles.postImage}
-                onError={(e) => {
-                  e.currentTarget.style.background = '#EEEEEE'
-                }}
-              />
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
         )}
       </div>
 
+      {/* Footer */}
+      <div className={styles.footer}>
+        <button type="button" className={styles.footerButton} onClick={handleLogout}>
+          <span className={styles.footerButtonText}>로그아웃</span>
+        </button>
+        <button className={styles.footerButton}>
+          <img src={shinhanLogo} alt="신한장학재단" className={styles.footerLogo} />
+        </button>
+      </div>
+
+      {/* FAB Write Button */}
       <button className={styles.fabButton} onClick={handleWritePost}>
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M12 20H21" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M16.5 3.5C16.8978 3.10217 17.4374 2.87868 18 2.87868C18.2786 2.87868 18.5544 2.93355 18.8118 3.04015C19.0692 3.14676 19.303 3.30301 19.5 3.5C19.697 3.69698 19.8532 3.93083 19.9598 4.18821C20.0665 4.44559 20.1213 4.72142 20.1213 5C20.1213 5.27857 20.0665 5.55441 19.9598 5.81179C19.8532 6.06916 19.697 6.30301 19.5 6.5L7 19L3 20L4 16L16.5 3.5Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
+        <img src={fabWriteIcon} alt="글쓰기" className={styles.fabIcon} />
       </button>
     </div>
   )

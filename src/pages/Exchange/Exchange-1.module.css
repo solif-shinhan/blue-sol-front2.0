@@ -5,14 +5,7 @@
   height: 100%;
   background: linear-gradient(180deg, #FFFFFF 0%, #F3F6FB 100%);
   position: relative;
-  overflow-x: hidden;
-  overflow-y: auto;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.container::-webkit-scrollbar {
-  display: none;
+  overflow: hidden;
 }
 
 .tabNav {
@@ -22,6 +15,7 @@
   padding: 70px 17px 0;
   position: relative;
   z-index: 10;
+  flex-shrink: 0;
 }
 
 .tabs {
@@ -77,6 +71,15 @@
   flex-direction: column;
   gap: 30px;
   padding: 20px 17px 100px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex: 1;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.content::-webkit-scrollbar {
+  display: none;
 }
 
 .section {

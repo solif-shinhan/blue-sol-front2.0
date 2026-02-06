@@ -19,19 +19,24 @@
 }
 
 .solbangulIcon {
+  display: flex;
   width: 46px;
   height: 46px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 .solbangulIcon img {
-  width: 39px;
-  height: 39px;
-  transform: rotate(-29.91deg);
+  width: 46px;
+  height: 46px;
   object-fit: cover;
+}
+
+.solbangulIconRotated {
+  width: 53px;
+  height: 53px;
+  transform: rotate(-29.91deg);
 }
 
 /* 메인 콘텐츠 영역 */

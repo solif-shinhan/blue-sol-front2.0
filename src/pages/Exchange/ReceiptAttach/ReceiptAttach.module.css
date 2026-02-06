@@ -1,19 +1,18 @@
 .container {
-  display: flex;
-  flex-direction: column;
   width: 393px;
   height: 852px;
   position: relative;
   overflow: hidden;
-  background: #FFFFFF;
+  background: #000000;
 }
 
+/* Background receipt image */
 .backgroundImage {
   position: absolute;
-  top: 0;
+  top: 136px;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 393px;
+  height: 524px;
   z-index: 0;
 }
 
@@ -28,10 +27,7 @@
 
 .backgroundOverlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 0) 61.8%,
@@ -39,28 +35,40 @@
   );
 }
 
+/* Status Bar */
 .statusBar {
+  position: absolute;
+  top: 0;
+  left: 0;
   height: 50px;
   width: 100%;
-  flex-shrink: 0;
-  position: relative;
   z-index: 10;
 }
 
+/* Header */
 .header {
+  position: absolute;
+  top: 70px;
+  left: 0;
   height: 40px;
   width: 100%;
-  position: relative;
   z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.headerContent {
+.headerInner {
+  width: 350px;
   display: flex;
   align-items: center;
-  width: 360.5px;
+  justify-content: space-between;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .closeButton {
@@ -75,86 +83,47 @@
   height: 24px;
 }
 
+.closeIcon {
+  width: 24px;
+  height: 24px;
+}
+
 .headerTitle {
-  font-family: 'OneShinhan', sans-serif;
+  font-family: 'OneShinhan', 'Pretendard', sans-serif;
   font-size: 18px;
   font-weight: 500;
   color: #FFFFFF;
   line-height: 1.4;
   letter-spacing: -0.36px;
-  margin-left: 4px;
+  text-align: center;
 }
 
-.tabSwitch {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 360px;
-  height: 36px;
-  margin: 9px auto 0;
-  background: #FFFFFF;
-  border: 1px solid #EEEEEE;
-  border-radius: 30px;
-  box-shadow: 0px 0px 30px 0px rgba(27, 37, 56, 0.1);
-  position: relative;
-  z-index: 10;
-}
-
-.tabButton {
-  flex: 1;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
+.completeHeaderBtn {
+  background: none;
   border: none;
-  border-radius: 20px;
+  cursor: pointer;
+  padding: 0;
   font-family: 'Pretendard', sans-serif;
   font-size: 14px;
   font-weight: 600;
-  color: #848484;
+  color: #ABC8FF;
   line-height: 1.4;
-  cursor: pointer;
-  padding: 8px 16px;
 }
 
-.tabButton.tabActive {
-  background: #074ED8;
-  color: #FFFFFF;
-}
-
-.scanArea {
+/* Empty State */
+.emptyState {
   position: absolute;
-  top: 195px;
+  top: 136px;
   left: 0;
   width: 393px;
-  height: 109px;
-  border-top: 2px solid #C5ED52;
-  background: linear-gradient(
-    to bottom,
-    rgba(197, 237, 82, 0.5) 0%,
-    rgba(166, 166, 166, 0) 100%
-  );
-  z-index: 5;
-  pointer-events: none;
-}
-
-.content {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  z-index: 5;
-}
-
-.emptyState {
+  height: 524px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 16px;
   cursor: pointer;
-  padding: 40px;
+  z-index: 5;
 }
 
 .emptyIcon {
@@ -170,6 +139,7 @@
   line-height: 1.6;
 }
 
+/* Processing Badge */
 .processingBadge {
   position: absolute;
   top: 390px;
@@ -194,32 +164,150 @@
   white-space: nowrap;
 }
 
-.resultSection {
+/* Recognition Overlay */
+.recognitionOverlay {
   position: absolute;
-  bottom: 102px;
-  left: 24px;
-  right: 16px;
+  top: 550px;
+  left: 17.5px;
+  width: 359px;
+  height: 110px;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.3), rgba(0, 70, 255, 0.3));
+  border-radius: 26px;
+  z-index: 15;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 25px;
+}
+
+.recognitionText {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: #FFFFFF;
+  line-height: 1.5;
+  letter-spacing: -0.36px;
+}
+
+.recognitionAmount {
+  font-weight: 700;
+}
+
+.recognitionAddBtn {
+  width: 95px;
+  height: 40px;
+  background: #14307C;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: -0.3px;
+  line-height: 1.2;
+  flex-shrink: 0;
+}
+
+/* Thumbnail Count Badge (pre-recognition, bottom-right) */
+.thumbnailBadge {
+  position: absolute;
+  top: 579px;
+  left: 311px;
+  width: 66px;
+  height: 66px;
+  background: #AAAAAA;
+  border: 1px solid #FFFFFF;
+  border-radius: 10px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 6px 7px;
+  box-sizing: border-box;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.thumbnailBadgeImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.badgeCount {
+  position: relative;
+  z-index: 1;
+  background: rgba(61, 61, 61, 0.8);
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #EEEEEE;
+  line-height: 1.2;
+  letter-spacing: -0.3px;
+}
+
+/* Thumbnail Strip (complete mode, bottom-left) */
+.thumbnailStrip {
+  position: absolute;
+  top: 575px;
+  left: 17px;
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.thumbnailItem {
+  position: relative;
+  width: 71px;
+  height: 70px;
+}
+
+.thumbnailItemImg {
+  width: 66px;
+  height: 66px;
+  border-radius: 10px;
+  border: 1px solid #FFFFFF;
+  object-fit: cover;
+  margin-top: 4px;
+  box-sizing: border-box;
+}
+
+.thumbnailDeleteBtn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 17px;
+  height: 17px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.thumbnailDeleteIcon {
+  width: 100%;
+  height: 100%;
+}
+
+/* Amount Row */
+.amountRow {
+  position: absolute;
+  top: 689px;
+  left: 22px;
+  width: 350px;
+  height: 22px;
+  display: flex;
+  align-items: center;
   justify-content: space-between;
   z-index: 10;
 }
 
-.resultInfo {
-  display: flex;
-  flex-direction: column;
-  gap: 11px;
-  width: 265px;
-}
-
-.resultRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.resultLabel {
+.amountLabel {
   font-family: 'Pretendard', sans-serif;
   font-size: 18px;
   font-weight: 700;
@@ -227,122 +315,92 @@
   line-height: 1.2;
 }
 
-.resultAmountWhite {
+.amountValue {
   font-family: 'Pretendard', sans-serif;
   font-size: 18px;
   font-weight: 700;
-  color: #FFFFFF;
+  color: #ABC8FF;
   line-height: 1.2;
 }
 
-.resultAmountGreen {
-  font-family: 'Pretendard', sans-serif;
-  font-size: 18px;
-  font-weight: 700;
-  color: #C5ED52;
-  line-height: 1.2;
-}
-
-.thumbnailWrapper {
-  position: relative;
-}
-
-.thumbnail {
-  width: 66px;
-  height: 66px;
-  border-radius: 10px;
-  background: #AAAAAA;
-  border: 1px solid #FFFFFF;
-  overflow: hidden;
-}
-
-.thumbnailImg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.thumbnailCount {
+/* CTA Area */
+.ctaArea {
   position: absolute;
-  bottom: -10px;
-  right: -5px;
-  min-width: 24px;
-  height: 24px;
-  padding: 2px 6px;
-  border-radius: 6px;
-  background: rgba(61, 61, 61, 0.8);
-  font-family: 'Pretendard', sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  color: #EEEEEE;
-  line-height: 1.2;
-  letter-spacing: -0.3px;
+  top: 740px;
+  left: 17px;
+  width: 360px;
+  height: 52px;
   display: flex;
   align-items: center;
-  justify-content: center;
-}
-
-.footer {
-  position: absolute;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
   gap: 10px;
-  width: 360px;
   z-index: 10;
 }
 
-.addMoreButton {
-  flex: 1;
+.cameraButton {
+  width: 52px;
   height: 52px;
-  border-radius: 30px;
-  background: #ABC8FF;
-  border: none;
-  font-family: 'Pretendard', sans-serif;
-  font-weight: 700;
-  font-size: 18px;
-  color: #14307C;
-  line-height: 1.2;
-  letter-spacing: -0.36px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.completeButton {
-  width: 240px;
-  height: 52px;
-  border-radius: 30px;
-  background: #074ED8;
-  border: none;
-  font-family: 'Pretendard', sans-serif;
-  font-weight: 700;
-  font-size: 18px;
-  color: #FFFFFF;
-  line-height: 1.2;
-  letter-spacing: -0.36px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
 }
 
-.completeButtonFull {
+.cameraIcon {
+  width: 52px;
+  height: 52px;
+}
+
+.ctaButtonPrimary {
   flex: 1;
   height: 52px;
-  border-radius: 30px;
   background: #074ED8;
   border: none;
+  border-radius: 30px;
+  cursor: pointer;
   font-family: 'Pretendard', sans-serif;
-  font-weight: 700;
   font-size: 18px;
+  font-weight: 700;
   color: #FFFFFF;
   line-height: 1.2;
   letter-spacing: -0.36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ctaButtonFaded {
+  flex: 1;
+  height: 52px;
+  background: #074ED8;
+  opacity: 0.2;
+  border: none;
+  border-radius: 30px;
   cursor: pointer;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1.2;
+  letter-spacing: -0.36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ctaButtonFull {
+  width: 100%;
+  height: 52px;
+  background: #074ED8;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1.2;
+  letter-spacing: -0.36px;
   display: flex;
   align-items: center;
   justify-content: center;

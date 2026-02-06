@@ -34,8 +34,9 @@
   color: #848484;
 }
 
-.formInputActive {
+.formInput:focus {
   border-color: #074ED8;
+  outline: none;
 }
 
 .formInputDisplay {
@@ -57,6 +58,59 @@
   line-height: 1.2;
   color: #222222;
   text-align: center;
+}
+
+.receiptRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 240px;
+}
+
+.receiptButton {
+  flex: 1;
+  height: 40px;
+  background: #FFFFFF;
+  border: 1px solid #E6E6E6;
+  border-radius: 12px;
+  padding: 13px 11px;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #848484;
+  box-sizing: border-box;
+  cursor: pointer;
+  text-align: left;
+}
+
+.cameraButton {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cameraIcon {
+  width: 40px;
+  height: 40px;
+}
+
+.receiptHelper {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.2;
+  color: #3971E0;
+  text-align: center;
+  margin: 0;
+  padding: 0 10px;
 }
 
 .divider {
@@ -93,23 +147,6 @@
   align-items: center;
   gap: 16px;
   width: 240px;
-}
-
-.receiptButton {
-  width: 240px;
-  height: 40px;
-  background: #FFFFFF;
-  border: 1px solid #E6E6E6;
-  border-radius: 12px;
-  padding: 13px 11px;
-  font-family: 'Pretendard', sans-serif;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 1.4;
-  color: #848484;
-  box-sizing: border-box;
-  cursor: pointer;
-  text-align: left;
 }
 
 .addExpenseButton {
@@ -233,4 +270,105 @@
 
 .nextButtonActive {
   background: #074ED8;
+}
+
+.formInputActive {
+  width: 240px;
+  height: 40px;
+  background: #FFFFFF;
+  border: 1px solid #074ED8;
+  border-radius: 12px;
+  padding: 13px 11px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}
+
+.participantsSection {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  width: 360px;
+  margin-top: 30px;
+  overflow-x: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.participantsSection::-webkit-scrollbar {
+  display: none;
+}
+
+.participantItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 60px;
+  flex-shrink: 0;
+}
+
+.participantAvatarWrap {
+  position: relative;
+  width: 60px;
+  height: 60px;
+}
+
+.participantAvatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #E6E6E6;
+}
+
+.participantAvatarMe {
+  border: 2px dashed #ABC8FF;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.participantAvatarMe::after {
+  content: '+';
+  font-size: 24px;
+  color: #074ED8;
+  font-weight: 500;
+}
+
+.participantRemoveBtn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: #555555;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+}
+
+.participantRemoveX {
+  color: #FFFFFF;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.participantName {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1.2;
+  letter-spacing: -0.24px;
+  color: #848484;
+  text-align: center;
+}
+
+.participantNameMe {
+  color: #222222;
 }

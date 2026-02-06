@@ -8,7 +8,8 @@ import styles4 from './Growth-4.module.css'
 import imgCharacter from '@/assets/images/e27e5ea17e8d7342655407961c49cef99027dd5a.png'
 import imgGradientFade from '@/assets/images/4fe43b8fc2dc1a748e8b748d5c7ae4ef6fedd022.png'
 import imgDaysLabel from '@/assets/images/grow/frame2147230658.svg'
-import imgSolbangul from '@/assets/images/37f121dbe4cfc2a1e72b81c83f885c268ea4b648.png'
+import imgSolbangul from '@/assets/images/grow/37f121dbe4cfc2a1e72b81c83f885c268ea4b648.png'
+import imgSolbangulEmpty from '@/assets/images/grow/image 183.png'
 import imgSolbangulGray from '@/assets/images/839768862f205adce3f620b3c1365ab7bc7774af.png'
 import imgMission1 from '@/assets/images/9f76c15a9c0b8660eea02eb71fb37a71c95402c8.png'
 import imgMission2 from '@/assets/images/a62597eaf9ed76d2cfcc60e1d7cd6b4915de6157.png'
@@ -78,8 +79,8 @@ const TopNav = () => {
       <div className={styles1.rightIcons}>
         <button className={styles1.bellIcon}>
           <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-            <path d="M14 3C10.134 3 7 6.134 7 10V15L5 17V18H23V17L21 15V10C21 6.134 17.866 3 14 3Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M11 21C11 22.657 12.343 24 14 24C15.657 24 17 22.657 17 21" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M14 3C10.134 3 7 6.134 7 10V15L5 17V18H23V17L21 15V10C21 6.134 17.866 3 14 3Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M11 21C11 22.657 12.343 24 14 24C15.657 24 17 22.657 17 21" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
         <div className={styles1.profileIcon}>
@@ -113,27 +114,52 @@ const UserSection = ({ visible }: { visible: boolean }) => (
 )
 
 // 솔방울 장식 버튼
-const SolbangulButton = ({ visible }: { visible: boolean }) => (
-  <button className={`${styles2.solbangulButton} ${styles4.transition} ${visible ? '' : styles4.fadeOut}`}>
-    <div className={styles2.solbangulIcon}><img src={imgSolbangul} alt="솔방울" /></div>
-    <div className={styles2.solbangulIcon}><img src={imgSolbangul} alt="솔방울" /></div>
-    <div className={styles2.solbangulIcon}><img src={imgSolbangul} alt="솔방울" /></div>
-  </button>
-)
+const SolbangulButton = ({ visible, collectedCount }: { visible: boolean; collectedCount: number }) => {
+  return (
+    <button className={`${styles2.solbangulButton} ${styles4.transition} ${visible ? '' : styles4.fadeOut}`}>
+      <div className={styles2.solbangulIcon}>
+        <img
+          src={collectedCount >= 1 ? imgSolbangul : imgSolbangulEmpty}
+          alt="솔방울"
+          className={collectedCount >= 1 ? styles2.solbangulIconRotated : ''}
+        />
+      </div>
+      <div className={styles2.solbangulIcon}>
+        <img
+          src={collectedCount >= 2 ? imgSolbangul : imgSolbangulEmpty}
+          alt="솔방울"
+          className={collectedCount >= 2 ? styles2.solbangulIconRotated : ''}
+        />
+      </div>
+      <div className={styles2.solbangulIcon}>
+        <img
+          src={collectedCount >= 3 ? imgSolbangul : imgSolbangulEmpty}
+          alt="솔방울"
+          className={collectedCount >= 3 ? styles2.solbangulIconRotated : ''}
+        />
+      </div>
+    </button>
+  )
+}
 
 // 솔방울 획득 토스트
-const AcquisitionToast = ({ visible }: { visible: boolean }) => (
-  <div className={`${styles4.toast} ${visible ? styles4.toastVisible : ''}`}>
-    <span className={styles4.toastText}>
-      연결 솔방울을 획득했어요!{'\n'}명함 받기 보상까지 2번 남았어요.
-    </span>
-  </div>
-)
+const AcquisitionToast = ({ visible, collectedCount }: { visible: boolean; collectedCount: number }) => {
+  const remaining = 3 - collectedCount
+  const message = remaining > 0
+    ? `연결 솔방울을 획득했어요!\n다음 솔방울까지 ${remaining}번 남았어요.`
+    : '모든 솔방울을 획득했어요!'
+
+  return (
+    <div className={`${styles4.toast} ${visible ? styles4.toastVisible : ''}`}>
+      <span className={styles4.toastText}>{message}</span>
+    </div>
+  )
+}
 
 // 상반기 미션 리스트
-const HalfYearMission = ({ onCollect, collected }: {
-  onCollect: () => void
-  collected: boolean
+const HalfYearMission = ({ onCollect, collectedCount }: {
+  onCollect: (index: number) => void
+  collectedCount: number
 }) => (
   <div className={styles2.missionSection}>
     <div className={styles2.missionHeader}>
@@ -147,34 +173,42 @@ const HalfYearMission = ({ onCollect, collected }: {
       </div>
       <div className={styles2.rewardItems}>
         <div className={styles2.rewardItem}>
-          <span className={styles2.rewardLabel}>솔방울 받기</span>
+          <span className={collectedCount >= 1 ? styles2.rewardLabel : `${styles2.rewardLabel} ${styles2.rewardLabelInactive}`}>솔방울 받기</span>
           <button
-            className={`${styles2.rewardButton} ${collected ? styles2.rewardButtonInactive : ''}`}
-            onClick={!collected ? onCollect : undefined}
+            className={`${styles2.rewardButton} ${collectedCount >= 1 ? styles2.rewardButtonInactive : ''}`}
+            onClick={collectedCount < 1 ? () => onCollect(0) : undefined}
           >
             <div className={styles2.rewardButtonContent}>
               <div className={styles2.rewardIcon}>
-                <img src={collected ? imgSolbangulGray : imgSolbangul} alt="솔방울" />
+                <img src={collectedCount >= 1 ? imgSolbangulGray : imgSolbangul} alt="솔방울" />
               </div>
-              <span className={styles2.rewardText}>{collected ? '완료' : '받기'}</span>
+              <span className={styles2.rewardText}>{collectedCount >= 1 ? '완료' : '받기'}</span>
             </div>
           </button>
         </div>
         <div className={styles2.rewardItem}>
-          <span className={`${styles2.rewardLabel} ${styles2.rewardLabelInactive}`}>솔방울 받기</span>
-          <button className={`${styles2.rewardButton} ${styles2.rewardButtonInactive}`}>
+          <span className={collectedCount >= 2 ? styles2.rewardLabel : `${styles2.rewardLabel} ${styles2.rewardLabelInactive}`}>솔방울 받기</span>
+          <button
+            className={`${styles2.rewardButton} ${collectedCount >= 2 ? styles2.rewardButtonInactive : ''}`}
+            onClick={collectedCount >= 1 && collectedCount < 2 ? () => onCollect(1) : undefined}
+            disabled={collectedCount < 1}
+          >
             <div className={styles2.rewardButtonContent}>
-              <div className={styles2.rewardIcon}><img src={imgSolbangulGray} alt="솔방울" /></div>
-              <span className={styles2.rewardText}>받기</span>
+              <div className={styles2.rewardIcon}><img src={collectedCount >= 2 ? imgSolbangulGray : imgSolbangul} alt="솔방울" /></div>
+              <span className={styles2.rewardText}>{collectedCount >= 2 ? '완료' : '받기'}</span>
             </div>
           </button>
         </div>
         <div className={styles2.rewardItem}>
-          <span className={`${styles2.rewardLabel} ${styles2.rewardLabelInactive}`}>명함 받기</span>
-          <button className={`${styles2.rewardButton} ${styles2.rewardButtonInactive}`}>
+          <span className={collectedCount >= 3 ? styles2.rewardLabel : `${styles2.rewardLabel} ${styles2.rewardLabelInactive}`}>솔방울 받기</span>
+          <button
+            className={`${styles2.rewardButton} ${collectedCount >= 3 ? styles2.rewardButtonInactive : ''}`}
+            onClick={collectedCount >= 2 && collectedCount < 3 ? () => onCollect(2) : undefined}
+            disabled={collectedCount < 2}
+          >
             <div className={styles2.rewardButtonContent}>
-              <div className={styles2.rewardIcon}><img src={imgSolbangulGray} alt="솔방울" /></div>
-              <span className={styles2.rewardText}>받기</span>
+              <div className={styles2.rewardIcon}><img src={collectedCount >= 3 ? imgSolbangulGray : imgSolbangul} alt="솔방울" /></div>
+              <span className={styles2.rewardText}>{collectedCount >= 3 ? '완료' : '받기'}</span>
             </div>
           </button>
         </div>
@@ -220,7 +254,7 @@ const WeeklyMission = () => {
 // 메인 페이지 컴포넌트
 function GrowthPage() {
   const [phase, setPhase] = useState<AnimationPhase>('idle')
-  const [collected, setCollected] = useState(false)
+  const [collectedCount, setCollectedCount] = useState(0)
   const [showToast, setShowToast] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -228,8 +262,8 @@ function GrowthPage() {
   const isUserVisible = phase === 'idle' || phase === 'zoomOut' || phase === 'completed'
   const isSolbangulVisible = phase === 'idle' || phase === 'completed'
 
-  const handleCollect = () => {
-    if (phase !== 'idle' || collected) return
+  const handleCollect = (index: number) => {
+    if (phase !== 'idle' || collectedCount > index) return
     containerRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
     setTimeout(() => setPhase('zoomIn'), 300)
   }
@@ -239,7 +273,7 @@ function GrowthPage() {
     else if (phase === 'pinecone') setPhase('zoomOut')
     else if (phase === 'zoomOut') {
       setPhase('completed')
-      setCollected(true)
+      setCollectedCount(prev => Math.min(prev + 1, 3))
     }
   }
 
@@ -278,11 +312,11 @@ function GrowthPage() {
         />
         <TopNav />
         <UserSection visible={isUserVisible} />
-        <SolbangulButton visible={isSolbangulVisible} />
-        <AcquisitionToast visible={showToast} />
+        <SolbangulButton visible={isSolbangulVisible} collectedCount={collectedCount} />
+        <AcquisitionToast visible={showToast} collectedCount={collectedCount} />
 
         <div className={styles2.mainContent}>
-          <HalfYearMission onCollect={handleCollect} collected={collected} />
+          <HalfYearMission onCollect={handleCollect} collectedCount={collectedCount} />
           <WeeklyMission />
           <StrengthSection />
           <ProgramSection />

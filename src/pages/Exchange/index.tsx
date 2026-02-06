@@ -5,10 +5,12 @@ import styles2 from './Exchange-2.module.css'
 import styles3 from './Exchange-3.module.css'
 import bellIcon from '@/assets/images/bell.svg'
 import arrowRightBlue from '@/assets/images/arrow-right-blue.svg'
-import mentoringIconImg from '@/assets/images/mentoring-icon.svg'
+import mentoringIconImg from '@/assets/images/exchage-board/8c7a7abec9195b18a5034fbe9bf6b82083dce5d4.png'
+import fabCloseIconSvg from '@/assets/images/exchage-board/Vector2.svg'
 import { COUNCIL_ITEMS } from '../Home/Home.constants'
 import { FRIENDS_SIMPLE } from './constants'
 import { useCouncilStatus } from '@/hooks'
+import { logout } from '@/services'
 
 const flagImage = '/flag1.png'
 
@@ -58,6 +60,11 @@ function ExchangePage() {
   const councilRef = useRef<HTMLDivElement>(null)
   const councilDragging = useRef(false)
   const councilStartX = useRef(0)
+
+  const handleLogout = async () => {
+    await logout()
+    navigate('/login')
+  }
 
   const handleTabClick = (tab: string) => {
     if (tab === '홈') {
@@ -266,7 +273,7 @@ function ExchangePage() {
         </section>
 
         <footer className={styles.footer}>
-          <button className={styles.logoutButton}>로그아웃</button>
+          <button type="button" className={styles.logoutButton} onClick={handleLogout}>로그아웃</button>
           <div className={styles.footerLogo}>
             <img src="/assets/057453724e8f804d5306e38ceabfcf7513cbed10.png" alt="신한장학재단" className={styles.footerLogoImg} />
           </div>
@@ -275,28 +282,36 @@ function ExchangePage() {
 
       {isFabMenuOpen && (
         <div className={styles.fabOverlay} onClick={() => setIsFabMenuOpen(false)}>
-          <div className={styles.fabMenu} onClick={(e) => e.stopPropagation()}>
-            <button className={styles.fabMenuItem} onClick={() => navigate('/exchange/write/review')}>
-              자치회 활동 후기 작성
-            </button>
-            <img src="/Vector 15.svg" alt="" className={styles.fabMenuDivider} />
-            <button className={`${styles.fabMenuItem} ${styles.fabMenuItemCenter}`} onClick={() => navigate('/exchange/write')}>
-              토닥토닥 고민 털어두기
+          <div className={styles.fabMenuWrap} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.fabMenu}>
+              <button className={`${styles.fabMenuItem} ${styles.fabMenuItemBorder}`} onClick={() => navigate('/exchange/write/review')}>
+                자치회 활동 후기 작성
+              </button>
+              <button className={`${styles.fabMenuItem} ${styles.fabMenuItemBorder}`} onClick={() => navigate('/exchange/write')}>
+                토닥토닥 고민 상담
+              </button>
+              <button className={styles.fabMenuItem} onClick={() => navigate('/exchange/mentoring/review')}>
+                멘토링 후기 작성
+              </button>
+            </div>
+            <button
+              className={styles.fabClose}
+              onClick={() => setIsFabMenuOpen(false)}
+            >
+              <img src={fabCloseIconSvg} alt="닫기" className={styles.fabCloseIcon} />
             </button>
           </div>
         </div>
       )}
 
-      <button
-        className={`${styles.fab} ${isFabMenuOpen ? styles.fabActive : ''}`}
-        onClick={() => setIsFabMenuOpen(!isFabMenuOpen)}
-      >
-        {isFabMenuOpen ? (
-          <img src="/Vector 1.svg" alt="닫기" className={styles.fabCloseIcon} />
-        ) : (
+      {!isFabMenuOpen && (
+        <button
+          className={styles.fab}
+          onClick={() => setIsFabMenuOpen(true)}
+        >
           <img src="/jam_write.svg" alt="글쓰기" className={styles.fabIcon} />
-        )}
-      </button>
+        </button>
+      )}
     </div>
   )
 }

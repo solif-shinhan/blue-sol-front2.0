@@ -135,7 +135,7 @@ function HomePage() {
       case '게시판': navigate('/exchange/board'); break
       case '교류망': navigate('/exchange/network'); break
       case '자치회': navigate('/exchange/council'); break
-      case '멘토링': navigate('/mentoring'); break
+      case '멘토링': navigate('/exchange/mentoring'); break
     }
   }
 

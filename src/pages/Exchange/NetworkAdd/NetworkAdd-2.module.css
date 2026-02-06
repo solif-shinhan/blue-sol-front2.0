@@ -1,0 +1,184 @@
+/* Browse Section */
+.browseSection {
+  padding: 24px 20px 100px;
+  flex: 1;
+}
+
+.browseTitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.browseSectionTitle {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #222222;
+  margin: 0;
+}
+
+.myNetworkLink {
+  background: none;
+  border: none;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #999999;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* Filter */
+.filterRow {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.filterChip {
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  background: #FFFFFF;
+  border: 1px solid #E0E0E0;
+  color: #666666;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.filterChipActive {
+  background: #222222;
+  border-color: #222222;
+  color: #FFFFFF;
+}
+
+/* Profile List */
+.profileList {
+  display: flex;
+  flex-direction: column;
+}
+
+.profileItem {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid #F0F0F0;
+}
+
+.profileItem:last-child {
+  border-bottom: none;
+}
+
+.profileAvatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #F0F0F0;
+  flex-shrink: 0;
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatarPlaceholder {
+  width: 100%;
+  height: 100%;
+  background: #E8E8E8;
+  border-radius: 50%;
+}
+
+.profileInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.profileName {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #222222;
+  line-height: 1.3;
+}
+
+.profileAffiliation {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #999999;
+  line-height: 1.3;
+}
+
+.profileAction {
+  flex-shrink: 0;
+}
+
+/* Buttons */
+.addButton {
+  padding: 8px 16px;
+  background: #074ED8;
+  border: none;
+  border-radius: 20px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+.addButton:disabled {
+  background: #CCCCCC;
+  cursor: not-allowed;
+}
+
+.connectedBadge {
+  padding: 8px 16px;
+  background: #E8E8E8;
+  border-radius: 20px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #888888;
+}
+
+/* Search Results */
+.searchResultSection {
+  padding: 12px 20px;
+  flex: 1;
+}
+
+/* States */
+.loadingState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  color: #888888;
+}
+
+.loadingText {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  color: #888888;
+}
+
+.emptyText {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  color: #888888;
+  text-align: center;
+  padding: 20px;
+}

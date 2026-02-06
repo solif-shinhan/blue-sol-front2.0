@@ -1,5 +1,7 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import styles3 from './Growth-3.module.css'
+import { logout } from '@/services'
 
 import imgStrength1 from '@/assets/images/4c6534fee9eb246a7cea6aed1a9a2d8639cfdad2.png'
 import imgStrength2 from '@/assets/images/fabe58cbb60ee8f3d3b8e143872401a7fa60afa8.png'
@@ -149,13 +151,22 @@ export const ProgramSection = () => {
 }
 
 // 푸터
-export const Footer = () => (
-  <div className={styles3.footer}>
-    <button className={styles3.footerButton}>
-      <span>로그아웃</span>
-    </button>
-    <button className={styles3.footerButton}>
-      <img src={imgFooterLogo} alt="신한장학재단" className={styles3.footerLogo} />
-    </button>
-  </div>
-)
+export const Footer = () => {
+  const navigate = useNavigate()
+
+  const handleLogout = async () => {
+    await logout()
+    navigate('/login')
+  }
+
+  return (
+    <div className={styles3.footer}>
+      <button type="button" className={styles3.footerButton} onClick={handleLogout}>
+        <span>로그아웃</span>
+      </button>
+      <button type="button" className={styles3.footerButton}>
+        <img src={imgFooterLogo} alt="신한장학재단" className={styles3.footerLogo} />
+      </button>
+    </div>
+  )
+}

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import styles1 from './MyCouncilActivity-1.module.css'
 import styles2 from './MyCouncilActivity-2.module.css'
 const styles = { ...styles1, ...styles2 }
@@ -8,9 +9,10 @@ import editIcon from '@/assets/images/myactivitysummary/Union.svg'
 import ActivitySummary from './ActivitySummary'
 import ActivityMembers from './ActivityMembers'
 import ActivityRules from './ActivityRules'
-import { getMyCouncil, Council } from '@/services'
+import { getMyCouncil, Council, logout } from '@/services'
 
 function MyCouncilActivityPage() {
+  const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState('활동 요약')
   const [council, setCouncil] = useState<Council | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -32,6 +34,11 @@ function MyCouncilActivityPage() {
 
     fetchCouncil()
   }, [])
+
+  const handleLogout = async () => {
+    await logout()
+    navigate('/login')
+  }
 
   if (isLoading) {
     return (
@@ -95,7 +102,7 @@ function MyCouncilActivityPage() {
       </div>
 
       <footer className={styles.footer}>
-        <button className={styles.logoutButton}>로그아웃</button>
+        <button type="button" className={styles.logoutButton} onClick={handleLogout}>로그아웃</button>
         <div className={styles.footerLogo}>
           <img src="/shinhan-logo.svg" alt="신한장학재단" />
         </div>
