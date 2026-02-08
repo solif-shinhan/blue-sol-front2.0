@@ -4,6 +4,7 @@ import styles1 from './FriendSolid-1.module.css'
 import styles2 from './FriendSolid-2.module.css'
 import backArrowIcon from '@/assets/images/network/2107e80ddcb5d091c59aaa449d05031a375ef1a0.svg'
 import searchIcon from '@/assets/images/network/e1e12166e22b287c6f9f01541da749c3439b5ba2.svg'
+import { getIconByLabel } from '@assets/icons'
 import {
   getUserSolidCard,
   addToNetwork,
@@ -36,7 +37,7 @@ const INTEREST_DOT_COLORS = ['#FF9800', '#FF5252', '#4CAF50', '#64B5F6', '#BA68C
 
 interface LocationState {
   userName?: string
-  character?: string
+  userCharacter?: string
   characterImageUrl?: string
   backgroundPattern?: string
   backgroundImageUrl?: string
@@ -74,7 +75,7 @@ function FriendSolidPage() {
           setCardData({
             userId: Number(userId),
             userName: state.userName || '',
-            character: state.character || '',
+            userCharacter: state.userCharacter || '',
             characterImageUrl: state.characterImageUrl,
             backgroundPattern: state.backgroundPattern || 'BLUE_PINK',
             backgroundImageUrl: state.backgroundImageUrl,
@@ -215,15 +216,26 @@ function FriendSolidPage() {
             </div>
 
             <div className={styles.interestTags}>
-              {cardData.interests.slice(0, 2).map((interest, i) => (
-                <div key={i} className={styles.interestPill}>
-                  <span
-                    className={styles.interestDot}
-                    style={{ background: INTEREST_DOT_COLORS[i % INTEREST_DOT_COLORS.length] }}
-                  />
-                  <span className={styles.interestText}>{interest}</span>
-                </div>
-              ))}
+              {cardData.interests.slice(0, 2).map((interest, i) => {
+                const iconSrc = getIconByLabel(interest);
+                return (
+                  <div key={i} className={styles.interestPill}>
+                    {iconSrc ? (
+                      <img
+                        src={iconSrc}
+                        alt={interest}
+                        style={{ width: '20px', height: '20px', marginRight: '6px' }}
+                      />
+                    ) : (
+                      <span
+                        className={styles.interestDot}
+                        style={{ background: INTEREST_DOT_COLORS[i % INTEREST_DOT_COLORS.length] }}
+                      />
+                    )}
+                    <span className={styles.interestText}>{interest}</span>
+                  </div>
+                );
+              })}
             </div>
           </div>
 

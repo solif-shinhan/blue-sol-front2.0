@@ -6,7 +6,7 @@ export type ButtonType = 'CHEER' | 'SHARE_EXPERIENCE'
 export interface NetworkFriend {
   userId: number
   userName: string
-  character: string
+  userCharacter: string
   characterImageUrl?: string
   backgroundPattern: string
   backgroundImageUrl?: string
@@ -15,7 +15,7 @@ export interface NetworkFriend {
 export interface NetworkCard {
   userId: number
   userName: string
-  character: string
+  userCharacter: string
   characterImageUrl?: string
   backgroundPattern: string
   backgroundImageUrl?: string
@@ -79,7 +79,7 @@ export interface InteractionResponse {
 export interface SearchUser {
   userId: number
   userName: string
-  character: string
+  userCharacter: string
   characterImageUrl?: string
   backgroundPattern: string
   backgroundImageUrl?: string
@@ -89,6 +89,8 @@ export interface SearchUser {
   connected: boolean
   isConnected: boolean
   isInCouncil: boolean
+  schoolName?: string
+  joinYear?: number
 }
 
 export interface SearchResponse {
@@ -105,7 +107,7 @@ export interface SearchResponse {
 export interface RecommendationUser {
   userId: number
   userName: string
-  character: string
+  userCharacter: string
   characterImageUrl?: string
   backgroundPattern: string
   backgroundImageUrl?: string
@@ -113,6 +115,8 @@ export interface RecommendationUser {
   interests: string[]
   isInCouncil: boolean
   councilName?: string
+  schoolName?: string
+  joinYear?: number
 }
 
 export interface RecommendationsResponse {
@@ -162,7 +166,7 @@ export interface UserSolidCardResponse {
   data: {
     userId: number
     userName: string
-    character: string
+    userCharacter: string
     characterImageUrl?: string
     backgroundPattern: string
     backgroundImageUrl?: string

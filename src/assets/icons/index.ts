@@ -109,6 +109,33 @@ export const categoryLabels: Record<CategoryType, string> = {
   economy: '경제',
 };
 
+// 한글 라벨 → 영문 키 역매핑 (백엔드에서 한글로 받을 때 사용)
+export const labelToCategoryKey: Record<string, CategoryType> = {
+  '맛집': 'food',
+  '언어공부': 'language',
+  '영화': 'movie',
+  '게임': 'game',
+  '사진': 'photo',
+  '봉사활동': 'volunteer',
+  '여행': 'travel',
+  '축구': 'soccer',
+  '농구': 'basketball',
+  '야구': 'baseball',
+  '자격증': 'certificate',
+  '예술': 'art',
+  '산책': 'walk',
+  '문화생활': 'culture',
+  '독서': 'reading',
+  '스터디': 'study',
+  '경제': 'economy',
+};
+
+// 한글 라벨로 아이콘 가져오기 헬퍼 함수
+export const getIconByLabel = (label: string): string | undefined => {
+  const key = labelToCategoryKey[label];
+  return key ? categoryIcons[key] : undefined;
+};
+
 // 모든 카테고리 목록
 export const allCategories: CategoryType[] = [
   'food',
