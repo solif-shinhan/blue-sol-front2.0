@@ -2,7 +2,7 @@ import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles1 from './CouncilRegister-1.module.css'
 import styles2 from './CouncilRegister-2.module.css'
-import { useCouncilStatus } from '@/hooks'
+import { useCouncilStatus, useSessionStorage, clearSessionGroup } from '@/hooks'
 import backArrowIcon from '@/assets/images/IOS Arrow/undefined/Glyph_ undefined.svg'
 import { createCouncil } from '@/services'
 
@@ -18,9 +18,9 @@ export function CouncilRegister() {
   const navigate = useNavigate()
   const { setHasCouncil } = useCouncilStatus()
   const [showSuccess, setShowSuccess] = useState(false)
-  const [step, setStep] = useState(1)
+  const [step, setStep] = useSessionStorage('council-reg:step', 1)
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useSessionStorage('council-reg:form', {
     councilName: '',
     activityRegion: '',
     activityTopic: '',
@@ -28,12 +28,12 @@ export function CouncilRegister() {
     budget: '',
   })
 
-  const [rules, setRules] = useState<string[]>([])
+  const [rules, setRules] = useSessionStorage<string[]>('council-reg:rules', [])
   const [newRuleInput, setNewRuleInput] = useState('')
 
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [photoPreview, setPhotoPreview] = useState<string | null>(null)
+  const [photoPreview, setPhotoPreview] = useSessionStorage<string | null>('council-reg:photo', null)
   const photoInputRef = useRef<HTMLInputElement>(null)
 
   const handlePhotoSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -96,6 +96,7 @@ export function CouncilRegister() {
       })
 
       if (response.success) {
+        clearSessionGroup('council-reg:')
         setHasCouncil(true)
         setShowSuccess(true)
         setTimeout(() => {
@@ -230,21 +231,28 @@ export function CouncilRegister() {
                   onChange={handlePhotoSelect}
                   style={{ display: 'none' }}
                 />
-                {photoPreview ? (
+                {photoPreview && (
                   <img
                     src={photoPreview}
                     alt="대표 사진"
-                    style={{ width: '100%', borderRadius: '12px', objectFit: 'cover', maxHeight: '200px', cursor: 'pointer' }}
-                    onClick={() => photoInputRef.current?.click()}
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      borderRadius: '12px'
+                    }}
                   />
-                ) : (
-                  <button
-                    className={styles.photoUploadButton}
-                    onClick={() => photoInputRef.current?.click()}
-                  >
-                    사진 업로드
-                  </button>
                 )}
+                <button
+                  className={styles.photoUploadButton}
+                  onClick={() => photoInputRef.current?.click()}
+                  style={{ position: 'relative', zIndex: 1 }}
+                >
+                  사진 업로드
+                </button>
               </div>
             </section>
           </>
@@ -265,11 +273,10 @@ export function CouncilRegister() {
                 {teamMembers.map((member) => (
                   <div key={member.id} className={styles.memberItem} onClick={() => handleRemoveMember(member.id)}>
                     <div
-                      className={`${styles.memberAvatar} ${
-                        member.avatarColor === 'blue' ? styles.memberAvatarBlue :
-                        member.avatarColor === 'lightBlue' ? styles.memberAvatarLightBlue :
-                        styles.memberAvatarGray
-                      }`}
+                      className={`${styles.memberAvatar} ${member.avatarColor === 'blue' ? styles.memberAvatarBlue :
+                          member.avatarColor === 'lightBlue' ? styles.memberAvatarLightBlue :
+                            styles.memberAvatarGray
+                        }`}
                     />
                     <span className={styles.memberName}>{member.name}</span>
                   </div>

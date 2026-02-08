@@ -1,6 +1,6 @@
 /* Browse Section */
 .browseSection {
-  padding: 24px 20px 100px;
+  padding: 24px 17px 100px;
   flex: 1;
 }
 
@@ -9,13 +9,16 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 16px;
+  padding: 0 5px;
 }
 
 .browseSectionTitle {
-  font-family: 'Pretendard', sans-serif;
+  font-family: 'ONE-Shinhan', sans-serif;
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 500;
   color: #222222;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
   margin: 0;
 }
 
@@ -24,8 +27,8 @@
   border: none;
   font-family: 'Pretendard', sans-serif;
   font-size: 14px;
-  font-weight: 400;
-  color: #999999;
+  font-weight: 600;
+  color: #848484;
   cursor: pointer;
   padding: 0;
 }
@@ -34,25 +37,26 @@
 .filterRow {
   display: flex;
   gap: 8px;
-  margin-bottom: 8px;
+  margin-bottom: 16px;
+  padding: 0 5px;
 }
 
 .filterChip {
-  padding: 8px 16px;
+  padding: 6px 14px;
   border-radius: 20px;
   font-family: 'Pretendard', sans-serif;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   background: #FFFFFF;
-  border: 1px solid #E0E0E0;
-  color: #666666;
+  border: 1.5px solid #E6E6E6;
+  color: #222222;
   cursor: pointer;
   flex-shrink: 0;
 }
 
 .filterChipActive {
-  background: #222222;
-  border-color: #222222;
+  background: #074ED8;
+  border-color: #074ED8;
   color: #FFFFFF;
 }
 
@@ -65,9 +69,9 @@
 .profileItem {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 16px 0;
-  border-bottom: 1px solid #F0F0F0;
+  gap: 12px;
+  padding: 10px 5px;
+  border-bottom: 1px solid #E6E6E6;
 }
 
 .profileItem:last-child {
@@ -75,38 +79,42 @@
 }
 
 .profileAvatar {
-  width: 48px;
-  height: 48px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   overflow: hidden;
-  background: #F0F0F0;
   flex-shrink: 0;
+  border: 1px solid #FFFFFF;
+  box-shadow: 0px 0px 30px rgba(27, 37, 56, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .avatarImg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
 }
 
 .avatarPlaceholder {
   width: 100%;
   height: 100%;
-  background: #E8E8E8;
+  background: #E6E6E6;
   border-radius: 50%;
 }
 
 .profileInfo {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
   flex: 1;
   min-width: 0;
 }
 
 .profileName {
   font-family: 'Pretendard', sans-serif;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
   color: #222222;
   line-height: 1.3;
@@ -114,9 +122,9 @@
 
 .profileAffiliation {
   font-family: 'Pretendard', sans-serif;
-  font-size: 13px;
-  font-weight: 400;
-  color: #999999;
+  font-size: 14px;
+  font-weight: 700;
+  color: #C8C8C8;
   line-height: 1.3;
 }
 
@@ -138,23 +146,23 @@
 }
 
 .addButton:disabled {
-  background: #CCCCCC;
+  background: #ABC8FF;
   cursor: not-allowed;
 }
 
 .connectedBadge {
   padding: 8px 16px;
-  background: #E8E8E8;
+  background: #E6E6E6;
   border-radius: 20px;
   font-family: 'Pretendard', sans-serif;
   font-size: 13px;
-  font-weight: 500;
-  color: #888888;
+  font-weight: 600;
+  color: #848484;
 }
 
 /* Search Results */
 .searchResultSection {
-  padding: 12px 20px;
+  padding: 20px 17px;
   flex: 1;
 }
 
@@ -166,19 +174,19 @@
   padding: 60px 20px;
   font-family: 'Pretendard', sans-serif;
   font-size: 14px;
-  color: #888888;
+  color: #848484;
 }
 
 .loadingText {
   font-family: 'Pretendard', sans-serif;
   font-size: 14px;
-  color: #888888;
+  color: #848484;
 }
 
 .emptyText {
   font-family: 'Pretendard', sans-serif;
   font-size: 14px;
-  color: #888888;
+  color: #848484;
   text-align: center;
   padding: 20px;
 }

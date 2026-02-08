@@ -10,6 +10,7 @@ const HomePage = lazy(() => import('@pages/Home'))
 const ExchangePage = lazy(() => import('@pages/Exchange'))
 const NetworkPage = lazy(() => import('@pages/Exchange/Network'))
 const NetworkAddPage = lazy(() => import('@pages/Exchange/NetworkAdd'))
+const FriendSolidPage = lazy(() => import('@pages/Exchange/FriendSolid'))
 const CouncilRegisterPage = lazy(() => import('@pages/Exchange/CouncilRegister'))
 const CouncilListPage = lazy(() => import('@pages/Exchange/CouncilList'))
 const MyCouncilActivityPage = lazy(() => import('@pages/Exchange/MyCouncilActivity'))
@@ -25,6 +26,7 @@ const GrowthPage = lazy(() => import('@pages/Growth'))
 const NotificationsPage = lazy(() => import('@pages/Notifications'))
 const NotificationDetailPage = lazy(() => import('@pages/Notifications/NotificationDetail'))
 const ActivityDetailPage = lazy(() => import('@pages/Notifications/ActivityDetail'))
+const MessageComposePage = lazy(() => import('@pages/Notifications/MessageCompose'))
 const MyPagePage = lazy(() => import('@pages/MyPage'))
 const MentoringPage = lazy(() => import('@pages/Mentoring'))
 const MentoringApplyPage = lazy(() => import('@pages/Mentoring/Apply'))
@@ -91,6 +93,7 @@ function App() {
           <Route path="/exchange" element={<ExchangePage />} />
           <Route path="/exchange/network" element={<NetworkPage />} />
           <Route path="/exchange/network/add" element={<NetworkAddPage />} />
+          <Route path="/exchange/network/friend/:userId" element={<FriendSolidPage />} />
           <Route path="/exchange/council/register" element={<CouncilRegisterPage />} />
           <Route path="/exchange/council/list" element={<CouncilListPage />} />
           <Route path="/exchange/council/activity" element={<MyCouncilActivityPage />} />
@@ -113,6 +116,7 @@ function App() {
           <Route path="/notifications" element={<NotificationsPage />} />
           <Route path="/notifications/:id" element={<NotificationDetailPage />} />
           <Route path="/notifications/activity/:id" element={<ActivityDetailPage />} />
+          <Route path="/notifications/message/compose" element={<MessageComposePage />} />
 
           <Route path="/mypage" element={<MyPagePage />} />
         </Route>

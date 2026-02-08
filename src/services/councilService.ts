@@ -54,11 +54,31 @@ export interface AddRuleRequest {
   content: string
 }
 
+export interface CouncilListItem {
+  councilId: number
+  councilName: string
+  region: string
+  memberCount: number
+  profileImageUrl: string
+}
+
+export interface CouncilMyResponse {
+  councilId: number
+  councilName: string
+  currentBudget: number
+  totalBudget: number
+  memberCount: number
+  role: string
+}
+
 export interface CouncilListResponse {
   code: string
   message: string
   success: boolean
-  data: Council[]
+  data: {
+    myCouncil: CouncilMyResponse | null
+    councils: CouncilListItem[]
+  }
 }
 
 export interface CouncilDetailResponse {

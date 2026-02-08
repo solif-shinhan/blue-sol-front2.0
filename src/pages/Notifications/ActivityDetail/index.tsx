@@ -7,7 +7,6 @@ import {
   type NotificationDetail,
 } from '@/services'
 
-// 시간 포맷 함수
 function formatTime(dateString: string): string {
   const date = new Date(dateString)
   const now = new Date()
@@ -70,6 +69,16 @@ function ActivityDetailPage() {
     console.log('Send message')
   }
 
+  const handleDelete = () => {
+    // TODO: 쪽지 삭제 API 호출
+    console.log('Delete message', id)
+  }
+
+  const handleReply = () => {
+    const name = notification?.senderName || ''
+    navigate(`/notifications/message/compose${name ? `?to=${encodeURIComponent(name)}` : ''}`)
+  }
+
   if (isLoading) {
     return (
       <div className={styles.container}>
@@ -79,7 +88,6 @@ function ActivityDetailPage() {
               <path d="M15 18l-6-6 6-6" />
             </svg>
           </button>
-          <span className={styles.headerTitle}>알림</span>
         </header>
         <div className={styles.loadingState}>
           <p>로딩 중...</p>
@@ -97,7 +105,6 @@ function ActivityDetailPage() {
               <path d="M15 18l-6-6 6-6" />
             </svg>
           </button>
-          <span className={styles.headerTitle}>알림</span>
         </header>
         <div className={styles.emptyState}>
           <div className={styles.emptyIcon}>404</div>
@@ -107,12 +114,70 @@ function ActivityDetailPage() {
     )
   }
 
-  // 카테고리 결정
   const category = notification.notificationType === 'MESSAGE' ? '쪽지'
     : notification.notificationType === 'NETWORK' ? '교류'
     : notification.notificationType === 'COUNCIL' ? '자치회 활동'
     : '활동'
 
+  // 쪽지 상세 렌더링
+  if (category === '쪽지') {
+    return (
+      <div className={styles.container}>
+        <header className={styles.messageHeader}>
+          <button className={styles.backButton} onClick={handleBack}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="#848484" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </button>
+          <button className={styles.deleteButton} onClick={handleDelete}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="#848484" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M3 6h18" />
+              <path d="M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2" />
+              <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6" />
+              <path d="M10 11v6" />
+              <path d="M14 11v6" />
+            </svg>
+          </button>
+        </header>
+
+        <div className={styles.content}>
+          <div className={styles.messageSenderSection}>
+            <div className={styles.messageSenderLeft}>
+              <div className={styles.messageSenderAvatar}>
+                {notification.senderProfileImage ? (
+                  <img src={notification.senderProfileImage} alt={notification.senderName || ''} />
+                ) : (
+                  <span className={styles.messageSenderAvatarText}>
+                    {(notification.senderName || '?').charAt(0)}
+                  </span>
+                )}
+              </div>
+              <span className={styles.messageSenderName}>
+                {notification.senderName || '알 수 없음'}
+              </span>
+            </div>
+            <span className={styles.messageSenderTime}>{formatTime(notification.createdAt)}</span>
+          </div>
+
+          <div className={styles.messageTitleSection}>
+            <h1 className={styles.messageDetailTitle}>{notification.notificationTitle}</h1>
+          </div>
+
+          <div className={styles.messageBodySection}>
+            <p className={styles.messageBodyText}>{notification.notificationContent}</p>
+          </div>
+        </div>
+
+        <div className={styles.messageCtaSection}>
+          <button className={styles.replyButton} onClick={handleReply}>
+            답장하기
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  // 교류, 자치회 활동 등 기존 활동 상세
   return (
     <div className={styles.container}>
       <header className={styles.header}>
@@ -143,9 +208,9 @@ function ActivityDetailPage() {
           <p className={styles.contentText}>{notification.notificationContent}</p>
 
           {notification.images && notification.images.length > 0 && (
-            <div className={styles.imageSection}>
+            <div>
               {notification.images.map(image => (
-                <img key={image.imageId} src={image.imageUrl} alt="" />
+                <img key={image.imageId} src={image.imageUrl} alt="" style={{ width: '100%', borderRadius: '12px' }} />
               ))}
             </div>
           )}
@@ -175,14 +240,6 @@ function ActivityDetailPage() {
             </button>
             <button className={styles.ctaButtonSecondary} onClick={handleSendMessage}>
               쪽지
-            </button>
-          </div>
-        )}
-
-        {category === '쪽지' && (
-          <div className={styles.ctaSectionSingle}>
-            <button className={styles.ctaButtonFull} onClick={handleSendMessage}>
-              답장하기
             </button>
           </div>
         )}

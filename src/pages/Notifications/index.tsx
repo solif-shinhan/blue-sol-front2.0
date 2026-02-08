@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import styles from './Notifications.module.css'
 import {
   getNotifications,
@@ -9,6 +9,7 @@ import {
   type NotificationSubCategory,
   type NotificationFilter,
 } from '@/services'
+import MessageBox from './MessageBox'
 
 // 시간 포맷 함수
 function formatTime(dateString: string): string {
@@ -36,6 +37,7 @@ const SUB_CATEGORY_MAP: Record<string, NotificationSubCategory> = {
 
 function NotificationsPage() {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   const [activeMainTab, setActiveMainTab] = useState<'공지사항' | '활동'>('공지사항')
   const [activeFilterTab, setActiveFilterTab] = useState<'전체' | '안읽음'>('전체')
   const [activeActivityTab, setActiveActivityTab] = useState<'쪽지' | '교류' | '자치회 활동'>('쪽지')
@@ -44,6 +46,18 @@ function NotificationsPage() {
   const [unreadCount, setUnreadCount] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  // URL params에서 탭 상태 초기화
+  useEffect(() => {
+    const tab = searchParams.get('tab')
+    const sub = searchParams.get('sub')
+    if (tab === 'activity') {
+      setActiveMainTab('활동')
+      if (sub === 'message') setActiveActivityTab('쪽지')
+      else if (sub === 'network') setActiveActivityTab('교류')
+      else if (sub === 'council') setActiveActivityTab('자치회 활동')
+    }
+  }, [searchParams])
 
   // 알림 목록 조회
   const fetchNotifications = async () => {
@@ -95,6 +109,11 @@ function NotificationsPage() {
   useEffect(() => {
     fetchUnreadCount()
   }, [])
+
+  // 쪽지 탭이면 MessageBox 렌더링
+  if (activeMainTab === '활동' && activeActivityTab === '쪽지') {
+    return <MessageBox />
+  }
 
   const handleBack = () => {
     navigate(-1)

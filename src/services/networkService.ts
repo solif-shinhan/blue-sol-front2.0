@@ -7,20 +7,26 @@ export interface NetworkFriend {
   userId: number
   userName: string
   character: string
+  characterImageUrl?: string
   backgroundPattern: string
+  backgroundImageUrl?: string
 }
 
 export interface NetworkCard {
   userId: number
   userName: string
   character: string
+  characterImageUrl?: string
   backgroundPattern: string
+  backgroundImageUrl?: string
   solidGoalName: string
   mainGoals: string[]
   interests: string[]
   buttonType: ButtonType
   isInCouncil: boolean
   councilName?: string
+  schoolName?: string
+  joinYear?: number
 }
 
 export interface NetworkListResponse {
@@ -74,7 +80,9 @@ export interface SearchUser {
   userId: number
   userName: string
   character: string
+  characterImageUrl?: string
   backgroundPattern: string
+  backgroundImageUrl?: string
   solidGoalName: string
   interests: string[]
   councilName?: string
@@ -98,7 +106,9 @@ export interface RecommendationUser {
   userId: number
   userName: string
   character: string
+  characterImageUrl?: string
   backgroundPattern: string
+  backgroundImageUrl?: string
   solidGoalName: string
   interests: string[]
   isInCouncil: boolean
@@ -143,4 +153,30 @@ export async function searchNetwork(keyword: string): Promise<SearchResponse> {
 
 export async function getNetworkRecommendations(): Promise<RecommendationsResponse> {
   return apiClient.get<RecommendationsResponse>('/api/v1/networks/recommendations')
+}
+
+export interface UserSolidCardResponse {
+  code: string
+  message: string
+  success: boolean
+  data: {
+    userId: number
+    userName: string
+    character: string
+    characterImageUrl?: string
+    backgroundPattern: string
+    backgroundImageUrl?: string
+    solidGoalName: string
+    mainGoals: string[]
+    interests: string[]
+    isInCouncil: boolean
+    councilName?: string
+    schoolName?: string
+    joinYear?: number
+    isConnected: boolean
+  }
+}
+
+export async function getUserSolidCard(userId: number): Promise<UserSolidCardResponse> {
+  return apiClient.get<UserSolidCardResponse>(`/api/v1/networks/users/${userId}/card`)
 }

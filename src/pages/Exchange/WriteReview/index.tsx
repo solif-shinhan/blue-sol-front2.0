@@ -16,19 +16,20 @@ import {
   STEP_TITLES,
 } from './WriteReview.constants'
 import { CalendarModal } from './CalendarModal'
+import { useSessionStorage, clearSessionGroup } from '@/hooks'
 
 function WriteReviewPage() {
   const navigate = useNavigate()
   const location = useLocation()
-  const [step, setStep] = useState(1)
-  const [title, setTitle] = useState('')
-  const [dateValue, setDateValue] = useState('')
-  const [locationValue, setLocationValue] = useState('')
-  const [expenses, setExpenses] = useState<string[]>([''])
-  const [reviewText, setReviewText] = useState('')
-  const [images, setImages] = useState<ImageItem[]>([])
-  const [participants, setParticipants] = useState<Participant[]>(INITIAL_PARTICIPANTS)
-  const [participantCount, setParticipantCount] = useState('6')
+  const [step, setStep] = useSessionStorage('write-review:step', 1)
+  const [title, setTitle] = useSessionStorage('write-review:title', '')
+  const [dateValue, setDateValue] = useSessionStorage('write-review:date', '')
+  const [locationValue, setLocationValue] = useSessionStorage('write-review:location', '')
+  const [expenses, setExpenses] = useSessionStorage<string[]>('write-review:expenses', [''])
+  const [reviewText, setReviewText] = useSessionStorage('write-review:review', '')
+  const [images, setImages] = useSessionStorage<ImageItem[]>('write-review:images', [])
+  const [participants, setParticipants] = useSessionStorage<Participant[]>('write-review:participants', INITIAL_PARTICIPANTS)
+  const [participantCount, setParticipantCount] = useSessionStorage('write-review:pcount', '6')
   const imageInputRef = useRef<HTMLInputElement>(null)
   const [showCalendar, setShowCalendar] = useState(false)
   const [calendarYear, setCalendarYear] = useState(new Date().getFullYear())
@@ -109,6 +110,7 @@ function WriteReviewPage() {
     if (step < 3) {
       setStep(step + 1)
     } else {
+      clearSessionGroup('write-review:')
       navigate('/exchange')
     }
   }

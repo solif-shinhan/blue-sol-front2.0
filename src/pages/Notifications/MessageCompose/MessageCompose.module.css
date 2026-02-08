@@ -1,0 +1,251 @@
+.container {
+  width: 393px;
+  min-height: 852px;
+  max-height: 100vh;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F3F6FB 100%);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Top white card */
+.topCard {
+  background: #FFFFFF;
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0px 0px 30px rgba(27, 37, 56, 0.1);
+  padding: 70px 17px 19px;
+  flex-shrink: 0;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 40px;
+}
+
+.closeButton {
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.headerTitle {
+  font-family: 'OneShinhan', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #848484;
+}
+
+/* Add button */
+.addButtonArea {
+  padding: 7px 0 29px;
+}
+
+.addButton {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: #E6EFFF;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Form sections */
+.formSections {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sectionLabel {
+  font-family: 'OneShinhan', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #222;
+  margin: 0;
+  padding: 0 5px;
+}
+
+/* Input field */
+.fieldInput {
+  width: 100%;
+  height: 40px;
+  padding: 0 11px;
+  border: none;
+  border-radius: 12px;
+  background: #F3F6FB;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.2;
+  letter-spacing: -0.64px;
+  color: #222;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.fieldInput::placeholder {
+  color: #848484;
+}
+
+/* Recipient card */
+.recipientCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+  padding: 0 11px;
+  background: #F3F6FB;
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+.recipientLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.recipientAvatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #E0E7F5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.recipientAvatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatarFallback {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  color: #074ED8;
+}
+
+.recipientName {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.4;
+  letter-spacing: -0.51px;
+  color: #222;
+}
+
+.recipientRight {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.recipientTag {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #696969;
+}
+
+.tagDivider {
+  display: inline-block;
+  width: 1px;
+  height: 14px;
+  background: #696969;
+}
+
+/* Bottom content area */
+.bottomContent {
+  padding: 30px 17px 0;
+  flex-shrink: 0;
+}
+
+.textareaWrapper {
+  background: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0px 0px 30px rgba(27, 37, 56, 0.1);
+  padding: 13px 11px;
+  height: 120px;
+  box-sizing: border-box;
+}
+
+.textarea {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: transparent;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #222;
+  resize: none;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.textarea::placeholder {
+  color: #848484;
+}
+
+/* Submit section */
+.submitSection {
+  margin-top: auto;
+  padding: 0 17px 60px;
+  display: flex;
+  justify-content: center;
+}
+
+.submitButton {
+  width: 360px;
+  height: 52px;
+  background: #ABC8FF;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.2;
+  color: #FFFFFF;
+  transition: background 0.2s ease;
+}
+
+.submitButtonActive {
+  background: #074ED8;
+}

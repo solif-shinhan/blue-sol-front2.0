@@ -6,8 +6,6 @@ import { getInterestsByCategories } from '@features/02-onboarding/api/mock-card-
 import { createProfile, registerInterests } from '@/services/profileService';
 import { categoryLabels } from '@/assets/icons';
 
-const ONBOARDING_COMPLETE_KEY = 'pureun_sol_onboarding_complete';
-
 const OnboardingCompletePageWrapper = () => {
   const navigate = useNavigate();
   const { data, resetData } = useOnboardingContext();
@@ -48,7 +46,9 @@ const OnboardingCompletePageWrapper = () => {
       console.error('프로필 저장 실패:', error);
     }
 
-    localStorage.setItem(ONBOARDING_COMPLETE_KEY, 'true');
+    const userId = localStorage.getItem('userId');
+    localStorage.setItem(`pureun_sol_onboarding_complete_${userId}`, 'true');
+    localStorage.removeItem('registerData');
     resetData();
     navigate('/home');
   };

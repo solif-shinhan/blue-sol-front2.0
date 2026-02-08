@@ -1,0 +1,188 @@
+/* FriendSolid-2.module.css - 카드 하단, 버튼, 토스트 */
+
+/* Card bottom (goals or placeholder) */
+.cardBottom {
+  padding: 28px 25px 0;
+  min-height: 100px;
+}
+
+.placeholderText {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #074ED8;
+  line-height: 1.6;
+  text-align: center;
+  padding: 10px 0;
+}
+
+.goalsList {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.goalItem {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: #848484;
+  letter-spacing: -0.34px;
+  line-height: 1.2;
+  margin: 0;
+}
+
+/* Card footer */
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 25px 24px;
+}
+
+.schoolName {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #848484;
+  letter-spacing: -0.29px;
+}
+
+.sinceYear {
+  font-family: 'ONE-Shinhan', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  color: #848484;
+  letter-spacing: -0.27px;
+}
+
+/* Toast */
+.toastContainer {
+  padding: 0 20px;
+  margin-top: 16px;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: #474747;
+  border-radius: 16px;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.toastText {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #FFFFFF;
+  line-height: 1.4;
+}
+
+.toastButton {
+  padding: 8px 14px;
+  background: #6B6B6B;
+  border: none;
+  border-radius: 20px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #FFFFFF;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Bottom buttons */
+.bottomButtons {
+  padding: 16px 20px 40px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-shrink: 0;
+  margin-top: auto;
+}
+
+.addNetworkButton {
+  flex: 1;
+  height: 52px;
+  background: #074ED8;
+  border: none;
+  border-radius: 30px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: -0.36px;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.addNetworkButton:hover {
+  background: #0542B5;
+}
+
+.addNetworkButton:disabled {
+  background: #ABC8FF;
+  cursor: not-allowed;
+}
+
+.cheerButton {
+  flex: 1;
+  height: 52px;
+  background: #074ED8;
+  border: none;
+  border-radius: 30px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: -0.36px;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.cheerButton:hover {
+  background: #0542B5;
+}
+
+.cheerButton:disabled {
+  background: #CCCCCC;
+  cursor: not-allowed;
+}
+
+.messageButton {
+  width: 100px;
+  height: 52px;
+  background: #E6EFFF;
+  border: 1px solid #ABC8FF;
+  border-radius: 30px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #222222;
+  letter-spacing: -0.36px;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.messageButton:hover {
+  background: #D9E6FF;
+}

@@ -1,0 +1,312 @@
+/* Network-2.module.css - 카드 캐러셀, 카드 내부, 하단 버튼 */
+
+/* Card carousel */
+.carouselSection {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  padding-top: 10px;
+}
+
+.carouselTrack {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+/* Card */
+.card {
+  min-width: 290px;
+  width: 290px;
+  height: 462px;
+  background: #FFFFFF;
+  border-radius: 26px;
+  box-shadow: 0px 0px 30px rgba(27, 37, 56, 0.1);
+  overflow: hidden;
+  position: relative;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.cardInactive {
+  opacity: 0.5;
+  transform: scale(0.93);
+}
+
+/* Card gradient top */
+.cardTop {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+}
+
+.cardGradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+/* SOLID logo */
+.solidLogo {
+  position: absolute;
+  top: 33px;
+  left: 25px;
+  z-index: 2;
+}
+
+.solidLogoText {
+  font-family: 'ONE-Shinhan', sans-serif;
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+
+.solidBold {
+  font-weight: 700;
+  color: #074ED8;
+}
+
+.solidLight {
+  font-weight: 300;
+  color: #074ED8;
+}
+
+.solidLogoWhite {
+  position: absolute;
+  top: 33px;
+  left: 25px;
+  z-index: 2;
+}
+
+.solidLogoWhite img {
+  width: 49px;
+  height: 13px;
+}
+
+/* Character image */
+.characterImage {
+  position: absolute;
+  right: 15px;
+  top: 35px;
+  width: 120px;
+  height: 130px;
+  z-index: 2;
+}
+
+.characterImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Name + tag */
+.nameSection {
+  position: absolute;
+  left: 22px;
+  top: 90px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.userName {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 37px;
+  font-weight: 700;
+  color: #14307C;
+  line-height: 1;
+  margin: 0;
+}
+
+.userNameWhite {
+  color: #FFFFFF;
+}
+
+.userTag {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #000000;
+  opacity: 0.5;
+  letter-spacing: -0.63px;
+  margin: 0;
+}
+
+.userTagWhite {
+  color: #FFFFFF;
+  opacity: 0.8;
+}
+
+/* Interest tags */
+.interestTags {
+  position: absolute;
+  left: 15px;
+  bottom: 15px;
+  z-index: 2;
+  display: flex;
+  gap: 7px;
+}
+
+.interestPill {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 32px;
+  padding: 0 16px 0 6px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 16px;
+  box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.05);
+}
+
+.interestPillIcon {
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.interestPillIcon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.interestPillNoPad {
+  padding: 0 16px;
+}
+
+.interestText {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #848484;
+  letter-spacing: -0.32px;
+  white-space: nowrap;
+}
+
+.moreDots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 16px;
+  box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.05);
+}
+
+.moreDots img {
+  width: 21px;
+  height: 5px;
+}
+
+/* Card bottom (goals) */
+.cardBottom {
+  padding: 30px 22px 0;
+}
+
+.goalsList {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.goalItem {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: #848484;
+  letter-spacing: -0.34px;
+  line-height: 1.2;
+  margin: 0;
+}
+
+/* Card footer */
+.cardFooter {
+  position: absolute;
+  bottom: 20px;
+  left: 22px;
+  right: 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.schoolName {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #848484;
+  letter-spacing: -0.29px;
+}
+
+.sinceYear {
+  font-family: 'ONE-Shinhan', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  color: #848484;
+  letter-spacing: -0.27px;
+}
+
+/* Bottom buttons */
+.bottomButtons {
+  padding: 16px 17px 30px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.cheerButton {
+  width: 240px;
+  height: 52px;
+  background: #074ED8;
+  border: none;
+  border-radius: 30px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: -0.36px;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  flex-shrink: 0;
+}
+
+.cheerButton:hover {
+  background: #0542B5;
+}
+
+.cheerButton:disabled {
+  background: #CCCCCC;
+  cursor: not-allowed;
+}
+
+.messageButton {
+  flex: 1;
+  height: 52px;
+  background: #E6EFFF;
+  border: 1px solid #ABC8FF;
+  border-radius: 30px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #222222;
+  letter-spacing: -0.36px;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  box-sizing: border-box;
+}
+
+.messageButton:hover {
+  background: #D9E6FF;
+}

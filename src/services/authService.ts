@@ -56,6 +56,7 @@ export async function logout(): Promise<void> {
     localStorage.removeItem('userSocialLink')
     localStorage.removeItem('userPattern')
     localStorage.removeItem('userCharacter')
+    localStorage.removeItem('registerData')
     apiClient.setToken(null)
   }
 }

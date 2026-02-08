@@ -1,0 +1,217 @@
+/* Network-1.module.css - 컨테이너, 헤더, 친구 스크롤, 상태 */
+
+.container {
+  width: 393px;
+  min-height: 852px;
+  max-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  background: #FFFFFF;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 60px 21px 0;
+  height: 100px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.backButton img {
+  width: 24px;
+  height: 24px;
+}
+
+.headerTitle {
+  font-family: 'ONE-Shinhan', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: #848484;
+  letter-spacing: -0.36px;
+  line-height: 1.4;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.searchButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.searchButton img {
+  width: 24px;
+  height: 24px;
+}
+
+/* Friends scroll */
+.friendsSection {
+  padding: 20px 0;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.friendsScroll {
+  display: flex;
+  gap: 8px;
+  padding: 0 17px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.friendsScroll::-webkit-scrollbar {
+  display: none;
+}
+
+.addButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  min-width: 60px;
+  width: 60px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.addButtonIcon {
+  width: 60px;
+  height: 60px;
+}
+
+.addButtonLabel {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #222222;
+  letter-spacing: -0.24px;
+  line-height: 1.2;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.friendItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  min-width: 60px;
+  width: 60px;
+  cursor: pointer;
+}
+
+.friendAvatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 0px 0px 30px rgba(27, 37, 56, 0.1);
+  border: 1px solid #FFFFFF;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.friendAvatarSelected {
+  border: 1px solid #074ED8;
+}
+
+.friendAvatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.friendName {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #848484;
+  letter-spacing: -0.24px;
+  line-height: 1.2;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.friendNameActive {
+  color: #074ED8;
+}
+
+/* Loading & Empty states */
+.loadingState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  color: #888888;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex: 1;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  color: #888888;
+}
+
+.emptyAddButton {
+  padding: 12px 24px;
+  background: #074ED8;
+  border: none;
+  border-radius: 24px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+.emptyAddButton:hover {
+  background: #0542B5;
+}

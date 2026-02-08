@@ -14,9 +14,12 @@ import { apiClient } from '@/api'
 interface SearchUser {
   userId: number
   name: string
-  userType: string
+  userType?: string
   region: string
+  schoolName?: string
   profileImageUrl?: string
+  isInCouncil?: boolean
+  councilName?: string
 }
 
 interface DisplayMember {
@@ -79,18 +82,20 @@ function MemberAddPage() {
     if (activeTab !== 'allSearch') return
     const searchUsers = async () => {
       try {
+        const params = searchQuery.trim()
+          ? { keyword: searchQuery }
+          : undefined
         const response = await apiClient.get<{
           code: string; message: string; success: boolean; data: SearchUser[]
-        }>('/api/v1/users/search', { keyword: searchQuery })
+        }>('/api/v1/users/search', params)
         if (response.success) {
-          const existingIds = currentMembers.map(m => m.userId)
           setSearchResults(
             response.data
-              .filter(u => !existingIds.includes(u.userId))
+              .filter(u => u.userId !== currentUserId)
               .map(u => ({
                 userId: u.userId,
                 name: u.name,
-                userType: u.userType,
+                userType: u.userType || u.schoolName,
                 region: u.region,
                 profileImageUrl: u.profileImageUrl,
               }))
@@ -208,6 +213,9 @@ function MemberAddPage() {
                   <span className={`${styles.memberAvatarName} ${member.userId === currentUserId ? styles.memberAvatarNameMe : ''}`}>
                     {member.userId === currentUserId ? '나' : member.name}
                   </span>
+                  {member.role === 'LEADER' && (
+                    <span className={styles.leaderBadge}>리더</span>
+                  )}
                 </div>
               ))
             )}

@@ -96,9 +96,13 @@ export const LoginPage: React.FC<LoginPageProps> = ({
     height: '13px',
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (isFormValid && onLogin) {
-      onLogin(userId, password);
+      try {
+        await onLogin(userId, password);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : '로그인에 실패했습니다.');
+      }
     }
   };
 

@@ -44,27 +44,34 @@
 }
 
 .headerTitle {
-  font-family: 'Pretendard', sans-serif;
-  font-weight: 600;
+  font-family: 'ONE-Shinhan', sans-serif;
+  font-weight: 500;
   font-size: 18px;
   line-height: 1.4;
   letter-spacing: -0.36px;
-  color: #222222;
+  color: #848484;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
 }
 
 .completeButton {
-  background: none;
+  background: #14307C;
   border: none;
+  border-radius: 20px;
+  width: 65px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: 'Pretendard', sans-serif;
-  font-weight: 700;
-  font-size: 16px;
-  color: #074ED8;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #FFFFFF;
   cursor: pointer;
-  padding: 0;
   flex-shrink: 0;
+  padding: 0;
 }
 
 .content {
@@ -181,6 +188,22 @@
 .memberAvatarNameMe {
   color: #222222;
   font-weight: 700;
+}
+
+.leaderBadge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 22px;
+  border: 1px solid #074ED8;
+  border-radius: 11px;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 11px;
+  line-height: 1;
+  color: #074ED8;
+  margin-top: -2px;
 }
 
 /* Tabs */

@@ -1,0 +1,318 @@
+.container {
+  width: 393px;
+  min-height: 852px;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F3F6FB 100%);
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 70px 21px 0;
+  height: 110px;
+}
+
+.backButton {
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.backButton svg {
+  width: 24px;
+  height: 24px;
+}
+
+.headerTitle {
+  font-family: 'OneShinhan', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #848484;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 16.5px 0;
+}
+
+.tabBar {
+  display: flex;
+  align-items: center;
+  width: 360px;
+  height: 40px;
+  background: #FFFFFF;
+  border: 1px solid #EEEEEE;
+  border-radius: 30px;
+  box-shadow: 0px 0px 30px rgba(27, 37, 56, 0.1);
+  overflow: hidden;
+  padding: 2px;
+}
+
+.tab {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  background: transparent;
+  color: #848484;
+  transition: all 0.2s ease;
+}
+
+.tabActive {
+  background: #074ED8;
+  color: #FFFFFF;
+}
+
+.messageList {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 16px;
+  padding-bottom: 80px;
+}
+
+.messageItem {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 17px;
+  border-bottom: 1px solid #E6E6E6;
+  cursor: pointer;
+}
+
+.messageItem:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.messageHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.senderInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.senderAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #E0E7F5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.senderAvatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.senderAvatarText {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #074ED8;
+}
+
+.senderName {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #000000;
+}
+
+.timeAndDot {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.messageTime {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.2;
+  color: #727272;
+}
+
+.unreadDot {
+  width: 6px;
+  height: 6px;
+  background: #FF1E1E;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.messageContent {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.messageTitle {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.2;
+  color: #000000;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.messageDescription {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #848484;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fab {
+  position: fixed;
+  bottom: 40px;
+  right: calc(50% - 393px / 2 + 24px);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #074ED8;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 4px 12px rgba(7, 78, 216, 0.4);
+  z-index: 10;
+}
+
+.fab:hover {
+  background: #0A3A8C;
+}
+
+.fab svg {
+  width: 24px;
+  height: 24px;
+}
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: calc(50% - 360px / 2);
+  width: 360px;
+  padding: 20px 20px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #4A5FC1 0%, #7B8EC8 100%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 20;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.toastText {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #FFFFFF;
+}
+
+.toastClose {
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: #FFFFFF;
+  border: none;
+  cursor: pointer;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: #074ED8;
+  flex-shrink: 0;
+}
+
+.loadingState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+}
+
+.loadingState p {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  color: #848484;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.emptyIcon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.emptyText {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  color: #848484;
+}

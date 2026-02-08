@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles1 from './Exchange-1.module.css'
 import styles2 from './Exchange-2.module.css'
@@ -8,13 +8,21 @@ import arrowRightBlue from '@/assets/images/arrow-right-blue.svg'
 import mentoringIconImg from '@/assets/images/exchage-board/8c7a7abec9195b18a5034fbe9bf6b82083dce5d4.png'
 import fabCloseIconSvg from '@/assets/images/exchage-board/Vector2.svg'
 import { COUNCIL_ITEMS } from '../Home/Home.constants'
-import { FRIENDS_SIMPLE } from './constants'
 import { useCouncilStatus } from '@/hooks'
 import { logout } from '@/services'
+import { getProfile, ProfileData } from '@/services/profileService'
+import { getNetworkList, NetworkFriend } from '@/services/networkService'
 
 const flagImage = '/flag1.png'
 
 const styles = { ...styles1, ...styles2, ...styles3 }
+
+const API_BASE = import.meta.env.VITE_API_URL || 'https://stg-api.bluesol.site'
+const toFullUrl = (path: string | null | undefined): string | undefined => {
+  if (!path) return undefined
+  if (path.startsWith('http')) return path
+  return `${API_BASE}/${path}`
+}
 
 const BOARD_CATEGORIES = ['활동 후기', '학업 고민', '취업 고민', '공지']
 
@@ -57,9 +65,29 @@ function ExchangePage() {
   const [councilSlide, setCouncilSlide] = useState(0)
   const [selectedCategory, setSelectedCategory] = useState('활동 후기')
   const [isFabMenuOpen, setIsFabMenuOpen] = useState(false)
+  const [profile, setProfile] = useState<ProfileData | null>(null)
+  const [networkFriends, setNetworkFriends] = useState<NetworkFriend[]>([])
+  const [networkCount, setNetworkCount] = useState(0)
   const councilRef = useRef<HTMLDivElement>(null)
   const councilDragging = useRef(false)
   const councilStartX = useRef(0)
+
+  useEffect(() => {
+    const loadData = async () => {
+      const [profileRes, networkRes] = await Promise.all([
+        getProfile().catch(() => null),
+        getNetworkList().catch(() => null),
+      ])
+      if (profileRes?.success) {
+        setProfile(profileRes.data)
+      }
+      if (networkRes?.success) {
+        setNetworkFriends(networkRes.data.addedFriends || [])
+        setNetworkCount(networkRes.data.totalCount || 0)
+      }
+    }
+    loadData()
+  }, [])
 
   const handleLogout = async () => {
     await logout()
@@ -106,7 +134,11 @@ function ExchangePage() {
           <button className={styles.iconButton}>
             <img src={bellIcon} alt="알림" width={28} height={28} />
           </button>
-          <div className={styles.profileCircle}></div>
+          <div className={styles.profileCircle}>
+            {profile?.characterImageUrl && (
+              <img src={profile.characterImageUrl} alt="프로필" style={{ width: '24px', height: '24px', objectFit: 'contain' }} />
+            )}
+          </div>
         </div>
       </nav>
 
@@ -115,7 +147,7 @@ function ExchangePage() {
           <h2 className={styles.sectionTitle}>나의 교류망</h2>
           <div className={styles.networkCard}>
             <div className={styles.networkHeader}>
-              <p className={styles.networkSubtitle}>푸른 SOL에서 17명과 교류했어요</p>
+              <p className={styles.networkSubtitle}>푸른 SOL에서 {networkCount}명과 교류했어요</p>
             </div>
             <div className={styles.friendsList}>
               <div className={styles.addFriendButton} onClick={() => navigate('/exchange/network/add')}>
@@ -124,10 +156,14 @@ function ExchangePage() {
                 </div>
                 <span className={styles.addFriendText}>추가하기</span>
               </div>
-              {FRIENDS_SIMPLE.map((friend) => (
-                <div key={friend.id} className={styles.friendItem}>
-                  <div className={styles.friendAvatar}></div>
-                  <span className={styles.friendName}>{friend.name}</span>
+              {networkFriends.slice(0, 6).map((friend) => (
+                <div key={friend.userId} className={styles.friendItem}>
+                  <div className={styles.friendAvatar}>
+                    {toFullUrl(friend.characterImageUrl || friend.character) && (
+                      <img src={toFullUrl(friend.characterImageUrl || friend.character)} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
+                    )}
+                  </div>
+                  <span className={styles.friendName}>{friend.userName}</span>
                 </div>
               ))}
             </div>

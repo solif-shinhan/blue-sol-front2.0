@@ -4,6 +4,7 @@ import styles from './WriteForm.module.css'
 import { BoardCategory } from '../../types'
 import backArrowIcon from '@/assets/images/Glyph_ undefined.svg'
 import { createPost, CATEGORY_MAP } from '@/services'
+import { useSessionStorage, clearSessionGroup } from '@/hooks'
 
 const MAX_TITLE_LENGTH = 50
 const MAX_CONTENT_LENGTH = 2000
@@ -15,8 +16,8 @@ function WriteFormPage() {
   const category = location.state?.category as BoardCategory | undefined
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const [title, setTitle] = useState('')
-  const [content, setContent] = useState('')
+  const [title, setTitle] = useSessionStorage('write-form:title', '')
+  const [content, setContent] = useSessionStorage('write-form:content', '')
   const [images, setImages] = useState<{ file: File; preview: string }[]>([])
 
   if (!category) {
@@ -25,7 +26,7 @@ function WriteFormPage() {
   }
 
   const handleBack = () => {
-    navigate('/exchange/write')
+    navigate(-1)
   }
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,6 +90,7 @@ function WriteFormPage() {
       })
 
       if (response.success) {
+        clearSessionGroup('write-form:')
         alert('게시글이 등록되었습니다.')
         navigate('/exchange/board', { state: { category } })
       }

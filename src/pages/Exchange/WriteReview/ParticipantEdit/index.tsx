@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useSessionStorage } from '@/hooks'
 import styles from './ParticipantEdit.module.css'
 
 import avatar1 from '@/assets/images/exchange-write/exchange-wirte-review/34d0cfd7134cc05f15dd1efb5183b8bba793f850.png'
@@ -63,7 +64,7 @@ function ParticipantEditPage() {
     const navigate = useNavigate()
     const [activeTab, setActiveTab] = useState<'network' | 'search'>('network')
     const [searchQuery, setSearchQuery] = useState('')
-    const [participants, setParticipants] = useState<Participant[]>(INITIAL_PARTICIPANTS)
+    const [participants, setParticipants] = useSessionStorage<Participant[]>('write-review:participants', INITIAL_PARTICIPANTS)
     const [networkPeople, setNetworkPeople] = useState<NetworkPerson[]>(NETWORK_PEOPLE)
     const [allPeople] = useState<NetworkPerson[]>(ALL_PEOPLE)
     const [selectedPeople, setSelectedPeople] = useState<number[]>([])

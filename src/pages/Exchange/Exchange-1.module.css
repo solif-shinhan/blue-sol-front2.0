@@ -69,8 +69,12 @@
 .profileCircle {
   width: 32px;
   height: 32px;
-  border-radius: 50%;
-  background-color: #E6E6E6;
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(171, 200, 255, 0.6) 0%, rgba(255, 233, 226, 0.6) 100%), #FFFFFF;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .content {

@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles1 from './NetworkAdd-1.module.css'
 import styles2 from './NetworkAdd-2.module.css'
-
-const styles = { ...styles1, ...styles2 }
+import backArrowIcon from '@/assets/images/IOS Arrow/undefined/Glyph_ undefined.svg'
+import searchIcon from '@/assets/images/exchange-mentoring/search.svg'
+import dismissIcon from '@/assets/images/solid/icon-dismiss.svg'
 import {
   getNetworkRecommendations,
   searchNetwork,
@@ -12,13 +13,24 @@ import {
   type SearchUser,
 } from '@/services'
 
+const styles = { ...styles1, ...styles2 }
+
+const API_BASE = import.meta.env.VITE_API_URL || 'https://stg-api.bluesol.site'
+
+/** 상대 경로를 전체 URL로 변환 (characters/char_1.svg → https://…/characters/char_1.svg) */
+const toFullUrl = (path: string | null | undefined): string | undefined => {
+  if (!path) return undefined
+  if (path.startsWith('http')) return path
+  return `${API_BASE}/${path}`
+}
+
 const FILTER_OPTIONS = ['전체', '중고생', '대학생', '졸업생'] as const
 const TAG_DOT_COLORS = ['#4CAF50', '#FF5252', '#FF9800', '#64B5F6', '#BA68C8']
 const DEFAULT_GRADIENTS = [
-  'linear-gradient(180deg, #F2D5E0 0%, #E8C5D8 50%, #F5E1EC 100%)',
-  'linear-gradient(180deg, #FFE0B2 0%, #FFCC80 50%, #FFE8CC 100%)',
-  'linear-gradient(180deg, #C5CAE9 0%, #B3BAE0 50%, #D1D9FF 100%)',
-  'linear-gradient(180deg, #B2DFDB 0%, #80CBC4 50%, #C8E6C9 100%)',
+  'linear-gradient(rgba(171, 200, 255, 0.6) 0%, rgba(255, 233, 226, 0.6) 100%), linear-gradient(90deg, #FFFFFF 0%, #FFFFFF 100%)',
+  'linear-gradient(rgba(171, 227, 255, 0.6) 0%, rgba(222, 223, 255, 0.6) 100%), linear-gradient(90deg, #FFFFFF 0%, #FFFFFF 100%)',
+  'linear-gradient(rgba(184, 171, 255, 0.6) 0%, rgba(255, 226, 234, 0.6) 100%), linear-gradient(90deg, #FFFFFF 0%, #FFFFFF 100%)',
+  'linear-gradient(rgba(255, 226, 179, 0.6) 0%, rgba(255, 200, 200, 0.6) 100%), linear-gradient(90deg, #FFFFFF 0%, #FFFFFF 100%)',
 ]
 
 function NetworkAddPage() {
@@ -106,14 +118,13 @@ function NetworkAddPage() {
 
   return (
     <div className={styles.container}>
-      <header className={styles.header}>
-        <button className={styles.backButton} onClick={isSearchActive ? handleSearchBack : handleBack}>
-          <svg width="10" height="18" viewBox="0 0 10 18" fill="none">
-            <path d="M9 1L1 9L9 17" stroke="#222222" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
-        {isSearchActive ? (
-          <div className={styles.searchInputWrapper}>
+      {isSearchActive ? (
+        <header className={styles.searchHeader}>
+          <button className={styles.dismissButton} onClick={handleSearchBack}>
+            <img src={dismissIcon} alt="닫기" />
+          </button>
+          <div className={styles.searchBar}>
+            <img src={searchIcon} alt="검색" className={styles.searchBarIcon} />
             <input
               type="text"
               className={styles.searchInput}
@@ -123,16 +134,20 @@ function NetworkAddPage() {
               autoFocus
             />
           </div>
-        ) : (
-          <h1 className={styles.headerTitle}>교류망 추가하기</h1>
-        )}
-        <button className={styles.searchButton} onClick={handleSearchClick}>
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <circle cx="8.5" cy="8.5" r="7" stroke="#222222" strokeWidth="1.8"/>
-            <path d="M14 14L18 18" stroke="#222222" strokeWidth="1.8" strokeLinecap="round"/>
-          </svg>
-        </button>
-      </header>
+        </header>
+      ) : (
+        <header className={styles.header}>
+          <div className={styles.headerLeft}>
+            <button className={styles.backButton} onClick={handleBack}>
+              <img src={backArrowIcon} alt="뒤로가기" />
+            </button>
+            <h1 className={styles.headerTitle}>교류망 추가하기</h1>
+          </div>
+          <button className={styles.searchButton} onClick={handleSearchClick}>
+            <img src={searchIcon} alt="검색" />
+          </button>
+        </header>
+      )}
 
       {isSearchActive && (
         <section className={styles.searchResultSection}>
@@ -142,9 +157,16 @@ function NetworkAddPage() {
             <div className={styles.profileList}>
               {searchResults.map((user) => (
                 <div key={user.userId} className={styles.profileItem}>
-                  <div className={styles.profileAvatar}>
-                    {user.character && (
-                      <img src={user.character} alt={user.userName} className={styles.avatarImg} />
+                  <div
+                    className={styles.profileAvatar}
+                    style={{
+                      background: toFullUrl(user.backgroundImageUrl || user.backgroundPattern)
+                        ? `url(${toFullUrl(user.backgroundImageUrl || user.backgroundPattern)}) center/cover`
+                        : DEFAULT_GRADIENTS[user.userId % DEFAULT_GRADIENTS.length]
+                    }}
+                  >
+                    {toFullUrl(user.characterImageUrl || user.character) && (
+                      <img src={toFullUrl(user.characterImageUrl || user.character)} alt={user.userName} className={styles.avatarImg} />
                     )}
                   </div>
                   <div className={styles.profileInfo}>
@@ -192,41 +214,55 @@ function NetworkAddPage() {
                     <div
                       key={user.userId}
                       className={styles.interestCard}
-                      onClick={() => handleAddToNetwork(user.userId)}
+                      onClick={() => navigate(`/exchange/network/friend/${user.userId}`, {
+                        state: {
+                          userName: user.userName,
+                          character: user.character,
+                          characterImageUrl: user.characterImageUrl,
+                          backgroundPattern: user.backgroundPattern,
+                          backgroundImageUrl: user.backgroundImageUrl,
+                          solidGoalName: user.solidGoalName,
+                          interests: user.interests,
+                          councilName: user.councilName,
+                        }
+                      })}
                     >
                       <div
                         className={styles.cardGradient}
                         style={{
-                          background: user.backgroundPattern || DEFAULT_GRADIENTS[index % DEFAULT_GRADIENTS.length]
+                          background: toFullUrl(user.backgroundImageUrl || user.backgroundPattern)
+                            ? `url(${toFullUrl(user.backgroundImageUrl || user.backgroundPattern)}) center/cover`
+                            : DEFAULT_GRADIENTS[index % DEFAULT_GRADIENTS.length]
                         }}
                       >
-                        <div className={styles.cardAvatarArea}>
-                          {user.character ? (
-                            <img src={user.character} alt={user.userName} className={styles.cardAvatarImg} />
-                          ) : (
-                            <div className={styles.cardAvatarPlaceholder} />
-                          )}
-                        </div>
-                        <div className={styles.cardInfoArea}>
+                        {toFullUrl(user.characterImageUrl || user.character) && (
+                          <img
+                            src={toFullUrl(user.characterImageUrl || user.character)}
+                            alt={user.userName}
+                            className={styles.cardCharacterImg}
+                          />
+                        )}
+                        <div className={styles.cardNameOverlay}>
                           <span className={styles.cardUserName}>{user.userName}</span>
-                          <span className={styles.cardDesc}>{user.solidGoalName}</span>
-                          <div className={styles.cardTags}>
-                            {user.interests?.slice(0, 2).map((interest, i) => (
-                              <span key={i} className={styles.cardTag}>
-                                <span
-                                  className={styles.tagDot}
-                                  style={{ background: TAG_DOT_COLORS[i % TAG_DOT_COLORS.length] }}
-                                />
-                                {interest}
-                              </span>
-                            ))}
-                          </div>
                         </div>
                       </div>
-                      <div className={styles.cardFooter}>
-                        <p className={styles.cardFooterText}>
-                          SOLID를 교환하고<br/>서로의 목표를 응원해주세요
-                        </p>
+                      <div className={styles.cardContent}>
+                        <div className={styles.cardTags}>
+                          {user.interests?.slice(0, 3).map((interest, i) => (
+                            <span key={i} className={styles.cardTag}>
+                              <span
+                                className={styles.tagDot}
+                                style={{ background: TAG_DOT_COLORS[i % TAG_DOT_COLORS.length] }}
+                              />
+                              {interest}
+                            </span>
+                          ))}
+                        </div>
+                        <div className={styles.cardFooter}>
+                          <p className={styles.cardFooterText}>
+                            SOLID를 교환하고<br />서로의 목표를 응원해주세요
+                          </p>
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -260,11 +296,18 @@ function NetworkAddPage() {
                   ))}
                 </div>
                 <div className={styles.profileList}>
-                  {allUsers.map((user) => (
+                  {allUsers.map((user, index) => (
                     <div key={user.userId} className={styles.profileItem}>
-                      <div className={styles.profileAvatar}>
-                        {user.character ? (
-                          <img src={user.character} alt={user.userName} className={styles.avatarImg} />
+                      <div
+                        className={styles.profileAvatar}
+                        style={{
+                          background: toFullUrl(user.backgroundImageUrl || user.backgroundPattern)
+                            ? `url(${toFullUrl(user.backgroundImageUrl || user.backgroundPattern)}) center/cover`
+                            : DEFAULT_GRADIENTS[index % DEFAULT_GRADIENTS.length]
+                        }}
+                      >
+                        {toFullUrl(user.characterImageUrl || user.character) ? (
+                          <img src={toFullUrl(user.characterImageUrl || user.character)!} alt={user.userName} className={styles.avatarImg} />
                         ) : (
                           <div className={styles.avatarPlaceholder} />
                         )}

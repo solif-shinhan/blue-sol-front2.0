@@ -14,6 +14,8 @@ export interface NotificationItem {
   targetId: number
   isRead: boolean
   createdAt: string
+  senderName?: string
+  senderProfileImage?: string
 }
 
 export interface NotificationDetail {
@@ -28,6 +30,8 @@ export interface NotificationDetail {
   }[]
   targetType: string
   targetId: number
+  senderName?: string
+  senderProfileImage?: string
 }
 
 export interface PageableInfo {
