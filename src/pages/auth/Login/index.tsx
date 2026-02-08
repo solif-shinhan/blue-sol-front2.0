@@ -1,72 +1,39 @@
-import styles from './Login.module.css'
-import { useLoginForm } from './useLoginForm'
-import { HeroSection, InputField, Footer } from './components'
+import { useNavigate } from 'react-router-dom';
+import { LoginPage } from '@features/01-auth';
+import { login as loginApi } from '@/services';
 
-function LoginPage() {
-  const {
-    formData,
-    errors,
-    isLoading,
-    isFormValid,
-    handleInputChange,
-    handleSubmit,
-    handleSignUp
-  } = useLoginForm()
+const ONBOARDING_COMPLETE_KEY = 'pureun_sol_onboarding_complete';
 
-  const loginButtonClassName = [
-    styles.loginButton,
-    isFormValid && styles.loginButtonActive
-  ].filter(Boolean).join(' ')
+const LoginPageWrapper = () => {
+  const navigate = useNavigate();
+
+  const checkOnboardingComplete = (): boolean => {
+    return localStorage.getItem(ONBOARDING_COMPLETE_KEY) === 'true';
+  };
+
+  const handleLogin = async (id: string, password: string) => {
+    try {
+      await loginApi({ loginId: id, password });
+      if (checkOnboardingComplete()) {
+        navigate('/home');
+      } else {
+        navigate('/onboarding');
+      }
+    } catch {
+      console.error('Login failed');
+    }
+  };
+
+  const handleRegister = () => {
+    navigate('/register');
+  };
 
   return (
-    <div className={styles.container}>
-      <HeroSection />
+    <LoginPage
+      onLogin={handleLogin}
+      onRegister={handleRegister}
+    />
+  );
+};
 
-      <div className={styles.formSection}>
-        <h2 className={styles.formTitle}>로그인</h2>
-
-        <form className={styles.form} onSubmit={handleSubmit}>
-          <InputField
-            type="text"
-            name="userId"
-            placeholder="아이디"
-            value={formData.userId}
-            error={errors.userId}
-            autoComplete="username"
-            onChange={handleInputChange}
-          />
-
-          <InputField
-            type="password"
-            name="password"
-            placeholder="비밀번호"
-            value={formData.password}
-            error={errors.password}
-            autoComplete="current-password"
-            onChange={handleInputChange}
-          />
-
-          <button
-            type="submit"
-            className={loginButtonClassName}
-            disabled={isLoading || !isFormValid}
-          >
-            {isLoading ? '로그인 중...' : '로그인'}
-          </button>
-        </form>
-
-        <button
-          type="button"
-          className={styles.signUpButton}
-          onClick={handleSignUp}
-        >
-          회원가입
-        </button>
-
-        <Footer />
-      </div>
-    </div>
-  )
-}
-
-export default LoginPage
+export default LoginPageWrapper;

@@ -1,9 +1,17 @@
 .container {
   width: 393px;
   min-height: 852px;
+  max-height: 100vh;
   background: linear-gradient(180deg, #FFFFFF 0%, #F3F6FB 100%);
   position: relative;
+  overflow-x: hidden;
   overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
 }
 
 .tabNav {

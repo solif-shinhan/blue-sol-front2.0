@@ -1,7 +1,10 @@
 import { useState, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { recognizeReceipt } from '@/services/ocrService'
-import styles from './ReceiptAttach.module.css'
+import styles1 from './ReceiptAttach-1.module.css'
+import styles2 from './ReceiptAttach-2.module.css'
+
+const styles = { ...styles1, ...styles2 }
 
 import closeIconSvg from '@/assets/images/receipt/0b7bc06416da92a5ef1b39ad0d8fbfacd05ce59d.svg'
 import cameraIconSvg from '@/assets/images/receipt/bd13a94209839c4aa3692f23244735564b23ad63.svg'

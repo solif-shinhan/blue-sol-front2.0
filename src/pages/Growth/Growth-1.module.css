@@ -3,7 +3,8 @@
 .container {
   position: relative;
   width: 393px;
-  height: 852px;
+  min-height: 852px;
+  max-height: 100vh;
   background: linear-gradient(180deg, #FFFFFF 0%, #F3F6FB 100%);
   overflow-x: hidden;
   overflow-y: auto;

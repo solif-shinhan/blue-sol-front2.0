@@ -34,21 +34,21 @@ const ApplicationHistoryPage = lazy(() => import('@pages/Mentoring/ApplicationHi
 const GoalsPage = lazy(() => import('@pages/Goals'))
 const PublicProfilePage = lazy(() => import('@pages/PublicProfile'))
 
-const LoginPage = lazy(() => import('@pages/auth/Login-new'))
-const RegisterTypePage = lazy(() => import('@pages/auth/Register-new'))
-const RegisterInfoPage = lazy(() => import('@pages/auth/Register-new/ScholarInfo'))
-const RegisterCredentialsPage = lazy(() => import('@pages/auth/Register-new/Credentials'))
-const RegisterCompletePage = lazy(() => import('@pages/auth/Register-new/Complete'))
+const LoginPage = lazy(() => import('@pages/auth/Login'))
+const RegisterTypePage = lazy(() => import('@pages/auth/Register'))
+const RegisterInfoPage = lazy(() => import('@pages/auth/Register/ScholarInfo'))
+const RegisterCredentialsPage = lazy(() => import('@pages/auth/Register/Credentials'))
+const RegisterCompletePage = lazy(() => import('@pages/auth/Register/Complete'))
 const AlumniRegisterPage = lazy(() => import('@pages/auth/Register/Alumni'))
 
-const OnboardingStartPage = lazy(() => import('@pages/auth/Onboarding-new/Start'))
-const OnboardingInterestsPage = lazy(() => import('@pages/auth/Onboarding-new/Interests'))
-const OnboardingNicknamePage = lazy(() => import('@pages/auth/Onboarding-new/Nickname'))
-const OnboardingGoalsPage = lazy(() => import('@pages/auth/Onboarding-new/Goals'))
-const OnboardingCharacterPage = lazy(() => import('@pages/auth/Onboarding-new/Character'))
-const OnboardingColorPage = lazy(() => import('@pages/auth/Onboarding-new/Color'))
-const OnboardingPreviewPage = lazy(() => import('@pages/auth/Onboarding-new/Preview'))
-const OnboardingCompletePage = lazy(() => import('@pages/auth/Onboarding-new/Complete'))
+const OnboardingStartPage = lazy(() => import('@pages/auth/Onboarding/Start'))
+const OnboardingInterestsPage = lazy(() => import('@pages/auth/Onboarding/Interests'))
+const OnboardingNicknamePage = lazy(() => import('@pages/auth/Onboarding/Nickname'))
+const OnboardingGoalsPage = lazy(() => import('@pages/auth/Onboarding/Goals'))
+const OnboardingCharacterPage = lazy(() => import('@pages/auth/Onboarding/Character'))
+const OnboardingColorPage = lazy(() => import('@pages/auth/Onboarding/Color'))
+const OnboardingPreviewPage = lazy(() => import('@pages/auth/Onboarding/Preview'))
+const OnboardingCompletePage = lazy(() => import('@pages/auth/Onboarding/Complete'))
 
 const PageLoader = () => <div style={{ padding: '20px', textAlign: 'center' }}>로딩 중...</div>
 
@@ -86,8 +86,6 @@ function App() {
 
         <Route element={<MainLayout />}>
           <Route path="/home" element={<HomePage />} />
-          <Route path="/solid" element={<HomePage />} />
-          <Route path="/solid/edit" element={<HomePage />} />
           <Route path="/goals" element={<GoalsPage />} />
 
           <Route path="/exchange" element={<ExchangePage />} />
@@ -97,8 +95,6 @@ function App() {
           <Route path="/exchange/council/list" element={<CouncilListPage />} />
           <Route path="/exchange/council/activity" element={<MyCouncilActivityPage />} />
           <Route path="/exchange/council/member/add" element={<MemberAddPage />} />
-          <Route path="/exchange/friends" element={<ExchangePage />} />
-          <Route path="/exchange/council" element={<ExchangePage />} />
           <Route path="/exchange/mentoring" element={<MentoringPage />} />
           <Route path="/exchange/mentoring/apply" element={<MentoringApplyPage />} />
           <Route path="/exchange/mentoring/postcard" element={<MentoringPostcardPage />} />
@@ -113,19 +109,12 @@ function App() {
           <Route path="/exchange/board/:postId" element={<BoardDetailPage />} />
 
           <Route path="/growth" element={<GrowthPage />} />
-          <Route path="/growth/tree" element={<GrowthPage />} />
-          <Route path="/growth/goals" element={<GrowthPage />} />
-          <Route path="/growth/pinecones" element={<GrowthPage />} />
-          <Route path="/growth/bucket" element={<GrowthPage />} />
-          <Route path="/growth/programs" element={<GrowthPage />} />
 
           <Route path="/notifications" element={<NotificationsPage />} />
           <Route path="/notifications/:id" element={<NotificationDetailPage />} />
           <Route path="/notifications/activity/:id" element={<ActivityDetailPage />} />
-          <Route path="/notifications/messages" element={<NotificationsPage />} />
 
           <Route path="/mypage" element={<MyPagePage />} />
-          <Route path="/mypage/edit" element={<MyPagePage />} />
         </Route>
       </Routes>
       </Suspense>

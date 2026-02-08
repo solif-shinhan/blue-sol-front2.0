@@ -103,6 +103,7 @@ export const RegisterTypeSelectPage: React.FC<RegisterTypeSelectPageProps> = ({
           image={imgCharacterMiddle}
           isSelected={selectedType === 'middle_high'}
           onClick={() => onSelectType?.('middle_high')}
+          imageOverrideStyle={{ top: 'auto', bottom: '0px', transform: 'none', height: '97px', width: '73px' }}
         />
         <TypeCard
           title="대학생 및 대학원생"
@@ -134,6 +135,7 @@ interface TypeCardProps {
   image: string;
   isSelected?: boolean;
   onClick?: () => void;
+  imageOverrideStyle?: React.CSSProperties;
 }
 
 const TypeCard: React.FC<TypeCardProps> = ({
@@ -142,6 +144,7 @@ const TypeCard: React.FC<TypeCardProps> = ({
   image,
   isSelected = false,
   onClick,
+  imageOverrideStyle,
 }) => {
   const cardStyle: React.CSSProperties = {
     position: 'relative',
@@ -189,7 +192,7 @@ const TypeCard: React.FC<TypeCardProps> = ({
         <p style={titleTextStyle}>{title}</p>
         <p style={subtitleStyle}>{subtitle}</p>
       </div>
-      <img src={image} alt="" style={imageStyle} />
+      <img src={image} alt="" style={{ ...imageStyle, ...imageOverrideStyle }} />
     </div>
   );
 };

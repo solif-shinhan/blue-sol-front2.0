@@ -74,40 +74,44 @@
 .modalHeader {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  height: 50px;
-  padding: 0 16px;
-  margin-top: 53px;
+  width: 350px;
+  height: 40px;
+  margin: 70px auto 0;
+}
+
+.modalHeaderInner {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .modalBackButton {
-  width: 50px;
-  height: 50px;
+  width: 24px;
+  height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: none;
   border: none;
   cursor: pointer;
+  padding: 0;
 }
 
 .modalBackButton img {
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
 }
 
 .modalTitle {
   font-family: var(--font-heading);
   font-size: 18px;
   font-weight: 500;
-  color: var(--color-dark-gray-light);
-  line-height: 1.2;
+  color: #848484;
+  line-height: 1.4;
   letter-spacing: -0.36px;
-}
-
-.modalHeaderSpacer {
-  width: 50px;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .modalCard {
@@ -243,16 +247,39 @@
   width: 62px;
   height: 62px;
   background-color: var(--color-white);
-  border-radius: 50%;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+  border-radius: 80px;
+  box-shadow: 0px 0px 16px 0px rgba(27, 37, 56, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.modalActionIcon img {
+  display: block;
+}
+
+.modalActionIcon.networkIcon img {
+  width: 34px;
+  height: 34px;
+}
+
+.modalActionIcon.shareIcon img {
+  width: 36px;
+  height: 36px;
+}
+
+.modalActionIcon.editIcon img {
+  width: 34px;
+  height: 34px;
 }
 
 .modalActionButton span {
   font-family: 'Pretendard', sans-serif;
   font-size: 14px;
   font-weight: 600;
-  color: var(--color-dark-gray);
-  line-height: 1.2;
+  color: black;
+  line-height: 1.4;
 }
 
 .qrModalOverlay {
@@ -266,99 +293,161 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 24px;
 }
 
-.qrModalCard {
+.qrModalContent {
+  width: 393px;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.qrCard {
   width: 330px;
-  height: 550px;
-  background-color: var(--color-white);
-  border-radius: 24px;
-  box-shadow: 0px 0px 47px rgba(0, 0, 0, 0.1);
-  padding: 32px 21px;
+  height: 526px;
+  background-color: white;
+  border-radius: 30px;
+  box-shadow: 0px 0px 30px 0px rgba(27, 37, 56, 0.2);
   position: relative;
   overflow: hidden;
+  margin-top: 140px;
+}
+
+.qrCardGradient {
+  position: absolute;
+  top: -1px;
+  left: -9px;
+  width: 349px;
+  height: 152px;
+  background: linear-gradient(180deg, rgba(171, 200, 255, 0.8) 0%, rgba(255, 233, 226, 0.8) 100%);
 }
 
 .qrCardLogo {
-  margin-bottom: 50px;
+  position: absolute;
+  top: 27px;
+  left: 27px;
+  line-height: 0;
 }
 
 .qrLogoSol {
-  font-family: 'Pretendard', sans-serif;
-  font-size: 20px;
-  font-weight: 300;
-  color: var(--color-dark-gray);
+  font-family: var(--font-heading);
+  font-size: 14.927px;
+  font-weight: 700;
+  color: #074ED8;
+  line-height: 1.2;
+  letter-spacing: -0.2985px;
 }
 
 .qrLogoId {
-  font-family: 'Pretendard', sans-serif;
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--color-primary-default);
+  font-family: var(--font-heading);
+  font-size: 14.927px;
+  font-weight: 300;
+  color: #074ED8;
+  line-height: 1.2;
+  letter-spacing: -0.2985px;
 }
 
-.qrProfileSection {
+.qrCardProfile {
+  position: absolute;
+  top: 66px;
+  left: 24px;
   display: flex;
-  align-items: flex-end;
-  gap: 11px;
-  margin-bottom: 40px;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.qrProfileName {
+.qrCardName {
   font-family: 'Pretendard', sans-serif;
-  font-size: 37px;
+  font-size: 32.626px;
   font-weight: 700;
-  color: #000000;
+  color: #14307C;
   line-height: 1;
 }
 
-.qrProfileBadge {
+.qrCardRole {
   font-family: 'Pretendard', sans-serif;
-  font-size: 16px;
-  font-weight: 600;
-  color: #868686;
-  letter-spacing: -0.62px;
+  font-size: 13.983px;
+  font-weight: 400;
+  color: black;
+  opacity: 0.5;
+  letter-spacing: -0.5593px;
   line-height: 1.2;
 }
 
-.qrProfileTag {
-  font-family: 'Pretendard', sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  color: #306FE1;
-  opacity: 0.5;
-  letter-spacing: -0.62px;
-  line-height: 1.2;
+.qrCardCharacter {
+  position: absolute;
+  top: 27px;
+  left: 197px;
+  width: 112px;
+  height: 109px;
+  object-fit: contain;
 }
 
 .qrCodeBox {
-  width: 288px;
-  height: 288px;
-  background-color: #EEEEEE;
+  position: absolute;
+  top: 176px;
+  left: 24px;
+  width: 278px;
+  height: 278px;
   border-radius: 20px;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  background-color: white;
 }
 
 .qrCodeBox svg {
   border-radius: 16px;
 }
 
+.qrCardFooter {
+  position: absolute;
+  top: 475px;
+  left: 26px;
+  right: 26px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  color: #848484;
+  line-height: 1.2;
+}
+
+.qrCardSchool {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 16.516px;
+  font-weight: 700;
+  letter-spacing: -0.3303px;
+}
+
+.qrCardSince {
+  font-family: var(--font-heading);
+  font-size: 15.483px;
+  font-weight: 300;
+  letter-spacing: -0.3097px;
+}
+
+.qrActions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 32px;
+}
+
 .qrCloseButtonCircle {
   width: 62px;
   height: 62px;
-  background-color: var(--color-white);
+  background-color: white;
   border: none;
-  border-radius: 50%;
+  border-radius: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 16px 0px rgba(27, 37, 56, 0.08);
 }
 
 .qrCloseButtonCircle img {

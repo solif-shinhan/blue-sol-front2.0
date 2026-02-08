@@ -1,0 +1,379 @@
+/* ==========================================================================
+   Onboarding Page Styles - Part 1
+   Container, Header, Welcome, Interests, Goals
+   ========================================================================== */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-white);
+  position: relative;
+  overflow: hidden;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+}
+
+/* ==========================================================================
+   Header - Back Button & Progress Bar
+   ========================================================================== */
+
+.header {
+  display: flex;
+  width: 100%;
+  height: 50px;
+  padding: 0 17px;
+  gap: 189px;
+  align-items: center;
+  box-sizing: border-box;
+  margin-top: 54px;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.backButton img {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.backButton:hover {
+  opacity: 0.7;
+}
+
+.progressBar {
+  display: flex;
+  gap: 6px;
+  height: 4px;
+}
+
+.progressSegment {
+  width: 34px;
+  height: 4px;
+  background-color: var(--color-gray-light);
+  border-radius: 10px;
+  transition: background-color var(--transition-fast);
+}
+
+.progressSegment.active {
+  background-color: var(--color-primary-default);
+}
+
+/* ==========================================================================
+   Content Area
+   ========================================================================== */
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.content::-webkit-scrollbar {
+  display: none;
+}
+
+/* ==========================================================================
+   Welcome Step
+   ========================================================================== */
+
+.welcomeContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-6);
+  padding-top: 72px;
+}
+
+.welcomeContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.welcomeTitle {
+  color: #222;
+  text-align: center;
+  font-family: 'ONE-Shinhan', var(--font-heading);
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 140%;
+  margin-bottom: var(--space-2);
+}
+
+.welcomeSubtitle {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 500;
+  color: #848484;
+  text-align: center;
+  line-height: 1.2;
+  margin-bottom: var(--space-10);
+}
+
+.welcomeImagePlaceholder {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: var(--space-4) auto;
+}
+
+.welcomeImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+
+.welcomeFooter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 24px;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.logoIcon {
+  height: 24px;
+  width: auto;
+}
+
+.logoBlue {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: var(--font-bold);
+  color: var(--color-primary-default);
+}
+
+.logoSol {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: var(--font-bold);
+  color: var(--color-primary-default);
+}
+
+.logoTagline {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: var(--font-semibold);
+  color: #A6A6A6;
+  line-height: 1.2;
+}
+
+/* ==========================================================================
+   Step Container (Common)
+   ========================================================================== */
+
+.stepContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0 var(--space-4);
+}
+
+.stepHeader {
+  margin-bottom: var(--space-8);
+}
+
+.stepTitle {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  font-weight: var(--font-medium);
+  color: #222222;
+  line-height: 1.4;
+  letter-spacing: -0.56px;
+  margin-bottom: var(--space-3);
+}
+
+.stepSubtitle {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: var(--font-medium);
+  color: #848484;
+  line-height: 1.2;
+}
+
+/* ==========================================================================
+   Interests Step
+   ========================================================================== */
+
+.interestsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 7px;
+  padding: 0 48px 0 17px;
+}
+
+.interestChip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 40px;
+  padding: 0 20px 0 7px;
+  background-color: var(--color-white);
+  border: 1px solid #E6E6E6;
+  border-radius: 20px;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.interestChip:hover {
+  border-color: var(--color-primary-default);
+}
+
+.interestChip.selected {
+  background-color: var(--color-primary-default);
+  border-color: var(--color-primary-default);
+}
+
+.interestChip.selected .interestLabel {
+  color: var(--color-white);
+}
+
+.interestIcon {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.interestLabel {
+  font-family: var(--font-body);
+  font-size: 20px;
+  font-weight: var(--font-semibold);
+  color: #848484;
+  line-height: 1.2;
+}
+
+.addInterestButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: var(--color-white);
+  border: 1px solid #E6E6E6;
+  border-radius: 12px;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.addInterestButton:hover {
+  border-color: var(--color-primary-default);
+}
+
+.addIcon {
+  width: 18px;
+  height: 18px;
+}
+
+/* ==========================================================================
+   Goals Step
+   ========================================================================== */
+
+.goalInputContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 360px;
+}
+
+.goalInputWrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.goalInput {
+  width: 100%;
+  height: 50px;
+  padding: 13px 20px;
+  padding-right: 50px;
+  font-family: var(--font-body);
+  font-size: 20px;
+  font-weight: var(--font-semibold);
+  color: #222222;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-gray-light);
+  border-radius: 16px;
+  box-sizing: border-box;
+}
+
+.goalInput::placeholder {
+  color: #848484;
+}
+
+.goalInput:focus {
+  border-color: var(--color-primary-default);
+  box-shadow: none;
+}
+
+.removeGoalButton {
+  position: absolute;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.removeGoalButton img {
+  width: 24px;
+  height: 24px;
+}
+
+.addGoalButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-gray-light);
+  border-radius: 30px;
+  transition: all var(--transition-fast);
+}
+
+.addGoalButton:hover {
+  border-color: var(--color-primary-default);
+}

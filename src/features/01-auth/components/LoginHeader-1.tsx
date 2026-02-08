@@ -79,7 +79,7 @@ export const LoginHeader: React.FC<LoginHeaderProps> = ({
   return (
     <div style={containerStyle}>
       <div style={backgroundStyle}>
-        <img src={backgroundImage} alt="" style={imageStyle} />
+        <img src="/Group 56.svg" alt="" style={imageStyle} />
       </div>
       <div style={gradientOverlayStyle} />
       <div style={brandingContainerStyle}>

@@ -1,9 +1,17 @@
 .container {
   width: 393px;
-  height: 852px;
+  min-height: 852px;
+  max-height: 100vh;
   position: relative;
   background: linear-gradient(to bottom, #ffffff, #f3f6fb);
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
 }
 
 .statusBar {

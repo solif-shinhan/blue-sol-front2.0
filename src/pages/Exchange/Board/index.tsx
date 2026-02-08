@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import styles from './Board.module.css'
+import styles1 from './Board-1.module.css'
+import styles2 from './Board-2.module.css'
+
+const styles = { ...styles1, ...styles2 }
 import {
   getPosts,
   PostItem as ApiPostItem,

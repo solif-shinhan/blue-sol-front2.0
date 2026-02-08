@@ -107,7 +107,7 @@ function CouncilListPage() {
           <section className={styles.councilSection}>
             <div className={styles.councilHeader}>
               <h2 className={styles.sectionTitle}>자치회 활동</h2>
-              <button className={styles.browseButton} onClick={() => navigate('/exchange/council')}>둘러보기</button>
+              <button className={styles.browseButton} onClick={() => navigate('/exchange')}>둘러보기</button>
             </div>
             <div className={styles.councilRegisterCard} onClick={() => navigate('/exchange/council/register')}>
               <div className={styles.councilRegisterTextGroup}>

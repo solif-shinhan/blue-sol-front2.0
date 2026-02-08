@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles1 from './Home-1.module.css'
+import styles1c from './Home-1c.module.css'
 import styles2 from './Home-2.module.css'
 import styles3 from './Home-3.module.css'
 import styles4 from './Home-4.module.css'
@@ -17,7 +18,7 @@ import { SolidCardPreview } from '@/features/02-onboarding/components/SolidCardP
 import { Character, BackgroundColor, Interest, DARK_PATTERNS } from '@/features/02-onboarding/types/card-1'
 import { mockInterests } from '@/features/02-onboarding/api/mock-card-1'
 
-const styles = { ...styles1, ...styles2, ...styles3, ...styles4 }
+const styles = { ...styles1, ...styles1c, ...styles2, ...styles3, ...styles4 }
 
 // 프로필 interests(이름 배열)를 Interest 객체 배열로 변환
 const getInterestsWithIcons = (interestNames: string[]): Interest[] => {
@@ -134,7 +135,7 @@ function HomePage() {
       case '쪽지함': navigate('/notifications?tab=activity&sub=message'); break
       case '게시판': navigate('/exchange/board'); break
       case '교류망': navigate('/exchange/network'); break
-      case '자치회': navigate('/exchange/council'); break
+      case '자치회': navigate('/exchange'); break
       case '멘토링': navigate('/exchange/mentoring'); break
     }
   }
@@ -324,8 +325,13 @@ function HomePage() {
       <QRCodeModal
         isOpen={isQRModalOpen}
         onClose={handleQRModalClose}
+        onNetwork={handleNetwork}
+        onEdit={handleEdit}
         userName={profile?.userName || '사용자'}
         userRole={profile?.solidGoalName || ''}
+        character={cardProps?.character || null}
+        school={school}
+        sinceYear="2026"
       />
     </div>
   )

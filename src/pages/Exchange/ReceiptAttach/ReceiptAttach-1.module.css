@@ -1,0 +1,212 @@
+/* ReceiptAttach-1.module.css - 컨테이너, 배경, 헤더, 빈 상태, 프로세싱 */
+
+.container {
+  width: 393px;
+  height: 852px;
+  position: relative;
+  overflow: hidden;
+  background: #000000;
+}
+
+/* Background receipt image */
+.backgroundImage {
+  position: absolute;
+  top: 136px;
+  left: 0;
+  width: 393px;
+  height: 524px;
+  z-index: 0;
+}
+
+.backgroundImg {
+  width: 116.21%;
+  height: 107.77%;
+  object-fit: cover;
+  position: absolute;
+  top: -4.46%;
+  left: -5.33%;
+}
+
+.backgroundOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 61.8%,
+    rgba(0, 0, 0, 0.8) 86%
+  );
+}
+
+/* Status Bar */
+.statusBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 50px;
+  width: 100%;
+  z-index: 10;
+}
+
+/* Header */
+.header {
+  position: absolute;
+  top: 70px;
+  left: 0;
+  height: 40px;
+  width: 100%;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.headerInner {
+  width: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.closeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+}
+
+.closeIcon {
+  width: 24px;
+  height: 24px;
+}
+
+.headerTitle {
+  font-family: 'OneShinhan', 'Pretendard', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: #FFFFFF;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  text-align: center;
+}
+
+.completeHeaderBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ABC8FF;
+  line-height: 1.4;
+}
+
+/* Empty State */
+.emptyState {
+  position: absolute;
+  top: 136px;
+  left: 0;
+  width: 393px;
+  height: 524px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  cursor: pointer;
+  z-index: 5;
+}
+
+.emptyIcon {
+  opacity: 0.6;
+}
+
+.emptyText {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #AAAAAA;
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* Processing Badge */
+.processingBadge {
+  position: absolute;
+  top: 390px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 20px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 26px;
+  z-index: 15;
+}
+
+.processingText {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  color: #FFFFFF;
+  line-height: 1.5;
+  letter-spacing: -0.26px;
+  white-space: nowrap;
+}
+
+/* Recognition Overlay */
+.recognitionOverlay {
+  position: absolute;
+  top: 550px;
+  left: 17.5px;
+  width: 359px;
+  height: 110px;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.3), rgba(0, 70, 255, 0.3));
+  border-radius: 26px;
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 25px;
+}
+
+.recognitionText {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: #FFFFFF;
+  line-height: 1.5;
+  letter-spacing: -0.36px;
+}
+
+.recognitionAmount {
+  font-weight: 700;
+}
+
+.recognitionAddBtn {
+  width: 95px;
+  height: 40px;
+  background: #14307C;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: -0.3px;
+  line-height: 1.2;
+  flex-shrink: 0;
+}
