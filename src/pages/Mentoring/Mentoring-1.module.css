@@ -308,7 +308,7 @@
 
 .peerCard {
   width: 218.75px;
-  min-height: 280px;
+  min-height: 320px;
   background-color: #FFFFFF;
   border-radius: 24px;
   box-shadow: 0px 0px 32.915px rgba(0, 0, 0, 0.1);
@@ -317,14 +317,23 @@
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  padding: 20px 16px;
 }
 
-.peerCardHeader {
-  margin-bottom: 12px;
+/* 카드 상단: 배경 + 캐릭터 */
+.peerCardTop {
+  position: relative;
+  height: 160px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
 }
 
 .peerCardBrand {
+  position: absolute;
+  top: 16px;
+  left: 16px;
   font-family: 'OneShinhan', sans-serif;
   font-size: 14px;
   font-weight: 700;
@@ -332,35 +341,53 @@
   letter-spacing: 1px;
 }
 
-.peerCardBody {
+.peerNameArea {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  flex: 1;
+  gap: 2px;
+  z-index: 1;
 }
 
 .peerName {
   font-family: 'OneShinhan', sans-serif;
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 500;
   color: #222222;
   line-height: 1.3;
-  letter-spacing: -0.44px;
+  letter-spacing: -0.48px;
 }
 
-.peerSchool {
+.peerGoalName {
   font-family: 'Pretendard', sans-serif;
   font-size: 12px;
   font-weight: 600;
-  color: #848484;
+  color: #555555;
   line-height: 1.4;
+}
+
+.peerCharacterImage {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  z-index: 1;
+}
+
+/* 카드 하단 */
+.peerCardBottom {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 16px 16px;
+  flex: 1;
 }
 
 .peerInterests {
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
-  margin-top: 8px;
 }
 
 .peerInterestTag {
@@ -374,24 +401,25 @@
   line-height: 1.4;
 }
 
-.peerDetails {
+.peerMainGoals {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  margin-top: 8px;
 }
 
-.peerDetailText {
+.peerGoalText {
   font-family: 'Pretendard', sans-serif;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 500;
-  color: #848484;
+  color: #555555;
   line-height: 1.5;
   margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .peerStatusBadge {
-  margin-top: 12px;
   align-self: flex-start;
   padding: 6px 16px;
   border-radius: 16px;
@@ -409,7 +437,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 12px;
+  margin-top: auto;
   padding-top: 8px;
   border-top: 1px solid #F0F0F0;
 }

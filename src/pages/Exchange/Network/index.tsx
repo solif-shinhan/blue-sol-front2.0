@@ -146,7 +146,7 @@ function NetworkPage() {
     try {
       const res = await sendInteraction({
         targetUserId: activeCard.userId,
-        interactionType: activeCard.buttonType === 'CHEER' ? 'CHEER' : 'SHARE_EXPERIENCE',
+        interactionType: activeCard.buttonType === 'CHEER' ? 'CHEER' : 'HELP',
       })
       if (res.success) {
         alert(activeCard.buttonType === 'CHEER' ? '응원을 보냈습니다!' : '경험 나누기를 보냈습니다!')
