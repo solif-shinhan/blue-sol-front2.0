@@ -2,6 +2,15 @@
 
 import { apiClient } from './client';
 import { ApiResponse, PageResponse } from './api-1';
+import {
+  MentoringHomeResponse,
+  MentoringRequestCreateRequest,
+  MentoringRequestDetail,
+  MentoringRequestSummary,
+  MentoringCardCreateRequest,
+  MentoringCardSummary,
+  MentoringCardDetail,
+} from './types-2';
 
 // ============ 프로필 배경/캐릭터 타입 ============
 
@@ -312,4 +321,56 @@ export const ocrApi = {
 
     return response.json();
   },
+};
+
+// ============ 멘토링 API ============
+
+export const mentoringApi = {
+  /** 멘토링 홈 조회 */
+  getHome: (): Promise<ApiResponse<MentoringHomeResponse>> =>
+    apiClient.get('/api/v1/mentoring/home'),
+
+  /** 전문가 멘토 목록 조회 */
+  getMentors: (): Promise<ApiResponse<MentoringHomeResponse['allMentors']>> =>
+    apiClient.get('/api/v1/mentoring/mentors'),
+
+  /** 멘토링 신청 */
+  createRequest: (data: MentoringRequestCreateRequest): Promise<ApiResponse<null>> =>
+    apiClient.post('/api/v1/mentoring/requests', data),
+
+  /** 멘토링 신청서 상세 조회 */
+  getRequest: (requestId: number): Promise<ApiResponse<MentoringRequestDetail>> =>
+    apiClient.get(`/api/v1/mentoring/requests/${requestId}`),
+
+  /** 내가 보낸 신청서 목록 조회 */
+  getSentRequests: (params?: { page?: number; size?: number }): Promise<ApiResponse<PageResponse<MentoringRequestSummary>>> => {
+    const queryParams: Record<string, string> = {};
+    if (params?.page !== undefined) queryParams.page = String(params.page);
+    if (params?.size !== undefined) queryParams.size = String(params.size);
+    return apiClient.get('/api/v1/mentoring/requests/sent', queryParams);
+  },
+
+  /** 내가 받은 답변 목록 조회 */
+  getReceivedRequests: (params?: { page?: number; size?: number }): Promise<ApiResponse<PageResponse<MentoringRequestSummary>>> => {
+    const queryParams: Record<string, string> = {};
+    if (params?.page !== undefined) queryParams.page = String(params.page);
+    if (params?.size !== undefined) queryParams.size = String(params.size);
+    return apiClient.get('/api/v1/mentoring/requests/received', queryParams);
+  },
+
+  /** 멘토링 엽서 발송 */
+  createCard: (data: MentoringCardCreateRequest): Promise<ApiResponse<null>> =>
+    apiClient.post('/api/v1/mentoring/cards', data),
+
+  /** 보낸 멘토링 엽서 목록 조회 */
+  getSentCards: (params?: { page?: number; size?: number }): Promise<ApiResponse<PageResponse<MentoringCardSummary>>> => {
+    const queryParams: Record<string, string> = {};
+    if (params?.page !== undefined) queryParams.page = String(params.page);
+    if (params?.size !== undefined) queryParams.size = String(params.size);
+    return apiClient.get('/api/v1/mentoring/cards/sent', queryParams);
+  },
+
+  /** 멘토링 엽서 상세 조회 */
+  getCard: (cardId: number): Promise<ApiResponse<MentoringCardDetail>> =>
+    apiClient.get(`/api/v1/mentoring/cards/${cardId}`),
 };

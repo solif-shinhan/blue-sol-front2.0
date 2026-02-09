@@ -1,7 +1,13 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles1 from './Mentoring-1.module.css'
 import styles2 from './Mentoring-2.module.css'
+import { mentoringApi } from '@/api'
+import type {
+  MentorSummary,
+  PeerUser,
+  MentoringReviewSummary,
+} from '@/api'
 
 const styles = { ...styles1, ...styles2 }
 
@@ -9,92 +15,70 @@ import backArrowIcon from '@/assets/images/exchange-mentoring/back-arrow.svg'
 import calendarIcon from '@/assets/images/exchange-mentoring/calendar.svg'
 import searchIcon from '@/assets/images/exchange-mentoring/search.svg'
 
-const MENTOR_FILTER_TABS = ['전체', '학업고민', '취업고민', '인생의 멘토']
+const MENTOR_FILTER_TABS = ['전체', '학업고민', '취업고민', '인생의 멘토'] as const
+type MentorFilterTab = (typeof MENTOR_FILTER_TABS)[number]
 
-const PEER_TABS = ['응원하기', '경험 나누기']
-
-// TODO: API 연동 시 교체 - GET 전문가 멘토 목록 조회
-const MENTORS = [
-  {
-    id: 1,
-    name: '선석근',
-    role: '멘토',
-    organization: '신한금융희망재단 동행 팀장',
-    image: '',
-  },
-  {
-    id: 2,
-    name: '고석헌',
-    role: '멘토',
-    organization: '신한금융지주 부사장',
-    image: '',
-  },
-]
-
-// TODO: API 연동 시 교체 - 선후배 멘토링 (SOLID 카드)
-const PEER_MENTORS = [
-  {
-    id: 1,
-    name: '한동영',
-    school: '체육고사장나무',
-    interests: ['농구', '봉사활동'],
-    status: '대기중',
-    image: '',
-  },
-  {
-    id: 2,
-    name: '박지원',
-    school: '체육고사장나무',
-    interests: ['농구', '봉사활동'],
-    details: ['한체대 27학번으로 입학하기', '체육대회 우승하기', '가족 여행 가기'],
-    schoolFull: '서울 영문고등학교',
-    image: '',
-  },
-]
-
-// TODO: API 연동 시 교체 - 멘토링 후기
-const MENTOR_REVIEWS = [
-  {
-    id: 1,
-    mentorName: '신한철 멘토님',
-    views: 25,
-    likes: 8,
-    date: '2026.02.19',
-    title: '진로진학 멘토링 후기',
-    content:
-      '신한철 멘토님께 대학 입시 컨설팅을 받았습니다. 제가 생각하지 못했던 지점을 바로...',
-    image: '',
-  },
-  {
-    id: 2,
-    mentorName: '박준호 멘토님',
-    views: 25,
-    likes: 8,
-    date: '2025.12.26',
-    title: '박준호 강사님 멘토링 후기',
-    content:
-      '대학원 진학과 취업 사이의 선택에 대해 상담을 받았습니다. 단순히 선택 문제...',
-    image: '',
-  },
-  {
-    id: 3,
-    mentorName: '최민지 멘토님',
-    views: 0,
-    likes: 0,
-    date: '2025.11.27',
-    title: '자기소개서와 면접 멘토링',
-    content:
-      '표현 방식보다 논리 구조가 더 중요하다는 점을 인식했고, 경험을 \'성과 중심\'으...',
-    image: '',
-  },
-]
+const PEER_TABS = ['응원하기', '경험 나누기'] as const
+type PeerTab = (typeof PEER_TABS)[number]
 
 function MentoringPage() {
   const navigate = useNavigate()
-  const [activeMentorFilter, setActiveMentorFilter] = useState('전체')
-  const [activePeerTab, setActivePeerTab] = useState('응원하기')
+  const [activeMentorFilter, setActiveMentorFilter] = useState<MentorFilterTab>('전체')
+  const [activePeerTab, setActivePeerTab] = useState<PeerTab>('응원하기')
   const [isSearchMode, setIsSearchMode] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
+  const [isLoading, setIsLoading] = useState(true)
+
+  // API 데이터
+  const [allMentors, setAllMentors] = useState<MentorSummary[]>([])
+  const [studyMentors, setStudyMentors] = useState<MentorSummary[]>([])
+  const [jobMentors, setJobMentors] = useState<MentorSummary[]>([])
+  const [lifeMentors, setLifeMentors] = useState<MentorSummary[]>([])
+  const [cheerList, setCheerList] = useState<PeerUser[]>([])
+  const [helpList, setHelpList] = useState<PeerUser[]>([])
+  const [reviews, setReviews] = useState<MentoringReviewSummary[]>([])
+
+  useEffect(() => {
+    const fetchHome = async () => {
+      try {
+        setIsLoading(true)
+        const res = await mentoringApi.getHome()
+        if (res.success && res.data) {
+          setAllMentors(res.data.allMentors ?? [])
+          setStudyMentors(res.data.studyMentors ?? [])
+          setJobMentors(res.data.jobMentors ?? [])
+          setLifeMentors(res.data.lifeMentors ?? [])
+          setCheerList(res.data.cheerList?.users ?? [])
+          setHelpList(res.data.helpList?.users ?? [])
+          setReviews(res.data.reviews ?? [])
+        }
+      } catch (err) {
+        console.error('멘토링 홈 조회 실패:', err)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchHome()
+  }, [])
+
+  // 필터에 따른 멘토 목록
+  const getFilteredMentors = (): MentorSummary[] => {
+    switch (activeMentorFilter) {
+      case '학업고민':
+        return studyMentors
+      case '취업고민':
+        return jobMentors
+      case '인생의 멘토':
+        return lifeMentors
+      default:
+        return allMentors
+    }
+  }
+
+  // 탭에 따른 선후배 목록
+  const getPeerUsers = (): PeerUser[] => {
+    return activePeerTab === '응원하기' ? cheerList : helpList
+  }
 
   const handleBack = () => {
     if (isSearchMode) {
@@ -112,6 +96,9 @@ function MentoringPage() {
   const handleMentoringApply = (mentorId: number) => {
     navigate(`/exchange/mentoring/apply?mentorId=${mentorId}`)
   }
+
+  const filteredMentors = getFilteredMentors()
+  const peerUsers = getPeerUsers()
 
   return (
     <div className={styles.container}>
@@ -176,33 +163,41 @@ function MentoringPage() {
           </div>
 
           <div className={styles.mentorCardsContainer}>
-            {MENTORS.map((mentor) => (
-              <div key={mentor.id} className={styles.mentorCard}>
-                <div className={styles.mentorCardImage}>
-                  <div className={styles.mentorCardImageInner}>
-                    {mentor.image && <img src={mentor.image} alt={mentor.name} />}
-                  </div>
-                  <div className={styles.mentorCardGradient} />
-                </div>
-                <div className={styles.mentorCardBottom}>
-                  <div className={styles.mentorInfo}>
-                    <div className={styles.mentorNameRow}>
-                      <span className={styles.mentorName}>{mentor.name}</span>
-                      <span className={styles.mentorRole}>{mentor.role}</span>
+            {isLoading ? (
+              <p style={{ color: '#848484', fontSize: 14, padding: '20px 0' }}>로딩 중...</p>
+            ) : filteredMentors.length === 0 ? (
+              <p style={{ color: '#848484', fontSize: 14, padding: '20px 0' }}>등록된 멘토가 없습니다.</p>
+            ) : (
+              filteredMentors.map((mentor) => (
+                <div key={mentor.mentorId} className={styles.mentorCard}>
+                  <div className={styles.mentorCardImage}>
+                    <div className={styles.mentorCardImageInner}>
+                      {mentor.profileImageUrl && (
+                        <img src={mentor.profileImageUrl} alt={mentor.mentorName} />
+                      )}
                     </div>
-                    <p className={styles.mentorOrg}>{mentor.organization}</p>
+                    <div className={styles.mentorCardGradient} />
                   </div>
-                  <div className={styles.mentorActionWrapper}>
-                    <button
-                      className={styles.mentorApplyButton}
-                      onClick={() => handleMentoringApply(mentor.id)}
-                    >
-                      <span>멘토링 신청</span>
-                    </button>
+                  <div className={styles.mentorCardBottom}>
+                    <div className={styles.mentorInfo}>
+                      <div className={styles.mentorNameRow}>
+                        <span className={styles.mentorName}>{mentor.mentorName}</span>
+                        <span className={styles.mentorRole}>멘토</span>
+                      </div>
+                      <p className={styles.mentorOrg}>{mentor.mentorTitle}</p>
+                    </div>
+                    <div className={styles.mentorActionWrapper}>
+                      <button
+                        className={styles.mentorApplyButton}
+                        onClick={() => handleMentoringApply(mentor.mentorId)}
+                      >
+                        <span>멘토링 신청</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </section>
 
@@ -226,44 +221,42 @@ function MentoringPage() {
           </div>
 
           <div className={styles.peerCardsContainer}>
-            {PEER_MENTORS.map((peer) => (
-              <div key={peer.id} className={styles.peerCard}>
-                <div className={styles.peerCardHeader}>
-                  <span className={styles.peerCardBrand}>SOLID</span>
-                </div>
-                <div className={styles.peerCardBody}>
-                  <span className={styles.peerName}>{peer.name}</span>
-                  <span className={styles.peerSchool}>{peer.school}</span>
-                  {peer.interests && (
-                    <div className={styles.peerInterests}>
-                      {peer.interests.map((interest, idx) => (
-                        <span key={idx} className={styles.peerInterestTag}>
-                          {interest}
-                        </span>
-                      ))}
+            {isLoading ? (
+              <p style={{ color: '#848484', fontSize: 14, padding: '20px 0' }}>로딩 중...</p>
+            ) : peerUsers.length === 0 ? (
+              <p style={{ color: '#848484', fontSize: 14, padding: '20px 0' }}>목록이 비어있습니다.</p>
+            ) : (
+              peerUsers.map((peer) => (
+                <div key={peer.userId} className={styles.peerCard}>
+                  <div className={styles.peerCardHeader}>
+                    <span className={styles.peerCardBrand}>SOLID</span>
+                  </div>
+                  <div className={styles.peerCardBody}>
+                    <span className={styles.peerName}>{peer.userName}</span>
+                    <span className={styles.peerSchool}>{peer.solidGoalName}</span>
+                    {peer.interests && peer.interests.length > 0 && (
+                      <div className={styles.peerInterests}>
+                        {peer.interests.map((interest, idx) => (
+                          <span key={idx} className={styles.peerInterestTag}>
+                            {interest}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  {peer.status === 'PENDING' && (
+                    <div className={styles.peerStatusBadge}>
+                      <span>대기중</span>
                     </div>
                   )}
-                  {peer.details && (
-                    <div className={styles.peerDetails}>
-                      {peer.details.map((detail, idx) => (
-                        <p key={idx} className={styles.peerDetailText}>{detail}</p>
-                      ))}
+                  {peer.status === 'CONNECTED' && (
+                    <div className={styles.peerStatusBadge} style={{ backgroundColor: '#E6FFE6' }}>
+                      <span style={{ color: '#2E8B57' }}>연결됨</span>
                     </div>
                   )}
                 </div>
-                {peer.status && (
-                  <div className={styles.peerStatusBadge}>
-                    <span>{peer.status}</span>
-                  </div>
-                )}
-                {peer.schoolFull && (
-                  <div className={styles.peerSchoolFull}>
-                    <span>{peer.schoolFull}</span>
-                    <span className={styles.peerSince}>SINCE</span>
-                  </div>
-                )}
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </section>
 
@@ -307,32 +300,29 @@ function MentoringPage() {
           </div>
 
           <div className={styles.reviewList}>
-            {MENTOR_REVIEWS.map((review) => (
-              <div
-                key={review.id}
-                className={styles.reviewCard}
-                onClick={() => navigate('/exchange/mentoring/review')}
-                style={{ cursor: 'pointer' }}
-              >
-                <div className={styles.reviewContent}>
-                  <div className={styles.reviewMeta}>
-                    <span className={styles.reviewMentorName}>{review.mentorName}</span>
-                    <span className={styles.reviewMetaDivider}>|</span>
-                    <span className={styles.reviewMetaInfo}>👁 {review.views}</span>
-                    <span className={styles.reviewMetaInfo}>♡ {review.likes}</span>
-                    <span className={styles.reviewMetaDivider}>|</span>
-                    <span className={styles.reviewMetaInfo}>{review.date}</span>
+            {isLoading ? (
+              <p style={{ color: '#848484', fontSize: 14, padding: '20px 0' }}>로딩 중...</p>
+            ) : reviews.length === 0 ? (
+              <p style={{ color: '#848484', fontSize: 14, padding: '20px 0' }}>후기가 없습니다.</p>
+            ) : (
+              reviews.map((review) => (
+                <div
+                  key={review.postId}
+                  className={styles.reviewCard}
+                  onClick={() => navigate('/exchange/mentoring/review')}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <div className={styles.reviewContent}>
+                    <div className={styles.reviewMeta}>
+                      <span className={styles.reviewMentorName}>{review.authorName}</span>
+                      <span className={styles.reviewMetaDivider}>|</span>
+                      <span className={styles.reviewMetaInfo}>👁 {review.viewCount}</span>
+                    </div>
+                    <h3 className={styles.reviewTitle}>{review.title}</h3>
                   </div>
-                  <h3 className={styles.reviewTitle}>{review.title}</h3>
-                  <p className={styles.reviewText}>{review.content}</p>
                 </div>
-                {review.image && (
-                  <div className={styles.reviewImageThumb}>
-                    <img src={review.image} alt="" />
-                  </div>
-                )}
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </section>
       </div>

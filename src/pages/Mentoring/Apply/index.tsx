@@ -1,55 +1,74 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import styles from './MentoringApply.module.css'
+import { mentoringApi } from '@/api'
+import type { MentorSummary } from '@/api'
 
-const modalLogoImg = ''
-const modalTextImg = ''
-
-const CATEGORY_OPTIONS = ['학업', '취업', '금전', '기타']
-
-const MENTORING_METHODS = [
-  { id: 'note', label: '쪽지 상담' },
-  { id: 'video', label: '화상 미팅' },
-  { id: 'phone', label: '전화 상담' },
-  { id: 'face', label: '대면 상담' },
+const CATEGORY_OPTIONS = [
+  { label: '학업', value: 'STUDY' },
+  { label: '진학', value: 'ADMISSION' },
+  { label: '취업', value: 'JOB' },
+  { label: '기타', value: 'ETC' },
 ]
 
-const MENTOR_DATA = {
-  name: '신한철',
-  role: '멘토',
-  organization: 'SO&L 글로벌자산운용 대표',
-  introduction: `안녕하세요! SO&L 글로벌자산운용 대표 신한철입니다.
-제 일은 쿠팡이나 넷플릭스처럼 우리 일상 속 좋은 회사를 찾아내어 그 기업의 주인이 되는 방법을 연구하는 것입니다. 여러분이 숫자에 매몰된 레거시한 공부에서 벗어나, 세상을 읽는 눈을 키워 당당한 투자자로 성장하도록 돕겠습니다.
-저와 함께 진짜 경제를 시작해 봅시다!`,
-}
+const MENTORING_METHODS = [
+  { id: 'MESSAGE', label: '쪽지 상담' },
+  { id: 'VIDEO', label: '화상 미팅' },
+  { id: 'PHONE', label: '전화 상담' },
+  { id: 'FACE', label: '대면 상담' },
+]
 
 function MentoringApplyPage() {
   const navigate = useNavigate()
-  const [selectedCategory, setSelectedCategory] = useState('학업')
+  const [searchParams] = useSearchParams()
+  const mentorId = Number(searchParams.get('mentorId'))
+
+  const [mentor, setMentor] = useState<MentorSummary | null>(null)
+  const [selectedCategory, setSelectedCategory] = useState('STUDY')
   const [selectedMethod, setSelectedMethod] = useState<string | null>(null)
   const [content, setContent] = useState('')
   const [showCompleteModal, setShowCompleteModal] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  // 멘토 정보 조회
+  useEffect(() => {
+    const fetchMentor = async () => {
+      try {
+        const res = await mentoringApi.getHome()
+        if (res.success && res.data) {
+          const found = res.data.allMentors.find((m) => m.mentorId === mentorId)
+          if (found) setMentor(found)
+        }
+      } catch (err) {
+        console.error('멘토 정보 조회 실패:', err)
+      }
+    }
+    if (mentorId) fetchMentor()
+  }, [mentorId])
 
   const handleClose = () => {
     navigate(-1)
   }
 
-  const handleCategorySelect = (category: string) => {
-    setSelectedCategory(category)
-  }
-
-  const handleMethodSelect = (methodId: string) => {
-    setSelectedMethod(methodId)
-  }
-
-  const handleSubmit = () => {
-    console.log({
-      mentor: MENTOR_DATA.name,
-      category: selectedCategory,
-      method: selectedMethod,
-      content,
-    })
-    setShowCompleteModal(true)
+  const handleSubmit = async () => {
+    if (!selectedMethod || !content.trim() || !mentorId) return
+    try {
+      setIsSubmitting(true)
+      const res = await mentoringApi.createRequest({
+        mentorId,
+        category: selectedCategory,
+        content: content.trim(),
+        method: selectedMethod,
+      })
+      if (res.success) {
+        setShowCompleteModal(true)
+      }
+    } catch (err) {
+      console.error('멘토링 신청 실패:', err)
+      alert('멘토링 신청에 실패했습니다. 다시 시도해주세요.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   useEffect(() => {
@@ -65,26 +84,28 @@ function MentoringApplyPage() {
     navigate('/exchange/mentoring')
   }
 
-  const isSubmitEnabled = content.trim().length > 0 && selectedMethod !== null
+  const isSubmitEnabled = content.trim().length > 0 && selectedMethod !== null && !isSubmitting
 
   return (
     <div className={styles.container}>
       <div className={styles.profileCard}>
         <header className={styles.header}>
           <button className={styles.closeButton} onClick={handleClose}>
-            <img src="/x.svg" alt="닫기" />
+            <span style={{ fontSize: 20 }}>{'<'}</span>
           </button>
-          <h1 className={styles.headerTitle}>멘토링 신청하기</h1>
+          <h1 className={styles.headerTitle}>멘토링 신청</h1>
         </header>
 
-        <div className={styles.mentorInfo}>
-          <div className={styles.mentorNameRow}>
-            <span className={styles.mentorName}>{MENTOR_DATA.name}</span>
-            <span className={styles.mentorRole}>{MENTOR_DATA.role}</span>
-            <span className={styles.mentorOrg}>{MENTOR_DATA.organization}</span>
+        {mentor && (
+          <div className={styles.mentorInfo}>
+            <div className={styles.mentorNameRow}>
+              <span className={styles.mentorName}>{mentor.mentorName}</span>
+              <span className={styles.mentorRole}>멘토</span>
+              <span className={styles.mentorOrg}>{mentor.mentorTitle}</span>
+            </div>
+            <p className={styles.mentorIntro}>{mentor.mentorIntro}</p>
           </div>
-          <p className={styles.mentorIntro}>{MENTOR_DATA.introduction}</p>
-        </div>
+        )}
       </div>
 
       <div className={styles.formArea}>
@@ -93,14 +114,13 @@ function MentoringApplyPage() {
             <h2 className={styles.sectionTitle}>고민되는 내용을 작성해주세요</h2>
           </div>
           <div className={styles.categoryTabs}>
-            {CATEGORY_OPTIONS.map((category) => (
+            {CATEGORY_OPTIONS.map((cat) => (
               <button
-                key={category}
-                className={`${styles.categoryTab} ${selectedCategory === category ? styles.categoryTabActive : ''
-                  }`}
-                onClick={() => handleCategorySelect(category)}
+                key={cat.value}
+                className={`${styles.categoryTab} ${selectedCategory === cat.value ? styles.categoryTabActive : ''}`}
+                onClick={() => setSelectedCategory(cat.value)}
               >
-                {category}
+                {cat.label}
               </button>
             ))}
           </div>
@@ -116,15 +136,14 @@ function MentoringApplyPage() {
 
         <div className={styles.formSection}>
           <div className={styles.sectionHeader}>
-            <h2 className={styles.sectionTitle}>가능한 멘토링 방식을 선택해주세요</h2>
+            <h2 className={styles.sectionTitle}>가능한 멘토링 방식을 모두 선택해주세요</h2>
           </div>
           <div className={styles.methodsGrid}>
             {MENTORING_METHODS.map((method) => (
               <div key={method.id} className={styles.methodItem}>
                 <button
-                  className={`${styles.methodButton} ${selectedMethod === method.id ? styles.methodButtonActive : ''
-                    }`}
-                  onClick={() => handleMethodSelect(method.id)}
+                  className={`${styles.methodButton} ${selectedMethod === method.id ? styles.methodButtonActive : ''}`}
+                  onClick={() => setSelectedMethod(method.id)}
                 >
                 </button>
                 <span className={styles.methodLabel}>{method.label}</span>
@@ -139,7 +158,7 @@ function MentoringApplyPage() {
         onClick={handleSubmit}
         disabled={!isSubmitEnabled}
       >
-        신청하기
+        {isSubmitting ? '신청 중...' : '신청하기'}
       </button>
 
       {showCompleteModal && (
@@ -153,10 +172,6 @@ function MentoringApplyPage() {
               </div>
               <p className={styles.modalMainText}>멘토링 신청 완료!</p>
             </div>
-          </div>
-          <div className={styles.modalFooter}>
-            <img src={modalLogoImg} alt="" className={styles.modalFooterLogo} />
-            <img src={modalTextImg} alt="신한장학재단" className={styles.modalFooterText} />
           </div>
         </div>
       )}

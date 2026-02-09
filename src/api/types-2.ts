@@ -317,3 +317,127 @@ export interface GoalFirstResponse {
 export interface GoalCountResponse {
   goalCount: number;
 }
+
+// ============ 멘토링 타입 ============
+
+export type MentorCategory = 'STUDY' | 'JOB' | 'LIFE';
+
+export type MentoringMethod = 'MESSAGE' | 'VIDEO' | 'PHONE' | 'FACE';
+
+export type MentoringStatus = 'PENDING' | 'REPLIED' | 'REJECTED';
+
+export type PeerUserStatus = 'PENDING' | 'CONNECTED' | 'REJECTED';
+
+export interface MentorSummary {
+  mentorId: number;
+  mentorTitle: string;
+  mentorName: string;
+  mentorIntro: string;
+  mentorCategory: MentorCategory;
+  profileImageUrl: string;
+}
+
+export interface PeerUser {
+  userId: number;
+  userName: string;
+  character: string;
+  backgroundPattern: string;
+  solidGoalName: string;
+  interests: string[];
+  status: PeerUserStatus;
+}
+
+export interface PeerList {
+  users: PeerUser[];
+}
+
+export interface MentoringReviewSummary {
+  postId: number;
+  title: string;
+  authorName: string;
+  category: MentorCategory;
+  viewCount: number;
+}
+
+export interface MentoringHomeResponse {
+  allMentors: MentorSummary[];
+  studyMentors: MentorSummary[];
+  jobMentors: MentorSummary[];
+  lifeMentors: MentorSummary[];
+  cheerList: PeerList;
+  helpList: PeerList;
+  reviews: MentoringReviewSummary[];
+}
+
+export interface MentoringRequestCreateRequest {
+  mentorId: number;
+  category: string;
+  content: string;
+  method: string;
+}
+
+export interface MentoringRequestSummary {
+  mentoringRequestId: number;
+  mentorName: string;
+  mentorTitle: string;
+  category: string;
+  method: string;
+  status: MentoringStatus;
+  content: string;
+  adminReply: string | null;
+  createdAt: string;
+  repliedAt: string | null;
+}
+
+export interface MentoringRequestDetail {
+  mentoringRequestId: number;
+  mentorId: number;
+  mentorName: string;
+  mentorTitle: string;
+  mentorIntro: string;
+  mentorProfileImageUrl: string;
+  menteeUserId: number;
+  menteeName: string;
+  category: string;
+  method: string;
+  status: MentoringStatus;
+  content: string;
+  adminReply: string | null;
+  createdAt: string;
+  updatedAt: string;
+  repliedAt: string | null;
+  hasReview: boolean;
+  reviewPostId: number | null;
+}
+
+export interface MentoringCardCreateRequest {
+  cardTitle: string;
+  category: string;
+  method: string;
+  cardContent: string;
+  fileIds?: number[];
+}
+
+export interface MentoringCardSummary {
+  mentoringCardId: number;
+  senderName: string;
+  cardTitle: string;
+  category: string;
+  method: string;
+  isRead: boolean;
+  createdAt: string;
+}
+
+export interface MentoringCardDetail {
+  mentoringCardId: number;
+  senderId: number;
+  senderName: string;
+  cardTitle: string;
+  category: string;
+  method: string;
+  cardContent: string;
+  isRead: boolean;
+  readAt: string | null;
+  createdAt: string;
+  imageUrls: string[];
+}
