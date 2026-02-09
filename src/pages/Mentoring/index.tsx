@@ -228,12 +228,32 @@ function MentoringPage() {
             ) : (
               peerUsers.map((peer) => (
                 <div key={peer.userId} className={styles.peerCard}>
-                  <div className={styles.peerCardHeader}>
+                  {/* 카드 상단: 배경 그라데이션 + 캐릭터 */}
+                  <div
+                    className={styles.peerCardTop}
+                    style={{
+                      backgroundImage: peer.backgroundImageUrl
+                        ? `url(${peer.backgroundImageUrl})`
+                        : 'linear-gradient(135deg, #D8C4F6 0%, #A8D4FF 100%)',
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                    }}
+                  >
                     <span className={styles.peerCardBrand}>SOLID</span>
+                    <div className={styles.peerNameArea}>
+                      <span className={styles.peerName}>{peer.userName}</span>
+                      <span className={styles.peerGoalName}>{peer.solidGoalName}</span>
+                    </div>
+                    {peer.characterImageUrl && (
+                      <img
+                        src={peer.characterImageUrl}
+                        alt={peer.userName}
+                        className={styles.peerCharacterImage}
+                      />
+                    )}
                   </div>
-                  <div className={styles.peerCardBody}>
-                    <span className={styles.peerName}>{peer.userName}</span>
-                    <span className={styles.peerSchool}>{peer.solidGoalName}</span>
+                  {/* 카드 하단: 관심사 + 목표 + 학교 */}
+                  <div className={styles.peerCardBottom}>
                     {peer.interests && peer.interests.length > 0 && (
                       <div className={styles.peerInterests}>
                         {peer.interests.map((interest, idx) => (
@@ -243,17 +263,28 @@ function MentoringPage() {
                         ))}
                       </div>
                     )}
+                    {peer.mainGoals && peer.mainGoals.length > 0 && (
+                      <div className={styles.peerMainGoals}>
+                        {peer.mainGoals.map((goal, idx) => (
+                          <p key={idx} className={styles.peerGoalText}>{goal}</p>
+                        ))}
+                      </div>
+                    )}
+                    {peer.status === 'PENDING' && (
+                      <div className={styles.peerStatusBadge}>
+                        <span>대기중</span>
+                      </div>
+                    )}
+                    {peer.status === 'CONNECTED' && (
+                      <div className={styles.peerStatusBadge} style={{ backgroundColor: '#E6FFE6' }}>
+                        <span style={{ color: '#2E8B57' }}>연결됨</span>
+                      </div>
+                    )}
+                    <div className={styles.peerSchoolFull}>
+                      <span>{peer.schoolName}</span>
+                      {peer.joinYear && <span className={styles.peerSince}>SINCE {peer.joinYear}</span>}
+                    </div>
                   </div>
-                  {peer.status === 'PENDING' && (
-                    <div className={styles.peerStatusBadge}>
-                      <span>대기중</span>
-                    </div>
-                  )}
-                  {peer.status === 'CONNECTED' && (
-                    <div className={styles.peerStatusBadge} style={{ backgroundColor: '#E6FFE6' }}>
-                      <span style={{ color: '#2E8B57' }}>연결됨</span>
-                    </div>
-                  )}
                 </div>
               ))
             )}
