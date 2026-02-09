@@ -112,6 +112,9 @@
   left: 0;
   right: 0;
   bottom: 0;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
 }
 
 /* SOLID logo */

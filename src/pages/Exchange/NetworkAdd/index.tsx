@@ -5,6 +5,7 @@ import styles2 from './NetworkAdd-2.module.css'
 import backArrowIcon from '@/assets/images/IOS Arrow/undefined/Glyph_ undefined.svg'
 import searchIcon from '@/assets/images/exchange-mentoring/search.svg'
 import dismissIcon from '@/assets/images/solid/icon-dismiss.svg'
+import { getIconByLabel } from '@assets/icons'
 import {
   getNetworkRecommendations,
   searchNetwork,
@@ -165,8 +166,8 @@ function NetworkAddPage() {
                         : DEFAULT_GRADIENTS[user.userId % DEFAULT_GRADIENTS.length]
                     }}
                   >
-                    {toFullUrl(user.characterImageUrl || user.character) && (
-                      <img src={toFullUrl(user.characterImageUrl || user.character)} alt={user.userName} className={styles.avatarImg} />
+                    {toFullUrl(user.characterImageUrl || user.userCharacter) && (
+                      <img src={toFullUrl(user.characterImageUrl || user.userCharacter)} alt={user.userName} className={styles.avatarImg} />
                     )}
                   </div>
                   <div className={styles.profileInfo}>
@@ -217,7 +218,7 @@ function NetworkAddPage() {
                       onClick={() => navigate(`/exchange/network/friend/${user.userId}`, {
                         state: {
                           userName: user.userName,
-                          character: user.character,
+                          userCharacter: user.userCharacter,
                           characterImageUrl: user.characterImageUrl,
                           backgroundPattern: user.backgroundPattern,
                           backgroundImageUrl: user.backgroundImageUrl,
@@ -235,9 +236,9 @@ function NetworkAddPage() {
                             : DEFAULT_GRADIENTS[index % DEFAULT_GRADIENTS.length]
                         }}
                       >
-                        {toFullUrl(user.characterImageUrl || user.character) && (
+                        {toFullUrl(user.characterImageUrl || user.userCharacter) && (
                           <img
-                            src={toFullUrl(user.characterImageUrl || user.character)}
+                            src={toFullUrl(user.characterImageUrl || user.userCharacter)}
                             alt={user.userName}
                             className={styles.cardCharacterImg}
                           />
@@ -248,15 +249,27 @@ function NetworkAddPage() {
                       </div>
                       <div className={styles.cardContent}>
                         <div className={styles.cardTags}>
-                          {user.interests?.slice(0, 3).map((interest, i) => (
-                            <span key={i} className={styles.cardTag}>
-                              <span
-                                className={styles.tagDot}
-                                style={{ background: TAG_DOT_COLORS[i % TAG_DOT_COLORS.length] }}
-                              />
-                              {interest}
-                            </span>
-                          ))}
+                          {user.interests?.slice(0, 3).map((interest, i) => {
+                            const iconSrc = getIconByLabel(interest);
+                            return (
+                              <span key={i} className={styles.cardTag}>
+                                {iconSrc ? (
+                                  <img 
+                                    src={iconSrc} 
+                                    alt={interest}
+                                    className={styles.tagIcon}
+                                    style={{ width: '16px', height: '16px', marginRight: '4px' }}
+                                  />
+                                ) : (
+                                  <span
+                                    className={styles.tagDot}
+                                    style={{ background: TAG_DOT_COLORS[i % TAG_DOT_COLORS.length] }}
+                                  />
+                                )}
+                                {interest}
+                              </span>
+                            );
+                          })}
                         </div>
                         <div className={styles.cardFooter}>
                           <p className={styles.cardFooterText}>
@@ -306,8 +319,8 @@ function NetworkAddPage() {
                             : DEFAULT_GRADIENTS[index % DEFAULT_GRADIENTS.length]
                         }}
                       >
-                        {toFullUrl(user.characterImageUrl || user.character) ? (
-                          <img src={toFullUrl(user.characterImageUrl || user.character)!} alt={user.userName} className={styles.avatarImg} />
+                        {toFullUrl(user.characterImageUrl || user.userCharacter) ? (
+                          <img src={toFullUrl(user.characterImageUrl || user.userCharacter)!} alt={user.userName} className={styles.avatarImg} />
                         ) : (
                           <div className={styles.avatarPlaceholder} />
                         )}

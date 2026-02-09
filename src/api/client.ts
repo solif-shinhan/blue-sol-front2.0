@@ -66,7 +66,12 @@ class ApiClient {
           errorMessage += ': ' + Object.values(error.errors as Record<string, string>).join(', ')
         }
       }
-      throw new Error(errorMessage)
+      
+      // status code를 포함한 커스텀 에러 생성
+      const apiError = new Error(errorMessage) as Error & { status: number; response: { status: number; data: unknown } }
+      apiError.status = response.status
+      apiError.response = { status: response.status, data: error }
+      throw apiError
     }
 
     const data = await response.json()
