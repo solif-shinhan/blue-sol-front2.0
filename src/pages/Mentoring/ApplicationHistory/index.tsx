@@ -40,6 +40,9 @@ function ApplicationHistoryPage() {
   // 엽서 데이터
   const [sentCards, setSentCards] = useState<MentoringCardSummary[]>([])
 
+  // 멘토 프로필 이미지 맵 (mentorName -> imageUrl)
+  const [mentorImageMap, setMentorImageMap] = useState<Record<string, string>>({})
+
   // 상세 보기
   const [selectedRequestDetail, setSelectedRequestDetail] = useState<MentoringRequestDetail | null>(null)
   const [selectedCardDetail, setSelectedCardDetail] = useState<MentoringCardDetail | null>(null)
@@ -48,6 +51,25 @@ function ApplicationHistoryPage() {
   useEffect(() => {
     fetchData()
   }, [activeTab, activeSubTab])
+
+  // 멘토 프로필 이미지 가져오기
+  useEffect(() => {
+    const fetchMentorImages = async () => {
+      try {
+        const res = await mentoringApi.getHome()
+        if (res.success && res.data) {
+          const map: Record<string, string> = {}
+          res.data.allMentors?.forEach((m) => {
+            if (m.profileImageUrl) map[m.mentorName] = m.profileImageUrl
+          })
+          setMentorImageMap(map)
+        }
+      } catch (err) {
+        console.error('멘토 이미지 조회 실패:', err)
+      }
+    }
+    fetchMentorImages()
+  }, [])
 
   const fetchData = async () => {
     try {
@@ -265,7 +287,11 @@ function ApplicationHistoryPage() {
                 <div className={styles.listItemInner}>
                   <div className={styles.itemHeader}>
                     <div className={styles.itemProfile}>
-                      <div className={`${styles.profileCircle} ${activeTab === 'received' ? styles.profileCircleBlue : ''}`} />
+                      {mentorImageMap[item.mentorName] ? (
+                        <img src={mentorImageMap[item.mentorName]} alt="" className={styles.profileImage} />
+                      ) : (
+                        <div className={`${styles.profileCircle} ${activeTab === 'received' ? styles.profileCircleBlue : ''}`} />
+                      )}
                       <span className={styles.profileName}>{item.mentorName}</span>
                     </div>
                     <span className={styles.itemDate}>{formatRelativeDate(item.createdAt)}</span>
