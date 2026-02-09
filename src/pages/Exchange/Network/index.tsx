@@ -339,7 +339,9 @@ function NetworkPage() {
                 </div>
 
                 <div className={styles.cardFooter}>
-                  <span className={styles.schoolName}>{card.schoolName || card.councilName || ''}</span>
+                  <span className={styles.schoolName}>
+                    {card.region && <><strong>{card.region}</strong><span style={{ fontWeight: 400 }}> | </span></>}<span style={{ fontWeight: 400 }}>{card.schoolName || card.councilName || ''}</span>
+                  </span>
                   <span className={styles.sinceYear}>SINCE {card.joinYear || 2026}</span>
                 </div>
               </div>

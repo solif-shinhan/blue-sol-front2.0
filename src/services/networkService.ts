@@ -25,6 +25,7 @@ export interface NetworkCard {
   buttonType: ButtonType
   isInCouncil: boolean
   councilName?: string
+  region?: string
   schoolName?: string
   joinYear?: number
 }

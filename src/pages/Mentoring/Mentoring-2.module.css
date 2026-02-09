@@ -1,3 +1,6 @@
+/* ===================== */
+/* 맞춤 멘토링 엽서 카드  */
+/* ===================== */
 .customMentoringCard {
   width: 360px;
   height: 120px;
@@ -5,41 +8,31 @@
   border-radius: 24px;
   box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
   position: relative;
-}
-
-.customMentoringIcon {
-  position: absolute;
-  top: 35px;
-  right: 18px;
-  width: 50px;
-  height: 50px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
 }
 
 .customMentoringContent {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
   padding: 0 20px;
-  width: 362px;
+  flex: 1;
 }
 
 .customMentoringInner {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  height: 86px;
+  gap: 6px;
 }
 
 .customMentoringText {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
 }
 
 .customMentoringSubtitle {
   font-family: 'Pretendard', sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
   color: #848484;
   line-height: 1.2;
@@ -57,88 +50,132 @@
 
 .customMentoringDescription {
   font-family: 'Pretendard', sans-serif;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   color: #848484;
   line-height: 1.4;
   margin-top: 4px;
 }
 
-.reviewCard {
-  width: 360px;
-  height: 120px;
-  background-color: #FFFFFF;
-  border-radius: 24px;
-  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
-  position: relative;
+.customMentoringIconWrapper {
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+  margin-right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.reviewImage {
-  position: absolute;
-  top: 50%;
-  right: 8px;
-  transform: translateY(-50%);
-  width: 106px;
-  height: 106px;
-  border-radius: 18px;
-  overflow: hidden;
-  background-color: #C8C8C8;
+.customMentoringMailbox {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
 }
 
-.reviewImage img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.reviewContent {
-  position: absolute;
-  top: calc(50% + 0.09px);
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 376px;
-  padding: 0 20px;
+/* ===================== */
+/* 멘토링 후기            */
+/* ===================== */
+.reviewList {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.reviewAuthorRow {
+.reviewCard {
+  width: 360px;
+  background-color: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+  padding: 16px;
+  gap: 12px;
+  box-sizing: border-box;
+}
+
+.reviewContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.reviewMeta {
   display: flex;
   align-items: center;
   gap: 4px;
+  flex-wrap: wrap;
 }
 
-.reviewAuthor {
+.reviewMentorName {
   font-family: 'Pretendard', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  color: #848484;
+  font-size: 13px;
+  font-weight: 700;
+  color: #074ED8;
   line-height: 1.4;
 }
 
-.reviewDivider {
-  width: 1px;
-  height: 12px;
+.reviewMetaDivider {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 12px;
+  color: #D0D0D0;
+  margin: 0 2px;
 }
 
-.reviewMentor {
+.reviewMetaInfo {
   font-family: 'Pretendard', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  color: #848484;
+  font-size: 12px;
+  font-weight: 500;
+  color: #AAAAAA;
   line-height: 1.4;
+}
+
+.reviewTitle {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #222222;
+  line-height: 1.3;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .reviewText {
   font-family: 'Pretendard', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 500;
   color: #848484;
-  line-height: 1.4;
-  width: 213px;
+  line-height: 1.5;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
+.reviewImageThumb {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background-color: #E8E8E8;
+}
+
+.reviewImageThumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ===================== */
+/* 검색 모드             */
+/* ===================== */
 .searchHeader {
   display: flex;
   align-items: center;
@@ -190,6 +227,9 @@
   cursor: pointer;
 }
 
+/* ===================== */
+/* 모달 (신청 완료 등)    */
+/* ===================== */
 .modalOverlay {
   position: absolute;
   top: 0;
@@ -267,66 +307,4 @@
   height: 13.05px;
   width: 79.093px;
   object-fit: contain;
-}
-
-.applySection {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  padding-bottom: 50px;
-}
-
-.consultationList {
-  display: flex;
-  gap: 13px;
-  width: 100%;
-  justify-content: center;
-}
-
-.consultationItem {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-}
-
-.consultationIconBox {
-  width: 80px;
-  height: 80px;
-  background-color: #FFFFFF;
-  border-radius: 20px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
-}
-
-.consultationLabel {
-  font-family: 'Pretendard', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  color: #222222;
-  text-align: center;
-  white-space: nowrap;
-}
-
-.applyButton {
-  width: 360px;
-  height: 52px;
-  background-color: #074ED8;
-  border-radius: 26px;
-  border: none;
-  font-family: 'Pretendard', sans-serif;
-  font-size: 18px;
-  font-weight: 700;
-  color: #FFFFFF;
-  margin-top: 51px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0px 4px 10px rgba(7, 78, 216, 0.3);
-}
-
-.applyButton:active {
-  transform: scale(0.98);
 }
