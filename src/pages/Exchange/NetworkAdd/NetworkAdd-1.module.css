@@ -188,14 +188,17 @@
   position: relative;
   height: 138px;
   overflow: hidden;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
 }
 
 .cardCharacterImg {
   position: absolute;
-  right: 0;
-  bottom: 0;
-  width: 100px;
-  height: 100px;
+  right: 8px;
+  bottom: 8px;
+  width: 80px;
+  height: 80px;
   object-fit: contain;
 }
 

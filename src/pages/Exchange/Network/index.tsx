@@ -188,7 +188,7 @@ function NetworkPage() {
     )
   }
 
-  if (friends.length === 0) {
+  if (friends.length === 0 && networkCards.length === 0) {
     return (
       <div className={styles.container}>
         {renderHeader()}
@@ -217,7 +217,11 @@ function NetworkPage() {
               <div key={friend.userId} className={styles.friendItem} onClick={() => handleSelectFriend(friend.userId)}>
                 <div
                   className={`${styles.friendAvatar} ${isActive ? styles.friendAvatarSelected : ''}`}
-                  style={{ background: getGradient(friend.backgroundPattern) }}
+                  style={{
+                    background: toFullUrl(friend.backgroundImageUrl)
+                      ? `url(${toFullUrl(friend.backgroundImageUrl)}) center/cover no-repeat`
+                      : getGradient(friend.backgroundPattern),
+                  }}
                 >
                   {toFullUrl(friend.characterImageUrl) && (
                     <img src={toFullUrl(friend.characterImageUrl)} alt="" />
@@ -262,7 +266,14 @@ function NetworkPage() {
               >
                 {/* 상단 그라데이션 영역 */}
                 <div className={styles.cardTop}>
-                  <div className={styles.cardGradient} style={{ background: getGradient(card.backgroundPattern) }} />
+                  <div
+                    className={styles.cardGradient}
+                    style={{
+                      background: toFullUrl(card.backgroundImageUrl)
+                        ? `url(${toFullUrl(card.backgroundImageUrl)}) center/cover no-repeat`
+                        : getGradient(card.backgroundPattern),
+                    }}
+                  />
 
                   {isCardActive ? (
                     <div className={styles.solidLogo}>
