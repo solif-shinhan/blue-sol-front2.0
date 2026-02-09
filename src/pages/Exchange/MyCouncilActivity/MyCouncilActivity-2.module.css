@@ -1,3 +1,6 @@
+/* MyCouncilActivity-2.module.css - 지난활동, 푸터, 멤버, 규칙 */
+
+/* Past Activities */
 .pastSection {
   display: flex;
   flex-direction: column;
@@ -10,12 +13,13 @@
   padding: 0 5px;
 }
 .pastSectionTitle {
-  font-family: 'ONE-Shinhan', sans-serif;
+  font-family: 'OneShinhan', sans-serif;
   font-weight: 500;
   font-size: 18px;
   line-height: 1.4;
   letter-spacing: -0.36px;
   color: #222222;
+  margin: 0;
 }
 .pastSectionLink {
   font-family: 'Pretendard', sans-serif;
@@ -26,86 +30,61 @@
   background: none;
   border: none;
   cursor: pointer;
+  padding: 0;
 }
 .pastList {
   display: flex;
   flex-direction: column;
-  gap: 16px;
 }
-.pastCard {
+
+/* Past Activity Item (list style) */
+.pastItem {
   position: relative;
+  height: 140px;
   width: 100%;
-  height: 120px;
-  border-radius: 24px;
-  box-shadow: 0 0 30px 0 rgba(27, 37, 56, 0.1);
+  border-bottom: 1px solid #E6E6E6;
   overflow: hidden;
 }
-.pastCardBg {
+.pastItemContent {
   position: absolute;
-  inset: 0;
-}
-.pastCardBg img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 24px;
-}
-.pastCardOverlay {
-  position: absolute;
-  inset: 0;
-  border-radius: 24px;
-  background: linear-gradient(to right, #0A1834 30.4%, rgba(10, 24, 52, 0.8) 50.14%, rgba(10, 24, 52, 0.1));
-}
-.pastCardContent {
-  position: relative;
-  z-index: 1;
+  left: 5px;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  padding: 20px;
-  width: 148px;
+  gap: 10px;
+  width: 234px;
 }
-.pastCardTitles {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-.pastCardRegion {
-  font-family: 'Pretendard', sans-serif;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 1.2;
-  color: #C5ED52;
-  margin: 0;
-}
-.pastCardName {
-  font-family: 'Pretendard', sans-serif;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 1.2;
-  color: #FFFFFF;
-  margin: 0;
-}
-.pastCardMeta {
+.pastItemMeta {
   display: flex;
   align-items: center;
   gap: 6px;
 }
-.pastCardStats {
+.pastItemRegion {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #074ED8;
+}
+.pastItemMetaDivider {
+  height: 12px;
+}
+.pastItemStats {
   display: flex;
   align-items: center;
   gap: 2px;
 }
-.pastCardStat {
+.pastItemStat {
   display: flex;
   align-items: center;
   gap: 2px;
 }
-.pastCardStatIcon {
+.pastItemStatIcon {
   width: 18px;
   height: 18px;
 }
-.pastCardStatText {
+.pastItemStatText {
   font-family: 'Pretendard', sans-serif;
   font-weight: 600;
   font-size: 12px;
@@ -113,24 +92,60 @@
   letter-spacing: -0.48px;
   color: #C8C8C8;
 }
-.pastCardMetaDivider {
-  height: 10px;
-}
-.pastCardDate {
+.pastItemDate {
   font-family: 'Pretendard', sans-serif;
   font-weight: 600;
   font-size: 12px;
   line-height: 1.2;
   letter-spacing: -0.48px;
   color: #C8C8C8;
+}
+.pastItemInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+.pastItemTitle {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.2;
+  color: #000000;
+  margin: 0;
+}
+.pastItemDescription {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #848484;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.pastItemThumb {
+  position: absolute;
+  right: 0;
+  top: 17px;
+  width: 105px;
+  height: 105px;
+  border-radius: 16px;
+  object-fit: cover;
 }
 
+/* Footer */
 .footer {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 13px;
   padding: 40px 0;
+  height: 160px;
+  box-sizing: border-box;
 }
 .logoutButton {
   padding: 10px 16px;
@@ -140,12 +155,14 @@
   font-family: 'Pretendard', sans-serif;
   font-size: 13px;
   font-weight: 400;
-  color: #222222;
+  color: #000000;
   cursor: pointer;
   height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
+  letter-spacing: -0.26px;
+  line-height: 1.2;
 }
 .footerLogo {
   padding: 10px 16px;
@@ -157,10 +174,11 @@
   justify-content: center;
 }
 .footerLogo img {
-  height: 16px;
+  height: 17px;
   object-fit: contain;
 }
 
+/* Member Section */
 .memberSection {
   display: flex;
   flex-direction: column;
@@ -173,7 +191,7 @@
   padding: 0 5px;
 }
 .memberTitle {
-  font-family: 'ONE-Shinhan', sans-serif;
+  font-family: 'OneShinhan', sans-serif;
   font-weight: 500;
   font-size: 18px;
   line-height: 1.4;
@@ -265,6 +283,7 @@
   background: #696969;
 }
 
+/* Rules Section */
 .rulesSection {
   display: flex;
   flex-direction: column;
@@ -280,7 +299,7 @@
   padding: 0 5px;
 }
 .rulesSectionTitle {
-  font-family: 'ONE-Shinhan', sans-serif;
+  font-family: 'OneShinhan', sans-serif;
   font-weight: 500;
   font-size: 18px;
   line-height: 1.4;
@@ -321,6 +340,7 @@
   padding: 19px 17px;
   display: flex;
   align-items: center;
+  box-sizing: border-box;
 }
 .ruleCardText {
   font-family: 'Pretendard', sans-serif;

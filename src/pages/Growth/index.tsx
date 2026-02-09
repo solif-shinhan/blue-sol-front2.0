@@ -30,6 +30,7 @@ const TopBackground = ({ phase, onPhaseEnd }: {
   onPhaseEnd: () => void
 }) => {
   const tree2Ref = useRef<HTMLVideoElement>(null)
+  const [videoReady, setVideoReady] = useState(false)
   const isPlaying = phase === 'playing'
 
   useEffect(() => {
@@ -41,8 +42,8 @@ const TopBackground = ({ phase, onPhaseEnd }: {
 
   return (
     <>
-      <div className={styles1.topBackground} />
-      <div className={styles1.topGraphic}>
+      <div className={styles1.topBackground} style={{ opacity: videoReady ? 1 : 0, transition: 'opacity 0.3s ease' }} />
+      <div className={styles1.topGraphic} style={{ opacity: videoReady ? 1 : 0, transition: 'opacity 0.3s ease' }}>
         {/* 기본 루프 영상 (항상 재생) */}
         <video
           autoPlay
@@ -50,6 +51,7 @@ const TopBackground = ({ phase, onPhaseEnd }: {
           muted
           playsInline
           className={styles1.topGraphicVideo}
+          onCanPlay={() => setVideoReady(true)}
         >
           <source src={videoTree} type="video/mp4" />
         </video>

@@ -129,6 +129,35 @@ Height: 852px
 
 ---
 
+## 헤더 규칙 (필수)
+
+### 1. 상단 여백 70px 고정
+- 모든 서브 페이지 헤더의 상단 여백은 **70px 고정**
+- `margin-top: 70px` 또는 `padding-top: 70px` 또는 `top: 70px` (absolute/fixed일 때)
+
+### 2. 기준 페이지
+- `/exchange/network` (Network 페이지)를 헤더 레이아웃의 기준으로 사용
+
+### 3. 헤더 CSS 표준 패턴
+```css
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 22px;
+  height: 40px;
+  margin-top: 70px;
+  flex-shrink: 0;
+}
+```
+
+### 4. 아이콘 표준
+- **뒤로가기 아이콘**: `@/assets/images/network/2107e80ddcb5d091c59aaa449d05031a375ef1a0.svg`
+- **검색 아이콘**: `@/assets/images/network/e1e12166e22b287c6f9f01541da749c3439b5ba2.svg`
+- 새 페이지 생성 시 반드시 위 아이콘을 사용
+
+---
+
 ## 코딩 규칙
 
 ### 파일 크기 제한 (400줄 규칙)

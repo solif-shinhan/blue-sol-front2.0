@@ -1,6 +1,6 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { recognizeReceipt } from '@/services/ocrService'
+import { uploadFile, recognizeReceiptOcr } from '@/services/fileService'
 import styles1 from './ReceiptAttach-1.module.css'
 import styles2 from './ReceiptAttach-2.module.css'
 
@@ -10,11 +10,15 @@ import closeIconSvg from '@/assets/images/receipt/0b7bc06416da92a5ef1b39ad0d8fbf
 import cameraIconSvg from '@/assets/images/receipt/bd13a94209839c4aa3692f23244735564b23ad63.svg'
 import thumbDeleteSvg from '@/assets/images/receipt/3e988d8574a9b447a8297f648d16605371163ce6.svg'
 
+const SCAN_KEYWORDS = ['합계', '결제금액', '총액', '카드결제', 'Total']
+const SCAN_DURATION = 3000
+
 interface ReceiptImage {
   id: string
   file: File
   preview: string
   amount: number
+  fileId?: number
 }
 
 interface LocationState {
@@ -35,17 +39,49 @@ function ReceiptAttachPage() {
 
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [receiptImages, setReceiptImages] = useState<ReceiptImage[]>([])
-  const [isProcessing, setIsProcessing] = useState(false)
+  const [isScanning, setIsScanning] = useState(false)
+  const [scanKeywordIdx, setScanKeywordIdx] = useState(0)
   const [lastRecognizedAmount, setLastRecognizedAmount] = useState<number>(0)
   const [totalAmount, setTotalAmount] = useState<number>(0)
-  const [showOverlay, setShowOverlay] = useState(false)
+  const [showResult, setShowResult] = useState(false)
   const [isCompleteMode, setIsCompleteMode] = useState(false)
+
+  const pendingResultRef = useRef<{ amount: number; imageId: string; fileId: number } | null>(null)
+  const scanTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // Rotate scan keywords during scanning
+  useEffect(() => {
+    if (!isScanning) return
+    const interval = setInterval(() => {
+      setScanKeywordIdx((prev) => (prev + 1) % SCAN_KEYWORDS.length)
+    }, 600)
+    return () => clearInterval(interval)
+  }, [isScanning])
+
+  // Show result after scan completes (minimum 3s + API done)
+  const finishScan = useCallback(() => {
+    const result = pendingResultRef.current
+    if (!result) return
+
+    setReceiptImages((prev) =>
+      prev.map((img) =>
+        img.id === result.imageId
+          ? { ...img, amount: result.amount, fileId: result.fileId }
+          : img
+      )
+    )
+    setLastRecognizedAmount(result.amount)
+    setTotalAmount((prev) => prev + result.amount)
+    pendingResultRef.current = null
+    setIsScanning(false)
+    setShowResult(true)
+  }, [])
 
   const handleClose = () => {
     navigate(-1)
   }
 
-  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
     e.target.value = ''
@@ -59,29 +95,41 @@ function ReceiptAttachPage() {
     }
 
     setReceiptImages((prev) => [...prev, newImage])
-    setIsProcessing(true)
-    setShowOverlay(false)
+    setShowResult(false)
+  }
+
+  const handleRecognize = async () => {
+    const lastImage = receiptImages[receiptImages.length - 1]
+    if (!lastImage || lastImage.fileId || isScanning) return
+
+    setIsScanning(true)
+    setScanKeywordIdx(0)
+    pendingResultRef.current = null
+
+    // Start minimum 3s timer
+    let scanDone = false
+    let apiDone = false
+
+    const tryFinish = () => {
+      if (scanDone && apiDone) finishScan()
+    }
+
+    scanTimerRef.current = setTimeout(() => {
+      scanDone = true
+      tryFinish()
+    }, SCAN_DURATION)
 
     try {
-      const result = await recognizeReceipt(file)
-      newImage.amount = result.amount
-      setLastRecognizedAmount(result.amount)
-      setTotalAmount((prev) => prev + result.amount)
-      setReceiptImages((prev) =>
-        prev.map((img) => (img.id === newImage.id ? { ...img, amount: result.amount } : img))
-      )
-      setShowOverlay(true)
-    } catch {
-      const demoAmount = 7080
-      newImage.amount = demoAmount
-      setLastRecognizedAmount(demoAmount)
-      setTotalAmount((prev) => prev + demoAmount)
-      setReceiptImages((prev) =>
-        prev.map((img) => (img.id === newImage.id ? { ...img, amount: demoAmount } : img))
-      )
-      setShowOverlay(true)
-    } finally {
-      setIsProcessing(false)
+      const uploaded = await uploadFile(lastImage.file, 'COUNCIL_REVIEW')
+      const amount = await recognizeReceiptOcr(uploaded.fileId)
+      pendingResultRef.current = { amount, imageId: lastImage.id, fileId: uploaded.fileId }
+      apiDone = true
+      tryFinish()
+    } catch (err) {
+      console.error('영수증 인식 실패:', err)
+      if (scanTimerRef.current) clearTimeout(scanTimerRef.current)
+      setIsScanning(false)
+      alert('영수증 인식에 실패했습니다. 다시 시도해주세요.')
     }
   }
 
@@ -92,24 +140,24 @@ function ReceiptAttachPage() {
     }
   }
 
-  const handleRecognize = () => {
-    triggerFileInput()
-  }
-
   const handleAddMore = () => {
-    setShowOverlay(false)
+    setShowResult(false)
     triggerFileInput()
   }
 
   const handleEnterCompleteMode = () => {
-    setShowOverlay(false)
+    setShowResult(false)
     setIsCompleteMode(true)
   }
 
   const handleComplete = () => {
+    const receiptFileIds = receiptImages
+      .filter((img) => img.fileId)
+      .map((img) => img.fileId as number)
     navigate('/exchange/write/review', {
       state: {
         receiptAmount: totalAmount,
+        receiptFileId: receiptFileIds[0] ?? null,
         expenseIndex,
         prevTitle: locationState.prevTitle,
         prevDateTime: locationState.prevDateTime,
@@ -138,7 +186,6 @@ function ReceiptAttachPage() {
         ref={fileInputRef}
         type="file"
         accept="image/*"
-        capture="environment"
         onChange={handleFileSelect}
         style={{ display: 'none' }}
       />
@@ -155,6 +202,16 @@ function ReceiptAttachPage() {
         </div>
       )}
 
+      {/* Scanning animation overlay */}
+      {isScanning && (
+        <div className={styles.scanOverlay}>
+          <div className={styles.scanLine} />
+          <div className={styles.scanKeyword} style={{ top: '45%' }}>
+            {SCAN_KEYWORDS[scanKeywordIdx]} 인식 중...
+          </div>
+        </div>
+      )}
+
       {/* Status Bar */}
       <div className={styles.statusBar} />
 
@@ -167,7 +224,7 @@ function ReceiptAttachPage() {
             </button>
             <span className={styles.headerTitle}>영수증 첨부</span>
           </div>
-          {isRecognized && !isCompleteMode && (
+          {isRecognized && !isCompleteMode && !isScanning && (
             <button className={styles.completeHeaderBtn} onClick={handleEnterCompleteMode}>
               첨부 완료
             </button>
@@ -192,14 +249,14 @@ function ReceiptAttachPage() {
       )}
 
       {/* Processing Badge */}
-      {isProcessing && (
+      {isScanning && (
         <div className={styles.processingBadge}>
           <span className={styles.processingText}>영수증 정보를 인식 중입니다.</span>
         </div>
       )}
 
-      {/* Recognition Overlay */}
-      {showOverlay && !isCompleteMode && (
+      {/* Recognition Result Popup */}
+      {showResult && !isCompleteMode && (
         <div className={styles.recognitionOverlay}>
           <div className={styles.recognitionText}>
             지출액 <span className={styles.recognitionAmount}>
@@ -212,8 +269,8 @@ function ReceiptAttachPage() {
         </div>
       )}
 
-      {/* Thumbnail Count Badge (adding mode, not complete) */}
-      {hasImages && !isCompleteMode && (
+      {/* Thumbnail Count Badge */}
+      {hasImages && !isCompleteMode && !isScanning && (
         <div className={styles.thumbnailBadge}>
           {receiptImages.length > 0 && (
             <img
@@ -244,7 +301,7 @@ function ReceiptAttachPage() {
       )}
 
       {/* Amount Row */}
-      {hasImages && (
+      {hasImages && !isScanning && (
         <div className={styles.amountRow}>
           <span className={styles.amountLabel}>인식 금액 합계</span>
           <span className={styles.amountValue}>{totalAmount.toLocaleString()}원</span>
@@ -252,15 +309,15 @@ function ReceiptAttachPage() {
       )}
 
       {/* CTA Area */}
-      {hasImages && (
+      {hasImages && !isScanning && (
         <div className={styles.ctaArea}>
           {isCompleteMode ? (
             <button className={styles.ctaButtonFull} onClick={handleComplete}>
               완료
             </button>
-          ) : isRecognized ? (
+          ) : showResult ? (
             <>
-              <button className={styles.cameraButton} onClick={triggerFileInput}>
+              <button className={styles.cameraButton} onClick={handleAddMore}>
                 <img src={cameraIconSvg} alt="카메라" className={styles.cameraIcon} />
               </button>
               <button className={styles.ctaButtonFaded} onClick={handleAddMore}>
@@ -272,7 +329,10 @@ function ReceiptAttachPage() {
               <button className={styles.cameraButton} onClick={triggerFileInput}>
                 <img src={cameraIconSvg} alt="카메라" className={styles.cameraIcon} />
               </button>
-              <button className={styles.ctaButtonPrimary} onClick={handleRecognize}>
+              <button
+                className={styles.ctaButtonPrimary}
+                onClick={handleRecognize}
+              >
                 금액 인식하기
               </button>
             </>

@@ -16,18 +16,19 @@ export interface PostItem {
   isLiked: boolean
   createdAt: string
   updatedAt: string
-  images?: string[]
+  imageUrls?: string[]
 }
 
 export interface PostDetail extends PostItem {
-  images: string[]
+  imageUrls: string[]
 }
 
 export interface CreatePostRequest {
   boardId: number
-  title: string
-  content: string
-  category: PostCategory
+  postTitle: string
+  postContent: string
+  postCategory: PostCategory
+  fileIds?: number[]
 }
 
 export interface UpdatePostRequest {

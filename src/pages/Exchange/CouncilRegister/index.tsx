@@ -1,23 +1,31 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles1 from './CouncilRegister-1.module.css'
 import styles2 from './CouncilRegister-2.module.css'
 import { useCouncilStatus, useSessionStorage, clearSessionGroup } from '@/hooks'
-import backArrowIcon from '@/assets/images/IOS Arrow/undefined/Glyph_ undefined.svg'
-import { createCouncil } from '@/services'
+import { BackHeader } from '@/components/BackHeader'
+import { createCouncil, getProfile, type ProfileData } from '@/services'
+import { uploadFile } from '@/services/fileService'
+import characterCat from '@/assets/images/character-cat.png'
+import logoShinhan from '@/assets/images/logo-shinhan-foundation.png'
+import removeIcon from '@/assets/images/council/4d69de4e468b2fc4fdb0dd71f55c582bcd74c605.svg'
+import plusIcon from '@/assets/images/council/4de7b4619a8a7217458e36fa3215adb3643f60eb.svg'
 
 const styles = { ...styles1, ...styles2 }
 
-interface TeamMember {
-  id: string
+interface RegisterMember {
+  userId: number
   name: string
-  avatarColor: 'blue' | 'lightBlue' | 'gray'
+  profileImageUrl?: string
 }
+
+const AVATAR_COLORS = ['blue', 'lightBlue', 'gray'] as const
 
 export function CouncilRegister() {
   const navigate = useNavigate()
   const { setHasCouncil } = useCouncilStatus()
   const [showSuccess, setShowSuccess] = useState(false)
+  const [registeredName, setRegisteredName] = useState('')
   const [step, setStep] = useSessionStorage('council-reg:step', 1)
 
   const [formData, setFormData] = useSessionStorage('council-reg:form', {
@@ -31,16 +39,32 @@ export function CouncilRegister() {
   const [rules, setRules] = useSessionStorage<string[]>('council-reg:rules', [])
   const [newRuleInput, setNewRuleInput] = useState('')
 
-  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([])
+  const [teamMembers, setTeamMembers] = useSessionStorage<RegisterMember[]>('council-reg:members', [])
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [photoPreview, setPhotoPreview] = useSessionStorage<string | null>('council-reg:photo', null)
+  const [photoFileId, setPhotoFileId] = useSessionStorage<number | null>('council-reg:photoFileId', null)
   const photoInputRef = useRef<HTMLInputElement>(null)
+  const [myProfile, setMyProfile] = useState<ProfileData | null>(null)
 
-  const handlePhotoSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    getProfile().then(res => {
+      if (res.success) setMyProfile(res.data)
+    }).catch(() => {})
+  }, [])
+
+  const handlePhotoSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
     e.target.value = ''
-    setPhotoPreview(URL.createObjectURL(file))
+    const reader = new FileReader()
+    reader.onload = () => setPhotoPreview(reader.result as string)
+    reader.readAsDataURL(file)
+    try {
+      const uploaded = await uploadFile(file, 'COUNCIL_REVIEW')
+      setPhotoFileId(uploaded.fileId)
+    } catch (err) {
+      console.error('사진 업로드 실패:', err)
+    }
   }
 
   const isStep1Valid =
@@ -50,7 +74,7 @@ export function CouncilRegister() {
 
   const isStep2Valid =
     teamMembers.length >= 1 &&
-    rules.length > 0
+    (rules.length > 0 || newRuleInput.trim() !== '')
 
   const handleInputChange = (field: keyof typeof formData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }))
@@ -60,8 +84,8 @@ export function CouncilRegister() {
     navigate('/exchange/council/member/add')
   }
 
-  const handleRemoveMember = (id: string) => {
-    setTeamMembers(prev => prev.filter(m => m.id !== id))
+  const handleRemoveMember = (userId: number) => {
+    setTeamMembers(prev => prev.filter(m => m.userId !== userId))
   }
 
   const handleAddRule = () => {
@@ -85,23 +109,36 @@ export function CouncilRegister() {
   const handleSubmit = async () => {
     if (!isStep2Valid || isSubmitting) return
 
+    // 입력 중인 규칙이 있으면 자동 추가
+    const finalRules = [...rules]
+    if (newRuleInput.trim()) {
+      finalRules.push(newRuleInput.trim())
+      setRules(finalRules)
+      setNewRuleInput('')
+    }
+
     setIsSubmitting(true)
     try {
+      const budgetNum = parseInt(formData.budget.replace(/[^0-9]/g, ''), 10) || 0
       const response = await createCouncil({
-        name: formData.councilName,
-        description: formData.introduction,
+        councilName: formData.councilName,
         region: formData.activityRegion,
-        topic: formData.activityTopic,
-        goal: formData.introduction,
+        activityCategory: formData.activityTopic,
+        description: formData.introduction || undefined,
+        totalBudget: budgetNum,
+        profileImageFileId: photoFileId || undefined,
+        memberUserIds: teamMembers.map(m => m.userId),
+        rules: finalRules.length > 0 ? finalRules : undefined,
       })
 
       if (response.success) {
+        setRegisteredName(formData.councilName)
         clearSessionGroup('council-reg:')
         setHasCouncil(true)
         setShowSuccess(true)
         setTimeout(() => {
           navigate('/exchange')
-        }, 3000)
+        }, 4000)
       }
     } catch (err) {
       console.error('자치회 등록 실패:', err)
@@ -115,28 +152,27 @@ export function CouncilRegister() {
     if (step === 2) {
       setStep(1)
     } else {
-      navigate(-1)
+      navigate('/exchange')
     }
   }
 
   if (showSuccess) {
     return (
-      <div className={styles.successModal}>
-        <div className={styles.successContent}>
-          <div className={styles.successIcon} />
-          <p className={styles.successMessage}>
-            자치회 활동 예산이 배정되면<br />
-            알림으로 바로 알려드릴게요!
-          </p>
-          <h2 className={styles.successTitle}>등록 신청 완료!</h2>
-          <div className={styles.successLogo}>
-            <img
-              src="/shinhan-logo.svg"
-              alt="신한장학재단"
-              className={styles.successLogoIcon}
-            />
-            <span className={styles.successLogoText}>신한장학재단</span>
-          </div>
+      <div className={styles.successOverlay}>
+        <img
+          src={characterCat}
+          alt="마스코트"
+          className={styles.successMascot}
+        />
+        <p className={styles.successCouncilName}>{registeredName}</p>
+        <h2 className={styles.successTitle}>자치회 등록 완료</h2>
+        <div className={styles.successLogo}>
+          <img
+            src={logoShinhan}
+            alt="신한장학재단"
+            className={styles.successLogoIcon}
+          />
+          <span className={styles.successLogoText}>신한장학재단</span>
         </div>
       </div>
     )
@@ -144,14 +180,7 @@ export function CouncilRegister() {
 
   return (
     <div className={styles.container}>
-      <header className={styles.header}>
-        <div className={styles.headerLeft}>
-          <button className={styles.backButton} onClick={handleBack}>
-            <img src={backArrowIcon} alt="뒤로가기" />
-          </button>
-          <h1 className={styles.headerTitle}>자치회 등록하기</h1>
-        </div>
-      </header>
+      <BackHeader title="자치회 등록하기" onBack={handleBack} />
 
       <main className={styles.content}>
         {step === 1 && (
@@ -266,21 +295,42 @@ export function CouncilRegister() {
                 함께할 팀원을 최소 1명 이상 등록해주세요.
               </p>
               <div className={styles.teamMembers}>
+                <div className={styles.memberItem}>
+                  <div className={`${styles.memberAvatar} ${styles.memberAvatarBlue}`}>
+                    {myProfile?.characterImageUrl && (
+                      <img src={myProfile.characterImageUrl} alt="나"
+                        style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                    )}
+                  </div>
+                  <span className={styles.meName}>나</span>
+                </div>
+                {teamMembers.map((member, index) => {
+                  const colorClass = AVATAR_COLORS[index % AVATAR_COLORS.length]
+                  return (
+                    <div key={member.userId} className={styles.memberItem}>
+                      <button className={styles.memberRemoveBtn} onClick={() => handleRemoveMember(member.userId)}>
+                        <img src={removeIcon} alt="삭제" />
+                      </button>
+                      <div
+                        className={`${styles.memberAvatar} ${
+                          colorClass === 'blue' ? styles.memberAvatarBlue :
+                          colorClass === 'lightBlue' ? styles.memberAvatarLightBlue :
+                          styles.memberAvatarGray
+                        }`}
+                      >
+                        {member.profileImageUrl && (
+                          <img src={member.profileImageUrl} alt={member.name}
+                            style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                        )}
+                      </div>
+                      <span className={styles.memberName}>{member.name}</span>
+                    </div>
+                  )
+                })}
                 <button className={styles.addMemberButton} onClick={handleAddMember}>
-                  <div className={styles.addMemberIcon}>+</div>
+                  <img src={plusIcon} alt="추가" className={styles.addMemberIconImg} />
                   <span className={styles.addMemberLabel}>추가하기</span>
                 </button>
-                {teamMembers.map((member) => (
-                  <div key={member.id} className={styles.memberItem} onClick={() => handleRemoveMember(member.id)}>
-                    <div
-                      className={`${styles.memberAvatar} ${member.avatarColor === 'blue' ? styles.memberAvatarBlue :
-                          member.avatarColor === 'lightBlue' ? styles.memberAvatarLightBlue :
-                            styles.memberAvatarGray
-                        }`}
-                    />
-                    <span className={styles.memberName}>{member.name}</span>
-                  </div>
-                ))}
               </div>
             </section>
 

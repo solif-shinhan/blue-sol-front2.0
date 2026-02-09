@@ -22,8 +22,7 @@
   align-items: center;
   justify-content: space-between;
   height: 40px;
-  padding: 0 22px;
-  margin-top: 70px;
+  padding: 70px 22px 0;
   flex-shrink: 0;
 }
 
@@ -83,8 +82,7 @@
   align-items: center;
   gap: 12px;
   height: 40px;
-  padding: 0 22px;
-  margin-top: 70px;
+  padding: 70px 22px 0;
   flex-shrink: 0;
 }
 

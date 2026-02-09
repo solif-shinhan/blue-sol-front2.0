@@ -19,15 +19,14 @@
 }
 
 .safeArea {
-  height: 57px;
-  flex-shrink: 0;
+  display: none;
 }
 
 /* Header */
 .header {
   display: flex;
   align-items: center;
-  padding: 0 21px;
+  padding: 70px 22px 0;
   height: 40px;
   flex-shrink: 0;
 }
@@ -111,6 +110,16 @@
   object-fit: contain;
 }
 
+.categoryImageOverlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 80px;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.34) 0%, #FFFFFF 100%);
+  pointer-events: none;
+}
+
 .categoryTextGroup {
   display: flex;
   flex-direction: column;
@@ -170,7 +179,7 @@
   font-weight: 600;
   font-size: 14px;
   line-height: 1.4;
-  color: #074ED8;
+  color: #848484;
   transition: all 0.2s ease;
   white-space: nowrap;
 }

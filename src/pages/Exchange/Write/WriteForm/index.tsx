@@ -4,6 +4,7 @@ import styles from './WriteForm.module.css'
 import { BoardCategory } from '../../types'
 import backArrowIcon from '@/assets/images/Glyph_ undefined.svg'
 import { createPost, CATEGORY_MAP } from '@/services'
+import { uploadFile } from '@/services/fileService'
 import { useSessionStorage, clearSessionGroup } from '@/hooks'
 
 const MAX_TITLE_LENGTH = 50
@@ -18,7 +19,7 @@ function WriteFormPage() {
 
   const [title, setTitle] = useSessionStorage('write-form:title', '')
   const [content, setContent] = useSessionStorage('write-form:content', '')
-  const [images, setImages] = useState<{ file: File; preview: string }[]>([])
+  const [images, setImages] = useState<{ file: File; preview: string; id: string; fileId?: number }[]>([])
 
   if (!category) {
     navigate('/exchange/write')
@@ -56,13 +57,25 @@ function WriteFormPage() {
     const remainingSlots = MAX_IMAGES - images.length
     const filesToAdd = Array.from(files).slice(0, remainingSlots)
 
-    const newImages = filesToAdd.map((file) => ({
-      file,
-      preview: URL.createObjectURL(file),
-    }))
+    const newImages = filesToAdd.map((file) => {
+      const id = Date.now().toString() + Math.random().toString(36).slice(2)
+      return { file, preview: URL.createObjectURL(file), id }
+    })
 
     setImages((prev) => [...prev, ...newImages])
     e.target.value = ''
+
+    newImages.forEach((img) => {
+      uploadFile(img.file, 'POST')
+        .then((uploaded) => {
+          setImages((prev) =>
+            prev.map((i) =>
+              i.id === img.id ? { ...i, fileId: uploaded.fileId } : i
+            )
+          )
+        })
+        .catch((err) => console.error('이미지 업로드 실패:', err))
+    })
   }
 
   const handleRemoveImage = (index: number) => {
@@ -82,11 +95,15 @@ function WriteFormPage() {
     setIsSubmitting(true)
     try {
       const apiCategory = CATEGORY_MAP[category] || 'ETC'
+      const fileIds = images
+        .map((img) => img.fileId)
+        .filter((id): id is number => id !== undefined)
       const response = await createPost({
-        boardId: 1, // 기본 게시판 ID
-        title: title.trim(),
-        content: content.trim(),
-        category: apiCategory,
+        boardId: 3, // 토닥토닥 고민상담
+        postTitle: title.trim(),
+        postContent: content.trim(),
+        postCategory: apiCategory,
+        ...(fileIds.length > 0 && { fileIds }),
       })
 
       if (response.success) {

@@ -23,7 +23,7 @@ function ActivityRules({ councilId }: ActivityRulesProps) {
       try {
         const response = await getCouncilRules(councilId)
         if (response.success) {
-          setRules(response.data)
+          setRules(Array.isArray(response.data) ? response.data : [])
         }
       } catch (err) {
         console.error('규칙 조회 실패:', err)

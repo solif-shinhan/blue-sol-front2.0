@@ -1,6 +1,7 @@
 import { useState, Fragment } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import styles from './MessageCompose.module.css'
+import { sendMessage } from '@/services'
 
 function MessageComposePage() {
   const navigate = useNavigate()
@@ -8,21 +9,36 @@ function MessageComposePage() {
 
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
+  const [isSending, setIsSending] = useState(false)
 
   const recipientName = searchParams.get('to') || ''
   const recipientTag = searchParams.get('tag') || ''
   const recipientImage = searchParams.get('img') || ''
+  const recipientUserId = searchParams.get('userId') || ''
 
-  const isValid = title.trim().length > 0 && content.trim().length > 0
+  const isValid = title.trim().length > 0 && content.trim().length > 0 && !!recipientUserId
 
   const handleClose = () => {
     navigate(-1)
   }
 
-  const handleSubmit = () => {
-    if (!isValid) return
-    console.log('Send message:', { title, content, recipientName })
-    navigate('/notifications?tab=activity&sub=message&sent=true')
+  const handleSubmit = async () => {
+    if (!isValid || isSending) return
+    setIsSending(true)
+    try {
+      const res = await sendMessage({
+        receiverId: Number(recipientUserId),
+        messageTitle: title.trim(),
+        messageContent: content.trim(),
+      })
+      if (res.success) {
+        navigate('/notifications?tab=activity&sub=message&sent=true')
+      }
+    } catch {
+      alert('쪽지 전송에 실패했습니다.')
+    } finally {
+      setIsSending(false)
+    }
   }
 
   const tags = recipientTag ? recipientTag.split('|').map(t => t.trim()) : []
@@ -120,9 +136,9 @@ function MessageComposePage() {
         <button
           className={`${styles.submitButton} ${isValid ? styles.submitButtonActive : ''}`}
           onClick={handleSubmit}
-          disabled={!isValid}
+          disabled={!isValid || isSending}
         >
-          보내기
+          {isSending ? '전송 중...' : '보내기'}
         </button>
       </div>
     </div>

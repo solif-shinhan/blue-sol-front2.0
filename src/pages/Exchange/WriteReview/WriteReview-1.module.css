@@ -27,8 +27,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 60px 22px 0;
-  height: 90px;
+  padding: 70px 22px 0;
+  height: 100px;
 }
 
 .headerLeft {

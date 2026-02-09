@@ -4,8 +4,8 @@ import styles1 from './MyCouncilActivity-1.module.css'
 import styles2 from './MyCouncilActivity-2.module.css'
 const styles = { ...styles1, ...styles2 }
 import { BackHeader } from '@/components/BackHeader'
-import heroBgImg from '@/assets/images/myactivitysummary/Frame 2147230564.png'
-import editIcon from '@/assets/images/myactivitysummary/Union.svg'
+import heroBgImg from '@/assets/images/council/00833882333ac227511e63c448cbca38a45a2f25.png'
+import shinhanLogoImg from '@/assets/images/council/057453724e8f804d5306e38ceabfcf7513cbed10.png'
 import ActivitySummary from './ActivitySummary'
 import ActivityMembers from './ActivityMembers'
 import ActivityRules from './ActivityRules'
@@ -16,6 +16,7 @@ function MyCouncilActivityPage() {
   const [activeTab, setActiveTab] = useState('활동 요약')
   const [council, setCouncil] = useState<Council | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [isCardCollapsed, setIsCardCollapsed] = useState(false)
 
   useEffect(() => {
     const fetchCouncil = async () => {
@@ -40,6 +41,14 @@ function MyCouncilActivityPage() {
     navigate('/login')
   }
 
+  const formatDate = (dateStr: string) => {
+    if (!dateStr) return ''
+    const d = new Date(dateStr)
+    const y = d.getFullYear()
+    const m = String(d.getMonth() + 1).padStart(2, '0')
+    return `${y}.${m}`
+  }
+
   if (isLoading) {
     return (
       <div className={styles.container}>
@@ -58,29 +67,41 @@ function MyCouncilActivityPage() {
 
   return (
     <div className={styles.container}>
+      <div className={styles.headerOverlay}>
+        <BackHeader
+          title="나의 자치회"
+          backTo="/exchange"
+          rightContent={
+            <button className={styles.editButton}>편집</button>
+          }
+        />
+      </div>
+
       <div className={styles.hero}>
         <div className={styles.heroBg}>
           <img src={heroBgImg} alt="" />
         </div>
         <div className={styles.heroGradient} />
 
-        <BackHeader
-          theme="dark"
-          title="나의 자치회"
-          rightContent={
-            <button className={styles.editButton}>
-              <img src={editIcon} alt="편집" />
-            </button>
-          }
-        />
-
-        <div className={styles.heroContent}>
-          <h1 className={styles.heroTitle}>{council.name}</h1>
+        <div className={`${styles.heroCard} ${isCardCollapsed ? styles.heroCardCollapsed : ''}`}>
+          <div className={styles.heroCardHeader}>
+            <h1 className={styles.heroCardName}>{council.name}</h1>
+            <div className={styles.heroCardRight}>
+              <span className={styles.heroCardDate}>{formatDate(council.createdAt)}</span>
+              <button
+                className={styles.heroCardToggle}
+                onClick={() => setIsCardCollapsed(!isCardCollapsed)}
+              >
+                {isCardCollapsed ? '자세히보기' : '간략히 보기'}
+              </button>
+            </div>
+          </div>
+          {!isCardCollapsed && (
+            <p className={styles.heroCardDescription}>
+              {council.description || council.goal || '자치회 설명이 없습니다.'}
+            </p>
+          )}
         </div>
-
-        <p className={styles.heroDescription}>
-          {council.description || council.goal || '자치회 설명이 없습니다.'}
-        </p>
       </div>
 
       <div className={styles.tabBar}>
@@ -104,7 +125,7 @@ function MyCouncilActivityPage() {
       <footer className={styles.footer}>
         <button type="button" className={styles.logoutButton} onClick={handleLogout}>로그아웃</button>
         <div className={styles.footerLogo}>
-          <img src="/shinhan-logo.svg" alt="신한장학재단" />
+          <img src={shinhanLogoImg} alt="신한장학재단" />
         </div>
       </footer>
     </div>

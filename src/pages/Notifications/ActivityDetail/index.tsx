@@ -4,6 +4,7 @@ import styles from './ActivityDetail.module.css'
 import {
   getNotificationDetail,
   markNotificationAsRead,
+  deleteMessage,
   type NotificationDetail,
 } from '@/services'
 
@@ -62,21 +63,36 @@ function ActivityDetailPage() {
   }
 
   const handleViewSolid = () => {
-    navigate('/home')
+    if (notification?.targetId) {
+      navigate(`/exchange/network/friend/${notification.targetId}`)
+    }
   }
 
   const handleSendMessage = () => {
-    console.log('Send message')
+    if (!notification) return
+    const name = notification.senderName || ''
+    const userId = notification.targetId || ''
+    navigate(`/notifications/message/compose?to=${encodeURIComponent(name)}&userId=${userId}`)
   }
 
-  const handleDelete = () => {
-    // TODO: 쪽지 삭제 API 호출
-    console.log('Delete message', id)
+  const handleDelete = async () => {
+    if (!id) return
+    if (!confirm('쪽지를 삭제하시겠습니까?')) return
+    try {
+      const res = await deleteMessage(Number(id))
+      if (res.success) {
+        navigate('/notifications?tab=activity&sub=message')
+      }
+    } catch {
+      alert('삭제에 실패했습니다.')
+    }
   }
 
   const handleReply = () => {
-    const name = notification?.senderName || ''
-    navigate(`/notifications/message/compose${name ? `?to=${encodeURIComponent(name)}` : ''}`)
+    if (!notification) return
+    const name = notification.senderName || ''
+    const targetId = notification.targetId || ''
+    navigate(`/notifications/message/compose?to=${encodeURIComponent(name)}&userId=${targetId}`)
   }
 
   if (isLoading) {

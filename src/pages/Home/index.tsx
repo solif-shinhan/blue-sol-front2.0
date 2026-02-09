@@ -58,11 +58,17 @@ function HomePage() {
   const [region, setRegion] = useState('')
   const [school, setSchool] = useState('')
   const [newsItems, setNewsItems] = useState<NotificationItem[]>([])
-  const [, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true)
+  const containerRef = useRef<HTMLDivElement>(null)
   const sliderRef = useRef<HTMLDivElement>(null)
   const isDragging = useRef(false)
   const startX = useRef(0)
   const scrollLeft = useRef(0)
+
+  // 페이지 진입 시 스크롤 top으로 리셋
+  useEffect(() => {
+    containerRef.current?.scrollTo(0, 0)
+  }, [])
 
   // 목표 데이터 (localStorage)
   const goalData = useMemo(() => {
@@ -173,7 +179,6 @@ function HomePage() {
 
   const handleDragMove = (e: React.MouseEvent | React.TouchEvent) => {
     if (!isDragging.current || !sliderRef.current) return
-    e.preventDefault()
     const x = 'touches' in e ? e.touches[0].pageX : e.pageX
     sliderRef.current.scrollLeft = scrollLeft.current + (startX.current - x)
   }
@@ -195,12 +200,22 @@ function HomePage() {
       const newSlide = Math.round(slider.scrollLeft / SLIDE_STEP)
       if (newSlide !== currentSlide && newSlide >= 0 && newSlide < NEWS_ITEMS.length) setCurrentSlide(newSlide)
     }
+    const onTouchMove = (e: TouchEvent) => {
+      if (!isDragging.current) return
+      e.preventDefault()
+      const x = e.touches[0].pageX
+      slider.scrollLeft = scrollLeft.current + (startX.current - x)
+    }
     slider.addEventListener('scroll', handleScroll)
-    return () => slider.removeEventListener('scroll', handleScroll)
+    slider.addEventListener('touchmove', onTouchMove, { passive: false })
+    return () => {
+      slider.removeEventListener('scroll', handleScroll)
+      slider.removeEventListener('touchmove', onTouchMove)
+    }
   }, [currentSlide])
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} ref={containerRef}>
       <nav className={styles.tabNav}>
         <div className={styles.tabs}>
           <button className={`${styles.tab} ${styles.tabActive}`}>홈</button>
@@ -221,19 +236,21 @@ function HomePage() {
 
       <div className={styles.content}>
         <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '20px' }}>
-          <SolidCardPreview
-            character={cardProps?.character || null}
-            backgroundColor={cardProps?.backgroundColor || null}
-            userName={profile?.userName || '사용자'}
-            userRole={profile?.solidGoalName || ''}
-            interests={cardProps?.interests || []}
-            goals={profile?.mainGoals || []}
-            region={region}
-            school={school}
-            sinceYear="2026"
-            size="medium"
-            onClick={handleCardClick}
-          />
+          {!isLoading && profile && (
+            <SolidCardPreview
+              character={cardProps?.character || null}
+              backgroundColor={cardProps?.backgroundColor || null}
+              userName={profile.userName || '사용자'}
+              userRole={profile.solidGoalName || ''}
+              interests={cardProps?.interests || []}
+              goals={profile.mainGoals || []}
+              region={region}
+              school={school}
+              sinceYear="2026"
+              size="medium"
+              onClick={handleCardClick}
+            />
+          )}
         </div>
 
         <div className={styles.bottomSection}>
@@ -281,7 +298,7 @@ function HomePage() {
               <div className={styles.newsSlider} ref={sliderRef}
                 onMouseDown={handleDragStart} onMouseMove={handleDragMove}
                 onMouseUp={handleDragEnd} onMouseLeave={handleDragEnd}
-                onTouchStart={handleDragStart} onTouchMove={handleDragMove} onTouchEnd={handleDragEnd}>
+                onTouchStart={handleDragStart} onTouchEnd={handleDragEnd}>
                 {NEWS_ITEMS.map(item => (
                   <div key={item.id} className={styles.newsCard}>
                     <div className={styles.newsCardContent}>

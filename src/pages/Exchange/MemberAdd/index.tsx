@@ -32,6 +32,8 @@ interface DisplayMember {
 
 function MemberAddPage() {
   const navigate = useNavigate()
+  const isRegisterMode = !!sessionStorage.getItem('council-reg:step')
+
   const [activeTab, setActiveTab] = useState<'myNetwork' | 'allSearch'>('myNetwork')
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedMembers, setSelectedMembers] = useState<number[]>([])
@@ -42,22 +44,46 @@ function MemberAddPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
+  // Registration mode: members stored in session storage
+  const [regMembers, setRegMembers] = useState<DisplayMember[]>(() => {
+    if (!isRegisterMode) return []
+    try {
+      const saved = sessionStorage.getItem('council-reg:members')
+      return saved ? JSON.parse(saved) : []
+    } catch { return [] }
+  })
+
   const currentUserId = Number(localStorage.getItem('userId') || '0')
 
   const refreshMembers = useCallback(async (cId: number) => {
     const res = await getCouncilMembers(cId)
-    if (res.success) setCurrentMembers(res.data)
+    if (res.success) {
+      const raw = res.data
+      const list = Array.isArray(raw) ? raw : []
+      setCurrentMembers(list.map((m: any) => ({
+        userId: m.userId,
+        name: m.userName || m.name || '',
+        nickname: m.nickname || '',
+        profileImageUrl: m.profileImageUrl || '',
+        role: m.role,
+        joinedAt: m.joinedAt || '',
+        userType: m.userType,
+        region: m.region,
+      })))
+    }
   }, [])
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true)
       try {
-        const myCouncilRes = await getMyCouncil()
-        if (myCouncilRes.success && myCouncilRes.data) {
-          const cId = myCouncilRes.data.councilId
-          setCouncilId(cId)
-          await refreshMembers(cId)
+        if (!isRegisterMode) {
+          const myCouncilRes = await getMyCouncil()
+          if (myCouncilRes.success && myCouncilRes.data) {
+            const cId = myCouncilRes.data.councilId
+            setCouncilId(cId)
+            await refreshMembers(cId)
+          }
         }
         const networkRes = await getNetworkList()
         if (networkRes.success) {
@@ -65,7 +91,7 @@ function MemberAddPage() {
             networkRes.data.addedFriends.map((f: NetworkFriend) => ({
               userId: f.userId,
               name: f.userName,
-              profileImageUrl: f.character,
+              profileImageUrl: f.characterImageUrl,
             }))
           )
         }
@@ -76,18 +102,19 @@ function MemberAddPage() {
       }
     }
     fetchData()
-  }, [refreshMembers])
+  }, [refreshMembers, isRegisterMode])
 
   useEffect(() => {
     if (activeTab !== 'allSearch') return
+    if (!searchQuery.trim()) {
+      setSearchResults([])
+      return
+    }
     const searchUsers = async () => {
       try {
-        const params = searchQuery.trim()
-          ? { keyword: searchQuery }
-          : undefined
         const response = await apiClient.get<{
           code: string; message: string; success: boolean; data: SearchUser[]
-        }>('/api/v1/users/search', params)
+        }>('/api/v1/users/search', { keyword: searchQuery.trim() })
         if (response.success) {
           setSearchResults(
             response.data
@@ -105,18 +132,18 @@ function MemberAddPage() {
         console.error('검색 실패:', err)
       }
     }
-    const timer = setTimeout(searchUsers, searchQuery ? 300 : 0)
+    const timer = setTimeout(searchUsers, 300)
     return () => clearTimeout(timer)
-  }, [searchQuery, activeTab, currentMembers])
+  }, [searchQuery, activeTab, currentMembers, regMembers])
 
   const getDisplayList = (): DisplayMember[] => {
-    const existingIds = currentMembers.map(m => m.userId)
-    if (activeTab === 'myNetwork') {
-      return networkFriends
-        .filter(f => !existingIds.includes(f.userId))
-        .filter(f => !searchQuery.trim() || f.name.includes(searchQuery))
-    }
-    return searchResults
+    const existingIds = isRegisterMode
+      ? regMembers.map(m => m.userId)
+      : currentMembers.map(m => m.userId)
+    const source = activeTab === 'myNetwork'
+      ? networkFriends.filter(f => !searchQuery.trim() || f.name.includes(searchQuery))
+      : searchResults
+    return source.filter(f => !existingIds.includes(f.userId))
   }
 
   const displayList = getDisplayList()
@@ -129,9 +156,25 @@ function MemberAddPage() {
     )
   }
 
-  const handleComplete = () => navigate(-1)
+  const handleComplete = () => {
+    if (isRegisterMode) {
+      navigate('/exchange/council/register')
+    } else {
+      navigate(-1)
+    }
+  }
 
   const handleAddMembers = async () => {
+    if (isRegisterMode) {
+      if (selectedMembers.length === 0) return
+      const newMembers = displayList.filter(m => selectedMembers.includes(m.userId))
+      const updated = [...regMembers, ...newMembers]
+      setRegMembers(updated)
+      sessionStorage.setItem('council-reg:members', JSON.stringify(updated))
+      setSelectedMembers([])
+      return
+    }
+
     if (!councilId || selectedMembers.length === 0 || isSubmitting) return
     setIsSubmitting(true)
     try {
@@ -150,6 +193,12 @@ function MemberAddPage() {
   }
 
   const handleRemoveMember = async (userId: number) => {
+    if (isRegisterMode) {
+      const updated = regMembers.filter(m => m.userId !== userId)
+      setRegMembers(updated)
+      sessionStorage.setItem('council-reg:members', JSON.stringify(updated))
+      return
+    }
     if (!councilId) return
     try {
       await removeCouncilMember(councilId, userId)
@@ -167,6 +216,7 @@ function MemberAddPage() {
   }
 
   const sectionTitle = activeTab === 'myNetwork' ? '나의 교류망' : '다른 사람들'
+  const effectiveMemberCount = isRegisterMode ? regMembers.length : currentMembers.length
 
   return (
     <div className={styles.container}>
@@ -184,11 +234,33 @@ function MemberAddPage() {
         <div className={styles.currentMemberSection}>
           <div className={styles.sectionHeader}>
             <span className={styles.sectionTitle}>현재 멤버</span>
-            <span className={styles.memberCount}>{currentMembers.length}명</span>
+            <span className={styles.memberCount}>{effectiveMemberCount}명</span>
           </div>
           <div className={styles.memberAvatarList}>
             {isLoading ? (
               <span className={styles.loadingText}>로딩 중...</span>
+            ) : isRegisterMode ? (
+              regMembers.map(member => (
+                <div key={member.userId} className={styles.memberAvatarItem}>
+                  <div className={styles.memberAvatarWrapper}>
+                    <div className={styles.memberAvatar}>
+                      {member.profileImageUrl ? (
+                        <img src={member.profileImageUrl} alt={member.name} className={styles.avatarImg} />
+                      ) : null}
+                    </div>
+                    <button
+                      className={styles.removeButton}
+                      onClick={(e) => { e.stopPropagation(); handleRemoveMember(member.userId) }}
+                    >
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <circle cx="7" cy="7" r="7" fill="#C8C8C8"/>
+                        <path d="M4.5 4.5L9.5 9.5M9.5 4.5L4.5 9.5" stroke="white" strokeWidth="1.2" strokeLinecap="round"/>
+                      </svg>
+                    </button>
+                  </div>
+                  <span className={styles.memberAvatarName}>{member.name}</span>
+                </div>
+              ))
             ) : (
               currentMembers.map(member => (
                 <div key={member.userId} className={styles.memberAvatarItem}>

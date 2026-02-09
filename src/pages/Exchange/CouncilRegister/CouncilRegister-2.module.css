@@ -43,6 +43,35 @@
   gap: 10px;
   min-width: 60px;
   width: 60px;
+  position: relative;
+}
+
+.memberRemoveBtn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 17px;
+  height: 17px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1;
+}
+
+.memberRemoveBtn img {
+  width: 100%;
+  height: 100%;
+}
+
+.meName {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #222222;
+  text-align: center;
+  letter-spacing: -0.24px;
+  line-height: 1.2;
 }
 
 .memberAvatar {
@@ -74,10 +103,15 @@
   font-family: 'Pretendard', sans-serif;
   font-size: 12px;
   font-weight: 700;
-  color: #848484;
+  color: #222222;
   text-align: center;
   letter-spacing: -0.24px;
   line-height: 1.2;
+}
+
+.addMemberIconImg {
+  width: 60px;
+  height: 60px;
 }
 
 .memberName {
@@ -208,68 +242,103 @@
   color: #FFFFFF;
 }
 
-.successModal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(180deg, #FFFFFF 0%, #F3F6FB 100%);
-  z-index: 1000;
+/* === 등록 완료 3단계 모션 화면 === */
+.successOverlay {
+  width: 393px;
+  height: 852px;
+  background: #FFFFFF;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
-.successContent {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 0 40px;
+.successMascot {
+  width: 162px;
+  height: 196px;
+  object-fit: contain;
+  opacity: 0;
+  transform: scale(0.8) translateY(20px);
+  animation: mascotAppear 0.6s ease-out 0.5s forwards;
 }
 
-.successIcon {
-  width: 120px;
-  height: 120px;
-  background-color: #E6E6E6;
-  border-radius: 50%;
-  margin-bottom: 30px;
+@keyframes mascotAppear {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.05) translateY(-5px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
-.successMessage {
+.successCouncilName {
   font-family: 'Pretendard', sans-serif;
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 20px;
+  font-weight: 600;
   color: #848484;
-  line-height: 1.4;
-  margin-bottom: 16px;
+  letter-spacing: -0.4px;
+  line-height: 1.2;
+  text-align: center;
+  margin-top: 24px;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: textFadeIn 0.5s ease-out 1.3s forwards;
 }
 
 .successTitle {
-  font-family: 'Pretendard', sans-serif;
-  font-size: 24px;
-  font-weight: 700;
+  font-family: 'ONE-Shinhan', sans-serif;
+  font-size: 28px;
+  font-weight: 500;
   color: #074ED8;
-  line-height: 1.2;
-  margin-bottom: 60px;
+  letter-spacing: -0.56px;
+  line-height: 1.4;
+  text-align: center;
+  margin-top: 8px;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: textFadeIn 0.5s ease-out 1.6s forwards;
+}
+
+@keyframes textFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .successLogo {
+  position: absolute;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   align-items: center;
   gap: 4px;
 }
 
 .successLogoIcon {
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
 }
 
 .successLogoText {
   font-family: 'Pretendard', sans-serif;
   font-size: 14px;
   font-weight: 600;
-  color: #848484;
+  color: #074ED8;
+  letter-spacing: -0.28px;
+  line-height: 1.2;
 }

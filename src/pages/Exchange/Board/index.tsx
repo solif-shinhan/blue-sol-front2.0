@@ -15,17 +15,22 @@ import {
 import warmReviewImg from '@/assets/images/exchage-board/f768656256cbf251b006a6560d7a884aecf6a277.png'
 import counselingImg from '@/assets/images/exchage-board/80112dee4520b196fff05166d3abf58e7377c037.png'
 import foundationNewsImg from '@/assets/images/exchage-board/6fecb3f4903a46cbe10992ced7057fb3c483ef00.png'
-import defaultPostImg from '@/assets/images/exchage-board/27342ac6292fb7d2b87647841f5fab093bda09f6.png'
 import shinhanLogo from '@/assets/images/exchage-board/shinhan-logo.png'
 import { FABButton } from '@/components/FABButton'
 
-type FilterTab = '자치회 활동 후기' | '멘토링 후기'
+type CardId = 'warm-review' | 'counseling' | 'foundation-news'
 
 interface CategoryCard {
-  id: string
+  id: CardId
   title: string
   subtitle?: string
   image: string
+}
+
+interface FilterConfig {
+  label: string
+  boardId: number
+  category?: PostCategory
 }
 
 interface PostItem {
@@ -36,33 +41,34 @@ interface PostItem {
   viewCount: number
   commentCount: number
   date: string
-  image: string
+  image: string | null
 }
 
 const CATEGORY_CARDS: CategoryCard[] = [
-  {
-    id: 'warm-review',
-    title: '따뜻한',
-    subtitle: '활동 후기',
-    image: warmReviewImg,
-  },
-  {
-    id: 'counseling',
-    title: '토닥토닥',
-    subtitle: '고민상담',
-    image: counselingImg,
-  },
-  {
-    id: 'foundation-news',
-    title: '장학재단',
-    subtitle: '소식',
-    image: foundationNewsImg,
-  },
+  { id: 'warm-review', title: '따뜻한', subtitle: '활동 후기', image: warmReviewImg },
+  { id: 'counseling', title: '토닥토닥', subtitle: '고민상담', image: counselingImg },
+  { id: 'foundation-news', title: '장학재단', subtitle: '소식', image: foundationNewsImg },
 ]
 
-const FILTER_TO_CATEGORY: Record<FilterTab, PostCategory> = {
-  '자치회 활동 후기': 'NOTICE',
-  '멘토링 후기': 'PROGRAM',
+const CARD_FILTERS: Record<CardId, FilterConfig[]> = {
+  'warm-review': [
+    { label: '자치회 활동 후기', boardId: 1 },
+    { label: '멘토링 후기', boardId: 2 },
+  ],
+  'counseling': [
+    { label: '전체', boardId: 3 },
+    { label: '학업', boardId: 3, category: 'STUDY' },
+    { label: '진학', boardId: 3, category: 'ADMISSION' },
+    { label: '취업', boardId: 3, category: 'JOB' },
+    { label: '기타', boardId: 3, category: 'ETC' },
+  ],
+  'foundation-news': [],
+}
+
+const DEFAULT_BOARD_ID: Record<CardId, number> = {
+  'warm-review': 1,
+  'counseling': 3,
+  'foundation-news': 4,
 }
 
 function formatDate(dateString: string): string {
@@ -75,15 +81,16 @@ function formatDate(dateString: string): string {
 }
 
 function mapApiPostToUI(post: ApiPostItem): PostItem {
+  const content = post.content || ''
   return {
     id: post.postId,
     category: CATEGORY_REVERSE_MAP[post.category] || post.category,
     title: post.title,
-    description: post.content.length > 60 ? post.content.slice(0, 60) + '..' : post.content,
+    description: content.length > 60 ? content.slice(0, 60) + '..' : content,
     viewCount: post.viewCount || 0,
     commentCount: post.commentCount,
     date: formatDate(post.createdAt),
-    image: post.images?.[0] || defaultPostImg,
+    image: post.imageUrls?.[0] || null,
   }
 }
 
@@ -95,24 +102,36 @@ function BoardPage() {
     navigate('/login')
   }
 
-  const [activeFilter, setActiveFilter] = useState<FilterTab>('자치회 활동 후기')
+  const [activeCard, setActiveCard] = useState<CardId>('warm-review')
+  const [activeFilterIdx, setActiveFilterIdx] = useState(0)
   const [posts, setPosts] = useState<PostItem[]>([])
   const [isLoading, setIsLoading] = useState(false)
 
-  const fetchPosts = async (filter: FilterTab) => {
+  const filters = CARD_FILTERS[activeCard]
+
+  const fetchPosts = async (cardId: CardId, filterIdx: number) => {
     setIsLoading(true)
     try {
-      const category = FILTER_TO_CATEGORY[filter]
+      const filterConfig = CARD_FILTERS[cardId]
+      let boardId: number
+      let category: PostCategory | undefined
+
+      if (filterConfig.length > 0 && filterConfig[filterIdx]) {
+        boardId = filterConfig[filterIdx].boardId
+        category = filterConfig[filterIdx].category
+      } else {
+        boardId = DEFAULT_BOARD_ID[cardId]
+      }
+
       const response = await getPosts({
-        boardId: 1,
+        boardId,
         category,
         page: 0,
         size: 20,
       })
 
       if (response.success) {
-        const mappedPosts = response.data.content.map(mapApiPostToUI)
-        setPosts(mappedPosts)
+        setPosts(response.data.content.map(mapApiPostToUI))
       }
     } catch (err) {
       console.error('게시글 조회 실패:', err)
@@ -122,19 +141,18 @@ function BoardPage() {
   }
 
   useEffect(() => {
-    fetchPosts(activeFilter)
-  }, [activeFilter])
+    fetchPosts(activeCard, activeFilterIdx)
+  }, [activeCard, activeFilterIdx])
 
   const handleBack = () => {
     navigate(-1)
   }
 
-  const handleSearch = () => {
-    console.log('Search clicked')
-  }
-
-  const handleCategoryClick = (categoryId: string) => {
-    console.log('Category clicked:', categoryId)
+  const handleCategoryClick = (cardId: CardId) => {
+    if (cardId !== activeCard) {
+      setActiveCard(cardId)
+      setActiveFilterIdx(0)
+    }
   }
 
   const handlePostClick = (postId: number) => {
@@ -159,7 +177,7 @@ function BoardPage() {
           </button>
           <span className={styles.headerTitle}>게시판</span>
         </div>
-        <button className={styles.searchButton} onClick={handleSearch}>
+        <button className={styles.searchButton}>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
             <circle cx="11" cy="11" r="7" stroke="#222222" strokeWidth="2"/>
             <path d="M16 16L20 20" stroke="#222222" strokeWidth="2" strokeLinecap="round"/>
@@ -169,45 +187,37 @@ function BoardPage() {
 
       {/* Category Cards */}
       <div className={styles.categorySection}>
-        {CATEGORY_CARDS.map((card, index) => (
+        {CATEGORY_CARDS.map((card) => (
           <div
             key={card.id}
-            className={`${styles.categoryCard} ${index > 0 ? styles.categoryCardInactive : ''}`}
+            className={`${styles.categoryCard} ${card.id !== activeCard ? styles.categoryCardInactive : ''}`}
             onClick={() => handleCategoryClick(card.id)}
           >
-            <img
-              src={card.image}
-              alt=""
-              className={styles.categoryImage}
-              onError={(e) => {
-                e.currentTarget.style.display = 'none'
-              }}
-            />
+            <img src={card.image} alt="" className={styles.categoryImage}
+              onError={(e) => { e.currentTarget.style.display = 'none' }} />
+            <div className={styles.categoryImageOverlay} />
             <div className={styles.categoryTextGroup}>
               <span className={styles.categoryTitle}>{card.title}</span>
-              {card.subtitle && (
-                <span className={styles.categorySubtitle}>{card.subtitle}</span>
-              )}
+              {card.subtitle && <span className={styles.categorySubtitle}>{card.subtitle}</span>}
             </div>
           </div>
         ))}
       </div>
 
       {/* Filter Tabs */}
-      <div className={styles.filterTabsSection}>
-        <button
-          className={`${styles.filterTabButton} ${activeFilter === '자치회 활동 후기' ? styles.active : ''}`}
-          onClick={() => setActiveFilter('자치회 활동 후기')}
-        >
-          자치회 활동 후기
-        </button>
-        <button
-          className={`${styles.filterTabButton} ${activeFilter === '멘토링 후기' ? styles.active : ''}`}
-          onClick={() => setActiveFilter('멘토링 후기')}
-        >
-          멘토링 후기
-        </button>
-      </div>
+      {filters.length > 0 && (
+        <div className={styles.filterTabsSection}>
+          {filters.map((f, idx) => (
+            <button
+              key={f.label}
+              className={`${styles.filterTabButton} ${activeFilterIdx === idx ? styles.active : ''}`}
+              onClick={() => setActiveFilterIdx(idx)}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Post List */}
       <div className={styles.contentWrapper}>
@@ -227,7 +237,7 @@ function BoardPage() {
                 className={styles.postCard}
                 onClick={() => handlePostClick(post.id)}
               >
-                <div className={styles.postContent}>
+                <div className={post.image ? styles.postContent : styles.postContentFull}>
                   <div className={styles.postMeta}>
                     <span className={styles.postCategory}>{post.category}</span>
                     <div className={styles.postMetaDivider} />
@@ -256,14 +266,16 @@ function BoardPage() {
                   </div>
                 </div>
 
-                <img
-                  src={post.image}
-                  alt=""
-                  className={styles.postImage}
-                  onError={(e) => {
-                    e.currentTarget.style.background = '#EEEEEE'
-                  }}
-                />
+                {post.image && (
+                  <img
+                    src={post.image}
+                    alt=""
+                    className={styles.postImage}
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none'
+                    }}
+                  />
+                )}
               </div>
             ))}
           </div>

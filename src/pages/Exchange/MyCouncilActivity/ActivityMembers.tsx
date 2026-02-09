@@ -20,7 +20,18 @@ function ActivityMembers({ councilId }: ActivityMembersProps) {
       try {
         const response = await getCouncilMembers(councilId)
         if (response.success) {
-          setMembers(response.data)
+          const raw = response.data
+          const list = Array.isArray(raw) ? raw : []
+          setMembers(list.map((m: any) => ({
+            userId: m.userId ?? m.id,
+            name: m.userName ?? m.name ?? '',
+            nickname: m.nickname ?? '',
+            profileImageUrl: m.profileImageUrl ?? m.profileImage ?? '',
+            role: m.role ?? 'MEMBER',
+            joinedAt: m.joinedAt ?? '',
+            userType: m.userType ?? m.scholarType ?? '',
+            region: m.region ?? '',
+          })))
         }
       } catch (err) {
         console.error('멤버 조회 실패:', err)
@@ -29,7 +40,7 @@ function ActivityMembers({ councilId }: ActivityMembersProps) {
       }
     }
 
-    fetchMembers()
+    if (councilId) fetchMembers()
   }, [councilId])
 
   return (
@@ -51,7 +62,11 @@ function ActivityMembers({ councilId }: ActivityMembersProps) {
             <div key={member.userId} className={styles.memberCard}>
               <div className={styles.memberCardInner}>
                 <div className={styles.memberInfo}>
-                  <div className={styles.memberAvatar} />
+                  {member.profileImageUrl ? (
+                    <img src={member.profileImageUrl} alt="" className={styles.memberAvatar} />
+                  ) : (
+                    <div className={styles.memberAvatar} />
+                  )}
                   <span className={styles.memberName}>{member.name}</span>
                   {member.role === 'LEADER' && (
                     <span className={styles.leaderBadge}>리더</span>

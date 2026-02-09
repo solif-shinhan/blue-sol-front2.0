@@ -23,9 +23,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 60px 21px 0;
-  height: 100px;
-  box-sizing: border-box;
+  padding: 70px 22px 0;
+  height: 40px;
   flex-shrink: 0;
 }
 
@@ -118,6 +117,12 @@
 .addButtonIcon {
   width: 60px;
   height: 60px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 30px rgba(27, 37, 56, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .addButtonLabel {

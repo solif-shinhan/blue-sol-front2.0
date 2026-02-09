@@ -1,0 +1,230 @@
+/* ReviewDetail-1.module.css */
+
+.container {
+  width: 393px;
+  min-height: 852px;
+  max-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F3F6FB 100%);
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Image Carousel */
+.imageCarousel {
+  position: relative;
+  width: 393px;
+  height: 400px;
+  background: #E6E6E6;
+  overflow: hidden;
+}
+
+.carouselImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.carouselDots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+}
+
+.carouselDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.carouselDotActive {
+  background: #FFFFFF;
+}
+
+/* Header Overlay */
+.headerOverlay {
+  position: absolute;
+  top: 70px;
+  left: 0;
+  width: 393px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 22px;
+  box-sizing: border-box;
+  z-index: 10;
+}
+
+.closeButton {
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.editButton {
+  height: 32px;
+  padding: 0 14px;
+  background: rgba(255, 255, 255, 0.6);
+  border: none;
+  border-radius: 23px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.2;
+  letter-spacing: -0.55px;
+  color: #222222;
+  cursor: pointer;
+}
+
+/* Content Section */
+.contentSection {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 30px 17px 0;
+  width: 360px;
+  margin: 0 auto;
+}
+
+.titleBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.postTitle {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.2;
+  color: #222222;
+  margin: 0;
+}
+
+.postMeta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.metaText {
+  color: #848484;
+}
+
+.metaCouncil {
+  color: #3971E0;
+}
+
+/* Review Content */
+.reviewContent {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.questionTitle {
+  font-family: 'ONE-Shinhan', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #000000;
+  margin: 0;
+}
+
+.reviewBody {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.reviewText {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: -0.32px;
+  color: #868686;
+  margin: 0;
+  word-break: keep-all;
+}
+
+.authorName {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.2;
+  letter-spacing: -0.64px;
+  color: #3971E0;
+  margin: 0;
+}
+
+/* Bottom Bar */
+.bottomBar {
+  position: fixed;
+  bottom: 0;
+  width: 393px;
+  height: 111px;
+  background: #FFFFFF;
+  box-shadow: 0 0 30px 0 rgba(27, 37, 56, 0.1);
+  padding: 10px 17px 0;
+  box-sizing: border-box;
+  z-index: 20;
+}
+
+.actionRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.actionItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.actionIcon {
+  width: 32px;
+  height: 32px;
+}
+
+.actionCount {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.2;
+  letter-spacing: -0.32px;
+  color: #121212;
+}
+
+.spacer {
+  height: 130px;
+  flex-shrink: 0;
+}

@@ -58,6 +58,7 @@ function FriendSolidPage() {
   const [isAdding, setIsAdding] = useState(false)
   const [showToast, setShowToast] = useState(false)
   const [isSending, setIsSending] = useState(false)
+  const [showActionToast, setShowActionToast] = useState(false)
 
   useEffect(() => {
     if (!userId) return
@@ -114,16 +115,19 @@ function FriendSolidPage() {
     }
   }
 
-  const handleCheer = async () => {
+  const buttonType = cardData?.buttonType || 'CHEER'
+
+  const handleAction = async () => {
     if (!cardData || isSending) return
     setIsSending(true)
     try {
       const res = await sendInteraction({
         targetUserId: cardData.userId,
-        interactionType: 'CHEER',
+        interactionType: buttonType,
       })
       if (res.success) {
-        alert('응원을 보냈습니다!')
+        setShowActionToast(true)
+        setTimeout(() => setShowActionToast(false), 2500)
       }
     } catch {
       alert('요청에 실패했습니다.')
@@ -263,6 +267,15 @@ function FriendSolidPage() {
             </span>
             <span className={styles.sinceYear}>SINCE {cardData.joinYear || 2026}</span>
           </div>
+
+          {showActionToast && (
+            <div className={styles.interactionToast}>
+              <p className={styles.interactionToastText}>
+                <span className={styles.interactionToastName}>{cardData.userName}</span>님께<br />
+                {buttonType === 'CHEER' ? '응원하기' : '경험 나누기'}를 보냈어요!
+              </p>
+            </div>
+          )}
         </div>
       </div>
 
@@ -285,10 +298,10 @@ function FriendSolidPage() {
         {isAdded ? (
           <button
             className={styles.cheerButton}
-            onClick={handleCheer}
+            onClick={handleAction}
             disabled={isSending}
           >
-            응원하기
+            {buttonType === 'CHEER' ? '응원하기' : '경험 나누기'}
           </button>
         ) : (
           <button

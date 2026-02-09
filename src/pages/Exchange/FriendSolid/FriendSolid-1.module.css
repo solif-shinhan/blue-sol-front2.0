@@ -23,8 +23,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 60px 21px 0;
-  height: 100px;
+  padding: 70px 22px 0;
+  height: 110px;
   box-sizing: border-box;
   flex-shrink: 0;
 }

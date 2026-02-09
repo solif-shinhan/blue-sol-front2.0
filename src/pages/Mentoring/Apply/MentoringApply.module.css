@@ -23,10 +23,12 @@
   align-items: center;
   justify-content: center;
   position: absolute;
-  top: 69px;
+  top: 70px;
   left: 0;
   width: 393px;
   height: 50px;
+  padding: 0 22px;
+  box-sizing: border-box;
 }
 
 .closeButton {

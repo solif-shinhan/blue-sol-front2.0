@@ -1,6 +1,9 @@
+/* MyCouncilActivity-1.module.css - 컨테이너, 히어로, 탭, 활동요약 */
+
 .container {
   width: 393px;
-  height: 852px;
+  min-height: 852px;
+  max-height: 100vh;
   position: relative;
   overflow-y: auto;
   overflow-x: hidden;
@@ -12,13 +15,25 @@
   display: none;
 }
 
+/* Header Overlay */
+.headerOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+
+/* Hero */
 .hero {
   position: relative;
   width: 393px;
-  height: 329px;
-  border-radius: 0 0 32px 32px;
+  height: 359px;
+  border: 1px solid #E6E6E6;
+  border-radius: 0 0 30px 30px;
   box-shadow: 0 0 30px 0 rgba(27, 37, 56, 0.1);
   overflow: hidden;
+  box-sizing: border-box;
 }
 .heroBg {
   position: absolute;
@@ -28,116 +43,106 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 0 0 30px 30px;
 }
 .heroGradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 37.84%, rgba(0, 0, 0, 0.8) 73.17%);
+  background: linear-gradient(
+    to bottom,
+    rgba(230, 239, 255, 0) 37.4%,
+    rgba(230, 239, 255, 0.6) 79.1%
+  );
+  border-radius: 0 0 30px 30px;
 }
 
-.header {
+/* Hero Info Card */
+.heroCard {
   position: absolute;
-  top: 50px;
-  left: 0;
-  width: 393px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
-  z-index: 10;
-}
-.backButton {
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-}
-.backButton img {
-  width: 24px;
-  height: 24px;
-}
-.headerTitle {
-  font-family: 'ONE-Shinhan', sans-serif;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 1.4;
-  letter-spacing: -0.36px;
-  color: #FFFFFF;
-  text-align: center;
-}
-.editButton {
-  width: 38px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-}
-.editButton img {
-  width: 100%;
-  height: 100%;
-}
-
-.heroContent {
-  position: absolute;
-  left: 26px;
-  top: 150px;
+  top: 174px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 363px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(100px);
+  -webkit-backdrop-filter: blur(100px);
+  border-radius: 24px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  padding: 24px 18px 28px;
+  box-sizing: border-box;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 17px;
+  z-index: 2;
 }
-.heroMeta {
+.heroCardCollapsed {
+  padding: 24px 18px;
+  gap: 0;
+}
+.heroCardHeader {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
 }
-.heroMetaText {
-  font-family: 'Pretendard', sans-serif;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 1.4;
-  color: #FFFFFF;
-}
-.heroMetaDate {
-  font-family: 'Pretendard', sans-serif;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 1.4;
-  color: #EEEEEE;
-}
-.heroMetaDivider {
-  height: 12px;
-}
-.heroTitle {
-  font-family: 'ONE-Shinhan', sans-serif;
+.heroCardName {
+  font-family: 'OneShinhan', sans-serif;
   font-weight: 500;
   font-size: 28px;
   line-height: 1.4;
   letter-spacing: -0.56px;
-  color: #FFFFFF;
+  color: #14307C;
   margin: 0;
 }
-.heroDescription {
-  position: absolute;
-  left: 26px;
-  top: 244px;
-  width: 340px;
+.heroCardRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  flex-shrink: 0;
+}
+.heroCardDate {
   font-family: 'Pretendard', sans-serif;
   font-weight: 600;
   font-size: 14px;
   line-height: 1.4;
-  color: #E6E6E6;
+  color: #3971E0;
+}
+.heroCardToggle {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #848484;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+.heroCardDescription {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #222222;
+  margin: 0;
 }
 
+/* Edit Button (rightContent) */
+.editButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.2;
+  color: #222222;
+}
+
+/* Tab Bar */
 .tabBar {
   display: flex;
   align-items: center;
@@ -171,6 +176,7 @@
   color: #FFFFFF;
 }
 
+/* Content */
 .content {
   display: flex;
   flex-direction: column;
@@ -180,43 +186,39 @@
   margin: 0 auto;
 }
 
+/* Activity Summary */
 .activitySummary {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 16px;
   padding: 0 5px;
 }
 .activityCount {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 16px;
 }
 .activityCountText {
-  font-family: 'ONE-Shinhan', sans-serif;
-  font-weight: 500;
+  font-family: 'OneShinhan', sans-serif;
+  font-weight: 300;
   font-size: 18px;
   line-height: 1.4;
   letter-spacing: -0.36px;
   color: #222222;
 }
-.activityCountText span {
-  font-family: 'ONE-Shinhan', sans-serif;
-  font-weight: 300;
-  line-height: 1.4;
-}
 .activityCountHighlight {
   color: #074ED8;
   font-weight: 500;
 }
-.activityDots {
-  width: 112px;
-  height: 42px;
-}
-.activityDots img {
+.activityCharacter {
   width: 100%;
-  height: 100%;
+}
+.activityCharacter img {
+  width: 100%;
+  height: auto;
 }
 
+/* Budget */
 .budgetSection {
   display: flex;
   flex-direction: column;
@@ -226,11 +228,21 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+.budgetLabel {
+  font-family: 'OneShinhan', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #121212;
+}
+.budgetValue {
   font-family: 'Pretendard', sans-serif;
   font-weight: 700;
   font-size: 18px;
   line-height: 1.2;
-  color: #222222;
+  color: #3971E0;
 }
 .budgetBar {
   width: 100%;
@@ -245,23 +257,25 @@
   border-radius: 3px;
 }
 
+/* News */
 .newsSection {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 .newsSectionTitle {
-  font-family: 'ONE-Shinhan', sans-serif;
+  font-family: 'OneShinhan', sans-serif;
   font-weight: 500;
   font-size: 18px;
   line-height: 1.4;
   letter-spacing: -0.36px;
   color: #222222;
   padding: 0 5px;
+  margin: 0;
 }
 .newsCard {
   position: relative;
-  width: 100%;
+  width: 360px;
   height: 100px;
   background: #FFFFFF;
   border-radius: 24px;
@@ -294,12 +308,14 @@
 }
 .newsCardIcon {
   position: absolute;
-  right: 22px;
-  top: 25px;
-  width: 50px;
-  height: 50px;
+  right: 18px;
+  top: 28px;
+  width: 58px;
+  height: 43px;
+  overflow: hidden;
 }
 .newsCardIcon img {
   width: 100%;
   height: 100%;
+  object-fit: contain;
 }

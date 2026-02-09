@@ -31,11 +31,14 @@ export interface CouncilRule {
 }
 
 export interface CreateCouncilRequest {
-  name: string
-  description: string
-  region?: string
-  topic?: string
-  goal?: string
+  councilName: string
+  region: string
+  activityCategory: string
+  description?: string
+  totalBudget: number
+  profileImageFileId?: number
+  memberUserIds?: number[]
+  rules?: string[]
 }
 
 export interface UpdateCouncilRequest {
@@ -120,8 +123,20 @@ export async function getMyCouncil(): Promise<CouncilDetailResponse> {
   return apiClient.get<CouncilDetailResponse>('/api/v1/councils/my')
 }
 
-export async function createCouncil(data: CreateCouncilRequest): Promise<CouncilDetailResponse> {
-  return apiClient.post<CouncilDetailResponse>('/api/v1/councils', data)
+export interface CreateCouncilResponse {
+  code: string
+  message: string
+  success: boolean
+  data: {
+    councilId: number
+    councilName: string
+    createdAt: string
+    memberCount: number
+  }
+}
+
+export async function createCouncil(data: CreateCouncilRequest): Promise<CreateCouncilResponse> {
+  return apiClient.post<CreateCouncilResponse>('/api/v1/councils', data)
 }
 
 export async function updateCouncil(councilId: number, data: UpdateCouncilRequest): Promise<CouncilDetailResponse> {
@@ -150,4 +165,24 @@ export async function addCouncilRule(councilId: number, data: AddRuleRequest): P
 
 export async function deleteCouncilRule(councilId: number, ruleId: number): Promise<BaseResponse> {
   return apiClient.delete<BaseResponse>(`/api/v1/councils/${councilId}/rules/${ruleId}`)
+}
+
+export interface ReviewQuestion {
+  questionId: number
+  content: string
+}
+
+export interface ReviewQuestionResponse {
+  code: string
+  message: string
+  success: boolean
+  data: ReviewQuestion
+}
+
+export async function getRandomReviewQuestion(excludeIds?: number[]): Promise<ReviewQuestionResponse> {
+  const params: Record<string, string> = {}
+  if (excludeIds && excludeIds.length > 0) {
+    params.excludeQuestionIds = excludeIds.join(',')
+  }
+  return apiClient.get<ReviewQuestionResponse>('/api/v1/council-review-questions/random', params)
 }

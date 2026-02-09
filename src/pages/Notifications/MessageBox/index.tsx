@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import styles from './MessageBox.module.css'
 import {
-  getNotifications,
-  type NotificationItem,
+  getReceivedMessages,
+  getSentMessages,
+  type MessageListItem,
 } from '@/services'
 
 function formatTime(dateString: string): string {
@@ -25,7 +26,7 @@ function MessageBox() {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const [activeTab, setActiveTab] = useState<'received' | 'sent'>('received')
-  const [messages, setMessages] = useState<NotificationItem[]>([])
+  const [messages, setMessages] = useState<MessageListItem[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [showToast, setShowToast] = useState(false)
 
@@ -48,13 +49,8 @@ function MessageBox() {
   const fetchMessages = async () => {
     setIsLoading(true)
     try {
-      const response = await getNotifications({
-        category: 'ACTIVITY',
-        subCategory: 'MESSAGE',
-        filter: 'ALL',
-        page: 0,
-        size: 20,
-      })
+      const fetcher = activeTab === 'received' ? getReceivedMessages : getSentMessages
+      const response = await fetcher({ page: 0, size: 20 })
       if (response.success) {
         setMessages(response.data.content)
       }
@@ -73,8 +69,10 @@ function MessageBox() {
     navigate(-1)
   }
 
-  const handleMessageClick = (message: NotificationItem) => {
-    navigate(`/notifications/activity/${message.notificationId}`)
+  const handleMessageClick = (message: MessageListItem) => {
+    navigate(`/notifications/activity/${message.messageId}`, {
+      state: { fromMessage: true },
+    })
   }
 
   const handleCompose = () => {
@@ -115,39 +113,43 @@ function MessageBox() {
             </div>
           )}
 
-          {!isLoading && messages.map(message => (
-            <div
-              key={message.notificationId}
-              className={styles.messageItem}
-              onClick={() => handleMessageClick(message)}
-            >
-              <div className={styles.messageHeader}>
-                <div className={styles.senderInfo}>
-                  <div className={styles.senderAvatar}>
-                    {message.senderProfileImage ? (
-                      <img src={message.senderProfileImage} alt={message.senderName || ''} />
-                    ) : (
-                      <span className={styles.senderAvatarText}>
-                        {(message.senderName || '?').charAt(0)}
-                      </span>
-                    )}
+          {!isLoading && messages.map(message => {
+            const displayName = activeTab === 'received' ? message.senderName : message.receiverName
+            const displayImage = activeTab === 'received' ? message.senderProfileImage : message.receiverProfileImage
+            return (
+              <div
+                key={message.messageId}
+                className={styles.messageItem}
+                onClick={() => handleMessageClick(message)}
+              >
+                <div className={styles.messageHeader}>
+                  <div className={styles.senderInfo}>
+                    <div className={styles.senderAvatar}>
+                      {displayImage ? (
+                        <img src={displayImage} alt={displayName || ''} />
+                      ) : (
+                        <span className={styles.senderAvatarText}>
+                          {(displayName || '?').charAt(0)}
+                        </span>
+                      )}
+                    </div>
+                    <span className={styles.senderName}>
+                      {displayName || '알 수 없음'}
+                    </span>
                   </div>
-                  <span className={styles.senderName}>
-                    {message.senderName || '알 수 없음'}
-                  </span>
+                  <div className={styles.timeAndDot}>
+                    <span className={styles.messageTime}>{formatTime(message.createdAt)}</span>
+                    {!message.isRead && activeTab === 'received' && <div className={styles.unreadDot} />}
+                  </div>
                 </div>
-                <div className={styles.timeAndDot}>
-                  <span className={styles.messageTime}>{formatTime(message.createdAt)}</span>
-                  {!message.isRead && <div className={styles.unreadDot} />}
-                </div>
-              </div>
 
-              <div className={styles.messageContent}>
-                <p className={styles.messageTitle}>{message.notificationTitle}</p>
-                <p className={styles.messageDescription}>{message.notificationContent}</p>
+                <div className={styles.messageContent}>
+                  <p className={styles.messageTitle}>{message.messageTitle}</p>
+                  <p className={styles.messageDescription}>{message.messageContent}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
 
           {!isLoading && messages.length === 0 && (
             <div className={styles.emptyState}>

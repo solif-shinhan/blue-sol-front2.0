@@ -5,7 +5,7 @@
   height: 852px;
   position: relative;
   overflow: hidden;
-  background: #000000;
+  background: linear-gradient(180deg, #152347 0%, #666 24.54%, #333 75%, #000 100%);
 }
 
 /* Background receipt image */
@@ -16,15 +16,13 @@
   width: 393px;
   height: 524px;
   z-index: 0;
+  overflow: hidden;
 }
 
 .backgroundImg {
-  width: 116.21%;
-  height: 107.77%;
-  object-fit: cover;
-  position: absolute;
-  top: -4.46%;
-  left: -5.33%;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .backgroundOverlay {
@@ -54,6 +52,8 @@
   left: 0;
   height: 40px;
   width: 100%;
+  padding: 0 22px;
+  box-sizing: border-box;
   z-index: 10;
   display: flex;
   align-items: center;
@@ -139,6 +139,51 @@
   color: #AAAAAA;
   text-align: center;
   line-height: 1.6;
+}
+
+/* Scanning Overlay */
+.scanOverlay {
+  position: absolute;
+  top: 136px;
+  left: 0;
+  width: 393px;
+  height: 524px;
+  z-index: 5;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.scanLine {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  border-top: 2px solid var(--Light-Blue-I, #ABC8FF);
+  background: linear-gradient(180deg, rgba(83, 130, 255, 0.50) 0%, rgba(166, 166, 166, 0.00) 100%);
+  animation: scanDown 2s ease-in-out infinite;
+}
+
+@keyframes scanDown {
+  0% { top: 0; }
+  100% { top: 100%; }
+}
+
+.scanKeyword {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 16px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #ABC8FF;
+  line-height: 1.5;
+  letter-spacing: -0.26px;
+  white-space: nowrap;
+  z-index: 6;
+  transition: opacity 0.3s ease;
 }
 
 /* Processing Badge */

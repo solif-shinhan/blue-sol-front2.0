@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import styles from './BackHeader.module.css'
-import backArrowIcon from '@/assets/images/Glyph_ undefined.svg'
+import backArrowIcon from '@/assets/images/network/2107e80ddcb5d091c59aaa449d05031a375ef1a0.svg'
+import closeIcon from '@/assets/images/receipt/0b7bc06416da92a5ef1b39ad0d8fbfacd05ce59d.svg'
 
 interface BackHeaderProps {
   backTo?: string
@@ -11,6 +12,7 @@ interface BackHeaderProps {
   rightContent?: React.ReactNode
   theme?: 'light' | 'dark'
   title?: string
+  icon?: 'back' | 'close'
 }
 
 export function BackHeader({
@@ -22,6 +24,7 @@ export function BackHeader({
   rightContent,
   theme = 'light',
   title,
+  icon = 'back',
 }: BackHeaderProps) {
   const navigate = useNavigate()
 
@@ -35,7 +38,8 @@ export function BackHeader({
     }
   }
 
-  const backIcon = backArrowIcon
+  const iconSrc = icon === 'close' ? closeIcon : backArrowIcon
+  const iconLabel = icon === 'close' ? '닫기' : '뒤로가기'
 
   const getGap = () => {
     switch (totalSteps) {
@@ -50,8 +54,8 @@ export function BackHeader({
 
   return (
     <div className={headerClasses} style={{ gap: showProgress ? `${getGap()}px` : undefined }}>
-      <button className={styles.backButton} onClick={handleBack} aria-label="뒤로가기">
-        <img src={backIcon} alt="뒤로가기" />
+      <button className={styles.backButton} onClick={handleBack} aria-label={iconLabel}>
+        <img src={iconSrc} alt={iconLabel} />
       </button>
 
       {title && (

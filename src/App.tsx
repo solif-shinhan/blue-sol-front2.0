@@ -22,6 +22,7 @@ const WritePage = lazy(() => import('@pages/Exchange/Write'))
 const WriteFormPage = lazy(() => import('@pages/Exchange/Write/WriteForm'))
 const BoardPage = lazy(() => import('@pages/Exchange/Board'))
 const BoardDetailPage = lazy(() => import('@pages/Exchange/Board/BoardDetail'))
+const ReviewDetailPage = lazy(() => import('@pages/Exchange/ReviewDetail'))
 const GrowthPage = lazy(() => import('@pages/Growth'))
 const NotificationsPage = lazy(() => import('@pages/Notifications'))
 const NotificationDetailPage = lazy(() => import('@pages/Notifications/NotificationDetail'))
@@ -110,6 +111,7 @@ function App() {
           <Route path="/exchange/write/form" element={<WriteFormPage />} />
           <Route path="/exchange/board" element={<BoardPage />} />
           <Route path="/exchange/board/:postId" element={<BoardDetailPage />} />
+          <Route path="/exchange/council/review/:reviewId" element={<ReviewDetailPage />} />
 
           <Route path="/growth" element={<GrowthPage />} />
 

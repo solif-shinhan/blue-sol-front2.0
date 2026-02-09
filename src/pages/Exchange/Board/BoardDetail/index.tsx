@@ -35,7 +35,7 @@ interface DisplayPost {
   viewCount: number
   likeCount: number
   commentCount: number
-  images?: string[]
+  imageUrls?: string[]
   isLiked: boolean
 }
 
@@ -71,7 +71,7 @@ function BoardDetailPage() {
           viewCount: data.viewCount || 0,
           likeCount: data.likeCount,
           commentCount: data.commentCount,
-          images: data.images,
+          imageUrls: data.imageUrls,
           isLiked: data.isLiked,
         })
       }
@@ -261,9 +261,9 @@ function BoardDetailPage() {
           </div>
         </div>
 
-        {post.images && post.images.length > 0 && (
+        {post.imageUrls && post.imageUrls.length > 0 && (
           <div className={styles.imageGallery}>
-            {post.images.map((image, index) => (
+            {post.imageUrls.map((image, index) => (
               <img
                 key={index}
                 src={image}
