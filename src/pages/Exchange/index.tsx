@@ -7,6 +7,7 @@ import bellIcon from '@/assets/images/bell.svg'
 import arrowRightBlue from '@/assets/images/arrow-right-blue.svg'
 import mentoringIconImg from '@/assets/images/exchage-board/8c7a7abec9195b18a5034fbe9bf6b82083dce5d4.png'
 import fabCloseIconSvg from '@/assets/images/exchage-board/Vector2.svg'
+import { FABButton } from '@/components/FABButton'
 import { COUNCIL_ITEMS } from '../Home/Home.constants'
 import { useCouncilStatus } from '@/hooks'
 import { logout } from '@/services'
@@ -341,12 +342,7 @@ function ExchangePage() {
       )}
 
       {!isFabMenuOpen && (
-        <button
-          className={styles.fab}
-          onClick={() => setIsFabMenuOpen(true)}
-        >
-          <img src="/jam_write.svg" alt="글쓰기" className={styles.fabIcon} />
-        </button>
+        <FABButton onClick={() => setIsFabMenuOpen(true)} />
       )}
     </div>
   )

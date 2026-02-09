@@ -44,6 +44,7 @@
 }
 
 .tabActive {
+  font-weight: 500;
   color: var(--color-dark-gray);
   border-bottom: 2px solid var(--color-dark-gray);
 }

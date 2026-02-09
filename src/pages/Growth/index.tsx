@@ -17,43 +17,57 @@ import imgMission3 from '@/assets/images/7741fb9eacef36e07c7049afab51e81067899bf
 
 // 영상 imports
 import videoTree from '@/assets/videos/tree1.mp4'
-import videoTreeBig from '@/assets/videos/treebig.mp4'
-import videoSolWind from '@/assets/videos/solwind.mp4'
-import videoSolBack from '@/assets/videos/solback.mp4'
+import videoTree2 from '@/assets/videos/tree2.mp4'
 
 // 하단 섹션 imports
 import { StrengthSection, ProgramSection, Footer } from './GrowthSections'
 
-type AnimationPhase = 'idle' | 'zoomIn' | 'pinecone' | 'zoomOut' | 'completed'
-
-const VIDEO_MAP: Record<AnimationPhase, string> = {
-  idle: videoTree,
-  zoomIn: videoTreeBig,
-  pinecone: videoSolWind,
-  zoomOut: videoSolBack,
-  completed: videoTree,
-}
+type AnimationPhase = 'idle' | 'playing' | 'completed'
 
 // 상단 그래픽 배경
 const TopBackground = ({ phase, onPhaseEnd }: {
   phase: AnimationPhase
   onPhaseEnd: () => void
 }) => {
-  const isLoop = phase === 'idle' || phase === 'completed'
+  const tree2Ref = useRef<HTMLVideoElement>(null)
+  const isPlaying = phase === 'playing'
+
+  useEffect(() => {
+    if (isPlaying && tree2Ref.current) {
+      tree2Ref.current.currentTime = 0
+      tree2Ref.current.play().catch(() => {})
+    }
+  }, [isPlaying])
+
   return (
     <>
       <div className={styles1.topBackground} />
       <div className={styles1.topGraphic}>
+        {/* 기본 루프 영상 (항상 재생) */}
         <video
-          key={phase}
           autoPlay
-          loop={isLoop}
+          loop
           muted
           playsInline
           className={styles1.topGraphicVideo}
-          onEnded={() => { if (!isLoop) onPhaseEnd() }}
         >
-          <source src={VIDEO_MAP[phase]} type="video/mp4" />
+          <source src={videoTree} type="video/mp4" />
+        </video>
+        {/* 솔방울 영상 (위에 겹쳐서 opacity로 전환) */}
+        <video
+          ref={tree2Ref}
+          muted
+          playsInline
+          preload="auto"
+          className={styles1.topGraphicVideo}
+          style={{
+            opacity: isPlaying ? 1 : 0,
+            transition: 'opacity 0.4s ease',
+            zIndex: 1,
+          }}
+          onEnded={onPhaseEnd}
+        >
+          <source src={videoTree2} type="video/mp4" />
         </video>
       </div>
     </>
@@ -66,7 +80,7 @@ const TopNav = () => {
   return (
     <div className={styles1.topNav}>
       <div className={styles1.tabMenu}>
-        <button className={styles1.tabItem} onClick={() => navigate('/')}>
+        <button className={styles1.tabItem} onClick={() => navigate('/home')}>
           <span>홈</span>
         </button>
         <button className={styles1.tabItem} onClick={() => navigate('/exchange')}>
@@ -121,21 +135,18 @@ const SolbangulButton = ({ visible, collectedCount }: { visible: boolean; collec
         <img
           src={collectedCount >= 1 ? imgSolbangul : imgSolbangulEmpty}
           alt="솔방울"
-          className={collectedCount >= 1 ? styles2.solbangulIconRotated : ''}
         />
       </div>
       <div className={styles2.solbangulIcon}>
         <img
           src={collectedCount >= 2 ? imgSolbangul : imgSolbangulEmpty}
           alt="솔방울"
-          className={collectedCount >= 2 ? styles2.solbangulIconRotated : ''}
         />
       </div>
       <div className={styles2.solbangulIcon}>
         <img
           src={collectedCount >= 3 ? imgSolbangul : imgSolbangulEmpty}
           alt="솔방울"
-          className={collectedCount >= 3 ? styles2.solbangulIconRotated : ''}
         />
       </div>
     </button>
@@ -258,20 +269,18 @@ function GrowthPage() {
   const [showToast, setShowToast] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
 
-  const isAnimating = phase !== 'idle' && phase !== 'completed'
-  const isUserVisible = phase === 'idle' || phase === 'zoomOut' || phase === 'completed'
+  const isAnimating = phase === 'playing'
+  const isUserVisible = phase === 'idle' || phase === 'completed'
   const isSolbangulVisible = phase === 'idle' || phase === 'completed'
 
   const handleCollect = (index: number) => {
     if (phase !== 'idle' || collectedCount > index) return
     containerRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
-    setTimeout(() => setPhase('zoomIn'), 300)
+    setTimeout(() => setPhase('playing'), 300)
   }
 
   const handlePhaseEnd = () => {
-    if (phase === 'zoomIn') setPhase('pinecone')
-    else if (phase === 'pinecone') setPhase('zoomOut')
-    else if (phase === 'zoomOut') {
+    if (phase === 'playing') {
       setPhase('completed')
       setCollectedCount(prev => Math.min(prev + 1, 3))
     }
@@ -286,15 +295,11 @@ function GrowthPage() {
 
   // 토스트 표시 제어
   useEffect(() => {
-    if (phase === 'pinecone') {
+    if (phase === 'playing') {
       const t = setTimeout(() => setShowToast(true), 500)
       return () => clearTimeout(t)
     }
-    if (phase === 'zoomOut') {
-      setShowToast(false)
-    }
     if (phase === 'completed') {
-      setShowToast(true)
       const t = setTimeout(() => setShowToast(false), 3000)
       return () => clearTimeout(t)
     }

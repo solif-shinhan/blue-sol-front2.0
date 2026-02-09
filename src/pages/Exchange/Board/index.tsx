@@ -17,7 +17,7 @@ import counselingImg from '@/assets/images/exchage-board/80112dee4520b196fff0516
 import foundationNewsImg from '@/assets/images/exchage-board/6fecb3f4903a46cbe10992ced7057fb3c483ef00.png'
 import defaultPostImg from '@/assets/images/exchage-board/27342ac6292fb7d2b87647841f5fab093bda09f6.png'
 import shinhanLogo from '@/assets/images/exchage-board/shinhan-logo.png'
-const fabWriteIcon = '/jam_write.svg'
+import { FABButton } from '@/components/FABButton'
 
 type FilterTab = '자치회 활동 후기' | '멘토링 후기'
 
@@ -281,9 +281,7 @@ function BoardPage() {
       </div>
 
       {/* FAB Write Button */}
-      <button className={styles.fabButton} onClick={handleWritePost}>
-        <img src={fabWriteIcon} alt="글쓰기" className={styles.fabIcon} />
-      </button>
+      <FABButton onClick={handleWritePost} />
     </div>
   )
 }

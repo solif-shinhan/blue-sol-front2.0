@@ -33,11 +33,6 @@
   object-fit: cover;
 }
 
-.solbangulIconRotated {
-  width: 53px;
-  height: 53px;
-  transform: rotate(-29.91deg);
-}
 
 /* 메인 콘텐츠 영역 */
 .mainContent {

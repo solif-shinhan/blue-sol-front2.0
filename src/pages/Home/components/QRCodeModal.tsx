@@ -2,22 +2,19 @@ import { QRCodeSVG } from 'qrcode.react'
 import styles1 from '../Home-1.module.css'
 import styles2 from '../Home-2.module.css'
 import styles3 from '../Home-3.module.css'
-import iconPeopleCommunity from '@/assets/images/solid/icon-people-community.svg'
-import iconPersonEdit from '@/assets/images/solid/icon-person-edit.svg'
 import iconDismiss from '@/assets/images/solid/icon-dismiss.svg'
-import { Character } from '@/features/02-onboarding/types/card-1'
+import { Character, BackgroundColor } from '@/features/02-onboarding/types/card-1'
 
 const styles = { ...styles1, ...styles2, ...styles3 }
 
 interface QRCodeModalProps {
   isOpen: boolean
   onClose: () => void
-  onNetwork: () => void
-  onEdit: () => void
   userId?: string
   userName?: string
   userRole?: string
   character?: Character | null
+  backgroundColor?: BackgroundColor | null
   school?: string
   sinceYear?: string
 }
@@ -25,12 +22,11 @@ interface QRCodeModalProps {
 export function QRCodeModal({
   isOpen,
   onClose,
-  onNetwork,
-  onEdit,
   userId = 'user-123',
   userName = '사용자',
   userRole = '',
   character,
+  backgroundColor,
   school = '',
   sinceYear = '2026',
 }: QRCodeModalProps) {
@@ -43,7 +39,16 @@ export function QRCodeModal({
       <div className={styles.qrModalContent} onClick={(e) => e.stopPropagation()}>
         {/* SOLID Card with QR */}
         <div className={styles.qrCard}>
-          <div className={styles.qrCardGradient} />
+          {backgroundColor?.imageUrl ? (
+            <img
+              className={styles.qrCardGradient}
+              src={backgroundColor.imageUrl}
+              alt=""
+              style={{ objectFit: 'cover' }}
+            />
+          ) : (
+            <div className={styles.qrCardGradient} />
+          )}
 
           <div className={styles.qrCardLogo}>
             <span className={styles.qrLogoSol}>SOL</span>
@@ -80,22 +85,10 @@ export function QRCodeModal({
           </div>
         </div>
 
-        {/* Action Buttons: 교류망 | X닫기 | 편집하기 */}
+        {/* X 닫기 버튼 (가운데 정렬) */}
         <div className={styles.qrActions}>
-          <button className={styles.modalActionButton} onClick={onNetwork}>
-            <div className={`${styles.modalActionIcon} ${styles.networkIcon}`}>
-              <img src={iconPeopleCommunity} alt="교류망" />
-            </div>
-            <span>교류망</span>
-          </button>
           <button className={styles.qrCloseButtonCircle} onClick={onClose}>
             <img src={iconDismiss} alt="닫기" />
-          </button>
-          <button className={styles.modalActionButton} onClick={onEdit}>
-            <div className={`${styles.modalActionIcon} ${styles.editIcon}`}>
-              <img src={iconPersonEdit} alt="편집하기" />
-            </div>
-            <span>편집하기</span>
           </button>
         </div>
       </div>

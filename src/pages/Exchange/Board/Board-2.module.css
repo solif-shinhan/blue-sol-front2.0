@@ -128,35 +128,6 @@
   transform: translateY(-50%);
 }
 
-/* FAB Button */
-.fabButton {
-  position: fixed;
-  bottom: 100px;
-  right: calc(50% - 393px / 2 + 16px);
-  width: 62px;
-  height: 62px;
-  border-radius: 30px;
-  background: #074ED8;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0px 4px 12px rgba(7, 78, 216, 0.3);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  z-index: 100;
-  padding: 0;
-}
-
-.fabButton:hover {
-  transform: scale(1.05);
-  box-shadow: 0px 6px 16px rgba(7, 78, 216, 0.4);
-}
-
-.fabIcon {
-  width: 28px;
-  height: 28px;
-}
 
 /* Footer */
 .footer {

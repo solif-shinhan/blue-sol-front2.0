@@ -6,6 +6,7 @@ import styles2 from './Home-2.module.css'
 import styles3 from './Home-3.module.css'
 import styles4 from './Home-4.module.css'
 import bellIcon from '@/assets/images/bell.svg'
+import imgSolif from '@/assets/images/2a624313de43c9c9da407df6b2818750ca4766d0.svg'
 import imgFooterLogo from '@/assets/images/057453724e8f804d5306e38ceabfcf7513cbed10.png'
 import { SolidCardModal } from './components/SolidCardModal'
 import { QRCodeModal } from './components/QRCodeModal'
@@ -62,6 +63,18 @@ function HomePage() {
   const isDragging = useRef(false)
   const startX = useRef(0)
   const scrollLeft = useRef(0)
+
+  // 목표 데이터 (localStorage)
+  const goalData = useMemo(() => {
+    const savedGoals = localStorage.getItem('userGoals')
+    const savedCompleted = localStorage.getItem('completedGoals')
+    const goals: string[] = savedGoals ? JSON.parse(savedGoals) : []
+    const completedIds: number[] = savedCompleted ? JSON.parse(savedCompleted) : []
+    const totalCount = goals.length
+    const completedCount = completedIds.length
+    const mainGoal = goals[0] || ''
+    return { mainGoal, completedCount, totalCount }
+  }, [])
 
   // 데이터 로드
   useEffect(() => {
@@ -140,35 +153,37 @@ function HomePage() {
     }
   }
 
-  const getSlideWidth = useCallback(() => sliderRef.current?.offsetWidth || 360, [])
+  const SLIDE_STEP = 380 // card width (360) + gap (20)
 
   const goToSlide = useCallback((index: number) => {
-    const itemCount = newsItems.length || 1
+    const itemCount = NEWS_ITEMS.length
     let targetIndex = index
     if (index < 0) targetIndex = itemCount - 1
     else if (index >= itemCount) targetIndex = 0
     setCurrentSlide(targetIndex)
-    sliderRef.current?.scrollTo({ left: targetIndex * getSlideWidth(), behavior: 'smooth' })
-  }, [getSlideWidth, newsItems.length])
+    sliderRef.current?.scrollTo({ left: targetIndex * SLIDE_STEP, behavior: 'smooth' })
+  }, [])
 
   const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
     isDragging.current = true
     startX.current = 'touches' in e ? e.touches[0].pageX : e.pageX
     scrollLeft.current = sliderRef.current?.scrollLeft || 0
+    if (sliderRef.current) sliderRef.current.style.scrollSnapType = 'none'
   }
 
   const handleDragMove = (e: React.MouseEvent | React.TouchEvent) => {
     if (!isDragging.current || !sliderRef.current) return
     e.preventDefault()
     const x = 'touches' in e ? e.touches[0].pageX : e.pageX
-    sliderRef.current.scrollLeft = scrollLeft.current + (startX.current - x) * 1.5
+    sliderRef.current.scrollLeft = scrollLeft.current + (startX.current - x)
   }
 
   const handleDragEnd = () => {
     if (!isDragging.current || !sliderRef.current) return
     isDragging.current = false
     const diff = sliderRef.current.scrollLeft - scrollLeft.current
-    if (Math.abs(diff) > getSlideWidth() * 0.2) goToSlide(currentSlide + (diff > 0 ? 1 : -1))
+    sliderRef.current.style.scrollSnapType = 'x mandatory'
+    if (Math.abs(diff) > SLIDE_STEP * 0.15) goToSlide(currentSlide + (diff > 0 ? 1 : -1))
     else goToSlide(currentSlide)
   }
 
@@ -177,13 +192,12 @@ function HomePage() {
     if (!slider) return
     const handleScroll = () => {
       if (isDragging.current) return
-      const newSlide = Math.round(slider.scrollLeft / getSlideWidth())
-      const itemCount = newsItems.length || 1
-      if (newSlide !== currentSlide && newSlide >= 0 && newSlide < itemCount) setCurrentSlide(newSlide)
+      const newSlide = Math.round(slider.scrollLeft / SLIDE_STEP)
+      if (newSlide !== currentSlide && newSlide >= 0 && newSlide < NEWS_ITEMS.length) setCurrentSlide(newSlide)
     }
     slider.addEventListener('scroll', handleScroll)
     return () => slider.removeEventListener('scroll', handleScroll)
-  }, [currentSlide, getSlideWidth, newsItems.length])
+  }, [currentSlide])
 
   return (
     <div className={styles.container}>
@@ -236,25 +250,49 @@ function HomePage() {
               ))}
             </div>
 
+            {goalData.mainGoal && (
+              <section className={styles.goalHero} onClick={() => navigate('/goals')}>
+                <div className={styles.goalHeroLeft}>
+                  <img src={imgSolif} alt="SOLIF, 너의 꿈을 응원해" className={styles.goalHeroLogo} />
+                  <h2 className={styles.goalHeroTitle}>{goalData.mainGoal}</h2>
+                </div>
+                <div className={styles.goalHeroRight}>
+                  <div className={styles.goalBadge}>나의 목표</div>
+                  <div className={styles.goalRing}>
+                    <svg viewBox="0 0 70 70" width="70" height="70">
+                      <circle cx="35" cy="35" r="30" fill="none" stroke="#E6EFFF" strokeWidth="5" />
+                      <circle cx="35" cy="35" r="30" fill="none" stroke="#074ED8" strokeWidth="5"
+                        strokeLinecap="round"
+                        strokeDasharray={2 * Math.PI * 30}
+                        strokeDashoffset={2 * Math.PI * 30 * (1 - (goalData.totalCount > 0 ? goalData.completedCount / goalData.totalCount : 0))}
+                        style={{ transform: 'rotate(-90deg)', transformOrigin: '50% 50%' }} />
+                    </svg>
+                    <span className={styles.goalRingText}>
+                      <span className={styles.goalRingCurrent}>{goalData.completedCount}</span>
+                      <span className={styles.goalRingTotal}>/{goalData.totalCount}</span>
+                    </span>
+                  </div>
+                </div>
+              </section>
+            )}
+
             <section className={styles.newsSection}>
               <h2 className={styles.sectionTitle}>새로운 소식</h2>
               <div className={styles.newsSlider} ref={sliderRef}
                 onMouseDown={handleDragStart} onMouseMove={handleDragMove}
                 onMouseUp={handleDragEnd} onMouseLeave={handleDragEnd}
                 onTouchStart={handleDragStart} onTouchMove={handleDragMove} onTouchEnd={handleDragEnd}>
-                <div className={styles.newsSliderTrack}>
-                  {NEWS_ITEMS.map(item => (
-                    <div key={item.id} className={styles.newsCard}>
-                      <div className={styles.newsCardContent}>
-                        <h3>{item.title}</h3>
-                        <p>{item.subtitle}</p>
-                      </div>
-                      <div className={styles.newsCardIcon}>
-                        {item.icon && <img src={item.icon} alt="" style={{ width: item.iconWidth, height: item.iconHeight }} />}
-                      </div>
+                {NEWS_ITEMS.map(item => (
+                  <div key={item.id} className={styles.newsCard}>
+                    <div className={styles.newsCardContent}>
+                      <h3>{item.title}</h3>
+                      <p>{item.subtitle}</p>
                     </div>
-                  ))}
-                </div>
+                    <div className={styles.newsCardIcon}>
+                      {item.icon && <img src={item.icon} alt="" style={{ width: item.iconWidth, height: item.iconHeight }} />}
+                    </div>
+                  </div>
+                ))}
               </div>
               <div className={styles.sliderDots}>
                 {NEWS_ITEMS.map((_, i) => (
@@ -325,11 +363,10 @@ function HomePage() {
       <QRCodeModal
         isOpen={isQRModalOpen}
         onClose={handleQRModalClose}
-        onNetwork={handleNetwork}
-        onEdit={handleEdit}
         userName={profile?.userName || '사용자'}
         userRole={profile?.solidGoalName || ''}
         character={cardProps?.character || null}
+        backgroundColor={cardProps?.backgroundColor || null}
         school={school}
         sinceYear="2026"
       />
