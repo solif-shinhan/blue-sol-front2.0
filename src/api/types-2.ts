@@ -341,9 +341,14 @@ export interface PeerUser {
   userId: number;
   userName: string;
   character: string;
+  characterImageUrl: string | null;
   backgroundPattern: string;
+  backgroundImageUrl: string | null;
   solidGoalName: string;
   interests: string[];
+  mainGoals: string[];
+  schoolName: string;
+  joinYear: number | null;
   status: PeerUserStatus;
 }
 
