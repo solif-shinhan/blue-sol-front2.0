@@ -7,6 +7,7 @@ import searchIcon from '@/assets/images/network/e1e12166e22b287c6f9f01541da749c3
 import plusIcon from '@/assets/images/network/4de7b4619a8a7217458e36fa3215adb3643f60eb.svg'
 import solidLogoWhiteSvg from '@/assets/images/network/e818367a0db04bf1988756d66e77bb070225c713.svg'
 import moreDotsIcon from '@/assets/images/network/51d88d8a9f263d54e503fd4f7207cbac51f9793a.svg'
+import { getIconByLabel } from '@assets/icons'
 import {
   getNetworkList,
   sendInteraction,
@@ -49,6 +50,9 @@ function NetworkPage() {
 
   const isDragging = useRef(false)
   const startX = useRef(0)
+  const startY = useRef(0)
+  const currentX = useRef(0)
+  const clickThreshold = 10 // 클릭과 드래그 구분 threshold
 
   useEffect(() => {
     const fetch = async () => {
@@ -79,19 +83,61 @@ function NetworkPage() {
   }
 
   const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
-    isDragging.current = true
-    startX.current = 'touches' in e ? e.touches[0].pageX : e.pageX
+    isDragging.current = false
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY
+    startX.current = clientX
+    startY.current = clientY
+    currentX.current = clientX
+  }
+
+  const handleDragMove = (e: React.MouseEvent | React.TouchEvent) => {
+    if (startX.current === 0) return
+    
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY
+    const diffX = Math.abs(clientX - startX.current)
+    const diffY = Math.abs(clientY - startY.current)
+    
+    // 수평 이동이 수직 이동보다 크면 드래그로 판단
+    if (diffX > clickThreshold && diffX > diffY) {
+      isDragging.current = true
+      e.preventDefault() // 스크롤 방지
+    }
+    
+    currentX.current = clientX
   }
 
   const handleDragEnd = (e: React.MouseEvent | React.TouchEvent) => {
-    if (!isDragging.current) return
-    isDragging.current = false
-    const endX = 'changedTouches' in e ? e.changedTouches[0].pageX : e.pageX
+    if (startX.current === 0) return
+    
+    const endX = 'changedTouches' in e ? e.changedTouches[0].clientX : e.clientX
     const diff = startX.current - endX
-    if (Math.abs(diff) > 50) {
-      const next = activeIndex + (diff > 0 ? 1 : -1)
-      if (next >= 0 && next < networkCards.length) setActiveIndex(next)
+    
+    // 드래그가 아니라 클릭인 경우 (threshold 이하)
+    if (!isDragging.current || Math.abs(diff) < clickThreshold) {
+      startX.current = 0
+      startY.current = 0
+      currentX.current = 0
+      isDragging.current = false
+      return
     }
+    
+    // 스와이프 감지 (최소 80px 이상 이동)
+    if (Math.abs(diff) > 80) {
+      const direction = diff > 0 ? 1 : -1
+      const newIndex = activeIndex + direction
+      
+      if (newIndex >= 0 && newIndex < networkCards.length) {
+        setActiveIndex(newIndex)
+      }
+    }
+    
+    // 초기화
+    startX.current = 0
+    startY.current = 0
+    currentX.current = 0
+    isDragging.current = false
   }
 
   const handleAction = async () => {
@@ -142,7 +188,7 @@ function NetworkPage() {
     )
   }
 
-  if (friends.length === 0) {
+  if (friends.length === 0 && networkCards.length === 0) {
     return (
       <div className={styles.container}>
         {renderHeader()}
@@ -171,7 +217,11 @@ function NetworkPage() {
               <div key={friend.userId} className={styles.friendItem} onClick={() => handleSelectFriend(friend.userId)}>
                 <div
                   className={`${styles.friendAvatar} ${isActive ? styles.friendAvatarSelected : ''}`}
-                  style={{ background: getGradient(friend.backgroundPattern) }}
+                  style={{
+                    background: toFullUrl(friend.backgroundImageUrl)
+                      ? `url(${toFullUrl(friend.backgroundImageUrl)}) center/cover no-repeat`
+                      : getGradient(friend.backgroundPattern),
+                  }}
                 >
                   {toFullUrl(friend.characterImageUrl) && (
                     <img src={toFullUrl(friend.characterImageUrl)} alt="" />
@@ -190,23 +240,40 @@ function NetworkPage() {
       <div
         className={styles.carouselSection}
         onMouseDown={handleDragStart}
+        onMouseMove={handleDragMove}
         onMouseUp={handleDragEnd}
         onMouseLeave={handleDragEnd}
         onTouchStart={handleDragStart}
+        onTouchMove={handleDragMove}
         onTouchEnd={handleDragEnd}
       >
-        <div className={styles.carouselTrack} style={{ transform: `translateX(${trackX}px)` }}>
+        <div className={styles.carouselTrack} style={{ transform: `translateX(${trackX}px)`, transition: 'transform 0.3s ease-out' }}>
           {networkCards.map((card, index) => {
             const isCardActive = index === activeIndex
             return (
               <div
                 key={card.userId}
                 className={`${styles.card} ${!isCardActive ? styles.cardInactive : ''}`}
-                onClick={() => setActiveIndex(index)}
+                onClick={(e) => {
+                  // 드래그 중이거나 드래그가 발생했으면 클릭 무시
+                  if (isDragging.current) {
+                    e.preventDefault()
+                    return
+                  }
+                  setActiveIndex(index)
+                }}
+                style={{ cursor: isDragging.current ? 'grabbing' : 'pointer' }}
               >
                 {/* 상단 그라데이션 영역 */}
                 <div className={styles.cardTop}>
-                  <div className={styles.cardGradient} style={{ background: getGradient(card.backgroundPattern) }} />
+                  <div
+                    className={styles.cardGradient}
+                    style={{
+                      background: toFullUrl(card.backgroundImageUrl)
+                        ? `url(${toFullUrl(card.backgroundImageUrl)}) center/cover no-repeat`
+                        : getGradient(card.backgroundPattern),
+                    }}
+                  />
 
                   {isCardActive ? (
                     <div className={styles.solidLogo}>
@@ -237,11 +304,21 @@ function NetworkPage() {
                   </div>
 
                   <div className={styles.interestTags}>
-                    {card.interests.slice(0, 2).map((interest, i) => (
-                      <div key={i} className={`${styles.interestPill} ${styles.interestPillNoPad}`}>
-                        <span className={styles.interestText}>{interest}</span>
-                      </div>
-                    ))}
+                    {card.interests.slice(0, 2).map((interest, i) => {
+                      const iconSrc = getIconByLabel(interest);
+                      return (
+                        <div key={i} className={`${styles.interestPill} ${styles.interestPillNoPad}`}>
+                          {iconSrc && (
+                            <img 
+                              src={iconSrc} 
+                              alt={interest}
+                              style={{ width: '16px', height: '16px', marginRight: '4px' }}
+                            />
+                          )}
+                          <span className={styles.interestText}>{interest}</span>
+                        </div>
+                      );
+                    })}
                     {card.interests.length > 2 && (
                       <div className={styles.moreDots}>
                         <img src={moreDotsIcon} alt="더보기" />

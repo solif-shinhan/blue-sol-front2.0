@@ -158,9 +158,19 @@ function ExchangePage() {
               </div>
               {networkFriends.slice(0, 6).map((friend) => (
                 <div key={friend.userId} className={styles.friendItem}>
-                  <div className={styles.friendAvatar}>
-                    {toFullUrl(friend.characterImageUrl || friend.character) && (
-                      <img src={toFullUrl(friend.characterImageUrl || friend.character)} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
+                  <div
+                    className={styles.friendAvatar}
+                    style={{
+                      ...(toFullUrl(friend.backgroundImageUrl) ? {
+                        background: `url(${toFullUrl(friend.backgroundImageUrl)}) center/cover no-repeat`,
+                      } : {}),
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    {toFullUrl(friend.characterImageUrl || friend.userCharacter) && (
+                      <img src={toFullUrl(friend.characterImageUrl || friend.userCharacter)} alt="" style={{ width: '70%', height: '70%', objectFit: 'contain' }} />
                     )}
                   </div>
                   <span className={styles.friendName}>{friend.userName}</span>
