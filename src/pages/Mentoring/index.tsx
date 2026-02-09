@@ -210,7 +210,7 @@ function MentoringPage() {
         <section className={styles.section}>
           <div className={styles.sectionHeader}>
             <h2 className={styles.sectionTitle}>선후배 멘토링</h2>
-            <button className={styles.moreButton}>나의 교류망</button>
+            <button className={styles.moreButton} onClick={() => navigate('/exchange/network')}>나의 교류망</button>
           </div>
 
           <div className={styles.filterTabs}>
