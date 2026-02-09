@@ -133,90 +133,20 @@
   box-shadow: 0px 0px 30px rgba(27, 37, 56, 0.1);
 }
 
+/* 기존 초록색 active (필요 시 사용) */
 .filterTabActive {
   background-color: #C5ED52;
 }
 
-.statusCardsContainer {
-  display: flex;
-  gap: 16px;
-  overflow-x: auto;
-  padding-bottom: 5px;
+/* 새 디자인: 파란색 active */
+.filterTabActiveBlue {
+  background-color: #074ED8;
+  color: #FFFFFF;
 }
 
-.statusCardsContainer::-webkit-scrollbar {
-  display: none;
-}
-
-.statusCard {
-  width: 218.75px;
-  height: 350px;
-  background-color: #FFFFFF;
-  border-radius: 24px;
-  box-shadow: 0px 0px 32.915px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  position: relative;
-  flex-shrink: 0;
-}
-
-.statusCardGradient {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 57.29%, rgba(255, 255, 255, 0.9) 76.14%);
-  pointer-events: none;
-}
-
-.statusCardContent {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: center;
-  height: 64px;
-  padding: 10px;
-}
-
-.statusBadge {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 6px;
-  background-color: #E6EFFF;
-  border-radius: 24px;
-  padding: 10px 16px;
-}
-
-.statusBadgeIcon {
-  width: 24px;
-  height: 24px;
-}
-
-.statusBadgeText {
-  font-family: 'Pretendard', sans-serif;
-  font-size: 18px;
-  font-weight: 700;
-  color: #3971E0;
-  line-height: 1.2;
-  text-align: right;
-}
-
-.statusCardLabel {
-  position: absolute;
-  top: 164px;
-  left: 68px;
-  font-family: 'Pretendard', sans-serif;
-  font-size: 18px;
-  font-weight: 700;
-  color: #BFD5FF;
-  line-height: 1.2;
-}
-
+/* ===================== */
+/* 전문가 멘토 카드       */
+/* ===================== */
 .mentorCardsContainer {
   display: flex;
   gap: 16px;
@@ -257,6 +187,7 @@
   height: 100%;
   overflow: hidden;
   opacity: 0.8;
+  background-color: #D5DDE8;
 }
 
 .mentorCardImageInner img {
@@ -361,3 +292,167 @@
   line-height: 1.2;
 }
 
+/* ===================== */
+/* 선후배 멘토링 카드     */
+/* ===================== */
+.peerCardsContainer {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 5px;
+}
+
+.peerCardsContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.peerCard {
+  width: 218.75px;
+  min-height: 320px;
+  background-color: #FFFFFF;
+  border-radius: 24px;
+  box-shadow: 0px 0px 32.915px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 카드 상단: 배경 + 캐릭터 */
+.peerCardTop {
+  position: relative;
+  height: 160px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+.peerCardBrand {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  font-family: 'OneShinhan', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #074ED8;
+  letter-spacing: 1px;
+}
+
+.peerNameArea {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  z-index: 1;
+}
+
+.peerName {
+  font-family: 'OneShinhan', sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  color: #222222;
+  line-height: 1.3;
+  letter-spacing: -0.48px;
+}
+
+.peerGoalName {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #555555;
+  line-height: 1.4;
+}
+
+.peerCharacterImage {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  z-index: 1;
+}
+
+/* 카드 하단 */
+.peerCardBottom {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 16px 16px;
+  flex: 1;
+}
+
+.peerInterests {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.peerInterestTag {
+  padding: 4px 10px;
+  border-radius: 12px;
+  background-color: #F0F4FF;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #074ED8;
+  line-height: 1.4;
+}
+
+.peerMainGoals {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.peerGoalText {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555555;
+  line-height: 1.5;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.peerStatusBadge {
+  align-self: flex-start;
+  padding: 6px 16px;
+  border-radius: 16px;
+  background-color: #E6EFFF;
+}
+
+.peerStatusBadge span {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #3971E0;
+}
+
+.peerSchoolFull {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px solid #F0F0F0;
+}
+
+.peerSchoolFull span {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: #AAAAAA;
+}
+
+.peerSince {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  color: #CCCCCC;
+  letter-spacing: 1px;
+}

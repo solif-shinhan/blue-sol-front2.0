@@ -1,7 +1,7 @@
 import { apiClient } from '@/api'
 
-export type InteractionType = 'CHEER' | 'SHARE_EXPERIENCE'
-export type ButtonType = 'CHEER' | 'SHARE_EXPERIENCE'
+export type InteractionType = 'CHEER' | 'HELP'
+export type ButtonType = 'CHEER' | 'HELP'
 
 export interface NetworkFriend {
   userId: number
@@ -25,6 +25,7 @@ export interface NetworkCard {
   buttonType: ButtonType
   isInCouncil: boolean
   councilName?: string
+  region?: string
   schoolName?: string
   joinYear?: number
 }

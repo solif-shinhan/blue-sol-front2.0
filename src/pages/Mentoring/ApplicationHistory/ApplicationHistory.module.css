@@ -3,28 +3,27 @@
   height: 852px;
   background: linear-gradient(180deg, #FFFFFF 0%, #F3F6FB 100%);
   position: relative;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
 }
 
 .header {
-  position: absolute;
-  top: 54px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 393px;
-  height: 50px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
+  padding: 57px 0 0;
+  background: transparent;
 }
 
 .headerInner {
   display: flex;
   align-items: center;
-  position: absolute;
-  left: 17px;
-  top: 13px;
-  width: 241px;
+  height: 50px;
+  padding: 0 15px;
+  position: relative;
 }
 
 .backButton {
@@ -37,7 +36,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
 }
 
 .backButton img {
@@ -46,161 +44,164 @@
 }
 
 .headerTitle {
-  font-family: 'ONE-Shinhan', sans-serif;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 1.4;
-  letter-spacing: -0.36px;
-  color: #848484;
-  text-align: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.tabBar {
   position: absolute;
-  top: 116px;
   left: 50%;
   transform: translateX(-50%);
-  width: 360px;
-  height: 36px;
+  font-family: 'OneShinhan', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: #222222;
+  letter-spacing: -0.36px;
+}
+
+/* ============ 메인 탭 (보낸 요청 / 받은 답변) ============ */
+.tabBar {
   display: flex;
-  align-items: center;
-  background: #FFFFFF;
-  border: 1px solid #EEEEEE;
-  border-radius: 30px;
-  box-shadow: 0px 0px 30px 0px rgba(27, 37, 56, 0.1);
+  padding: 16px 17px 0;
+  gap: 0;
 }
 
 .tab {
-  flex: 1 0 0;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px 16px;
-  border-radius: 20px;
+  flex: 1;
+  height: 44px;
   border: none;
-  background: none;
-  cursor: pointer;
+  background: #F0F0F0;
   font-family: 'Pretendard', sans-serif;
+  font-size: 15px;
   font-weight: 600;
-  font-size: 14px;
-  line-height: 1.4;
   color: #848484;
-  box-sizing: border-box;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border-radius: 12px 12px 0 0;
 }
 
 .tabActive {
-  background: #074ED8;
+  background-color: #074ED8;
   color: #FFFFFF;
+  border-radius: 12px 12px 0 0;
 }
 
-.listContainer {
-  position: absolute;
-  top: 164px;
-  left: 0;
-  width: 393px;
+/* ============ 서브 탭 (멘토링 / 엽서) ============ */
+.subTabBar {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  overflow-y: auto;
-  max-height: calc(852px - 164px);
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  padding: 0 17px;
+  gap: 8px;
+  margin-top: 16px;
 }
 
-.listContainer::-webkit-scrollbar {
-  display: none;
+.subTab {
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1px solid #E0E0E0;
+  background: #FFFFFF;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #848484;
+  cursor: pointer;
+  transition: all 0.15s ease;
 }
 
-.listItem {
-  width: 100%;
-  height: 116px;
-  border-bottom: 1px solid #E6E6E6;
-  overflow: hidden;
-  position: relative;
-  flex-shrink: 0;
+.subTabActive {
+  background-color: #074ED8;
+  color: #FFFFFF;
+  border-color: #074ED8;
 }
 
-.listItemInner {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, calc(-50% + 1px));
-  width: 359px;
-  height: 88px;
+/* ============ 목록 ============ */
+.listContainer {
+  padding: 16px 17px;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  align-items: flex-start;
+}
+
+.emptyText {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  color: #848484;
+  text-align: center;
+  padding: 40px 0;
+}
+
+.listItem {
+  background-color: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.listItem:active {
+  transform: scale(0.98);
+}
+
+.listItemInner {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .itemHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
-  flex-shrink: 0;
 }
 
 .itemProfile {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.profileCircle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #D5DDE8;
   flex-shrink: 0;
 }
 
+.profileCircleBlue {
+  background-color: #074ED8;
+}
+
 .profileImage {
-  width: 28px;
-  height: 28px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  flex-shrink: 0;
   object-fit: cover;
-  background: #E6E6E6;
+  flex-shrink: 0;
 }
 
 .profileName {
   font-family: 'Pretendard', sans-serif;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 1.4;
+  font-size: 15px;
+  font-weight: 700;
   color: #222222;
-  flex-shrink: 0;
 }
 
 .itemDate {
   font-family: 'Pretendard', sans-serif;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 1.2;
-  color: #848484;
-  text-align: right;
-  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: #AAAAAA;
 }
 
 .itemContent {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  align-items: flex-start;
-  width: 100%;
-  flex: 1 0 0;
-  min-height: 0;
-  white-space: pre-wrap;
+  gap: 4px;
+  padding-left: 46px;
 }
 
 .itemTitle {
   font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
   font-weight: 700;
-  font-size: 18px;
-  line-height: 1.2;
   color: #222222;
-  width: 100%;
-  flex: 1 0 0;
-  min-height: 0;
+  margin: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -208,14 +209,173 @@
 
 .itemPreview {
   font-family: 'Pretendard', sans-serif;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 1.4;
+  font-size: 13px;
+  font-weight: 500;
   color: #848484;
-  width: 100%;
-  flex: 1 0 0;
-  min-height: 0;
+  margin: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* ============ 상세 보기 ============ */
+.detailContainer {
+  padding: 20px 20px 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.detailHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.detailProfileIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #074ED8;
+  flex-shrink: 0;
+}
+
+.detailProfileImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.detailProfilePlaceholder {
+  width: 100%;
+  height: 100%;
+  background-color: #074ED8;
+}
+
+.detailMentorName {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #222222;
+  flex: 1;
+}
+
+.detailDate {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #AAAAAA;
+}
+
+.detailTitle {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #222222;
+  line-height: 1.5;
+  margin: 8px 0 0;
+}
+
+.detailBody {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #444444;
+  line-height: 1.7;
+}
+
+.detailBody p {
+  margin: 0 0 12px;
+}
+
+.detailStatusBadge {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 6px 16px;
+  border-radius: 20px;
+  background-color: #FFF3E0;
+  margin-top: 8px;
+}
+
+.detailStatusBadge span {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #E67E22;
+}
+
+.detailReplyButtonWrapper {
+  position: fixed;
+  bottom: 30px;
+  right: 20px;
+}
+
+.detailReplyButton {
+  width: 120px;
+  height: 48px;
+  background-color: #074ED8;
+  border-radius: 24px;
+  border: none;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #FFFFFF;
+  cursor: pointer;
+  box-shadow: 0px 4px 12px rgba(7, 78, 216, 0.3);
+  transition: opacity 0.15s ease;
+}
+
+.detailReplyButton:hover {
+  opacity: 0.9;
+}
+
+/* ============ 상세: 엽서 ============ */
+.detailMeta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #AAAAAA;
+}
+
+.detailMetaDivider {
+  color: #D0D0D0;
+}
+
+.detailImages {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.detailImage {
+  width: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+/* ============ 목록: 엽서 뱃지 ============ */
+.itemBadgeRow {
+  display: flex;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.itemBadge {
+  padding: 3px 10px;
+  border-radius: 12px;
+  background-color: #FFF3E0;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #E67E22;
+}
+
+.itemBadgeRead {
+  background-color: #E8F5E9;
+  color: #2E7D32;
 }
