@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo } from 'react'
 
-function getScopedKey(key: string): string {
+export function getScopedKey(key: string): string {
   const userId = typeof window !== 'undefined' ? localStorage.getItem('userId') : null
   return userId ? `user:${userId}:${key}` : key
 }

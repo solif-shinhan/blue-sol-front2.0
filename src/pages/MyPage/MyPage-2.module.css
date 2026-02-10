@@ -115,52 +115,8 @@
   color: #848484;
 }
 
-/* Chart area - grid layout with overlapping items */
+/* Chart area */
 .chartArea {
-  display: inline-grid;
-  grid-template-columns: max-content;
-  grid-template-rows: max-content;
-  justify-items: start;
-  align-items: start;
-  line-height: 0;
   flex-shrink: 0;
-}
-
-.chartCharacter {
-  grid-column: 1;
-  grid-row: 1;
-  position: relative;
-  width: 55px;
-  height: 53px;
-  margin-left: 32px;
-  margin-top: 39px;
-  overflow: hidden;
-}
-
-.chartCharacter img {
-  position: absolute;
-  top: -8.37%;
-  left: -3.7%;
-  width: 116.05%;
-  height: 121.83%;
-  max-width: none;
-}
-
-.chartArc {
-  grid-column: 1;
-  grid-row: 1;
-  position: relative;
-  width: 111px;
-  height: 121.195px;
-}
-
-.chartArc img {
-  position: absolute;
-  top: -5.49%;
-  left: -6%;
-  right: -6%;
-  bottom: -5.49%;
-  width: 112%;
-  height: 110.98%;
-  max-width: none;
+  line-height: 0;
 }

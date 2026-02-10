@@ -1,7 +1,7 @@
 .fab {
-  position: absolute;
-  right: 17px;
-  bottom: 90px;
+  position: fixed;
+  right: calc(50% - 179.5px);
+  bottom: 100px;
   width: 62px;
   height: 62px;
   border-radius: 50%;

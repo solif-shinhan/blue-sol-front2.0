@@ -2,11 +2,12 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles1 from './Board-1.module.css'
 import styles2 from './Board-2.module.css'
+import { BackHeader } from '@/components/BackHeader'
 
 const styles = { ...styles1, ...styles2 }
 import {
   getPosts,
-  PostItem as ApiPostItem,
+  PostListItem,
   PostCategory,
   CATEGORY_REVERSE_MAP,
   logout,
@@ -87,17 +88,17 @@ function formatDate(dateString: string): string {
   }).replace(/\. /g, '.').replace(/\.$/, '')
 }
 
-function mapApiPostToUI(post: ApiPostItem): PostItem {
-  const content = post.content || ''
+function mapApiPostToUI(post: PostListItem): PostItem {
+  const content = post.postContentPreview || ''
   return {
     id: post.postId,
-    category: CATEGORY_REVERSE_MAP[post.category] || post.category,
-    title: post.title,
+    category: post.councilName || CATEGORY_REVERSE_MAP[post.postCategory] || post.postCategory,
+    title: post.postTitle,
     description: content.length > 60 ? content.slice(0, 60) + '..' : content,
     viewCount: post.viewCount || 0,
     commentCount: post.commentCount,
     date: formatDate(post.createdAt),
-    image: toFullUrl(post.imageUrls?.[0]) || null,
+    image: toFullUrl(post.thumbnailImageUrl) || null,
   }
 }
 
@@ -151,10 +152,6 @@ function BoardPage() {
     fetchPosts(activeCard, activeFilterIdx)
   }, [activeCard, activeFilterIdx])
 
-  const handleBack = () => {
-    navigate('/exchange')
-  }
-
   const handleCategoryClick = (cardId: CardId) => {
     if (cardId !== activeCard) {
       setActiveCard(cardId)
@@ -172,25 +169,11 @@ function BoardPage() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.safeArea} />
-
-      {/* Header */}
-      <header className={styles.header}>
-        <div className={styles.headerLeft}>
-          <button className={styles.backButton} onClick={handleBack}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path d="M15 19L8 12L15 5" stroke="#222222" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>
-          <span className={styles.headerTitle}>게시판</span>
-        </div>
-        <button className={styles.searchButton}>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <circle cx="11" cy="11" r="7" stroke="#222222" strokeWidth="2"/>
-            <path d="M16 16L20 20" stroke="#222222" strokeWidth="2" strokeLinecap="round"/>
-          </svg>
-        </button>
-      </header>
+      <BackHeader
+        title="게시판"
+        backTo="/exchange"
+        showSearch
+      />
 
       {/* Category Cards */}
       <div className={styles.categorySection}>

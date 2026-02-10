@@ -1,24 +1,28 @@
 .header {
   display: flex;
-  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--safe-area-top) 22px 0;
   height: 40px;
-  padding: var(--safe-area-top) 21px 0 22px;
-  margin-top: 0;
+  flex-shrink: 0;
+}
+
+.headerLeft {
+  display: flex;
   align-items: center;
   gap: 4px;
-  position: relative;
 }
 
 .backButton {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 24px;
+  height: 24px;
   background: none;
   border: none;
   cursor: pointer;
   padding: 0;
-  width: 24px;
-  height: 24px;
 }
 
 .backButton img {
@@ -37,6 +41,26 @@
   font-weight: 500;
   line-height: 1.4;
   letter-spacing: -0.36px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.searchButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.searchButton img {
+  width: 24px;
+  height: 24px;
 }
 
 .progressBar {
@@ -55,10 +79,10 @@
 .rightContent {
   display: flex;
   align-items: center;
-  margin-left: auto;
   z-index: 1;
 }
 
+/* Light theme */
 .themeLight .headerTitle {
   color: #848484;
 }
@@ -71,6 +95,7 @@
   background-color: var(--color-primary-default, #074ED8);
 }
 
+/* Dark theme */
 .themeDark .headerTitle {
   color: #FFFFFF;
 }

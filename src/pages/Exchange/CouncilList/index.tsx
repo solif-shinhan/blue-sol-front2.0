@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles from './CouncilList.module.css'
 import councilBg from '@/assets/images/council-activities.png'
-import backArrowIcon from '@/assets/images/Glyph_ undefined.svg'
+import { BackHeader } from '@/components/BackHeader'
 import { getCouncilList, CouncilListItem, CouncilMyResponse } from '@/services'
 
 const flagImage = '/flag1.png'
@@ -35,14 +35,7 @@ function CouncilListPage() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.safeZone} />
-
-      <div className={styles.header}>
-        <button className={styles.backButton} onClick={() => navigate(-1)}>
-          <img src={backArrowIcon} alt="뒤로가기" />
-        </button>
-        <span className={styles.headerTitle}>자치회 둘러보기</span>
-      </div>
+      <BackHeader title="자치회 둘러보기" />
 
       <div className={styles.content}>
         {isLoading ? (

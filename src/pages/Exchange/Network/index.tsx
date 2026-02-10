@@ -2,8 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles1 from './Network-1.module.css'
 import styles2 from './Network-2.module.css'
-import backArrowIcon from '@/assets/images/network/2107e80ddcb5d091c59aaa449d05031a375ef1a0.svg'
-import searchIcon from '@/assets/images/network/e1e12166e22b287c6f9f01541da749c3439b5ba2.svg'
+import { BackHeader } from '@/components/BackHeader'
 import plusIcon from '@/assets/images/network/4de7b4619a8a7217458e36fa3215adb3643f60eb.svg'
 import solidLogoWhiteSvg from '@/assets/images/network/e818367a0db04bf1988756d66e77bb070225c713.svg'
 import moreDotsIcon from '@/assets/images/network/51d88d8a9f263d54e503fd4f7207cbac51f9793a.svg'
@@ -53,6 +52,7 @@ function NetworkPage() {
   const startY = useRef(0)
   const currentX = useRef(0)
   const clickThreshold = 10 // 클릭과 드래그 구분 threshold
+  const carouselRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const fetch = async () => {
@@ -74,7 +74,6 @@ function NetworkPage() {
 
   const activeCard = networkCards[activeIndex]
 
-  const handleBack = () => navigate('/exchange')
   const handleSearch = () => navigate('/exchange/network/add')
 
   const handleSelectFriend = (userId: number) => {
@@ -93,20 +92,29 @@ function NetworkPage() {
 
   const handleDragMove = (e: React.MouseEvent | React.TouchEvent) => {
     if (startX.current === 0) return
-    
+
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX
     const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY
     const diffX = Math.abs(clientX - startX.current)
     const diffY = Math.abs(clientY - startY.current)
-    
-    // 수평 이동이 수직 이동보다 크면 드래그로 판단
+
     if (diffX > clickThreshold && diffX > diffY) {
       isDragging.current = true
-      e.preventDefault() // 스크롤 방지
     }
-    
+
     currentX.current = clientX
   }
+
+  // non-passive touchmove로 수평 드래그 시 스크롤 방지
+  useEffect(() => {
+    const el = carouselRef.current
+    if (!el) return
+    const onTouchMove = (e: TouchEvent) => {
+      if (isDragging.current) e.preventDefault()
+    }
+    el.addEventListener('touchmove', onTouchMove, { passive: false })
+    return () => el.removeEventListener('touchmove', onTouchMove)
+  }, [])
 
   const handleDragEnd = (e: React.MouseEvent | React.TouchEvent) => {
     if (startX.current === 0) return
@@ -166,17 +174,12 @@ function NetworkPage() {
   const trackX = 51.5 - activeIndex * 306
 
   const renderHeader = () => (
-    <header className={styles.header}>
-      <div className={styles.headerLeft}>
-        <button className={styles.backButton} onClick={handleBack}>
-          <img src={backArrowIcon} alt="뒤로가기" />
-        </button>
-        <h1 className={styles.headerTitle}>나의 교류망</h1>
-      </div>
-      <button className={styles.searchButton} onClick={handleSearch}>
-        <img src={searchIcon} alt="검색" />
-      </button>
-    </header>
+    <BackHeader
+      title="나의 교류망"
+      backTo="/exchange"
+      showSearch
+      onSearch={handleSearch}
+    />
   )
 
   if (isLoading) {
@@ -238,13 +241,13 @@ function NetworkPage() {
 
       {/* 카드 캐러셀 */}
       <div
+        ref={carouselRef}
         className={styles.carouselSection}
         onMouseDown={handleDragStart}
         onMouseMove={handleDragMove}
         onMouseUp={handleDragEnd}
         onMouseLeave={handleDragEnd}
         onTouchStart={handleDragStart}
-        onTouchMove={handleDragMove}
         onTouchEnd={handleDragEnd}
       >
         <div className={styles.carouselTrack} style={{ transform: `translateX(${trackX}px)`, transition: 'transform 0.3s ease-out' }}>

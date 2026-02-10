@@ -16,11 +16,12 @@
   top: 610px;
   left: 17px;
   width: 359px;
-  height: 88px;
-  background: rgba(255, 255, 255, 0.15);
+  border-radius: 26px;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 70, 255, 0.3) 100%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-radius: 20px;
   z-index: 20;
   opacity: 0;
   transform: translateY(20px);
@@ -28,6 +29,9 @@
   pointer-events: none;
   display: flex;
   align-items: center;
+  justify-content: center;
+  padding: 18px 20px;
+  box-sizing: border-box;
 }
 
 .toastVisible {
@@ -36,11 +40,12 @@
 }
 
 .toastText {
-  padding: 17px 65px;
   font-family: 'Pretendard', sans-serif;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 1.6;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.5;
+  letter-spacing: -0.36px;
   color: #FFFFFF;
+  text-align: center;
   white-space: pre-line;
 }

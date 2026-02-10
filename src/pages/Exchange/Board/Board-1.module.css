@@ -9,63 +9,6 @@
   flex-direction: column;
 }
 
-.safeArea {
-  display: none;
-}
-
-/* Header */
-.header {
-  display: flex;
-  align-items: center;
-  padding: var(--safe-area-top) 22px 0;
-  height: 40px;
-  flex-shrink: 0;
-}
-
-.headerLeft {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  flex: 1;
-}
-
-.backButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-}
-
-.headerTitle {
-  font-family: 'OneShinhan', 'Pretendard', sans-serif;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 1.4;
-  letter-spacing: -0.36px;
-  color: #848484;
-  text-align: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.searchButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  flex-shrink: 0;
-}
-
 /* Category Section */
 .categorySection {
   display: flex;

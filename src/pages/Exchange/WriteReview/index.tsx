@@ -5,7 +5,14 @@ import styles2 from './WriteReview-2.module.css'
 import styles2b from './WriteReview-2b.module.css'
 
 const styles = { ...styles1, ...styles2, ...styles2b }
-import backArrowIcon from '@/assets/images/writing/Glyph_ undefined.svg'
+import { BackHeader } from '@/components/BackHeader'
+
+const API_BASE = import.meta.env.VITE_API_URL || 'https://stg-api.bluesol.site'
+const toFullUrl = (path: string | null | undefined): string | undefined => {
+  if (!path) return undefined
+  if (path.startsWith('http') || path.startsWith('blob')) return path
+  return `${API_BASE}/${path}`
+}
 import addImageIcon from '@/assets/images/writing/2d6dd2ec71c992edc2f26de66f36996d63d584d6.svg'
 import cameraIcon from '@/assets/images/writing/7170b38684bc72225666196a022092a11cdc4f45.svg'
 
@@ -33,7 +40,6 @@ function WriteReviewPage() {
   const [reviewText, setReviewText] = useSessionStorage('write-review:review', '')
   const [images, setImages] = useState<ImageItem[]>([])
   const [participants, setParticipants] = useSessionStorage<Participant[]>('write-review:participants', [])
-  const [participantCount, setParticipantCount] = useSessionStorage('write-review:pcount', '0')
   const [membersLoaded, setMembersLoaded] = useSessionStorage('write-review:membersLoaded', false)
   const imageInputRef = useRef<HTMLInputElement>(null)
   const [showCalendar, setShowCalendar] = useState(false)
@@ -44,6 +50,8 @@ function WriteReviewPage() {
   const [questionText, setQuestionText] = useSessionStorage('write-review:questionText', '오늘의 활동은 어땠나요?')
   const [questionId, setQuestionId] = useSessionStorage<number | null>('write-review:questionId', null)
   const [usedQuestionIds, setUsedQuestionIds] = useState<number[]>([])
+  const [councilName, setCouncilName] = useSessionStorage('write-review:councilName', '')
+  const [userName, setUserName] = useSessionStorage('write-review:userName', '')
 
   useEffect(() => {
     if (membersLoaded && councilId) return
@@ -56,22 +64,24 @@ function WriteReviewPage() {
         if (!councilRes.success || !councilRes.data) return
         const cId = councilRes.data.councilId
         setCouncilId(cId)
+        setCouncilName(councilRes.data.councilName)
+        if (userRes.success && userRes.data) {
+          setUserName(userRes.data.name)
+        }
 
         if (!membersLoaded) {
           const membersRes = await getCouncilMembers(cId)
           if (membersRes.success) {
-            const raw = membersRes.data
-            const list: any[] = Array.isArray(raw) ? raw : []
+            const list: any[] = membersRes.data?.members ?? []
             const myUserId = userRes.success ? userRes.data.userId : 0
             const memberParticipants: Participant[] = list.map((m: any) => ({
               id: m.userId,
               name: m.userId === myUserId ? '나' : (m.userName || m.name || ''),
-              avatar: m.profileImageUrl || '',
+              avatar: toFullUrl(m.characterImageUrl || m.profileImageUrl) || '',
               isMe: m.userId === myUserId,
             }))
             memberParticipants.sort((a, b) => (a.isMe ? -1 : b.isMe ? 1 : 0))
             setParticipants(memberParticipants)
-            setParticipantCount(String(memberParticipants.length))
             setMembersLoaded(true)
           }
         }
@@ -203,6 +213,11 @@ function WriteReviewPage() {
         setIsSubmitting(false)
         return
       }
+      if (!questionId) {
+        alert('질문을 불러오지 못했습니다. 다시 시도해주세요.')
+        setIsSubmitting(false)
+        return
+      }
       const costNum = parseInt((expenses[0] || '0').replace(/[^0-9]/g, ''), 10) || 0
       const res = await councilReviewPostApi.create(councilId, {
         postTitle: title,
@@ -210,8 +225,8 @@ function WriteReviewPage() {
         activityLocation: locationValue,
         totalCost: costNum,
         participantUserIds: participants.filter(p => !p.isMe).map(p => p.id),
-        receiptFileId: receiptFileId || 0,
-        questionId: questionId || 0,
+        receiptFileId: receiptFileId || undefined,
+        questionId,
         relayContent: reviewText,
       })
       if (res.success && res.data) {
@@ -280,15 +295,11 @@ function WriteReviewPage() {
     <div className={styles.container}>
       <input ref={imageInputRef} type="file" accept="image/*" onChange={handleImageFileSelect} style={{ display: 'none' }} />
       <div className={styles.upperCard}>
-        <div className={styles.header}>
-          <div className={styles.headerLeft}>
-            <button className={styles.backButton} onClick={() => step > 1 ? setStep(step - 1) : navigate('/exchange')}>
-              <img src={backArrowIcon} alt="뒤로가기" />
-            </button>
-            <span className={styles.headerTitle}>자치회 활동 후기</span>
-          </div>
-          <span className={styles.councilName}>제주최강신한이들</span>
-        </div>
+        <BackHeader
+          title="자치회 활동 후기"
+          onBack={() => step > 1 ? setStep(step - 1) : navigate('/exchange')}
+          rightContent={<span className={styles.councilName}>{councilName}</span>}
+        />
         <div className={styles.imageSection}>
           <button className={styles.addImageButton} onClick={handleAddImage}>
             <img src={addImageIcon} alt="이미지 추가" className={styles.addImageIcon} />
@@ -354,13 +365,19 @@ function WriteReviewPage() {
             <DimmedExpenseRow />
             <div className={styles.formRow}>
               <span className={styles.formLabel}>참여 인원</span>
-              <input type="text" className={styles.formInput} style={{ borderColor: '#074ED8' }} value={participantCount} onChange={(e) => setParticipantCount(e.target.value)} placeholder="0 명" />
+              <div className={styles.formInputDisplay} style={{ borderColor: '#074ED8' }}>
+                <span className={styles.formInputText}>{participants.length} 명</span>
+              </div>
             </div>
             <div className={styles.participantsSection}>
               {participants.map((p) => (
                 <div key={p.id} className={styles.participantItem}>
                   <div className={styles.participantAvatarWrap}>
-                    <img src={p.avatar} alt={p.name} className={styles.participantAvatar} />
+                    {p.avatar ? (
+                      <img src={p.avatar} alt={p.name} className={styles.participantAvatar} />
+                    ) : (
+                      <div className={`${styles.participantAvatar} ${p.isMe ? styles.participantAvatarMe : ''}`} />
+                    )}
                     {!p.isMe && (
                       <button className={styles.participantRemoveBtn} onClick={() => setParticipants((prev) => prev.filter((x) => x.id !== p.id))}>
                         <span className={styles.participantRemoveX}>✕</span>
@@ -391,7 +408,7 @@ function WriteReviewPage() {
             <div className={styles.reviewCard}>
               <div className={styles.reviewUserInfo}>
                 <div className={styles.reviewAvatar} />
-                <span className={styles.reviewUserName}>김신한</span>
+                <span className={styles.reviewUserName}>{userName}</span>
               </div>
               <textarea className={styles.reviewTextarea} placeholder={'친구들과 공유할 후기를 알려주세요.\n친구들이 이어쓸 수 있어요.'} value={reviewText} onChange={(e) => setReviewText(e.target.value)} />
             </div>

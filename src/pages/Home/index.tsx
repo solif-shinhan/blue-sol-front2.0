@@ -12,7 +12,6 @@ import { SolidCardModal } from './components/SolidCardModal'
 import { QRCodeModal } from './components/QRCodeModal'
 import { LECTURE_ITEMS, QUICK_MENU_ITEMS, NEWS_ITEMS } from './Home.constants'
 import { getProfile, ProfileData } from '@/services/profileService'
-import { getNotifications, NotificationItem } from '@/services/notificationService'
 import { logout } from '@/services/authService'
 import { userApi } from '@/api'
 import { SolidCardPreview } from '@/features/02-onboarding/components/SolidCardPreview-1'
@@ -57,7 +56,6 @@ function HomePage() {
   const [profile, setProfile] = useState<ProfileData | null>(null)
   const [region, setRegion] = useState('')
   const [school, setSchool] = useState('')
-  const [newsItems, setNewsItems] = useState<NotificationItem[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const containerRef = useRef<HTMLDivElement>(null)
   const sliderRef = useRef<HTMLDivElement>(null)
@@ -108,15 +106,6 @@ function HomePage() {
           }
         }
 
-        // 새로운 소식 (알림) 조회
-        try {
-          const notifRes = await getNotifications({ category: 'ACTIVITY', size: 3 })
-          if (notifRes.success && notifRes.data.content) {
-            setNewsItems(notifRes.data.content)
-          }
-        } catch {
-          // 알림 API 실패 시 빈 배열 유지
-        }
       } catch (error) {
         console.error('데이터 로드 실패:', error)
       } finally {

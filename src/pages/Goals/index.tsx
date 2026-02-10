@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
-import { useNavigate } from 'react-router-dom'
 import styles from './Goals.module.css'
+import { BackHeader } from '@/components/BackHeader'
 
 type Mode = 'view' | 'complete' | 'delete' | 'add'
 
@@ -11,7 +11,6 @@ interface Goal {
 }
 
 function GoalsPage() {
-  const navigate = useNavigate()
   const [mode, setMode] = useState<Mode>('view')
   const [newGoalText, setNewGoalText] = useState('')
 
@@ -87,10 +86,6 @@ function GoalsPage() {
     setMode('view')
   }
 
-  const handleBack = () => {
-    navigate(-1)
-  }
-
   const splitMainGoal = (text: string) => {
     const words = text.split(' ')
     if (words.length <= 3) return { line1: text, line2: '' }
@@ -105,24 +100,7 @@ function GoalsPage() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.statusBar}>
-        <div className={styles.notch} />
-        <span className={styles.statusTime}>3:14</span>
-      </div>
-
-      <div className={styles.headerNav}>
-        <button className={styles.backButton} onClick={handleBack}>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M15 18L9 12L15 6" stroke="#222222" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
-        <div className={styles.tabIndicators}>
-          <div className={styles.tabDot} />
-          <div className={styles.tabDot} />
-          <div className={styles.tabDot} />
-          <div className={styles.tabDot} />
-        </div>
-      </div>
+      <BackHeader title="나의 목표" />
 
       <div className={styles.heroSection}>
         <div className={styles.heroText}>

@@ -1,32 +1,48 @@
 import { apiClient } from '@/api'
 
-export interface Council {
+export interface CouncilMyResponse {
   councilId: number
-  name: string
-  description: string
-  leaderId: number
-  leaderName: string
+  councilName: string
+  currentBudget: number
+  totalBudget: number
   memberCount: number
+  role: 'LEADER' | 'MEMBER'
+}
+
+export interface CouncilDetail {
+  councilId: number
+  councilName: string
   region: string
-  topic: string
-  goal: string
+  activityCategory: string
+  leaderUserId: number
+  leaderName: string
+  description: string
+  totalBudget: number
+  currentBudget: number
+  memberCount: number
+  activityCount: number
+  monthsSinceCreation: number
   createdAt: string
+  profileImageUrl: string
+  myRole: 'LEADER' | 'MEMBER' | null
+  isMember: boolean
 }
 
 export interface CouncilMember {
   userId: number
   name: string
-  nickname: string
-  profileImageUrl: string
   role: 'LEADER' | 'MEMBER'
   joinedAt: string
+  region: string
+  schoolName: string
+  nickname?: string
+  profileImageUrl?: string
   userType?: string
-  region?: string
 }
 
 export interface CouncilRule {
   ruleId: number
-  content: string
+  ruleContent: string
   createdAt: string
 }
 
@@ -42,19 +58,20 @@ export interface CreateCouncilRequest {
 }
 
 export interface UpdateCouncilRequest {
-  name?: string
+  councilName: string
+  region: string
+  activityCategory: string
   description?: string
-  region?: string
-  topic?: string
-  goal?: string
+  totalBudget: number
+  profileImageFileId?: number
 }
 
 export interface AddMemberRequest {
-  userId: number
+  userIds: number[]
 }
 
 export interface AddRuleRequest {
-  content: string
+  ruleContent: string
 }
 
 export interface CouncilListItem {
@@ -63,15 +80,6 @@ export interface CouncilListItem {
   region: string
   memberCount: number
   profileImageUrl: string
-}
-
-export interface CouncilMyResponse {
-  councilId: number
-  councilName: string
-  currentBudget: number
-  totalBudget: number
-  memberCount: number
-  role: string
 }
 
 export interface CouncilListResponse {
@@ -88,14 +96,27 @@ export interface CouncilDetailResponse {
   code: string
   message: string
   success: boolean
-  data: Council
+  data: CouncilDetail
+}
+
+export interface CouncilMyApiResponse {
+  code: string
+  message: string
+  success: boolean
+  data: CouncilMyResponse
+}
+
+export interface CouncilMemberListData {
+  councilId: number
+  members: CouncilMember[]
+  totalCount: number
 }
 
 export interface CouncilMemberListResponse {
   code: string
   message: string
   success: boolean
-  data: CouncilMember[]
+  data: CouncilMemberListData
 }
 
 export interface CouncilRuleListResponse {
@@ -119,8 +140,15 @@ export async function getCouncilDetail(councilId: number): Promise<CouncilDetail
   return apiClient.get<CouncilDetailResponse>(`/api/v1/councils/${councilId}`)
 }
 
-export async function getMyCouncil(): Promise<CouncilDetailResponse> {
-  return apiClient.get<CouncilDetailResponse>('/api/v1/councils/my')
+export async function getMyCouncil(): Promise<CouncilMyApiResponse> {
+  try {
+    return await apiClient.get<CouncilMyApiResponse>('/api/v1/councils/my')
+  } catch (err: any) {
+    if (err?.status === 403 || err?.status === 404) {
+      return { code: 'NO_COUNCIL', message: '', success: false, data: null as any }
+    }
+    throw err
+  }
 }
 
 export interface CreateCouncilResponse {
@@ -139,8 +167,8 @@ export async function createCouncil(data: CreateCouncilRequest): Promise<CreateC
   return apiClient.post<CreateCouncilResponse>('/api/v1/councils', data)
 }
 
-export async function updateCouncil(councilId: number, data: UpdateCouncilRequest): Promise<CouncilDetailResponse> {
-  return apiClient.patch<CouncilDetailResponse>(`/api/v1/councils/${councilId}`, data)
+export async function updateCouncil(councilId: number, data: UpdateCouncilRequest): Promise<BaseResponse> {
+  return apiClient.patch<BaseResponse>(`/api/v1/councils/${councilId}`, data)
 }
 
 export async function getCouncilMembers(councilId: number): Promise<CouncilMemberListResponse> {
@@ -169,7 +197,7 @@ export async function deleteCouncilRule(councilId: number, ruleId: number): Prom
 
 export interface ReviewQuestion {
   questionId: number
-  content: string
+  questionText: string
 }
 
 export interface ReviewQuestionResponse {

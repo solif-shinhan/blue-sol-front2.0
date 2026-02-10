@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles1 from './NetworkAdd-1.module.css'
 import styles2 from './NetworkAdd-2.module.css'
-import backArrowIcon from '@/assets/images/network/2107e80ddcb5d091c59aaa449d05031a375ef1a0.svg'
+import { BackHeader } from '@/components/BackHeader'
 import searchIcon from '@/assets/images/network/e1e12166e22b287c6f9f01541da749c3439b5ba2.svg'
 import dismissIcon from '@/assets/images/solid/icon-dismiss.svg'
 import { getIconByLabel } from '@assets/icons'
@@ -92,7 +92,6 @@ function NetworkAddPage() {
     return () => clearTimeout(timer)
   }, [searchQuery, isSearchActive])
 
-  const handleBack = () => navigate(-1)
   const handleSearchClick = () => setIsSearchActive(true)
   const handleSearchBack = () => {
     setIsSearchActive(false)
@@ -137,17 +136,11 @@ function NetworkAddPage() {
           </div>
         </header>
       ) : (
-        <header className={styles.header}>
-          <div className={styles.headerLeft}>
-            <button className={styles.backButton} onClick={handleBack}>
-              <img src={backArrowIcon} alt="뒤로가기" />
-            </button>
-            <h1 className={styles.headerTitle}>교류망 추가하기</h1>
-          </div>
-          <button className={styles.searchButton} onClick={handleSearchClick}>
-            <img src={searchIcon} alt="검색" />
-          </button>
-        </header>
+        <BackHeader
+          title="교류망 추가하기"
+          showSearch
+          onSearch={handleSearchClick}
+        />
       )}
 
       {isSearchActive && (

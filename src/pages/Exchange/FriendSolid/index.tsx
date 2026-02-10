@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import styles1 from './FriendSolid-1.module.css'
 import styles2 from './FriendSolid-2.module.css'
-import backArrowIcon from '@/assets/images/network/2107e80ddcb5d091c59aaa449d05031a375ef1a0.svg'
-import searchIcon from '@/assets/images/network/e1e12166e22b287c6f9f01541da749c3439b5ba2.svg'
+import { BackHeader } from '@/components/BackHeader'
 import { getIconByLabel } from '@assets/icons'
 import {
   getUserSolidCard,
@@ -95,7 +94,6 @@ function FriendSolidPage() {
     fetchCard()
   }, [userId])
 
-  const handleBack = () => navigate(-1)
   const handleSearch = () => navigate('/exchange/network/add')
 
   const handleAddToNetwork = async () => {
@@ -115,7 +113,7 @@ function FriendSolidPage() {
     }
   }
 
-  const buttonType = cardData?.buttonType || 'CHEER'
+  const buttonType = (cardData?.buttonType || 'CHEER') as 'CHEER' | 'HELP'
 
   const handleAction = async () => {
     if (!cardData || isSending) return
@@ -145,17 +143,7 @@ function FriendSolidPage() {
   if (isLoading) {
     return (
       <div className={styles.container}>
-        <header className={styles.header}>
-          <div className={styles.headerLeft}>
-            <button className={styles.backButton} onClick={handleBack}>
-              <img src={backArrowIcon} alt="뒤로가기" />
-            </button>
-            <h1 className={styles.headerTitle}>친구의 SOLID</h1>
-          </div>
-          <button className={styles.searchButton} onClick={handleSearch}>
-            <img src={searchIcon} alt="검색" />
-          </button>
-        </header>
+        <BackHeader title="친구의 SOLID" showSearch onSearch={handleSearch} />
         <div className={styles.loadingState}><p>로딩 중...</p></div>
       </div>
     )
@@ -164,14 +152,7 @@ function FriendSolidPage() {
   if (!cardData) {
     return (
       <div className={styles.container}>
-        <header className={styles.header}>
-          <div className={styles.headerLeft}>
-            <button className={styles.backButton} onClick={handleBack}>
-              <img src={backArrowIcon} alt="뒤로가기" />
-            </button>
-            <h1 className={styles.headerTitle}>친구의 SOLID</h1>
-          </div>
-        </header>
+        <BackHeader title="친구의 SOLID" />
         <div className={styles.loadingState}><p>카드를 불러올 수 없습니다.</p></div>
       </div>
     )
@@ -183,17 +164,7 @@ function FriendSolidPage() {
 
   return (
     <div className={styles.container}>
-      <header className={styles.header}>
-        <div className={styles.headerLeft}>
-          <button className={styles.backButton} onClick={handleBack}>
-            <img src={backArrowIcon} alt="뒤로가기" />
-          </button>
-          <h1 className={styles.headerTitle}>친구의 SOLID</h1>
-        </div>
-        <button className={styles.searchButton} onClick={handleSearch}>
-          <img src={searchIcon} alt="검색" />
-        </button>
-      </header>
+      <BackHeader title="친구의 SOLID" showSearch onSearch={handleSearch} />
 
       <div className={styles.cardWrapper}>
         <div className={styles.card}>

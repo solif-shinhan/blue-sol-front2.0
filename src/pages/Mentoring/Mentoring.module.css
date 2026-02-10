@@ -20,67 +20,6 @@
 }
 
 /* ==========================================================================
-   Header
-   ========================================================================== */
-
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--safe-area-top) 22px 0;
-  height: 110px;
-  position: relative;
-  box-sizing: border-box;
-}
-
-.backButton {
-  position: absolute;
-  top: var(--safe-area-top);
-  /* Safe zone 57px + 13px */
-  left: 15px;
-  width: 24px;
-  height: 24px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.backButton img {
-  width: 24px;
-  height: 24px;
-}
-
-.headerTitle {
-  font-family: 'OneShinhan', sans-serif;
-  font-size: 18px;
-  font-weight: 500;
-  color: #848484;
-  line-height: 1.2;
-  letter-spacing: -0.36px;
-  text-align: center;
-}
-
-.headerRight {
-  position: absolute;
-  top: 67px;
-  /* Safe zone 57px + 10px */
-  right: 15px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.headerIcon {
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-}
-
-/* ==========================================================================
    Main Content
    ========================================================================== */
 
@@ -547,8 +486,8 @@
 .searchHeader {
   display: flex;
   align-items: center;
-  padding: 57px 17px 0;
-  height: 107px;
+  padding: var(--safe-area-top) 17px 0;
+  height: 40px;
   gap: 16px;
   box-sizing: border-box;
 }

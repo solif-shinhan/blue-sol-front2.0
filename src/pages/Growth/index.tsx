@@ -29,13 +29,17 @@ import { userApi } from '@/api'
 type AnimationPhase = 'idle' | 'playing' | 'completed'
 
 // 상단 그래픽 배경
-const TopBackground = ({ phase, onPhaseEnd }: {
+const TopBackground = ({ phase, onPhaseEnd, onCloseUp, onShrinkStart }: {
   phase: AnimationPhase
   onPhaseEnd: () => void
+  onCloseUp: () => void
+  onShrinkStart: () => void
 }) => {
   const tree1Ref = useRef<HTMLVideoElement>(null)
   const tree2Ref = useRef<HTMLVideoElement>(null)
   const [videoReady, setVideoReady] = useState(false)
+  const closeUpFired = useRef(false)
+  const shrinkFired = useRef(false)
   const isPlaying = phase === 'playing'
 
   useEffect(() => {
@@ -66,11 +70,29 @@ const TopBackground = ({ phase, onPhaseEnd }: {
 
   useEffect(() => {
     if (isPlaying && tree2Ref.current) {
+      closeUpFired.current = false
+      shrinkFired.current = false
       tree2Ref.current.currentTime = 0
       tree2Ref.current.muted = true
       tree2Ref.current.play().catch(() => {})
     }
   }, [isPlaying])
+
+  const handleTimeUpdate = () => {
+    const v = tree2Ref.current
+    if (!v || !v.duration) return
+    const progress = v.currentTime / v.duration
+    // 클로즈업 완료, 흔들리기 직전 (~25%)
+    if (progress >= 0.25 && !closeUpFired.current) {
+      closeUpFired.current = true
+      onCloseUp()
+    }
+    // 솔방울 다시 작아지기 시작 (~70%)
+    if (progress >= 0.70 && !shrinkFired.current) {
+      shrinkFired.current = true
+      onShrinkStart()
+    }
+  }
 
   return (
     <>
@@ -101,6 +123,7 @@ const TopBackground = ({ phase, onPhaseEnd }: {
             zIndex: 1,
           }}
           onEnded={onPhaseEnd}
+          onTimeUpdate={handleTimeUpdate}
         >
           <source src={videoTree2} type="video/mp4" />
         </video>
@@ -201,7 +224,7 @@ const SolbangulButton = ({ visible, collectedCount }: { visible: boolean; collec
 const AcquisitionToast = ({ visible, collectedCount }: { visible: boolean; collectedCount: number }) => {
   const remaining = 3 - collectedCount
   const message = remaining > 0
-    ? `연결 솔방울을 획득했어요!\n다음 솔방울까지 ${remaining}번 남았어요.`
+    ? `연결 솔방울을 획득했어요!\n명함 받기 보상까지 ${remaining}번 남았어요.`
     : '모든 솔방울을 획득했어요!'
 
   return (
@@ -315,6 +338,7 @@ function GrowthPage() {
   const [days, setDays] = useState(0)
   const [goalCurrent, setGoalCurrent] = useState(0)
   const [goalTotal, setGoalTotal] = useState(0)
+  const [isDataLoaded, setIsDataLoaded] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -334,13 +358,14 @@ function GrowthPage() {
         setGoalCurrent(goalRes.data.currentIndex)
         setGoalTotal(goalRes.data.totalCount)
       }
+      setIsDataLoaded(true)
     }
     loadData()
   }, [])
 
   const isAnimating = phase === 'playing'
-  const isUserVisible = phase === 'idle' || phase === 'completed'
-  const isSolbangulVisible = phase === 'idle' || phase === 'completed'
+  const isUserVisible = isDataLoaded && phase === 'idle'
+  const isSolbangulVisible = isDataLoaded && phase === 'idle'
 
   const handleCollect = (index: number) => {
     if (phase !== 'idle' || collectedCount > index) return
@@ -348,10 +373,21 @@ function GrowthPage() {
     setTimeout(() => setPhase('playing'), 300)
   }
 
+  // 클로즈업 완료 시점: 카운트 증가 + 토스트 표시
+  const handleCloseUp = () => {
+    setCollectedCount(prev => Math.min(prev + 1, 3))
+    setShowToast(true)
+  }
+
+  // 솔방울 축소 시작 시점: 토스트 자연스럽게 사라짐
+  const handleShrinkStart = () => {
+    setShowToast(false)
+  }
+
+  // 영상 종료: idle로 복귀
   const handlePhaseEnd = () => {
     if (phase === 'playing') {
-      setPhase('completed')
-      setCollectedCount(prev => Math.min(prev + 1, 3))
+      setPhase('idle')
     }
   }
 
@@ -362,22 +398,10 @@ function GrowthPage() {
     }
   }, [isAnimating])
 
-  // 토스트 표시 제어
-  useEffect(() => {
-    if (phase === 'playing') {
-      const t = setTimeout(() => setShowToast(true), 500)
-      return () => clearTimeout(t)
-    }
-    if (phase === 'completed') {
-      const t = setTimeout(() => setShowToast(false), 3000)
-      return () => clearTimeout(t)
-    }
-  }, [phase])
-
   return (
     <div className={styles1.container} ref={containerRef}>
       <div className={styles1.scrollContent}>
-        <TopBackground phase={phase} onPhaseEnd={handlePhaseEnd} />
+        <TopBackground phase={phase} onPhaseEnd={handlePhaseEnd} onCloseUp={handleCloseUp} onShrinkStart={handleShrinkStart} />
         <img
           src={imgGradientFade}
           alt=""

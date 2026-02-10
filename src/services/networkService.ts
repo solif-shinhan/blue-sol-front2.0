@@ -174,6 +174,7 @@ export interface UserSolidCardResponse {
     solidGoalName: string
     mainGoals: string[]
     interests: string[]
+    buttonType?: string
     isInCouncil: boolean
     councilName?: string
     schoolName?: string

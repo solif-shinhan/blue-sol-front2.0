@@ -40,7 +40,7 @@ function ActivityRules({ councilId }: ActivityRulesProps) {
 
     setIsSubmitting(true)
     try {
-      const response = await addCouncilRule(councilId, { content: newRuleText.trim() })
+      const response = await addCouncilRule(councilId, { ruleContent: newRuleText.trim() })
       if (response.success) {
         const rulesRes = await getCouncilRules(councilId)
         if (rulesRes.success) {
@@ -157,7 +157,7 @@ function ActivityRules({ councilId }: ActivityRulesProps) {
               className={`${styles.ruleCard} ${isDeletingMode ? styles.ruleCardDelete : ''}`}
               onClick={() => isDeletingMode && toggleDeleteSelection(rule.ruleId)}
             >
-              <p className={styles.ruleCardText}>{rule.content}</p>
+              <p className={styles.ruleCardText}>{rule.ruleContent}</p>
               {isDeletingMode && (
                 <div
                   className={`${styles.ruleCardDeleteCheck} ${selectedForDelete.includes(rule.ruleId) ? styles.checked : ''}`}

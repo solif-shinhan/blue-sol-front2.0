@@ -15,61 +15,6 @@
   display: none;
 }
 
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 57px 15px 0;
-  height: 107px;
-  position: relative;
-  box-sizing: border-box;
-}
-
-.backButton {
-  position: absolute;
-  top: var(--safe-area-top);
-  left: 15px;
-  width: 24px;
-  height: 24px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.backButton img {
-  width: 24px;
-  height: 24px;
-}
-
-.headerTitle {
-  font-family: 'OneShinhan', sans-serif;
-  font-size: 18px;
-  font-weight: 500;
-  color: #848484;
-  line-height: 1.2;
-  letter-spacing: -0.36px;
-  text-align: center;
-}
-
-.headerRight {
-  position: absolute;
-  top: 67px;
-  right: 15px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.headerIcon {
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-}
-
 .content {
   display: flex;
   flex-direction: column;

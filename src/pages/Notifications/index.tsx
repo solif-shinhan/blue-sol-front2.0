@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import styles from './Notifications.module.css'
+import { BackHeader } from '@/components/BackHeader'
 import {
   getNotifications,
   getUnreadCount,
@@ -115,10 +116,6 @@ function NotificationsPage() {
     return <MessageBox />
   }
 
-  const handleBack = () => {
-    navigate(-1)
-  }
-
   const handleNotificationClick = (notification: NotificationItem) => {
     if (activeMainTab === '공지사항') {
       navigate(`/notifications/${notification.notificationId}`)
@@ -139,14 +136,7 @@ function NotificationsPage() {
 
   return (
     <div className={styles.container}>
-      <header className={styles.header}>
-        <button className={styles.backButton} onClick={handleBack}>
-          <svg viewBox="0 0 24 24" fill="none" stroke="#848484" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M15 18l-6-6 6-6" />
-          </svg>
-        </button>
-        <span className={styles.headerTitle}>알림</span>
-      </header>
+      <BackHeader title="알림" />
 
       <div className={styles.content}>
         <div className={styles.tabSection}>

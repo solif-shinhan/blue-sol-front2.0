@@ -87,8 +87,8 @@ export interface CouncilReviewPostCreateRequest {
   activityLocation: string;
   totalCost: number;
   participantUserIds: number[];
-  imageFileIds?: number[];
-  receiptFileId: number;
+  fileIds?: number[];
+  receiptFileId?: number | null;
   questionId: number;
   relayContent: string;
 }

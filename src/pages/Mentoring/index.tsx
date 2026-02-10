@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles1 from './Mentoring-1.module.css'
 import styles2 from './Mentoring-2.module.css'
+import { BackHeader } from '@/components/BackHeader'
 import { mentoringApi } from '@/api'
 import type {
   MentorSummary,
@@ -120,27 +121,26 @@ function MentoringPage() {
           </div>
         </header>
       ) : (
-        <header className={styles.header}>
-          <button className={styles.backButton} onClick={handleBack}>
-            <img src={backArrowIcon} alt="뒤로가기" />
-          </button>
-          <h1 className={styles.headerTitle}>멘토링 성장의 숲</h1>
-          <div className={styles.headerRight}>
-            <img
-              src={calendarIcon}
-              alt="캘린더"
-              className={styles.headerIcon}
-              onClick={() => navigate('/exchange/mentoring/history')}
-              style={{ cursor: 'pointer' }}
-            />
-            <img
-              src={searchIcon}
-              alt="검색"
-              className={styles.headerSearchIcon}
-              onClick={handleSearchClick}
-            />
-          </div>
-        </header>
+        <BackHeader
+          title="멘토링 성장의 숲"
+          onBack={handleBack}
+          rightContent={
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <img
+                src={calendarIcon}
+                alt="캘린더"
+                style={{ width: 24, height: 24, cursor: 'pointer' }}
+                onClick={() => navigate('/exchange/mentoring/history')}
+              />
+              <img
+                src={searchIcon}
+                alt="검색"
+                style={{ width: 24, height: 24, cursor: 'pointer' }}
+                onClick={handleSearchClick}
+              />
+            </div>
+          }
+        />
       )}
 
       <div className={styles.content}>

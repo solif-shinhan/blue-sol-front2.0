@@ -260,3 +260,34 @@ export const goalApi = {
   getCount: (): Promise<ApiResponse<GoalCountResponse>> =>
     apiClient.get('/api/goals/count'),
 };
+
+// ============ 마이페이지 API ============
+
+export interface MyPageDashboard {
+  connection: number;
+  growth: number;
+  contribution: number;
+  total: number;
+  personaType: string;
+}
+
+export interface MyPageRecentReview {
+  councilReviewPostId: number;
+  postId: number;
+  title: string;
+  activityDate: string;
+  thumbnailImageUrl: string;
+  createdAt: string;
+}
+
+export interface MyPageResponse {
+  name: string;
+  solidGoalName: string;
+  dashboard: MyPageDashboard;
+  recentCouncilReviews: MyPageRecentReview[];
+}
+
+export const myPageApi = {
+  get: (): Promise<ApiResponse<MyPageResponse>> =>
+    apiClient.get('/api/v1/mypage'),
+};

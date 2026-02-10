@@ -1,17 +1,10 @@
 import React from 'react';
 import { colors, typography } from '../../../styles/tokens';
 
-import imgCharacters from '../../../assets/images/login-characters.png';
 import imgPureun from '../../../assets/images/logo-pureun.svg';
 import imgSol from '../../../assets/images/logo-sol.svg';
 
-interface LoginHeaderProps {
-  backgroundImage?: string;
-}
-
-export const LoginHeader: React.FC<LoginHeaderProps> = ({
-  backgroundImage = imgCharacters,
-}) => {
+export const LoginHeader: React.FC = () => {
   const containerStyle: React.CSSProperties = {
     position: 'relative',
     width: '100%',

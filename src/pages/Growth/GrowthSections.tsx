@@ -114,9 +114,6 @@ export const ProgramSection = () => {
       <div className={styles3.programList}>
         {programs.map((program, index) => (
           <div key={index} className={styles3.programItem}>
-            <div className={styles3.programThumbnail}>
-              <img src={program.image} alt={program.title} />
-            </div>
             <div className={styles3.programContent}>
               <div className={styles3.programMeta}>
                 <span className={styles3.programOrg}>{program.org}</span>
@@ -142,6 +139,9 @@ export const ProgramSection = () => {
                 <span className={styles3.programItemTitle}>{program.title}</span>
                 <p className={styles3.programDesc}>{program.desc}</p>
               </div>
+            </div>
+            <div className={styles3.programThumbnail}>
+              <img src={program.image} alt={program.title} />
             </div>
           </div>
         ))}

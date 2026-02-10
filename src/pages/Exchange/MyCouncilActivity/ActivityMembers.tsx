@@ -20,8 +20,7 @@ function ActivityMembers({ councilId }: ActivityMembersProps) {
       try {
         const response = await getCouncilMembers(councilId)
         if (response.success) {
-          const raw = response.data
-          const list = Array.isArray(raw) ? raw : []
+          const list: any[] = response.data?.members ?? []
           setMembers(list.map((m: any) => ({
             userId: m.userId ?? m.id,
             name: m.userName ?? m.name ?? '',
@@ -31,6 +30,7 @@ function ActivityMembers({ councilId }: ActivityMembersProps) {
             joinedAt: m.joinedAt ?? '',
             userType: m.userType ?? m.scholarType ?? '',
             region: m.region ?? '',
+            schoolName: m.schoolName ?? '',
           })))
         }
       } catch (err) {

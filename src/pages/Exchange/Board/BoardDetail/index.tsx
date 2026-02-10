@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import styles from './BoardDetail.module.css'
-import backArrowIcon from '@/assets/images/Glyph_ undefined.svg'
+import { BackHeader } from '@/components/BackHeader'
 import {
   getComments,
   createComment,
@@ -47,7 +47,6 @@ interface DisplayPost {
 }
 
 function BoardDetailPage() {
-  const navigate = useNavigate()
   const { postId } = useParams<{ postId: string }>()
   const [commentText, setCommentText] = useState('')
   const [isAnonymous, setIsAnonymous] = useState(false)
@@ -70,16 +69,16 @@ function BoardDetailPage() {
         const data = response.data
         setPost({
           id: data.postId,
-          category: CATEGORY_REVERSE_MAP[data.category] || data.category,
-          title: data.title,
-          content: data.content,
+          category: CATEGORY_REVERSE_MAP[data.postCategory] || data.postCategory,
+          title: data.postTitle,
+          content: data.postContent,
           authorName: data.authorName,
           createdAt: formatDateTime(data.createdAt),
           viewCount: data.viewCount || 0,
           likeCount: data.likeCount,
           commentCount: data.commentCount,
           imageUrls: data.imageUrls,
-          isLiked: data.isLiked,
+          isLiked: data.isLikedByUser,
         })
       }
     } catch (err) {
@@ -114,14 +113,6 @@ function BoardDetailPage() {
     }
     return () => { ignore = true }
   }, [postId])
-
-  const handleBack = () => {
-    navigate('/exchange/board')
-  }
-
-  const handleMore = () => {
-    console.log('더보기 메뉴')
-  }
 
   const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCommentText(e.target.value)
@@ -202,13 +193,7 @@ function BoardDetailPage() {
   if (isPostLoading) {
     return (
       <div className={styles.container}>
-        <header className={styles.header}>
-          <button className={styles.backButton} onClick={handleBack}>
-            <img src={backArrowIcon} alt="뒤로가기" className={styles.backIcon} />
-          </button>
-          <span className={styles.headerTitle}>게시글</span>
-          <div style={{ width: 24 }} />
-        </header>
+        <BackHeader title="게시글" backTo="/exchange/board" />
         <div className={styles.content} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <span>로딩 중...</span>
         </div>
@@ -219,13 +204,7 @@ function BoardDetailPage() {
   if (!post) {
     return (
       <div className={styles.container}>
-        <header className={styles.header}>
-          <button className={styles.backButton} onClick={handleBack}>
-            <img src={backArrowIcon} alt="뒤로가기" className={styles.backIcon} />
-          </button>
-          <span className={styles.headerTitle}>게시글</span>
-          <div style={{ width: 24 }} />
-        </header>
+        <BackHeader title="게시글" backTo="/exchange/board" />
         <div className={styles.content} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <span>게시글을 찾을 수 없습니다.</span>
         </div>
@@ -235,15 +214,7 @@ function BoardDetailPage() {
 
   return (
     <div className={styles.container}>
-      <header className={styles.header}>
-        <button className={styles.backButton} onClick={handleBack}>
-          <img src={backArrowIcon} alt="뒤로가기" className={styles.backIcon} />
-        </button>
-        <span className={styles.headerTitle}>게시글</span>
-        <button className={styles.moreButton} onClick={handleMore}>
-          <img src="/dismisscircle.svg" alt="더보기" className={styles.moreIcon} />
-        </button>
-      </header>
+      <BackHeader title="게시글" backTo="/exchange/board" />
 
       <div className={styles.content}>
         <div className={styles.postHeader}>

@@ -1,26 +1,38 @@
 import { apiClient } from '@/api'
 
-export type PostCategory = 'STUDY' | 'ADMISSION' | 'JOB' | 'ETC' | 'NOTICE' | 'PROGRAM'
+export type PostCategory = 'STUDY' | 'ADMISSION' | 'JOB' | 'ETC' | 'NOTICE' | 'PROGRAM' | 'REQUIRED' | 'OPTIONAL'
 
-export interface PostItem {
+// GET /api/v1/posts 목록 응답 아이템
+export interface PostListItem {
   postId: number
-  title: string
-  content: string
-  category: PostCategory
-  authorId: number
+  boardId: number
+  postCategory: PostCategory
+  postTitle: string
+  postContentPreview: string
+  thumbnailImageUrl: string | null
+  councilName: string | null
   authorName: string
-  authorProfileImageUrl: string
-  likeCount: number
-  commentCount: number
   viewCount: number
-  isLiked: boolean
+  commentCount: number
   createdAt: string
-  updatedAt: string
-  imageUrls?: string[]
 }
 
-export interface PostDetail extends PostItem {
+// GET /api/v1/posts/{postId} 상세 응답
+export interface PostDetail {
+  postId: number
+  boardId: number
+  postCategory: PostCategory
+  postTitle: string
+  postContent: string
   imageUrls: string[]
+  authorId: number
+  authorName: string
+  viewCount: number
+  commentCount: number
+  likeCount: number
+  isLikedByUser: boolean
+  createdAt: string
+  updatedAt: string
 }
 
 export interface CreatePostRequest {
@@ -28,31 +40,31 @@ export interface CreatePostRequest {
   postTitle: string
   postContent: string
   postCategory: PostCategory
+  mentoringRequestId?: number
   fileIds?: number[]
 }
 
 export interface UpdatePostRequest {
-  title?: string
-  content?: string
-  category?: PostCategory
+  postTitle: string
+  postContent: string
+  fileIds?: number[] | null
 }
 
-export interface PageResponse<T> {
+export interface SliceResponse<T> {
   content: T[]
-  totalPages: number
-  totalElements: number
-  size: number
-  number: number
   first: boolean
   last: boolean
   empty: boolean
+  number: number
+  size: number
+  numberOfElements: number
 }
 
 export interface PostListResponse {
   code: string
   message: string
   success: boolean
-  data: PageResponse<PostItem>
+  data: SliceResponse<PostListItem>
 }
 
 export interface PostDetailResponse {
@@ -66,17 +78,10 @@ export interface PostCreateResponse {
   code: string
   message: string
   success: boolean
-  data: PostItem
-}
-
-export interface PostLikeResponse {
-  code: string
-  message: string
-  success: boolean
   data: {
     postId: number
-    likeCount: number
-    isLiked: boolean
+    postTitle: string
+    createdAt: string
   }
 }
 
@@ -91,11 +96,13 @@ export const CATEGORY_MAP: Record<string, PostCategory> = {
 
 export const CATEGORY_REVERSE_MAP: Record<PostCategory, string> = {
   'STUDY': '학업고민',
-  'ADMISSION': '학업고민',
+  'ADMISSION': '진학고민',
   'JOB': '취업/진로',
   'ETC': '자유게시판',
   'NOTICE': '자치회 활동 후기',
   'PROGRAM': '멘토링 후기',
+  'REQUIRED': '필수',
+  'OPTIONAL': '선택',
 }
 
 export async function getPosts(params: {
@@ -132,18 +139,18 @@ export async function createPost(data: CreatePostRequest): Promise<PostCreateRes
 export async function updatePost(
   postId: number,
   data: UpdatePostRequest
-): Promise<PostDetailResponse> {
-  return apiClient.patch<PostDetailResponse>(`/api/v1/posts/${postId}`, data)
+): Promise<{ code: string; message: string; success: boolean }> {
+  return apiClient.patch(`/api/v1/posts/${postId}`, data)
 }
 
 export async function deletePost(postId: number): Promise<{ code: string; message: string; success: boolean }> {
   return apiClient.delete(`/api/v1/posts/${postId}`)
 }
 
-export async function likePost(postId: number): Promise<PostLikeResponse> {
-  return apiClient.post<PostLikeResponse>(`/api/v1/posts/${postId}/like`)
+export async function likePost(postId: number): Promise<{ code: string; message: string; success: boolean }> {
+  return apiClient.post(`/api/v1/posts/${postId}/like`)
 }
 
-export async function unlikePost(postId: number): Promise<PostLikeResponse> {
-  return apiClient.delete<PostLikeResponse>(`/api/v1/posts/${postId}/like`)
+export async function unlikePost(postId: number): Promise<{ code: string; message: string; success: boolean }> {
+  return apiClient.delete(`/api/v1/posts/${postId}/like`)
 }

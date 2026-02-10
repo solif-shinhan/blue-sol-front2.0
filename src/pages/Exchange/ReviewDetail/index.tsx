@@ -34,6 +34,10 @@ function ReviewDetailPage() {
   const [likeCount, setLikeCount] = useState(0)
   const [commentCount, setCommentCount] = useState(0)
 
+  const isLeader = detail?.isLeader ?? false
+  const currentUserId = Number(localStorage.getItem('userId') || '0')
+  const hasWrittenRelay = detail?.relays?.some((r) => r.writerUserId === currentUserId) ?? false
+
   useEffect(() => {
     if (!reviewId) return
     const fetchDetail = async () => {
@@ -95,15 +99,33 @@ function ReviewDetailPage() {
     }
   }
 
+  const handleDelete = async () => {
+    if (!detail || !confirm('활동 후기를 삭제하시겠습니까?')) return
+    try {
+      const res = await councilReviewPostApi.delete(detail.councilReviewPostId)
+      if (res.success) {
+        alert('삭제되었습니다.')
+        navigate('/exchange')
+      }
+    } catch {
+      alert('삭제에 실패했습니다.')
+    }
+  }
+
+  const handleWriteRelay = () => {
+    if (!detail) return
+    navigate('/exchange/write/review', {
+      state: { relayMode: true, councilReviewPostId: detail.councilReviewPostId },
+    })
+  }
+
   // Fallback to state data
   const postTitle = detail?.postTitle || state?.title || ''
   const activityDate = detail?.activityDate || state?.dateValue || ''
   const viewCount = detail?.viewCount || 0
   const councilName = detail?.councilName || ''
   const imageUrls = detail?.imageUrls || state?.imageUrls || []
-  const questionText = detail?.relays?.[0]?.questionText || state?.questionText || ''
-  const reviewBody = detail?.relays?.[0]?.relayContent || state?.reviewText || ''
-  const authorName = detail?.relays?.[0]?.writerUserName || ''
+  const relays = detail?.relays || []
 
   const displayDate = activityDate.replace(/-/g, '.').replace(/^20/, '')
 
@@ -162,7 +184,13 @@ function ReviewDetailPage() {
             <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round" />
           </svg>
         </button>
-        <button className={styles.editButton}>편집</button>
+        {isLeader ? (
+          <button className={styles.editButton} onClick={handleDelete}>편집</button>
+        ) : (
+          !hasWrittenRelay && (
+            <button className={styles.editButton} onClick={handleWriteRelay}>이어쓰기</button>
+          )
+        )}
       </div>
 
       {/* Content */}
@@ -176,14 +204,40 @@ function ReviewDetailPage() {
           </div>
         </div>
 
-        <div className={styles.reviewContent}>
-          <h2 className={styles.questionTitle}>{questionText}</h2>
-          <div className={styles.reviewBody}>
-            <p className={styles.reviewText}>{reviewBody}</p>
-            {authorName && <p className={styles.authorName}>{authorName}</p>}
+        {/* All Relays */}
+        {relays.length > 0 ? (
+          relays.map((relay, idx) => (
+            <div key={relay.councilReviewRelayId} className={styles.reviewContent}>
+              <h2 className={styles.questionTitle}>{relay.questionText}</h2>
+              <div className={styles.reviewBody}>
+                <p className={styles.reviewText}>{relay.relayContent}</p>
+                <p className={styles.authorName}>{relay.writerUserName}</p>
+              </div>
+              {idx < relays.length - 1 && <div className={styles.relaySeparator} />}
+            </div>
+          ))
+        ) : state?.questionText ? (
+          <div className={styles.reviewContent}>
+            <h2 className={styles.questionTitle}>{state.questionText}</h2>
+            <div className={styles.reviewBody}>
+              <p className={styles.reviewText}>{state.reviewText}</p>
+            </div>
           </div>
-        </div>
+        ) : null}
       </div>
+
+      {/* Member CTA Banner */}
+      {!isLeader && !hasWrittenRelay && detail && (
+        <div className={styles.ctaBanner}>
+          <div className={styles.ctaText}>
+            <p className={styles.ctaLine}>활동 후기를</p>
+            <p className={styles.ctaLine}>이어서 작성해주세요</p>
+          </div>
+          <button className={styles.ctaButton} onClick={handleWriteRelay}>
+            작성하기
+          </button>
+        </div>
+      )}
 
       <div className={styles.spacer} />
 

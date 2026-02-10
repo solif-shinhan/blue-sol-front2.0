@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles1 from './MemberAdd-1.module.css'
 import styles2 from './MemberAdd-2.module.css'
+import { BackHeader } from '@/components/BackHeader'
 
 const styles = { ...styles1, ...styles2 }
 import {
@@ -9,7 +10,38 @@ import {
   getNetworkList,
   type CouncilMember, type NetworkFriend,
 } from '@/services'
+import { getScopedKey } from '@/hooks'
 import { apiClient } from '@/api'
+
+const API_BASE = import.meta.env.VITE_API_URL || 'https://stg-api.bluesol.site'
+const toFullUrl = (path: string | null | undefined): string | undefined => {
+  if (!path) return undefined
+  if (path.startsWith('http') || path.startsWith('blob')) return path
+  return `${API_BASE}/${path}`
+}
+
+const GRADIENT_MAP: Record<string, string> = {
+  BLUE_PINK: 'linear-gradient(180deg, rgba(171,200,255,0.8) 0%, rgba(255,233,226,0.8) 100%)',
+  BLUE_GRAY: 'linear-gradient(180deg, rgba(235,242,255,0.6) 0%, rgba(192,200,210,0.6) 100%)',
+  PURPLE_PINK: 'linear-gradient(180deg, rgba(184,171,255,0.6) 0%, rgba(255,226,234,0.6) 100%)',
+  BLUE_PURPLE: 'linear-gradient(180deg, rgba(171,227,255,0.6) 0%, rgba(222,223,255,0.6) 100%)',
+  WARM_BLUE: 'linear-gradient(180deg, rgba(241,235,220,0.6) 29%, rgba(162,197,237,0.6) 100%)',
+  TEAL_PINK: 'linear-gradient(180deg, rgba(194,229,237,0.6) 0%, rgba(225,189,196,0.6) 100%)',
+  YELLOW_PINK: 'linear-gradient(180deg, rgba(242,242,176,0.6) 0%, rgba(255,226,236,0.6) 100%)',
+  GREEN_BLUE: 'linear-gradient(180deg, rgba(223,249,213,0.6) 0%, rgba(174,229,242,0.6) 100%)',
+}
+const DEFAULT_GRADIENT = GRADIENT_MAP.BLUE_PINK
+
+function getAvatarBackground(member: DisplayMember): string {
+  if (member.backgroundImageUrl) {
+    const url = toFullUrl(member.backgroundImageUrl)
+    if (url) return `url(${url}) center/cover no-repeat`
+  }
+  if (member.backgroundPattern) {
+    return GRADIENT_MAP[member.backgroundPattern] || DEFAULT_GRADIENT
+  }
+  return '#E6E6E6'
+}
 
 interface SearchUser {
   userId: number
@@ -18,6 +50,9 @@ interface SearchUser {
   region: string
   schoolName?: string
   profileImageUrl?: string
+  characterImageUrl?: string
+  backgroundImageUrl?: string
+  backgroundPattern?: string
   isInCouncil?: boolean
   councilName?: string
 }
@@ -26,13 +61,16 @@ interface DisplayMember {
   userId: number
   name: string
   profileImageUrl?: string
+  characterImageUrl?: string
+  backgroundImageUrl?: string
+  backgroundPattern?: string
   userType?: string
   region?: string
 }
 
 function MemberAddPage() {
   const navigate = useNavigate()
-  const isRegisterMode = !!sessionStorage.getItem('council-reg:step')
+  const isRegisterMode = !!sessionStorage.getItem(getScopedKey('council-reg:step'))
 
   const [activeTab, setActiveTab] = useState<'myNetwork' | 'allSearch'>('myNetwork')
   const [searchQuery, setSearchQuery] = useState('')
@@ -48,7 +86,7 @@ function MemberAddPage() {
   const [regMembers, setRegMembers] = useState<DisplayMember[]>(() => {
     if (!isRegisterMode) return []
     try {
-      const saved = sessionStorage.getItem('council-reg:members')
+      const saved = sessionStorage.getItem(getScopedKey('council-reg:members'))
       return saved ? JSON.parse(saved) : []
     } catch { return [] }
   })
@@ -58,8 +96,7 @@ function MemberAddPage() {
   const refreshMembers = useCallback(async (cId: number) => {
     const res = await getCouncilMembers(cId)
     if (res.success) {
-      const raw = res.data
-      const list = Array.isArray(raw) ? raw : []
+      const list: any[] = res.data?.members ?? []
       setCurrentMembers(list.map((m: any) => ({
         userId: m.userId,
         name: m.userName || m.name || '',
@@ -69,6 +106,7 @@ function MemberAddPage() {
         joinedAt: m.joinedAt || '',
         userType: m.userType,
         region: m.region,
+        schoolName: m.schoolName || '',
       })))
     }
   }, [])
@@ -91,7 +129,9 @@ function MemberAddPage() {
             networkRes.data.addedFriends.map((f: NetworkFriend) => ({
               userId: f.userId,
               name: f.userName,
-              profileImageUrl: f.characterImageUrl,
+              characterImageUrl: f.characterImageUrl,
+              backgroundImageUrl: f.backgroundImageUrl,
+              backgroundPattern: f.backgroundPattern,
             }))
           )
         }
@@ -124,7 +164,9 @@ function MemberAddPage() {
                 name: u.name,
                 userType: u.userType || u.schoolName,
                 region: u.region,
-                profileImageUrl: u.profileImageUrl,
+                characterImageUrl: u.characterImageUrl || u.profileImageUrl,
+                backgroundImageUrl: u.backgroundImageUrl,
+                backgroundPattern: u.backgroundPattern,
               }))
           )
         }
@@ -170,7 +212,7 @@ function MemberAddPage() {
       const newMembers = displayList.filter(m => selectedMembers.includes(m.userId))
       const updated = [...regMembers, ...newMembers]
       setRegMembers(updated)
-      sessionStorage.setItem('council-reg:members', JSON.stringify(updated))
+      sessionStorage.setItem(getScopedKey('council-reg:members'), JSON.stringify(updated))
       setSelectedMembers([])
       return
     }
@@ -178,9 +220,7 @@ function MemberAddPage() {
     if (!councilId || selectedMembers.length === 0 || isSubmitting) return
     setIsSubmitting(true)
     try {
-      for (const userId of selectedMembers) {
-        await addCouncilMember(councilId, { userId })
-      }
+      await addCouncilMember(councilId, { userIds: selectedMembers })
       await refreshMembers(councilId)
       setSelectedMembers([])
       alert('멤버가 추가되었습니다.')
@@ -196,7 +236,7 @@ function MemberAddPage() {
     if (isRegisterMode) {
       const updated = regMembers.filter(m => m.userId !== userId)
       setRegMembers(updated)
-      sessionStorage.setItem('council-reg:members', JSON.stringify(updated))
+      sessionStorage.setItem(getScopedKey('council-reg:members'), JSON.stringify(updated))
       return
     }
     if (!councilId) return
@@ -220,15 +260,13 @@ function MemberAddPage() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <button className={styles.backButton} onClick={handleComplete}>
-          <svg width="10" height="18" viewBox="0 0 10 18" fill="none">
-            <path d="M9 1L1 9L9 17" stroke="#222222" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
-        <span className={styles.headerTitle}>자치회 멤버 추가</span>
-        <button className={styles.completeButton} onClick={handleComplete}>완료</button>
-      </div>
+      <BackHeader
+        title="자치회 멤버 추가"
+        onBack={handleComplete}
+        rightContent={
+          <button className={styles.completeButton} onClick={handleComplete}>완료</button>
+        }
+      />
 
       <div className={styles.content}>
         <div className={styles.currentMemberSection}>
@@ -243,10 +281,10 @@ function MemberAddPage() {
               regMembers.map(member => (
                 <div key={member.userId} className={styles.memberAvatarItem}>
                   <div className={styles.memberAvatarWrapper}>
-                    <div className={styles.memberAvatar}>
-                      {member.profileImageUrl ? (
-                        <img src={member.profileImageUrl} alt={member.name} className={styles.avatarImg} />
-                      ) : null}
+                    <div className={styles.memberAvatar} style={{ background: getAvatarBackground(member) }}>
+                      {toFullUrl(member.characterImageUrl) && (
+                        <img src={toFullUrl(member.characterImageUrl)} alt={member.name} className={styles.avatarImg} />
+                      )}
                     </div>
                     <button
                       className={styles.removeButton}
@@ -266,9 +304,9 @@ function MemberAddPage() {
                 <div key={member.userId} className={styles.memberAvatarItem}>
                   <div className={styles.memberAvatarWrapper}>
                     <div className={`${styles.memberAvatar} ${member.userId === currentUserId ? styles.memberAvatarMe : ''}`}>
-                      {member.profileImageUrl ? (
-                        <img src={member.profileImageUrl} alt={member.name} className={styles.avatarImg} />
-                      ) : null}
+                      {toFullUrl(member.profileImageUrl) && (
+                        <img src={toFullUrl(member.profileImageUrl)} alt={member.name} className={styles.avatarImg} />
+                      )}
                     </div>
                     {member.userId !== currentUserId && (
                       <button
@@ -343,9 +381,9 @@ function MemberAddPage() {
                   >
                     <div className={styles.memberCardInner}>
                       <div className={styles.memberInfo}>
-                        <div className={styles.memberProfileAvatar}>
-                          {member.profileImageUrl && (
-                            <img src={member.profileImageUrl} alt={member.name} className={styles.memberProfileImg} />
+                        <div className={styles.memberProfileAvatar} style={{ background: getAvatarBackground(member) }}>
+                          {toFullUrl(member.characterImageUrl) && (
+                            <img src={toFullUrl(member.characterImageUrl)} alt={member.name} className={styles.memberProfileImg} />
                           )}
                         </div>
                         <span className={`${styles.memberName} ${isSelected ? styles.memberNameSelected : ''}`}>
