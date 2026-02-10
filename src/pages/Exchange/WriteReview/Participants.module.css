@@ -81,7 +81,7 @@
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  border: 2px dashed #C8C8C8;
+  border: none;
   background: transparent;
   display: flex;
   align-items: center;

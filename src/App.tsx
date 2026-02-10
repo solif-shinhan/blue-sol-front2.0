@@ -23,7 +23,9 @@ const WriteFormPage = lazy(() => import('@pages/Exchange/Write/WriteForm'))
 const BoardPage = lazy(() => import('@pages/Exchange/Board'))
 const BoardDetailPage = lazy(() => import('@pages/Exchange/Board/BoardDetail'))
 const ReviewDetailPage = lazy(() => import('@pages/Exchange/ReviewDetail'))
+const RelayWritePage = lazy(() => import('@pages/Exchange/RelayWrite'))
 const GrowthPage = lazy(() => import('@pages/Growth'))
+const StrengthMorePage = lazy(() => import('@pages/Growth/StrengthMore'))
 const NotificationsPage = lazy(() => import('@pages/Notifications'))
 const NotificationDetailPage = lazy(() => import('@pages/Notifications/NotificationDetail'))
 const ActivityDetailPage = lazy(() => import('@pages/Notifications/ActivityDetail'))
@@ -32,7 +34,6 @@ const MyPagePage = lazy(() => import('@pages/MyPage'))
 const MentoringPage = lazy(() => import('@pages/Mentoring'))
 const MentoringApplyPage = lazy(() => import('@pages/Mentoring/Apply'))
 const MentoringPostcardPage = lazy(() => import('@pages/Mentoring/Postcard'))
-const MentoringReviewPage = lazy(() => import('@pages/Mentoring/Review'))
 const ApplicationHistoryPage = lazy(() => import('@pages/Mentoring/ApplicationHistory'))
 const GoalsPage = lazy(() => import('@pages/Goals'))
 const PublicProfilePage = lazy(() => import('@pages/PublicProfile'))
@@ -102,7 +103,6 @@ function App() {
           <Route path="/exchange/mentoring" element={<MentoringPage />} />
           <Route path="/exchange/mentoring/apply" element={<MentoringApplyPage />} />
           <Route path="/exchange/mentoring/postcard" element={<MentoringPostcardPage />} />
-          <Route path="/exchange/mentoring/review" element={<MentoringReviewPage />} />
           <Route path="/exchange/mentoring/history" element={<ApplicationHistoryPage />} />
           <Route path="/exchange/write" element={<WritePage />} />
           <Route path="/exchange/write/review" element={<WriteReviewPage />} />
@@ -112,8 +112,10 @@ function App() {
           <Route path="/exchange/board" element={<BoardPage />} />
           <Route path="/exchange/board/:postId" element={<BoardDetailPage />} />
           <Route path="/exchange/council/review/:reviewId" element={<ReviewDetailPage />} />
+          <Route path="/exchange/council/review/:reviewId/relay" element={<RelayWritePage />} />
 
           <Route path="/growth" element={<GrowthPage />} />
+          <Route path="/growth/strength" element={<StrengthMorePage />} />
 
           <Route path="/notifications" element={<NotificationsPage />} />
           <Route path="/notifications/:id" element={<NotificationDetailPage />} />

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import styles1 from './Network-1.module.css'
 import styles2 from './Network-2.module.css'
 import { BackHeader } from '@/components/BackHeader'
-import plusIcon from '@/assets/images/network/4de7b4619a8a7217458e36fa3215adb3643f60eb.svg'
+import plusIcon from '@/assets/figma/4de7b4619a8a7217458e36fa3215adb3643f60eb.svg'
 import solidLogoWhiteSvg from '@/assets/images/network/e818367a0db04bf1988756d66e77bb070225c713.svg'
 import moreDotsIcon from '@/assets/images/network/51d88d8a9f263d54e503fd4f7207cbac51f9793a.svg'
 import { getIconByLabel } from '@assets/icons'
@@ -46,6 +46,8 @@ function NetworkPage() {
   const [activeIndex, setActiveIndex] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
   const [isSending, setIsSending] = useState(false)
+  const [showActionToast, setShowActionToast] = useState(false)
+  const [actionToastType, setActionToastType] = useState<'CHEER' | 'HELP'>('CHEER')
 
   const isDragging = useRef(false)
   const startX = useRef(0)
@@ -157,10 +159,12 @@ function NetworkPage() {
         interactionType: activeCard.buttonType === 'CHEER' ? 'CHEER' : 'HELP',
       })
       if (res.success) {
-        alert(activeCard.buttonType === 'CHEER' ? '응원을 보냈습니다!' : '경험 나누기를 보냈습니다!')
+        setActionToastType(activeCard.buttonType === 'CHEER' ? 'CHEER' : 'HELP')
+        setShowActionToast(true)
+        setTimeout(() => setShowActionToast(false), 2500)
       }
     } catch {
-      alert('요청에 실패했습니다.')
+      console.error('요청에 실패했습니다.')
     } finally {
       setIsSending(false)
     }
@@ -176,7 +180,6 @@ function NetworkPage() {
   const renderHeader = () => (
     <BackHeader
       title="나의 교류망"
-      backTo="/exchange"
       showSearch
       onSearch={handleSearch}
     />
@@ -211,7 +214,9 @@ function NetworkPage() {
       <div className={styles.friendsSection}>
         <div className={styles.friendsScroll}>
           <button className={styles.addButton} onClick={handleSearch}>
-            <img src={plusIcon} alt="추가" className={styles.addButtonIcon} />
+            <div className={styles.addButtonCircle}>
+              <img src={plusIcon} alt="추가" className={styles.addButtonIcon} />
+            </div>
             <span className={styles.addButtonLabel}>추가하기</span>
           </button>
           {friends.map((friend) => {
@@ -352,6 +357,15 @@ function NetworkPage() {
           })}
         </div>
       </div>
+
+      {showActionToast && activeCard && (
+        <div className={styles.interactionToast}>
+          <p className={styles.interactionToastText}>
+            <span className={styles.interactionToastName}>{activeCard.userName}</span>님께<br />
+            {actionToastType === 'CHEER' ? '응원하기' : '경험 나누기'}를 보냈어요!
+          </p>
+        </div>
+      )}
 
       {/* 하단 버튼 */}
       {activeCard && (

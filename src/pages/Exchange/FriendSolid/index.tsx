@@ -94,8 +94,6 @@ function FriendSolidPage() {
     fetchCard()
   }, [userId])
 
-  const handleSearch = () => navigate('/exchange/network/add')
-
   const handleAddToNetwork = async () => {
     if (!cardData || isAdding) return
     setIsAdding(true)
@@ -103,8 +101,8 @@ function FriendSolidPage() {
       const res = await addToNetwork({ targetUserId: cardData.userId })
       if (res.success) {
         setIsAdded(true)
-        setShowToast(true)
-        setTimeout(() => setShowToast(false), 4000)
+        setShowActionToast(true)
+        setTimeout(() => setShowActionToast(false), 2500)
       }
     } catch {
       alert('교류망 추가에 실패했습니다.')
@@ -143,7 +141,7 @@ function FriendSolidPage() {
   if (isLoading) {
     return (
       <div className={styles.container}>
-        <BackHeader title="친구의 SOLID" showSearch onSearch={handleSearch} />
+        <BackHeader title="친구의 SOLID" />
         <div className={styles.loadingState}><p>로딩 중...</p></div>
       </div>
     )
@@ -164,7 +162,7 @@ function FriendSolidPage() {
 
   return (
     <div className={styles.container}>
-      <BackHeader title="친구의 SOLID" showSearch onSearch={handleSearch} />
+      <BackHeader title="친구의 SOLID" />
 
       <div className={styles.cardWrapper}>
         <div className={styles.card}>
@@ -239,16 +237,17 @@ function FriendSolidPage() {
             <span className={styles.sinceYear}>SINCE {cardData.joinYear || 2026}</span>
           </div>
 
-          {showActionToast && (
-            <div className={styles.interactionToast}>
-              <p className={styles.interactionToastText}>
-                <span className={styles.interactionToastName}>{cardData.userName}</span>님께<br />
-                {buttonType === 'CHEER' ? '응원하기' : '경험 나누기'}를 보냈어요!
-              </p>
-            </div>
-          )}
         </div>
       </div>
+
+      {showActionToast && (
+        <div className={styles.interactionToast}>
+          <p className={styles.interactionToastText}>
+            <span className={styles.interactionToastName}>{cardData.userName}</span>님께<br />
+            {buttonType === 'CHEER' ? '응원하기' : '경험 나누기'}를 보냈어요!
+          </p>
+        </div>
+      )}
 
       {/* 토스트 */}
       {showToast && (

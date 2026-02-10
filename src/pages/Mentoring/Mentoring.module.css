@@ -248,12 +248,13 @@
 
 .mentorCardBottom {
   position: absolute;
-  bottom: -1px;
-  left: -1px;
-  width: 219px;
+  bottom: 0;
+  left: 0;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  row-gap: 18.29px;
 }
 
 .mentorInfo {
@@ -334,150 +335,9 @@
    Custom Mentoring Card
    ========================================================================== */
 
-.customMentoringCard {
-  width: 360px;
-  height: 120px;
-  background-color: #FFFFFF;
-  border-radius: 24px;
-  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
-  position: relative;
-}
+/* customMentoring 스타일은 Mentoring-2.module.css에서 관리 */
 
-.customMentoringIcon {
-  position: absolute;
-  top: 35px;
-  right: 18px;
-  width: 50px;
-  height: 50px;
-}
-
-.customMentoringContent {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
-  padding: 0 20px;
-  width: 362px;
-}
-
-.customMentoringInner {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  height: 86px;
-}
-
-.customMentoringText {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.customMentoringSubtitle {
-  font-family: 'Pretendard', sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  color: #848484;
-  line-height: 1.2;
-  margin: 0;
-}
-
-.customMentoringTitle {
-  font-family: 'Pretendard', sans-serif;
-  font-size: 20px;
-  font-weight: 700;
-  color: #074ED8;
-  line-height: 1.2;
-  margin: 0;
-}
-
-.customMentoringDescription {
-  font-family: 'Pretendard', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  color: #848484;
-  line-height: 1.4;
-  margin-top: 4px; 
-}
-
-/* ==========================================================================
-   Review Section
-   ========================================================================== */
-
-.reviewCard {
-  width: 360px;
-  height: 120px;
-  background-color: #FFFFFF;
-  border-radius: 24px;
-  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
-  position: relative;
-}
-
-.reviewImage {
-  position: absolute;
-  top: 50%;
-  right: 8px;
-  transform: translateY(-50%);
-  width: 106px;
-  height: 106px;
-  border-radius: 18px;
-  overflow: hidden;
-  background-color: #C8C8C8;
-}
-
-.reviewImage img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.reviewContent {
-  position: absolute;
-  top: calc(50% + 0.09px);
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 376px;
-  padding: 0 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.reviewAuthorRow {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.reviewAuthor {
-  font-family: 'Pretendard', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  color: #848484;
-  line-height: 1.4;
-}
-
-.reviewDivider {
-  width: 1px;
-  height: 12px;
-}
-
-.reviewMentor {
-  font-family: 'Pretendard', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  color: #848484;
-  line-height: 1.4;
-}
-
-.reviewText {
-  font-family: 'Pretendard', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  color: #848484;
-  line-height: 1.4;
-  width: 213px;
-}
+/* review 스타일은 Mentoring-2.module.css에서 관리 */
 
 /* ==========================================================================
    Search Mode

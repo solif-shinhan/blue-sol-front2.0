@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import styles from './MessageBox.module.css'
+import { BackHeader } from '@/components/BackHeader'
 import {
   getReceivedMessages,
   getSentMessages,
@@ -81,14 +82,7 @@ function MessageBox() {
 
   return (
     <div className={styles.container}>
-      <header className={styles.header}>
-        <button className={styles.backButton} onClick={handleBack}>
-          <svg viewBox="0 0 24 24" fill="none" stroke="#848484" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M15 18l-6-6 6-6" />
-          </svg>
-        </button>
-        <span className={styles.headerTitle}>쪽지함</span>
-      </header>
+      <BackHeader title="쪽지함" onBack={handleBack} />
 
       <div className={styles.content}>
         <div className={styles.tabBar}>

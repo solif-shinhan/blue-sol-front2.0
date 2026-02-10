@@ -13,7 +13,7 @@ import { QRCodeModal } from './components/QRCodeModal'
 import { LECTURE_ITEMS, QUICK_MENU_ITEMS, NEWS_ITEMS } from './Home.constants'
 import { getProfile, ProfileData } from '@/services/profileService'
 import { logout } from '@/services/authService'
-import { userApi } from '@/api'
+import { userApi, goalApi } from '@/api'
 import { SolidCardPreview } from '@/features/02-onboarding/components/SolidCardPreview-1'
 import { Character, BackgroundColor, Interest, DARK_PATTERNS } from '@/features/02-onboarding/types/card-1'
 import { mockInterests } from '@/features/02-onboarding/api/mock-card-1'
@@ -57,27 +57,15 @@ function HomePage() {
   const [region, setRegion] = useState('')
   const [school, setSchool] = useState('')
   const [isLoading, setIsLoading] = useState(true)
+  const [goalData, setGoalData] = useState({ mainGoal: '', completedCount: 0, totalCount: 0 })
   const containerRef = useRef<HTMLDivElement>(null)
-  const sliderRef = useRef<HTMLDivElement>(null)
-  const isDragging = useRef(false)
-  const startX = useRef(0)
-  const scrollLeft = useRef(0)
+  const newsRef = useRef<HTMLDivElement>(null)
+  const newsDragging = useRef(false)
+  const newsStartX = useRef(0)
 
   // 페이지 진입 시 스크롤 top으로 리셋
   useEffect(() => {
     containerRef.current?.scrollTo(0, 0)
-  }, [])
-
-  // 목표 데이터 (localStorage)
-  const goalData = useMemo(() => {
-    const savedGoals = localStorage.getItem('userGoals')
-    const savedCompleted = localStorage.getItem('completedGoals')
-    const goals: string[] = savedGoals ? JSON.parse(savedGoals) : []
-    const completedIds: number[] = savedCompleted ? JSON.parse(savedCompleted) : []
-    const totalCount = goals.length
-    const completedCount = completedIds.length
-    const mainGoal = goals[0] || ''
-    return { mainGoal, completedCount, totalCount }
   }, [])
 
   // 데이터 로드
@@ -86,9 +74,10 @@ function HomePage() {
       setIsLoading(true)
       try {
         // 프로필 + 유저 정보 조회 (각각 실패해도 다른 요청에 영향 없도록)
-        const [profileRes, userRes] = await Promise.all([
+        const [profileRes, userRes, goalFirstRes] = await Promise.all([
           getProfile().catch(() => null),
           userApi.getMe().catch(() => null),
+          goalApi.getFirst().catch(() => null),
         ])
         if (profileRes && profileRes.success) {
           setProfile(profileRes.data)
@@ -104,6 +93,16 @@ function HomePage() {
             setRegion(parsed.region || '')
             setSchool(parsed.schoolName || '')
           }
+        }
+
+        // 목표 API 연동
+        if (goalFirstRes && goalFirstRes.success && goalFirstRes.data) {
+          const g = goalFirstRes.data
+          setGoalData({
+            mainGoal: g.firstGoal || '',
+            completedCount: g.currentIndex ?? 0,
+            totalCount: g.totalCount ?? 0,
+          })
         }
 
       } catch (error) {
@@ -143,65 +142,30 @@ function HomePage() {
       case '쪽지함': navigate('/notifications?tab=activity&sub=message'); break
       case '게시판': navigate('/exchange/board'); break
       case '교류망': navigate('/exchange/network'); break
-      case '자치회': navigate('/exchange'); break
+      case '자치회': navigate('/exchange/council/list'); break
       case '멘토링': navigate('/exchange/mentoring'); break
     }
   }
 
-  const SLIDE_STEP = 380 // card width (360) + gap (20)
-
   const goToSlide = useCallback((index: number) => {
-    const itemCount = NEWS_ITEMS.length
     let targetIndex = index
-    if (index < 0) targetIndex = itemCount - 1
-    else if (index >= itemCount) targetIndex = 0
+    if (index < 0) targetIndex = NEWS_ITEMS.length - 1
+    else if (index >= NEWS_ITEMS.length) targetIndex = 0
     setCurrentSlide(targetIndex)
-    sliderRef.current?.scrollTo({ left: targetIndex * SLIDE_STEP, behavior: 'smooth' })
   }, [])
 
-  const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
-    isDragging.current = true
-    startX.current = 'touches' in e ? e.touches[0].pageX : e.pageX
-    scrollLeft.current = sliderRef.current?.scrollLeft || 0
-    if (sliderRef.current) sliderRef.current.style.scrollSnapType = 'none'
+  const handleNewsDragStart = (e: React.MouseEvent | React.TouchEvent) => {
+    newsDragging.current = true
+    newsStartX.current = 'touches' in e ? e.touches[0].pageX : e.pageX
   }
 
-  const handleDragMove = (e: React.MouseEvent | React.TouchEvent) => {
-    if (!isDragging.current || !sliderRef.current) return
-    const x = 'touches' in e ? e.touches[0].pageX : e.pageX
-    sliderRef.current.scrollLeft = scrollLeft.current + (startX.current - x)
+  const handleNewsDragEnd = (e: React.MouseEvent | React.TouchEvent) => {
+    if (!newsDragging.current) return
+    newsDragging.current = false
+    const endX = 'changedTouches' in e ? e.changedTouches[0].pageX : e.pageX
+    const diff = newsStartX.current - endX
+    if (Math.abs(diff) > 50) goToSlide(currentSlide + (diff > 0 ? 1 : -1))
   }
-
-  const handleDragEnd = () => {
-    if (!isDragging.current || !sliderRef.current) return
-    isDragging.current = false
-    const diff = sliderRef.current.scrollLeft - scrollLeft.current
-    sliderRef.current.style.scrollSnapType = 'x mandatory'
-    if (Math.abs(diff) > SLIDE_STEP * 0.15) goToSlide(currentSlide + (diff > 0 ? 1 : -1))
-    else goToSlide(currentSlide)
-  }
-
-  useEffect(() => {
-    const slider = sliderRef.current
-    if (!slider) return
-    const handleScroll = () => {
-      if (isDragging.current) return
-      const newSlide = Math.round(slider.scrollLeft / SLIDE_STEP)
-      if (newSlide !== currentSlide && newSlide >= 0 && newSlide < NEWS_ITEMS.length) setCurrentSlide(newSlide)
-    }
-    const onTouchMove = (e: TouchEvent) => {
-      if (!isDragging.current) return
-      e.preventDefault()
-      const x = e.touches[0].pageX
-      slider.scrollLeft = scrollLeft.current + (startX.current - x)
-    }
-    slider.addEventListener('scroll', handleScroll)
-    slider.addEventListener('touchmove', onTouchMove, { passive: false })
-    return () => {
-      slider.removeEventListener('scroll', handleScroll)
-      slider.removeEventListener('touchmove', onTouchMove)
-    }
-  }, [currentSlide])
 
   return (
     <div className={styles.container} ref={containerRef}>
@@ -228,6 +192,31 @@ function HomePage() {
       </nav>
 
       <div className={styles.content}>
+        {/* 목표 히어로 섹션 - tabNav 아래 15px */}
+        <section className={styles.goalHero} onClick={() => navigate('/goals')}>
+          <div className={styles.goalHeroLeft}>
+            <img src={imgSolif} alt="SOLIF, 너의 꿈을 응원해" className={styles.goalHeroLogo} />
+            <h2 className={styles.goalHeroTitle}>{goalData.mainGoal || '나의 목표를 설정해보세요'}</h2>
+          </div>
+          <div className={styles.goalHeroRight}>
+            <div className={styles.goalBadge}>나의 목표</div>
+            <div className={styles.goalRing}>
+              <svg viewBox="0 0 70 70" width="70" height="70">
+                <circle cx="35" cy="35" r="32.5" fill="none" stroke="#E6EFFF" strokeWidth="5" />
+                <circle cx="35" cy="35" r="32.5" fill="none" stroke="#074ED8" strokeWidth="5"
+                  strokeLinecap="round"
+                  strokeDasharray={2 * Math.PI * 32.5}
+                  strokeDashoffset={2 * Math.PI * 32.5 * (1 - (goalData.totalCount > 0 ? goalData.completedCount / goalData.totalCount : 0))}
+                  style={{ transform: 'rotate(-90deg)', transformOrigin: '50% 50%' }} />
+              </svg>
+              <span className={styles.goalRingText}>
+                <span className={styles.goalRingCurrent}>{goalData.completedCount}</span>
+                <span className={styles.goalRingTotal}>/{goalData.totalCount}</span>
+              </span>
+            </div>
+          </div>
+        </section>
+
         <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '20px' }}>
           {!isLoading && profile && (
             <SolidCardPreview
@@ -260,49 +249,33 @@ function HomePage() {
               ))}
             </div>
 
-            {goalData.mainGoal && (
-              <section className={styles.goalHero} onClick={() => navigate('/goals')}>
-                <div className={styles.goalHeroLeft}>
-                  <img src={imgSolif} alt="SOLIF, 너의 꿈을 응원해" className={styles.goalHeroLogo} />
-                  <h2 className={styles.goalHeroTitle}>{goalData.mainGoal}</h2>
-                </div>
-                <div className={styles.goalHeroRight}>
-                  <div className={styles.goalBadge}>나의 목표</div>
-                  <div className={styles.goalRing}>
-                    <svg viewBox="0 0 70 70" width="70" height="70">
-                      <circle cx="35" cy="35" r="30" fill="none" stroke="#E6EFFF" strokeWidth="5" />
-                      <circle cx="35" cy="35" r="30" fill="none" stroke="#074ED8" strokeWidth="5"
-                        strokeLinecap="round"
-                        strokeDasharray={2 * Math.PI * 30}
-                        strokeDashoffset={2 * Math.PI * 30 * (1 - (goalData.totalCount > 0 ? goalData.completedCount / goalData.totalCount : 0))}
-                        style={{ transform: 'rotate(-90deg)', transformOrigin: '50% 50%' }} />
-                    </svg>
-                    <span className={styles.goalRingText}>
-                      <span className={styles.goalRingCurrent}>{goalData.completedCount}</span>
-                      <span className={styles.goalRingTotal}>/{goalData.totalCount}</span>
-                    </span>
-                  </div>
-                </div>
-              </section>
-            )}
 
             <section className={styles.newsSection}>
               <h2 className={styles.sectionTitle}>새로운 소식</h2>
-              <div className={styles.newsSlider} ref={sliderRef}
-                onMouseDown={handleDragStart} onMouseMove={handleDragMove}
-                onMouseUp={handleDragEnd} onMouseLeave={handleDragEnd}
-                onTouchStart={handleDragStart} onTouchEnd={handleDragEnd}>
-                {NEWS_ITEMS.map(item => (
-                  <div key={item.id} className={styles.newsCard}>
-                    <div className={styles.newsCardContent}>
-                      <h3>{item.title}</h3>
-                      <p>{item.subtitle}</p>
+              <div className={styles.newsSlider} ref={newsRef}
+                onMouseDown={handleNewsDragStart} onMouseUp={handleNewsDragEnd}
+                onMouseLeave={handleNewsDragEnd} onTouchStart={handleNewsDragStart}
+                onTouchEnd={handleNewsDragEnd}>
+                <div className={styles.newsTrack}
+                  style={{ transform: `translateX(calc(50% - 180px - ${currentSlide * 380}px))` }}>
+                  {NEWS_ITEMS.map((item, index) => (
+                    <div key={item.id} className={styles.newsCard}
+                      style={{
+                        opacity: index === currentSlide ? 1 : 0.5,
+                        transform: index === currentSlide ? 'scale(1)' : 'scale(0.95)',
+                        transition: 'all 0.3s ease',
+                      }}
+                      onClick={() => { if (index !== currentSlide) goToSlide(index) }}>
+                      <div className={styles.newsCardContent}>
+                        <h3>{item.title}</h3>
+                        <p>{item.subtitle}</p>
+                      </div>
+                      <div className={styles.newsCardIcon}>
+                        {item.icon && <img src={item.icon} alt="" style={{ width: item.iconWidth, height: item.iconHeight }} />}
+                      </div>
                     </div>
-                    <div className={styles.newsCardIcon}>
-                      {item.icon && <img src={item.icon} alt="" style={{ width: item.iconWidth, height: item.iconHeight }} />}
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
               <div className={styles.sliderDots}>
                 {NEWS_ITEMS.map((_, i) => (

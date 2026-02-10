@@ -7,6 +7,7 @@ import bellIcon from '@/assets/images/bell.svg'
 import arrowRightBlue from '@/assets/images/arrow-right-blue.svg'
 import mentoringIconImg from '@/assets/images/exchage-board/8c7a7abec9195b18a5034fbe9bf6b82083dce5d4.png'
 import fabCloseIconSvg from '@/assets/images/exchage-board/Vector2.svg'
+import plusIconSvg from '@/assets/figma/4de7b4619a8a7217458e36fa3215adb3643f60eb.svg'
 import { FABButton } from '@/components/FABButton'
 import { useCouncilStatus } from '@/hooks'
 import { logout, getPosts, PostListItem, CATEGORY_REVERSE_MAP, getMyCouncil, getCouncilDetail } from '@/services'
@@ -16,6 +17,8 @@ import { getNetworkList, NetworkFriend } from '@/services/networkService'
 import type { CouncilItem } from '../Home/Home.constants'
 
 const flagImage = '/flag1.png'
+const councilCoinIcon = '/assets/dbb73fb272a3141384586bf82800a3842cd32d83.png'
+const councilReviewIcon = '/assets/0a341a91133d8fbee7673353b259af623d5146be.png'
 
 const styles = { ...styles1, ...styles2, ...styles3 }
 
@@ -25,6 +28,18 @@ const toFullUrl = (path: string | null | undefined): string | undefined => {
   if (path.startsWith('http')) return path
   return `${API_BASE}/${path}`
 }
+
+const GRADIENT_MAP: Record<string, string> = {
+  BLUE_PINK: 'linear-gradient(180deg, rgba(171,200,255,0.8) 0%, rgba(255,233,226,0.8) 100%)',
+  BLUE_GRAY: 'linear-gradient(180deg, rgba(235,242,255,0.6) 0%, rgba(192,200,210,0.6) 100%)',
+  PURPLE_PINK: 'linear-gradient(180deg, rgba(184,171,255,0.6) 0%, rgba(255,226,234,0.6) 100%)',
+  BLUE_PURPLE: 'linear-gradient(180deg, rgba(171,227,255,0.6) 0%, rgba(222,223,255,0.6) 100%)',
+  WARM_BLUE: 'linear-gradient(180deg, rgba(241,235,220,0.6) 29%, rgba(162,197,237,0.6) 100%)',
+  TEAL_PINK: 'linear-gradient(180deg, rgba(194,229,237,0.6) 0%, rgba(225,189,196,0.6) 100%)',
+  YELLOW_PINK: 'linear-gradient(180deg, rgba(242,242,176,0.6) 0%, rgba(255,226,236,0.6) 100%)',
+  GREEN_BLUE: 'linear-gradient(180deg, rgba(223,249,213,0.6) 0%, rgba(174,229,242,0.6) 100%)',
+}
+const DEFAULT_GRADIENT = GRADIENT_MAP.BLUE_PINK
 
 const BOARD_CATEGORIES: { label: string; boardId: number; category?: string }[] = [
   { label: '활동 후기', boardId: 1 },
@@ -145,14 +160,15 @@ function ExchangePage() {
                 type: 'activity',
                 label: councilName,
                 title: `솔잎이들과 ${actCount}개 활동을 함께 했어요`,
-                profiles: ['blue', 'lightBlue', 'blue', 'lightBlue', 'gray', 'gray', 'gray', 'gray'],
+                activityCount: actCount,
+                profiles: Array.from({ length: 8 }, (_, i) => i < actCount ? 'blue' : 'gray'),
               },
               {
                 id: 3,
                 type: 'review',
                 label: councilName,
                 title: '활동 후기 릴레이 작성하기',
-                description: '나에게서 너에게로, 마음 릴레이를 시작해보세요',
+                description: '나에게서 너에게로 전하는 마음 릴레이',
               },
             ])
           }
@@ -236,7 +252,7 @@ function ExchangePage() {
             <div className={styles.friendsList}>
               <div className={styles.addFriendButton} onClick={() => navigate('/exchange/network/add')}>
                 <div className={styles.plusIconCircle}>
-                  <span className={styles.plusIcon}>+</span>
+                  <img src={plusIconSvg} alt="추가" className={styles.plusIconImg} />
                 </div>
                 <span className={styles.addFriendText}>추가하기</span>
               </div>
@@ -245,9 +261,9 @@ function ExchangePage() {
                   <div
                     className={styles.friendAvatar}
                     style={{
-                      ...(toFullUrl(friend.backgroundImageUrl) ? {
-                        background: `url(${toFullUrl(friend.backgroundImageUrl)}) center/cover no-repeat`,
-                      } : {}),
+                      background: toFullUrl(friend.backgroundImageUrl)
+                        ? `url(${toFullUrl(friend.backgroundImageUrl)}) center/cover no-repeat`
+                        : (GRADIENT_MAP[friend.backgroundPattern] || DEFAULT_GRADIENT),
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -315,11 +331,15 @@ function ExchangePage() {
                           <span className={styles.cardAmountSuffix}>{item.suffix}</span>
                         </div>
                         <div className={styles.progressBar}><div className={styles.progressFill} style={{ width: `${item.progress}%` }}></div></div>
-                        <div className={styles.cardIcon}></div>
+                        <div className={`${styles.cardIcon} ${styles.cardIconBudget}`}>
+                          <img src={councilCoinIcon} alt="" />
+                        </div>
                       </>)}
                       {item.type === 'activity' && (<>
                         <p className={styles.cardLabel}>{item.label}</p>
-                        <p className={styles.cardTitle}>{item.title}</p>
+                        <p className={styles.cardTitle}>
+                          솔잎이들과 <span className={styles.cardTitleHighlight}>{item.activityCount}개 활동</span>을 함께 했어요
+                        </p>
                         <div className={styles.profileGroup}>
                           {item.profiles?.map((color, i) => (
                             <div key={i} className={`${styles.profileCircleSmall} ${color === 'blue' ? styles.profileBlue : color === 'lightBlue' ? styles.profileLightBlue : styles.profileGray}`}></div>
@@ -330,7 +350,9 @@ function ExchangePage() {
                         <p className={styles.cardLabel}>{item.label}</p>
                         <p className={styles.cardTitle}>{item.title}</p>
                         <p className={styles.cardDescription}>{item.description}</p>
-                        <div className={styles.cardIcon}></div>
+                        <div className={`${styles.cardIcon} ${styles.cardIconReview}`}>
+                          <img src={councilReviewIcon} alt="" />
+                        </div>
                       </>)}
                     </div>
                   ))}
@@ -444,7 +466,7 @@ function ExchangePage() {
               <button className={`${styles.fabMenuItem} ${styles.fabMenuItemBorder}`} onClick={() => navigate('/exchange/write')}>
                 토닥토닥 고민 상담
               </button>
-              <button className={styles.fabMenuItem} onClick={() => navigate('/exchange/mentoring/review')}>
+              <button className={styles.fabMenuItem} onClick={() => navigate('/exchange/board')}>
                 멘토링 후기 작성
               </button>
             </div>

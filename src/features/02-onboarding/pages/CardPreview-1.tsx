@@ -94,7 +94,7 @@ export const CardPreview: React.FC<CardPreviewProps> = ({
 
   const headerStyle: React.CSSProperties = {
     position: 'absolute',
-    top: '70px',
+    top: 0,
     left: 0,
     width: '100%',
     zIndex: 10,
@@ -103,7 +103,7 @@ export const CardPreview: React.FC<CardPreviewProps> = ({
   const titleContainerStyle: React.CSSProperties = {
     position: 'absolute',
     left: '16px',
-    top: '144px',
+    top: '74px',
     display: 'flex',
     flexDirection: 'column',
     gap: '12px',
@@ -132,8 +132,8 @@ export const CardPreview: React.FC<CardPreviewProps> = ({
   const cardContainerStyle: React.CSSProperties = {
     position: 'absolute',
     left: '50%',
-    top: 'calc(50% + 49px)',
-    transform: 'translate(-50%, -50%) scale(0.9)',
+    top: '209px',
+    transform: 'translateX(-50%)',
   };
 
   const buttonContainerStyle: React.CSSProperties = {
@@ -165,7 +165,7 @@ export const CardPreview: React.FC<CardPreviewProps> = ({
           region={region}
           school={school}
           sinceYear={sinceYear}
-          size="complete"
+          size="preview"
           onClick={handleCardClick}
         />
       </div>

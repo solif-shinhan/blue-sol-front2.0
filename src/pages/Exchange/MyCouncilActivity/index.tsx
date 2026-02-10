@@ -73,7 +73,6 @@ function MyCouncilActivityPage() {
       <div className={styles.headerOverlay}>
         <BackHeader
           title="나의 자치회"
-          backTo="/exchange"
           rightContent={
             <button className={styles.editButton}>편집</button>
           }

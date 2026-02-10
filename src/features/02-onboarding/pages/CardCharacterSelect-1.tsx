@@ -65,26 +65,27 @@ export const CardCharacterSelect: React.FC<CardCharacterSelectProps> = ({
 
   const headerStyle: React.CSSProperties = {
     position: 'absolute',
-    top: '70px',
+    top: 0,
     left: 0,
   };
 
   const titleContainerStyle: React.CSSProperties = {
     position: 'absolute',
     left: '16px',
-    top: '144px',
+    top: '74px',
   };
 
   const titleStyle: React.CSSProperties = {
-    ...typography.headingSemiBold20,
-    fontSize: '26px',
-    lineHeight: 1.5,
+    ...typography.headingMedium28,
     color: colors.dark,
     margin: 0,
   };
 
   const subtitleStyle: React.CSSProperties = {
-    ...typography.bodySemiBold14,
+    fontFamily: 'Pretendard',
+    fontSize: '18px',
+    fontWeight: 500,
+    lineHeight: '120%',
     color: '#3971E0',
     marginTop: '12px',
   };
@@ -92,7 +93,7 @@ export const CardCharacterSelect: React.FC<CardCharacterSelectProps> = ({
   const gridContainerStyle: React.CSSProperties = {
     position: 'absolute',
     left: 0,
-    top: '270px',
+    top: '200px',
     width: '100%',
     maxHeight: '420px',
     overflowY: 'auto',

@@ -3,11 +3,12 @@ import { useNavigate } from 'react-router-dom'
 import styles1 from './Mentoring-1.module.css'
 import styles2 from './Mentoring-2.module.css'
 import { BackHeader } from '@/components/BackHeader'
-import { mentoringApi } from '@/api'
+import { mentoringApi, commentApi, notificationApi } from '@/api'
 import type {
   MentorSummary,
   PeerUser,
   MentoringReviewSummary,
+  NotificationSummary,
 } from '@/api'
 
 const styles = { ...styles1, ...styles2 }
@@ -15,6 +16,9 @@ const styles = { ...styles1, ...styles2 }
 import backArrowIcon from '@/assets/images/exchange-mentoring/back-arrow.svg'
 import calendarIcon from '@/assets/images/exchange-mentoring/calendar.svg'
 import searchIcon from '@/assets/images/exchange-mentoring/search.svg'
+import mailboxImg from '@/assets/figma/3d49d697d05f986902b036c7533ad253a8f2996c.png'
+const iconView = '/eyes.svg'
+const iconComment = '/talk.svg'
 
 const MENTOR_FILTER_TABS = ['전체', '학업고민', '취업고민', '인생의 멘토'] as const
 type MentorFilterTab = (typeof MENTOR_FILTER_TABS)[number]
@@ -38,6 +42,8 @@ function MentoringPage() {
   const [cheerList, setCheerList] = useState<PeerUser[]>([])
   const [helpList, setHelpList] = useState<PeerUser[]>([])
   const [reviews, setReviews] = useState<MentoringReviewSummary[]>([])
+  const [commentCounts, setCommentCounts] = useState<Record<number, number>>({})
+  const [mentoringNotifications, setMentoringNotifications] = useState<NotificationSummary[]>([])
 
   useEffect(() => {
     const fetchHome = async () => {
@@ -51,7 +57,36 @@ function MentoringPage() {
           setLifeMentors(res.data.lifeMentors ?? [])
           setCheerList(res.data.cheerList?.users ?? [])
           setHelpList(res.data.helpList?.users ?? [])
-          setReviews(res.data.reviews ?? [])
+          const reviewList = res.data.reviews ?? []
+          setReviews(reviewList)
+
+          // 리뷰별 댓글 수 조회
+          const counts: Record<number, number> = {}
+          await Promise.all(
+            reviewList.map(async (r) => {
+              try {
+                const cRes = await commentApi.getList(r.postId)
+                counts[r.postId] = cRes.success && cRes.data ? cRes.data.length : 0
+              } catch {
+                counts[r.postId] = 0
+              }
+            })
+          )
+          setCommentCounts(counts)
+        }
+
+        // 멘토링 알림 조회
+        try {
+          const notiRes = await notificationApi.getList({
+            category: 'ACTIVITY',
+            subCategory: 'MENTORING',
+            size: 10,
+          })
+          if (notiRes.success && notiRes.data) {
+            setMentoringNotifications(notiRes.data.content ?? [])
+          }
+        } catch {
+          console.error('멘토링 알림 조회 실패')
         }
       } catch (err) {
         console.error('멘토링 홈 조회 실패:', err)
@@ -223,6 +258,31 @@ function MentoringPage() {
           <div className={styles.peerCardsContainer}>
             {isLoading ? (
               <p style={{ color: '#848484', fontSize: 14, padding: '20px 0' }}>로딩 중...</p>
+            ) : peerUsers.length === 0 && mentoringNotifications.length > 0 ? (
+              <div className={styles.notificationList}>
+                {mentoringNotifications.map((noti) => (
+                  <div
+                    key={noti.notificationId}
+                    className={styles.notificationItem}
+                    style={{ opacity: noti.isRead ? 0.6 : 1 }}
+                    onClick={() => {
+                      notificationApi.markAsRead(noti.notificationId)
+                      if (noti.targetType === 'POST') {
+                        navigate('/exchange/board')
+                      }
+                    }}
+                  >
+                    <div className={styles.notificationDot} style={{ display: noti.isRead ? 'none' : 'block' }} />
+                    <div className={styles.notificationContent}>
+                      <p className={styles.notificationTitle}>{noti.notificationTitle}</p>
+                      <p className={styles.notificationBody}>{noti.notificationContent}</p>
+                      <span className={styles.notificationTime}>
+                        {new Date(noti.createdAt).toLocaleDateString('ko-KR', { month: 'long', day: 'numeric' })}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
             ) : peerUsers.length === 0 ? (
               <p style={{ color: '#848484', fontSize: 14, padding: '20px 0' }}>목록이 비어있습니다.</p>
             ) : (
@@ -270,21 +330,16 @@ function MentoringPage() {
                         ))}
                       </div>
                     )}
-                    {peer.status === 'PENDING' && (
-                      <div className={styles.peerStatusBadge}>
-                        <span>대기중</span>
-                      </div>
-                    )}
-                    {peer.status === 'CONNECTED' && (
-                      <div className={styles.peerStatusBadge} style={{ backgroundColor: '#E6FFE6' }}>
-                        <span style={{ color: '#2E8B57' }}>연결됨</span>
-                      </div>
-                    )}
                     <div className={styles.peerSchoolFull}>
                       <span>{peer.schoolName}</span>
                       {peer.joinYear && <span className={styles.peerSince}>SINCE {peer.joinYear}</span>}
                     </div>
                   </div>
+                  {peer.status === 'PENDING' && (
+                    <div className={styles.peerPendingOverlay}>
+                      <span className={styles.peerPendingText}>대기중</span>
+                    </div>
+                  )}
                 </div>
               ))
             )}
@@ -294,7 +349,7 @@ function MentoringPage() {
         {/* 맞춤 멘토링 신청 엽서 */}
         <section className={styles.section}>
           <div className={styles.sectionHeader}>
-            <h2 className={styles.sectionTitle}>원하는 멘토가 없다면, 신한이 도와줄께!</h2>
+            <h2 className={styles.sectionTitle}>원하는 멘토가 없다면, 신한이 도와줄게</h2>
           </div>
           <div
             className={styles.customMentoringCard}
@@ -302,18 +357,16 @@ function MentoringPage() {
             style={{ cursor: 'pointer' }}
           >
             <div className={styles.customMentoringContent}>
-              <div className={styles.customMentoringInner}>
-                <div className={styles.customMentoringText}>
-                  <p className={styles.customMentoringSubtitle}>내 꿈을 만날 수 있는</p>
-                  <p className={styles.customMentoringTitle}>맞춤 멘토링 신청 엽서</p>
-                  <p className={styles.customMentoringDescription}>
-                    진솔한 마음을 담아 보내면 연결될 수 있어요
-                  </p>
-                </div>
+              <div className={styles.customMentoringText}>
+                <p className={styles.customMentoringSubtitle}>내 꿈을 만날 수 있는</p>
+                <p className={styles.customMentoringTitle}>맞춤 멘토링 신청 엽서</p>
               </div>
+              <p className={styles.customMentoringDescription}>
+                진솔한 마음을 담아 보내면 연결될 수 있어요
+              </p>
             </div>
             <div className={styles.customMentoringIconWrapper}>
-              <img src="" alt="우편함" className={styles.customMentoringMailbox} />
+              <img src={mailboxImg} alt="우편함" className={styles.customMentoringMailbox} />
             </div>
           </div>
         </section>
@@ -324,7 +377,7 @@ function MentoringPage() {
             <h2 className={styles.sectionTitle}>멘토링 후기</h2>
             <button
               className={styles.moreButton}
-              onClick={() => navigate('/exchange/mentoring/review')}
+              onClick={() => navigate('/exchange/board')}
             >
               전체보기
             </button>
@@ -340,16 +393,28 @@ function MentoringPage() {
                 <div
                   key={review.postId}
                   className={styles.reviewCard}
-                  onClick={() => navigate('/exchange/mentoring/review')}
+                  onClick={() => navigate(`/exchange/board/${review.postId}`)}
                   style={{ cursor: 'pointer' }}
                 >
                   <div className={styles.reviewContent}>
                     <div className={styles.reviewMeta}>
                       <span className={styles.reviewMentorName}>{review.authorName}</span>
-                      <span className={styles.reviewMetaDivider}>|</span>
-                      <span className={styles.reviewMetaInfo}>👁 {review.viewCount}</span>
+                      <span className={styles.reviewMetaDivider} />
+                      <div className={styles.reviewMetaIconGroup}>
+                        <div className={styles.reviewMetaIconItem}>
+                          <img src={iconView} alt="" className={styles.reviewMetaIcon} />
+                          <span className={styles.reviewMetaCount}>{review.viewCount}</span>
+                        </div>
+                        <div className={styles.reviewMetaIconItem}>
+                          <img src={iconComment} alt="" className={styles.reviewMetaIcon} />
+                          <span className={styles.reviewMetaCount}>{commentCounts[review.postId] ?? 0}</span>
+                        </div>
+                      </div>
+                      <span className={styles.reviewMetaDivider} />
                     </div>
-                    <h3 className={styles.reviewTitle}>{review.title}</h3>
+                    <div className={styles.reviewTextGroup}>
+                      <h3 className={styles.reviewTitle}>{review.title}</h3>
+                    </div>
                   </div>
                 </div>
               ))

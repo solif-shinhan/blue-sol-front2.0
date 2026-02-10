@@ -2,128 +2,21 @@
   width: 393px;
   min-height: 852px;
   position: relative;
-  background: linear-gradient(to bottom, #ffffff, #f3f6fb);
+  background: linear-gradient(180deg, #FFFFFF 0%, #F3F6FB 100%);
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-.statusBar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 393px;
-  height: 50px;
-  background: #ffffff;
-}
-
-.notch {
-  position: absolute;
-  top: 11.5px;
-  left: 134px;
-  width: 125px;
-  height: 37px;
-  background: #000000;
-  border-radius: 40px;
-}
-
-.statusTime {
-  position: absolute;
-  top: 18px;
-  left: 71.5px;
-  font-family: 'SF Compact Display', sans-serif;
-  font-weight: 600;
-  font-size: 18px;
-  color: #000000;
-  letter-spacing: 0.5px;
-}
-
-.statusIcons {
-  position: absolute;
-  top: 23px;
-  right: 33px;
-  display: flex;
-  gap: 5px;
-  align-items: center;
-}
-
-.headerNav {
-  position: absolute;
-  top: var(--safe-area-top);
-  left: 0;
-  width: 393px;
-  height: 40px;
-  padding: 0 17px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-}
-
-.backButton {
-  width: 24px;
-  height: 24px;
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.backButton img {
-  width: 24px;
-  height: 24px;
-}
-
-.tabIndicators {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-}
-
-.tabDot {
-  width: 34px;
-  height: 4px;
-  background: #074ed8;
-  border-radius: 10px;
+.container::-webkit-scrollbar {
+  display: none;
 }
 
 .heroSection {
-  position: absolute;
-  top: 135px;
-  left: 17px;
-  right: 17px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.heroText {
+  padding: 20px 16px 0;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-}
-
-.heroSubtitle {
-  height: 24px;
-  display: flex;
-  align-items: center;
-}
-
-.solifText {
-  font-family: 'Pretendard', sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  color: #a6a6a6;
-}
-
-.solifText .sol {
-  color: #074ed8;
-  font-weight: 600;
-}
-
-.solifText .if {
-  color: #3971e0;
-  font-weight: 600;
+  gap: 12px;
 }
 
 .heroTitle {
@@ -134,59 +27,27 @@
   letter-spacing: -0.56px;
   color: #222222;
   margin: 0;
+  width: 309px;
 }
 
-.goalBadge {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  width: 83px;
-}
-
-.goalLabel {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px 13px;
-  background: #f3f6fb;
-  border: 1px solid #e6efff;
-  border-radius: 20px;
-  font-family: 'Pretendard', sans-serif;
-  font-weight: 600;
-  font-size: 14px;
-  color: #074ed8;
-  line-height: 1.4;
-}
-
-.goalCount {
-  display: flex;
-  align-items: center;
-  gap: 2px;
+.heroSubtitle {
   font-family: 'Pretendard', sans-serif;
   font-weight: 500;
-  font-size: 28px;
+  font-size: 18px;
   line-height: 1.2;
-  letter-spacing: -0.56px;
-}
-
-.goalCurrent {
-  color: #222222;
-}
-
-.goalDivider,
-.goalTotal {
-  color: #e6e6e6;
+  color: #3971E0;
+  margin: 0;
 }
 
 .goalsSection {
-  position: absolute;
-  top: 293px;
-  left: 16px;
-  width: 361px;
+  margin-top: 51px;
+  width: 360px;
+  margin-left: auto;
+  margin-right: auto;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  padding-bottom: 40px;
 }
 
 .goalsSectionHeader {
@@ -206,16 +67,10 @@
   margin: 0;
 }
 
-.goalActions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.goalActionButton {
+.editButton {
   font-family: 'Pretendard', sans-serif;
-  font-weight: 600;
-  font-size: 14px;
+  font-weight: 700;
+  font-size: 16px;
   line-height: 1.4;
   color: #848484;
   background: none;
@@ -224,66 +79,41 @@
   cursor: pointer;
 }
 
-.goalActionButton:hover {
-  color: #074ed8;
-}
-
-.goalActionDivider {
-  width: 1px;
-  height: 12px;
-  background: #c8c8c8;
-}
-
 .goalList {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  width: 361px;
 }
 
 .goalCard {
   display: flex;
+  gap: 12px;
   align-items: center;
-  justify-content: flex-start;
   padding: 19px 17px;
-  background: #ffffff;
+  background: #FFFFFF;
+  border: 0.623px solid rgba(255, 255, 255, 0.5);
   border-radius: 20px;
   box-shadow: 0px 0px 30px 0px rgba(27, 37, 56, 0.1);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background 0.2s ease;
 }
 
-.goalCard.completed {
-  background: #f3f6fb;
-  border: 0.623px solid #074ed8;
+.goalCardCompleted {
+  background: #F3F6FB;
+  border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
-.goalCardText {
-  font-family: 'Pretendard', sans-serif;
-  font-weight: 700;
-  font-size: 18px;
-  line-height: 1.2;
-  color: #222222;
-  margin: 0;
+.goalIcon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
 }
 
-.goalCard.completed .goalCardText {
-  color: #074ed8;
-}
-
-.goalCard.deleteMode {
-  padding: 19px 17px;
-}
-
-.goalCardContent {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.deleteButton {
-  width: 24px;
-  height: 24px;
+.dismissButton {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
   background: none;
   border: none;
   padding: 0;
@@ -293,25 +123,48 @@
   justify-content: center;
 }
 
-.deleteButton img {
-  width: 24px;
-  height: 24px;
+.goalCardText {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.2;
+  letter-spacing: -0.18px;
+  color: #222222;
+  margin: 0;
+}
+
+.divider {
+  width: 340px;
+  height: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+}
+
+.dividerLine {
+  width: 100%;
+  height: 1px;
+  background: #E6EFFF;
 }
 
 .addGoalCard {
   display: flex;
+  gap: 12px;
   align-items: center;
   padding: 19px 17px;
-  background: #ffffff;
+  background: #FFFFFF;
+  border: 0.623px solid rgba(255, 255, 255, 0.5);
   border-radius: 20px;
   box-shadow: 0px 0px 30px 0px rgba(27, 37, 56, 0.1);
 }
 
 .addGoalInput {
   font-family: 'Pretendard', sans-serif;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 18px;
   line-height: 1.2;
+  letter-spacing: -0.18px;
   color: #222222;
   border: none;
   outline: none;
@@ -320,26 +173,28 @@
 }
 
 .addGoalInput::placeholder {
-  color: #c8c8c8;
+  color: #E6E6E6;
 }
 
 .saveButtonContainer {
-  position: absolute;
+  position: sticky;
   bottom: 60px;
-  left: 17px;
   width: 360px;
+  margin: 0 auto;
+  padding-top: 20px;
 }
 
 .saveButton {
   width: 100%;
   height: 52px;
-  background: #074ed8;
+  background: #074ED8;
   border: none;
-  border-radius: 12px;
+  border-radius: 30px;
   font-family: 'Pretendard', sans-serif;
-  font-weight: 600;
-  font-size: 16px;
-  color: #ffffff;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.2;
+  color: #FFFFFF;
   cursor: pointer;
   transition: background 0.2s ease;
 }
@@ -349,6 +204,14 @@
 }
 
 .saveButton:disabled {
-  background: #c8c8c8;
+  background: #C8C8C8;
   cursor: not-allowed;
+}
+
+.loading {
+  padding: 40px;
+  text-align: center;
+  color: #848484;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
 }

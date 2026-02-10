@@ -80,11 +80,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--safe-area-top) 22px 0;
+  padding: var(--safe-area-top) 17px 0;
   position: fixed;
   top: 0;
   left: 0;
+  right: 0;
   width: 393px;
+  margin: 0 auto;
   box-sizing: border-box;
   z-index: 100;
   background: linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 100%);

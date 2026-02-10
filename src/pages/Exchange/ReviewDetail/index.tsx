@@ -33,6 +33,8 @@ function ReviewDetailPage() {
   const [isLiked, setIsLiked] = useState(false)
   const [likeCount, setLikeCount] = useState(0)
   const [commentCount, setCommentCount] = useState(0)
+  const [showEditMenu, setShowEditMenu] = useState(false)
+  const [showShareToast, setShowShareToast] = useState(false)
 
   const isLeader = detail?.isLeader ?? false
   const currentUserId = Number(localStorage.getItem('userId') || '0')
@@ -93,10 +95,20 @@ function ReviewDetailPage() {
     }
   }
 
-  const handleShare = () => {
-    if (navigator.share) {
-      navigator.share({ title: postTitle, url: window.location.href }).catch(() => {})
+  const handleShare = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href)
+    } catch {
+      // fallback
+      const ta = document.createElement('textarea')
+      ta.value = window.location.href
+      document.body.appendChild(ta)
+      ta.select()
+      document.execCommand('copy')
+      document.body.removeChild(ta)
     }
+    setShowShareToast(true)
+    setTimeout(() => setShowShareToast(false), 2500)
   }
 
   const handleDelete = async () => {
@@ -114,9 +126,7 @@ function ReviewDetailPage() {
 
   const handleWriteRelay = () => {
     if (!detail) return
-    navigate('/exchange/write/review', {
-      state: { relayMode: true, councilReviewPostId: detail.councilReviewPostId },
-    })
+    navigate(`/exchange/council/review/${detail.councilReviewPostId}/relay`)
   }
 
   // Fallback to state data
@@ -185,7 +195,22 @@ function ReviewDetailPage() {
           </svg>
         </button>
         {isLeader ? (
-          <button className={styles.editButton} onClick={handleDelete}>편집</button>
+          <div className={styles.editButtonWrap}>
+            <button className={styles.editButton} onClick={() => setShowEditMenu((v) => !v)}>편집</button>
+            {showEditMenu && (
+              <>
+                <div className={styles.editPopoverOverlay} onClick={() => setShowEditMenu(false)} />
+                <div className={styles.editPopover}>
+                  <button className={styles.editPopoverItem} onClick={() => { setShowEditMenu(false) }}>
+                    수정하기
+                  </button>
+                  <button className={styles.editPopoverItem} onClick={() => { setShowEditMenu(false); handleDelete() }}>
+                    삭제하기
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
         ) : (
           !hasWrittenRelay && (
             <button className={styles.editButton} onClick={handleWriteRelay}>이어쓰기</button>
@@ -240,6 +265,13 @@ function ReviewDetailPage() {
       )}
 
       <div className={styles.spacer} />
+
+      {/* Share Toast */}
+      {showShareToast && (
+        <div className={styles.shareToast}>
+          <span className={styles.shareToastText}>링크가 복사 되었습니다</span>
+        </div>
+      )}
 
       {/* Bottom Bar */}
       <div className={styles.bottomBar}>

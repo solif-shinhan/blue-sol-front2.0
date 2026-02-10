@@ -22,7 +22,7 @@ export type PostCategory = 'STUDY' | 'ADMISSION' | 'JOB' | 'ETC' | 'NOTICE' | 'P
 export type InteractionType = 'CHEER' | 'HELP';
 
 export type NotificationCategory = 'NOTICE' | 'ACTIVITY';
-export type NotificationSubCategory = 'MESSAGE' | 'NETWORK' | 'COUNCIL';
+export type NotificationSubCategory = 'MESSAGE' | 'NETWORK' | 'COUNCIL' | 'MENTORING';
 export type NotificationFilter = 'ALL' | 'UNREAD';
 
 // ============ 인증 타입 ============

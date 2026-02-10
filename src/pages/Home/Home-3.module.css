@@ -1,6 +1,5 @@
 .newsSection {
   margin-bottom: 30px;
-  background: linear-gradient(180deg, #FFF 0%, #F3F6FB 100%);
 }
 
 .sectionTitle {
@@ -15,38 +14,43 @@
 }
 
 .newsSlider {
-  overflow-x: auto;
-  overflow-y: hidden;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  scroll-snap-type: x mandatory;
-  cursor: grab;
-  -webkit-overflow-scrolling: touch;
-  display: flex;
-  gap: 20px;
+  position: relative;
+  overflow: hidden;
+  padding: 15px;
+  margin: -15px;
 }
 
-.newsSlider:active {
+.newsTrack {
+  display: flex;
+  gap: 20px;
+  transition: transform 0.3s ease;
+  cursor: grab;
+}
+
+.newsTrack:active {
   cursor: grabbing;
 }
 
-.newsSlider::-webkit-scrollbar {
-  display: none;
-}
-
 .newsCard {
+  position: relative;
   width: 360px;
   min-width: 360px;
-  height: 100px;
+  height: 120px;
   background-color: #FFFFFF;
   border-radius: 24px;
-  box-shadow: 0px 0px 30px 0px #00000033;
-  padding: 22px 20px;
+  box-shadow: 0px 0px 30px rgba(27, 37, 56, 0.1);
+  padding: 20px;
+  box-sizing: border-box;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  scroll-snap-align: start;
   user-select: none;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.newsCardContent {
+  flex: 1;
+  min-width: 0;
 }
 
 .newsCardContent h3 {
@@ -56,6 +60,9 @@
   color: var(--color-dark-gray);
   line-height: 1.2;
   margin-bottom: 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .newsCard:first-child .newsCardContent h3 {
@@ -69,17 +76,20 @@
   color: var(--color-gray-dark);
   line-height: 1.2;
   margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .newsCardIcon {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .newsCardIcon img {
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .sliderDots {
@@ -99,7 +109,6 @@
 }
 
 .dotActive {
-  width: 18px;
   background-color: var(--color-dark-gray);
 }
 
@@ -167,7 +176,7 @@
   width: 172px;
   height: 240px;
   border-radius: 24px;
-  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 30px rgba(27, 37, 56, 0.1);
   position: relative;
   overflow: hidden;
 }

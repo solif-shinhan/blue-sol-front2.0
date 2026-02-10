@@ -314,27 +314,36 @@
   background: #D9E6FF;
 }
 
-/* Interaction toast overlay */
+/* Interaction toast - 솔방울 토스트와 동일 */
 .interactionToast {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  bottom: 106.86px;
+  left: 17px;
+  width: 359px;
   border-radius: 26px;
   background:
     linear-gradient(90deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 70, 255, 0.3) 100%),
     linear-gradient(90deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10;
-  animation: toastFadeIn 0.3s ease;
+  padding: 18px 20px;
+  box-sizing: border-box;
+  z-index: 20;
+  animation: toastSlideUp 0.5s ease forwards;
 }
 
-@keyframes toastFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+@keyframes toastSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .interactionToastText {

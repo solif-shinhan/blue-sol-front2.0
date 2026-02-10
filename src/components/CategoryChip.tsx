@@ -4,6 +4,7 @@ import {
   CategoryType,
   categoryIcons,
   categoryLabels,
+  categoryIconSizes,
 } from '../assets/icons';
 
 interface CategoryChipProps {
@@ -39,18 +40,18 @@ export const CategoryChip: React.FC<CategoryChipProps> = ({
     justifyContent: 'center',
     gap: '6px',
     height: selected ? '36px' : '40px',
-    paddingLeft: '7px',
-    paddingRight: '20px',
-    borderRadius: '18px',
-    border: selected ? 'none' : `1px solid ${colors.lightGray2}`,
-    backgroundColor: colors.white,
+    padding: selected ? '0 18px 0 5px' : '0 20px 0 7px',
+    borderRadius: '20px',
+    border: selected ? 'none' : '1px solid #E6E6E6',
+    backgroundColor: '#FFF',
   };
 
+  const iconSize = category ? categoryIconSizes[category] : null;
+
   const iconContainerStyle: React.CSSProperties = {
-    width: '30px',
-    height: '30px',
+    width: iconSize ? `${iconSize.width}px` : '30px',
+    height: iconSize ? `${iconSize.height}px` : '30px',
     flexShrink: 0,
-    overflow: 'hidden',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -59,7 +60,7 @@ export const CategoryChip: React.FC<CategoryChipProps> = ({
   const iconStyle: React.CSSProperties = {
     width: '100%',
     height: '100%',
-    objectFit: 'cover',
+    objectFit: 'contain',
   };
 
   const labelStyle: React.CSSProperties = {

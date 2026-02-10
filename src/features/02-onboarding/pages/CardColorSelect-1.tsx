@@ -108,7 +108,7 @@ export const CardColorSelect: React.FC<CardColorSelectProps> = ({
 
   const headerStyle: React.CSSProperties = {
     position: 'absolute',
-    top: '70px',
+    top: 0,
     left: 0,
     width: '100%',
     zIndex: 10,
@@ -117,7 +117,7 @@ export const CardColorSelect: React.FC<CardColorSelectProps> = ({
   const titleContainerStyle: React.CSSProperties = {
     position: 'absolute',
     left: '16px',
-    top: '144px',
+    top: '74px',
     display: 'flex',
     flexDirection: 'column',
     gap: '12px',
@@ -146,14 +146,14 @@ export const CardColorSelect: React.FC<CardColorSelectProps> = ({
   const cardContainerStyle: React.CSSProperties = {
     position: 'absolute',
     left: '50%',
-    top: '250px',
+    top: '200px',
     transform: 'translateX(-50%)',
   };
 
   const gradientOverlayStyle: React.CSSProperties = {
     position: 'absolute',
     left: 0,
-    top: '409px',
+    top: '327px',
     width: '393px',
     height: '455px',
     background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #FFFFFF 17.95%)',
@@ -168,8 +168,13 @@ export const CardColorSelect: React.FC<CardColorSelectProps> = ({
   };
 
   const paletteContainerStyle: React.CSSProperties = {
+    position: 'absolute',
+    top: '456px',
+    left: 0,
     width: '100%',
+    zIndex: 10,
     paddingTop: '12px',
+    boxSizing: 'border-box',
   };
 
   const buttonContainerStyle: React.CSSProperties = {
@@ -204,12 +209,10 @@ export const CardColorSelect: React.FC<CardColorSelectProps> = ({
             region={region}
             school={school}
             schoolName={schoolName}
-            size="medium"
+            size="preview"
           />
         </div>
         <div style={gradientOverlayStyle} />
-      </div>
-      <div style={fixedBottomStyle}>
         <div style={paletteContainerStyle}>
           {isLoading ? (
             <div style={{ textAlign: 'center', padding: '20px' }}>로딩 중...</div>
@@ -221,17 +224,21 @@ export const CardColorSelect: React.FC<CardColorSelectProps> = ({
             />
           )}
         </div>
-        <div style={buttonContainerStyle}>
-          <div style={buttonInnerStyle}>
-            <Button
-              variant={selectedColorId ? 'primary' : 'secondary'}
-              disabled={!selectedColorId}
-              onClick={handleNext}
-            >
-              다음
-            </Button>
-          </div>
-        </div>
+      </div>
+      <div style={{
+        position: 'absolute',
+        left: '16px',
+        bottom: '60px',
+        width: '360px',
+        zIndex: 10,
+      }}>
+        <Button
+          variant={selectedColorId ? 'primary' : 'secondary'}
+          disabled={!selectedColorId}
+          onClick={handleNext}
+        >
+          다음
+        </Button>
       </div>
     </div>
   );

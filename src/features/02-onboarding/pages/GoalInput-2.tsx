@@ -12,26 +12,27 @@ export const goalInputStyles = {
 
   headerStyle: {
     position: 'absolute',
-    top: '70px',
+    top: 0,
     left: 0,
   } as React.CSSProperties,
 
   titleContainerStyle: {
     position: 'absolute',
     left: '16px',
-    top: '144px',
+    top: '74px',
   } as React.CSSProperties,
 
   titleStyle: {
-    ...typography.headingSemiBold20,
-    fontSize: '26px',
-    lineHeight: 1.5,
+    ...typography.headingMedium28,
     color: colors.dark,
     margin: 0,
   } as React.CSSProperties,
 
   subtitleStyle: {
-    ...typography.bodySemiBold14,
+    fontFamily: 'Pretendard',
+    fontSize: '18px',
+    fontWeight: 500,
+    lineHeight: '120%',
     color: '#3971E0',
     marginTop: '12px',
   } as React.CSSProperties,
@@ -39,7 +40,7 @@ export const goalInputStyles = {
   goalsContainerStyle: {
     position: 'absolute',
     left: '17px',
-    top: '290px',
+    top: '239px',
     width: '360px',
     display: 'flex',
     flexDirection: 'column',

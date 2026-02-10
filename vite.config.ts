@@ -21,6 +21,7 @@ export default defineConfig({
   server: {
     port: 3000,
     open: true,
+    allowedHosts: ['.loca.lt'],
     proxy: {
       '/api': {
         target: 'https://stg-api.bluesol.site',

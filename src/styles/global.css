@@ -139,9 +139,9 @@ svg {
   width: var(--container-width);
   min-width: var(--container-width);
   max-width: var(--container-width);
-  height: var(--container-height);
+  height: 100dvh;
   min-height: var(--container-height);
-  max-height: var(--container-height);
+  max-height: 100dvh;
   background-color: #F3F6FB;
   position: relative;
   display: flex;

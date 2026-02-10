@@ -154,12 +154,10 @@ function MessageComposePage() {
   }
 
   const handleOpenSearch = () => {
-    if (recipientFromUrl) return // URL에서 온 경우 변경 불가
     setIsSearching(true)
   }
 
   const handleClearRecipient = () => {
-    if (recipientFromUrl) return
     setRecipient(null)
   }
 

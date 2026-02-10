@@ -50,7 +50,18 @@
       "Bash(powershell:*)",
       "Bash(tasklist:*)",
       "Bash(npm install:*)",
-      "Bash(git reset:*)"
+      "Bash(git reset:*)",
+      "mcp__figma__get_screenshot",
+      "Bash(where:*)",
+      "Bash(lt:*)",
+      "Bash(npx --yes cloudflared-tunnel:*)",
+      "Bash(npx --yes serve -h)",
+      "mcp__figma__get_design_context",
+      "Bash(python:*)",
+      "mcp__figma__get_metadata",
+      "mcp__figma__get_variable_defs",
+      "Bash(xargs -I {} sh -c 'echo \"\"=== {} ===\"\" && head -20 {}')",
+      "Bash(xargs:*)"
     ]
   }
 }

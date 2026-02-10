@@ -28,7 +28,7 @@
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  border: 2px dashed #C8C8C8;
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -110,8 +110,9 @@
 }
 
 .addMemberIconImg {
-  width: 60px;
-  height: 60px;
+  width: 120px;
+  height: 120px;
+  margin: -30px;
 }
 
 .memberName {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Character, BackgroundColor, Interest, CardTheme } from '../types/card-1';
 import {
   getCardStyle,
@@ -26,12 +26,14 @@ import {
 
 // 이미지 배경 컴포넌트
 const CardBackgroundImage: React.FC<{
-  size: 'small' | 'medium' | 'large' | 'complete';
+  size: 'small' | 'medium' | 'large' | 'complete' | 'preview';
   imageUrl: string;
   gradientStart?: string;
   gradientEnd?: string;
-}> = ({ size, imageUrl, gradientStart, gradientEnd }) => {
+  overrideHeight?: number;
+}> = ({ size, imageUrl, gradientStart, gradientEnd, overrideHeight }) => {
   const { width, topHeight } = cardDimensions[size];
+  const height = overrideHeight || topHeight;
   const fallbackGradient = gradientStart && gradientEnd
     ? `linear-gradient(180deg, ${gradientStart} 0%, ${gradientEnd} 100%)`
     : undefined;
@@ -43,10 +45,11 @@ const CardBackgroundImage: React.FC<{
         top: 0,
         left: 0,
         width: `${width}px`,
-        height: `${topHeight}px`,
+        height: `${height}px`,
         background: fallbackGradient
           ? `url(${imageUrl}) center/cover no-repeat, ${fallbackGradient}`
           : `url(${imageUrl}) center/cover no-repeat`,
+        transition: 'height 0.3s ease',
       }}
     />
   );
@@ -54,11 +57,13 @@ const CardBackgroundImage: React.FC<{
 
 // Figma SVG 배경 컴포넌트 (노드 1773:38493)
 const CardBackgroundSvg: React.FC<{
-  size: 'small' | 'medium' | 'large' | 'complete';
+  size: 'small' | 'medium' | 'large' | 'complete' | 'preview';
   gradientStart: string;
   gradientEnd: string;
-}> = ({ size, gradientStart, gradientEnd }) => {
-  const { width, topHeight } = cardDimensions[size];
+  overrideHeight?: number;
+}> = ({ size, gradientStart, gradientEnd, overrideHeight }) => {
+  const { width, topHeight: baseTopHeight } = cardDimensions[size];
+  const topHeight = overrideHeight || baseTopHeight;
   const gradientId = `cardGradient_${size}_${Math.random().toString(36).substr(2, 9)}`;
 
   // large 사이즈 기준 (350x294)
@@ -114,7 +119,7 @@ interface SolidCardPreviewProps {
   school?: string;
   schoolName?: string; // deprecated, use region + school instead
   sinceYear?: string;
-  size?: 'small' | 'medium' | 'large' | 'complete';
+  size?: 'small' | 'medium' | 'large' | 'complete' | 'preview';
   onClick?: () => void;
 }
 
@@ -132,14 +137,19 @@ export const SolidCardPreview: React.FC<SolidCardPreviewProps> = ({
   size = 'large',
   onClick,
 }) => {
+  const [tagsExpanded, setTagsExpanded] = useState(false);
+
   const backgroundImageUrl = backgroundColor?.imageUrl;
   const gradientStart = backgroundColor?.gradientStart || 'rgba(171, 200, 255, 0.8)';
   const gradientEnd = backgroundColor?.gradientEnd || 'rgba(255, 233, 226, 0.8)';
   const theme: CardTheme = backgroundColor?.theme || 'light';
 
-  const displayedInterests = interests.slice(0, 2);
+  const displayedInterests = tagsExpanded ? interests : interests.slice(0, 2);
   const hasMore = interests.length > 2;
   const displayedGoals = goals.slice(0, 3);
+
+  // medium 카드 확장 시 배경 높이 430px
+  const expandedBgHeight = tagsExpanded && size === 'medium' ? 430 : undefined;
 
   // 그라디언트 색상에서 실제 색상 추출 (rgba 형식 처리)
   const extractColor = (color: string): string => {
@@ -158,12 +168,13 @@ export const SolidCardPreview: React.FC<SolidCardPreviewProps> = ({
   return (
     <div style={getCardStyle(size, !!onClick)} onClick={onClick} role={onClick ? 'button' : undefined}>
       {backgroundImageUrl ? (
-        <CardBackgroundImage size={size} imageUrl={backgroundImageUrl} gradientStart={gradientStart} gradientEnd={gradientEnd} />
+        <CardBackgroundImage size={size} imageUrl={backgroundImageUrl} gradientStart={gradientStart} gradientEnd={gradientEnd} overrideHeight={expandedBgHeight} />
       ) : (
         <CardBackgroundSvg
           size={size}
           gradientStart={extractColor(gradientStart)}
           gradientEnd={extractColor(gradientEnd)}
+          overrideHeight={expandedBgHeight}
         />
       )}
       <span style={getLogoStyle(size, theme)}>SOLID</span>
@@ -178,7 +189,7 @@ export const SolidCardPreview: React.FC<SolidCardPreviewProps> = ({
         {userName && <p style={getNameStyle(size, theme)}>{userName}</p>}
         {userRole && <p style={getRoleStyle(size, theme)}>{userRole}</p>}
       </div>
-      {interests.length > 0 && (
+      {interests.length > 0 && !tagsExpanded && (
         <div style={getTagsContainerStyle(size)}>
           {displayedInterests.map((interest) => (
             <div key={interest.id} style={getTagStyle(size)}>
@@ -195,7 +206,7 @@ export const SolidCardPreview: React.FC<SolidCardPreviewProps> = ({
             </div>
           ))}
           {hasMore && (
-            <div style={getMoreTagStyle(size)}>
+            <div style={getMoreTagStyle(size)} onClick={(e) => { e.stopPropagation(); setTagsExpanded(true); }} role="button">
               <div style={getDotsStyle(size)}>
                 <div style={getDotStyle(size)} />
                 <div style={getDotStyle(size)} />
@@ -205,7 +216,50 @@ export const SolidCardPreview: React.FC<SolidCardPreviewProps> = ({
           )}
         </div>
       )}
-      {displayedGoals.length > 0 && (
+      {interests.length > 0 && tagsExpanded && (
+        <div style={{
+          ...getTagsContainerStyle(size),
+          flexDirection: 'column',
+          gap: '10px',
+          alignItems: 'flex-start',
+        }}>
+          {/* 2개씩 행으로 묶어서 표시 */}
+          {Array.from({ length: Math.ceil(displayedInterests.length / 2) }, (_, rowIdx) => {
+            const rowInterests = displayedInterests.slice(rowIdx * 2, rowIdx * 2 + 2);
+            const isLastRow = rowIdx === Math.ceil(displayedInterests.length / 2) - 1;
+            return (
+              <div key={rowIdx} style={{ display: 'flex', gap: '7.69px', alignItems: 'center' }}>
+                {rowInterests.map((interest) => (
+                  <div key={interest.id} style={getTagStyle(size)}>
+                    {interest.icon && (
+                      <div style={getTagIconStyle(size)}>
+                        <img
+                          src={interest.icon}
+                          alt=""
+                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        />
+                      </div>
+                    )}
+                    <span style={getTagTextStyle(size, theme)}>{interest.name}</span>
+                  </div>
+                ))}
+                {isLastRow && (
+                  <div
+                    style={getMoreTagStyle(size)}
+                    onClick={(e) => { e.stopPropagation(); setTagsExpanded(false); }}
+                    role="button"
+                  >
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ transform: 'rotate(-90deg)' }}>
+                      <path d="M9 18L15 12L9 6" stroke="#848484" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+      {displayedGoals.length > 0 && !tagsExpanded && (
         <div style={getGoalsContainerStyle(size)}>
           {displayedGoals.map((goal, index) => (
             <p key={index} style={getGoalStyle(size, index, theme)}>{goal}</p>

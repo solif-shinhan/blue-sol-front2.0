@@ -91,6 +91,7 @@ export interface CouncilActivityItem {
   type: 'activity'
   label: string
   title: string
+  activityCount?: number
   profiles: string[]
 }
 

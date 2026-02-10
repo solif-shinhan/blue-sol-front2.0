@@ -23,7 +23,7 @@ export const CharacterGrid: React.FC<CharacterGridProps> = ({
   };
 
   const getWrapperStyle = (isSelected: boolean): React.CSSProperties => ({
-    padding: isSelected ? '2px' : '0',
+    padding: '2px',
     borderRadius: '24px',
     background: isSelected
       ? 'linear-gradient(90deg, #3971E0 0%, #ABC8FF 100%)'
@@ -33,10 +33,10 @@ export const CharacterGrid: React.FC<CharacterGridProps> = ({
     boxSizing: 'border-box',
   });
 
-  const getItemStyle = (isSelected: boolean): React.CSSProperties => ({
+  const itemStyle: React.CSSProperties = {
     width: '100%',
     height: '100%',
-    borderRadius: isSelected ? '22px' : '24px',
+    borderRadius: '22px',
     border: 'none',
     backgroundColor: colors.bgWhiteGray,
     cursor: 'pointer',
@@ -45,8 +45,7 @@ export const CharacterGrid: React.FC<CharacterGridProps> = ({
     justifyContent: 'center',
     overflow: 'hidden',
     boxSizing: 'border-box',
-    transition: 'all 0.2s ease',
-  });
+  };
 
   const imageStyle: React.CSSProperties = {
     width: '80%',
@@ -62,7 +61,7 @@ export const CharacterGrid: React.FC<CharacterGridProps> = ({
           <div key={character.id} style={getWrapperStyle(isSelected)}>
             <button
               type="button"
-              style={getItemStyle(isSelected)}
+              style={itemStyle}
               onClick={() => onSelect(character.id)}
             >
               <img

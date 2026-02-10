@@ -339,7 +339,7 @@
   background: #FFFFFF;
   border: 1px solid #E6E6E6;
   border-radius: 12px;
-  padding: 13px 11px;
+  padding: 0 11px;
   font-family: 'Pretendard', sans-serif;
   font-weight: 600;
   font-size: 14px;
@@ -348,11 +348,19 @@
   box-sizing: border-box;
   cursor: pointer;
   text-align: left;
+  display: flex;
+  align-items: center;
 }
 
 .dateInputButton:focus {
-  border-color: #074ED8;
+  border-color: #3971E0;
   outline: none;
+}
+
+.dateInputButtonFilled {
+  border-color: #3971E0;
+  font-weight: 700;
+  font-size: 16px;
 }
 
 .dateInputPlaceholder {

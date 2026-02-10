@@ -114,7 +114,6 @@ function WritePage() {
       <div className={styles.upperCard}>
         <BackHeader
           title="토닥토닥 고민 털어두기"
-          backTo="/exchange"
         />
 
         <div className={styles.cardContent}>

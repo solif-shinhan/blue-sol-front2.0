@@ -1,20 +1,21 @@
 .mentoringCard {
+  position: relative;
+  width: 360px;
+  height: 120px;
+  padding: 20px;
   background: #FFFFFF;
   border-radius: 24px;
-  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  position: relative;
-  height: 120px;
+  box-shadow: 0px 0px 30px rgba(27, 37, 56, 0.1);
+  cursor: pointer;
   box-sizing: border-box;
-  display: flex;
-  align-items: center;
+  overflow: hidden;
 }
 
 .mentoringContent {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
+  gap: 12px;
+  z-index: 2;
 }
 
 .mentoringTextGroup {
@@ -27,7 +28,7 @@
   font-family: 'Pretendard', var(--font-body);
   font-size: 16px;
   font-weight: 700;
-  line-height: 1.4;
+  line-height: 1.2;
   margin: 0;
   background: linear-gradient(90deg, #3971E0 0%, #94BFFF 100%);
   -webkit-background-clip: text;
@@ -56,17 +57,17 @@
 
 .mentoringIcon {
   position: absolute;
-  right: 16px;
-  top: 30px;
-  width: 77px;
-  height: 65px;
+  right: 24px;
+  top: 17px;
+  width: 73px;
+  height: 80px;
   object-fit: contain;
+  z-index: 1;
 }
 
 .categoryTabs {
   display: flex;
   gap: 6px;
-  box-shadow: 0px 0px 30px rgba(27, 37, 56, 0.1);
 }
 
 .categoryTab {
@@ -93,14 +94,15 @@
 .boardList {
   display: flex;
   flex-direction: column;
+  margin-top: 0;
 }
 
 .boardItem {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   border-bottom: 1px solid #E6E6E6;
-  padding: 15px 0;
+  padding: 15px 0 0 0;
   height: 140px;
   box-sizing: border-box;
   overflow: hidden;

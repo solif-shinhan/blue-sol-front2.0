@@ -11,11 +11,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--safe-area-top) 22px 0;
+  padding: var(--safe-area-top) 17px 0;
   position: fixed;
   top: 0;
   left: 0;
+  right: 0;
   width: 393px;
+  margin: 0 auto;
+  box-sizing: border-box;
   z-index: 100;
   background: linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 100%);
 }
@@ -78,7 +81,7 @@
   display: flex;
   flex-direction: column;
   gap: 30px;
-  padding: 45px 17px 100px;
+  padding: calc(var(--safe-area-top) + 60px) 17px 100px;
   overflow-y: auto;
   overflow-x: hidden;
   flex: 1;
@@ -100,7 +103,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 5px;
+  width: 360px;
+  height: 25px;
+  padding: 0;
 }
 
 .sectionTitle {
@@ -110,11 +115,8 @@
   color: #222222;
   line-height: 1.2;
   letter-spacing: -0.36px;
-  padding: 0 10px;
-}
-
-.sectionHeader .sectionTitle {
-  padding: 0;
+  padding: 0 5px;
+  margin-bottom: 16px;
 }
 
 .moreButton {
@@ -150,8 +152,10 @@
 .friendsList {
   display: flex;
   gap: 8px;
-  padding: 16px 11px;
+  padding: 30px 11px;
+  margin: -14px 0;
   overflow-x: auto;
+  overflow-y: visible;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
@@ -174,17 +178,14 @@
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  border: 2px dashed #C8C8C8;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
+  box-shadow: 0px 0px 30px rgba(27, 37, 56, 0.1);
+  overflow: hidden;
 }
 
-.plusIcon {
-  font-size: 24px;
-  color: #C8C8C8;
-  line-height: 1;
+.plusIconImg {
+  width: 60px;
+  height: 60px;
+  display: block;
 }
 
 .addFriendText {
@@ -211,6 +212,9 @@
   height: 60px;
   border-radius: 50%;
   background-color: #E6E6E6;
+  border: 1px solid #FFFFFF;
+  box-shadow: 0px 0px 30px rgba(27, 37, 56, 0.1);
+  overflow: hidden;
 }
 
 .friendName {

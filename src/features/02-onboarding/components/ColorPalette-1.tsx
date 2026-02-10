@@ -22,18 +22,18 @@ export const ColorPalette: React.FC<ColorPaletteProps> = ({
     padding: '0 20px',
     boxSizing: 'border-box',
     overflowX: 'auto',
-    overflowY: 'visible',
+    overflowY: 'hidden',
     scrollbarWidth: 'none',
     msOverflowStyle: 'none',
   };
 
   const getWrapperStyle = (isSelected: boolean): React.CSSProperties => ({
     flexShrink: 0,
-    width: isSelected ? '64px' : '60px',
-    height: isSelected ? '124px' : '120px',
+    width: '64px',
+    height: '124px',
     borderRadius: '32px',
     background: isSelected ? 'linear-gradient(180deg, #3971E0 0%, #ABC8FF 100%)' : 'transparent',
-    padding: isSelected ? '2px' : '0',
+    padding: '2px',
     boxSizing: 'border-box',
   });
 

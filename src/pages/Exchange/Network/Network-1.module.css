@@ -105,15 +105,18 @@
   padding: 0;
 }
 
-.addButtonIcon {
+.addButtonCircle {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 0 30px rgba(27, 37, 56, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  box-shadow: 0px 0px 30px rgba(27, 37, 56, 0.1);
+  overflow: hidden;
+}
+
+.addButtonIcon {
+  width: 60px;
+  height: 60px;
+  display: block;
 }
 
 .addButtonLabel {
@@ -159,8 +162,8 @@
 }
 
 .friendAvatar img {
-  width: 55%;
-  height: 55%;
+  width: 70%;
+  height: 70%;
   object-fit: contain;
 }
 

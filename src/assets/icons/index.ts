@@ -136,6 +136,27 @@ export const getIconByLabel = (label: string): string | undefined => {
   return key ? categoryIcons[key] : undefined;
 };
 
+// 카테고리 아이콘 크기 (Figma 기준)
+export const categoryIconSizes: Record<CategoryType, { width: number; height: number }> = {
+  food: { width: 30, height: 30 },
+  language: { width: 30, height: 30 },
+  movie: { width: 30, height: 30 },
+  game: { width: 30, height: 30 },
+  photo: { width: 30, height: 30 },
+  volunteer: { width: 30, height: 30 },
+  travel: { width: 16, height: 27 },
+  soccer: { width: 22, height: 22 },
+  basketball: { width: 22, height: 22 },
+  baseball: { width: 24, height: 23 },
+  certificate: { width: 30, height: 30 },
+  art: { width: 45, height: 45 },
+  walk: { width: 33, height: 33 },
+  culture: { width: 20, height: 28 },
+  reading: { width: 30, height: 30 },
+  study: { width: 34, height: 38 },
+  economy: { width: 30, height: 30 },
+};
+
 // 모든 카테고리 목록
 export const allCategories: CategoryType[] = [
   'food',

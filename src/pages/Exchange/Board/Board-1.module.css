@@ -32,25 +32,47 @@
   box-sizing: border-box;
   cursor: pointer;
   position: relative;
+}
+
+.categoryImageWrap {
+  position: absolute;
+  top: 14px;
+  right: 12px;
+  width: 54px;
+  height: 50px;
+  z-index: 0;
+}
+
+.categoryImageWrapCounseling {
+  width: 52px;
+  height: 56px;
+}
+
+.categoryImageInner {
+  position: absolute;
+  inset: 0;
   overflow: hidden;
 }
 
 .categoryImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.categoryImageCounseling {
   position: absolute;
-  top: 14px;
-  right: 10px;
-  width: 54px;
-  height: 50px;
-  object-fit: contain;
+  width: 259%;
+  height: 179%;
+  left: -76%;
+  top: -40%;
+  max-width: none;
 }
 
 .categoryImageOverlay {
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 80px;
-  height: 100%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.34) 0%, #FFFFFF 100%);
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 34%, #FFFFFF 100%);
   pointer-events: none;
 }
 
@@ -60,6 +82,7 @@
   position: absolute;
   left: 12px;
   top: 55px;
+  z-index: 2;
 }
 
 .categoryTitle {

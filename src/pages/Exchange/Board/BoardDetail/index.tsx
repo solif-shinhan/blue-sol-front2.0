@@ -193,7 +193,7 @@ function BoardDetailPage() {
   if (isPostLoading) {
     return (
       <div className={styles.container}>
-        <BackHeader title="게시글" backTo="/exchange/board" />
+        <BackHeader title="게시글" />
         <div className={styles.content} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <span>로딩 중...</span>
         </div>
@@ -204,7 +204,7 @@ function BoardDetailPage() {
   if (!post) {
     return (
       <div className={styles.container}>
-        <BackHeader title="게시글" backTo="/exchange/board" />
+        <BackHeader title="게시글" />
         <div className={styles.content} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <span>게시글을 찾을 수 없습니다.</span>
         </div>
@@ -214,7 +214,7 @@ function BoardDetailPage() {
 
   return (
     <div className={styles.container}>
-      <BackHeader title="게시글" backTo="/exchange/board" />
+      <BackHeader title="게시글" />
 
       <div className={styles.content}>
         <div className={styles.postHeader}>

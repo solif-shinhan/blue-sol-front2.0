@@ -11,7 +11,7 @@ import imgGradientFade from '@/assets/images/4fe43b8fc2dc1a748e8b748d5c7ae4ef6fe
 import imgDaysLabel from '@/assets/images/grow/frame2147230658.svg'
 import imgSolbangul from '@/assets/images/grow/37f121dbe4cfc2a1e72b81c83f885c268ea4b648.png'
 import imgSolbangulEmpty from '@/assets/images/grow/image 183.png'
-import imgSolbangulGray from '@/assets/images/839768862f205adce3f620b3c1365ab7bc7774af.png'
+import imgLock from '@/assets/images/839768862f205adce3f620b3c1365ab7bc7774af.png'
 import imgMission1 from '@/assets/images/9f76c15a9c0b8660eea02eb71fb37a71c95402c8.png'
 import imgMission2 from '@/assets/images/a62597eaf9ed76d2cfcc60e1d7cd6b4915de6157.png'
 import imgMission3 from '@/assets/images/7741fb9eacef36e07c7049afab51e81067899bfe.png'
@@ -25,6 +25,7 @@ import { StrengthSection, ProgramSection, Footer } from './GrowthSections'
 import { getProfile, ProfileData } from '@/services/profileService'
 import { goalApi } from '@/api/api-2'
 import { userApi } from '@/api'
+import { missionApi, type MissionProgressResponse, type MissionCategory } from '@/api/api-3'
 
 type AnimationPhase = 'idle' | 'playing' | 'completed'
 
@@ -235,73 +236,120 @@ const AcquisitionToast = ({ visible, collectedCount }: { visible: boolean; colle
 }
 
 // 상반기 미션 리스트
-const HalfYearMission = ({ onCollect, collectedCount }: {
-  onCollect: (index: number) => void
+const REWARD_LABELS = ['솔방울 받기', '솔방울 받기', '솔방울 받기']
+const CATEGORY_ORDER: MissionCategory[] = ['CONNECT', 'GROW', 'IMPACT']
+
+const HalfYearMission = ({ onCollect, collectedCount, missionData }: {
+  onCollect: (index: number, category: MissionCategory) => void
   collectedCount: number
-}) => (
-  <div className={styles2.missionSection}>
-    <div className={styles2.missionHeader}>
-      <div className={styles2.missionTitle}>상반기 미션 리스트</div>
-      <div className={styles2.missionDday}>D-30</div>
-    </div>
-    <div className={styles2.progressContainer}>
-      <div className={styles2.progressBar}>
-        <div className={styles2.progressBg} />
-        <div className={styles2.progressFill} />
+  missionData: MissionProgressResponse | null
+}) => {
+  const daysLeft = missionData?.daysUntilSeasonEnd ?? 30
+  const progressPercent = Math.round((collectedCount / 3) * 100)
+
+  const getRewardState = (index: number) => {
+    if (missionData?.categoryProgress) {
+      const cat = missionData.categoryProgress.find(c => c.category === CATEGORY_ORDER[index])
+      if (cat?.isPineconeEarned) return 'earned'
+      if (cat?.canClaimPinecone) return 'claimable'
+      return 'locked'
+    }
+    if (collectedCount > index) return 'earned'
+    if (collectedCount === index) return 'claimable'
+    return 'locked'
+  }
+
+  return (
+    <div className={styles2.missionSection}>
+      <div className={styles2.missionHeader}>
+        <div className={styles2.missionTitle}>상반기 미션 리스트</div>
+        <div className={styles2.missionDday}>D-{daysLeft}</div>
       </div>
-      <div className={styles2.rewardItems}>
-        <div className={styles2.rewardItem}>
-          <span className={collectedCount >= 1 ? styles2.rewardLabel : `${styles2.rewardLabel} ${styles2.rewardLabelInactive}`}>솔방울 받기</span>
-          <button
-            className={`${styles2.rewardButton} ${collectedCount >= 1 ? styles2.rewardButtonInactive : ''}`}
-            onClick={collectedCount < 1 ? () => onCollect(0) : undefined}
-          >
-            <div className={styles2.rewardButtonContent}>
-              <div className={styles2.rewardIcon}>
-                <img src={collectedCount >= 1 ? imgSolbangulGray : imgSolbangul} alt="솔방울" />
+      <div className={styles2.progressContainer}>
+        <div className={styles2.progressBar}>
+          <div className={styles2.progressBg} />
+          <div className={styles2.progressFill} style={{ width: `${progressPercent}%` }} />
+        </div>
+        <div className={styles2.rewardItems}>
+          {CATEGORY_ORDER.map((category, index) => {
+            const state = getRewardState(index)
+            const isEarned = state === 'earned'
+            const isClaimable = state === 'claimable'
+            const isLocked = state === 'locked'
+
+            return (
+              <div key={category} className={styles2.rewardItem}>
+                <span className={`${styles2.rewardLabel} ${isClaimable ? '' : styles2.rewardLabelInactive}`}>
+                  {REWARD_LABELS[index]}
+                </span>
+                <button
+                  className={`${styles2.rewardButton} ${!isClaimable ? styles2.rewardButtonInactive : ''}`}
+                  onClick={isClaimable ? () => onCollect(index, category) : undefined}
+                  disabled={!isClaimable}
+                >
+                  <div className={styles2.rewardButtonContent}>
+                    {isLocked ? (
+                      <div className={styles2.rewardIconLock}>
+                        <img src={imgLock} alt="잠김" />
+                      </div>
+                    ) : (
+                      <div className={styles2.rewardIcon}>
+                        <img src={imgSolbangul} alt="솔방울" />
+                      </div>
+                    )}
+                    <span className={styles2.rewardText}>
+                      {isEarned ? '완료' : '받기'}
+                    </span>
+                  </div>
+                </button>
               </div>
-              <span className={styles2.rewardText}>{collectedCount >= 1 ? '완료' : '받기'}</span>
-            </div>
-          </button>
-        </div>
-        <div className={styles2.rewardItem}>
-          <span className={collectedCount >= 2 ? styles2.rewardLabel : `${styles2.rewardLabel} ${styles2.rewardLabelInactive}`}>솔방울 받기</span>
-          <button
-            className={`${styles2.rewardButton} ${collectedCount >= 2 ? styles2.rewardButtonInactive : ''}`}
-            onClick={collectedCount >= 1 && collectedCount < 2 ? () => onCollect(1) : undefined}
-            disabled={collectedCount < 1}
-          >
-            <div className={styles2.rewardButtonContent}>
-              <div className={styles2.rewardIcon}><img src={collectedCount >= 2 ? imgSolbangulGray : imgSolbangul} alt="솔방울" /></div>
-              <span className={styles2.rewardText}>{collectedCount >= 2 ? '완료' : '받기'}</span>
-            </div>
-          </button>
-        </div>
-        <div className={styles2.rewardItem}>
-          <span className={collectedCount >= 3 ? styles2.rewardLabel : `${styles2.rewardLabel} ${styles2.rewardLabelInactive}`}>솔방울 받기</span>
-          <button
-            className={`${styles2.rewardButton} ${collectedCount >= 3 ? styles2.rewardButtonInactive : ''}`}
-            onClick={collectedCount >= 2 && collectedCount < 3 ? () => onCollect(2) : undefined}
-            disabled={collectedCount < 2}
-          >
-            <div className={styles2.rewardButtonContent}>
-              <div className={styles2.rewardIcon}><img src={collectedCount >= 3 ? imgSolbangulGray : imgSolbangul} alt="솔방울" /></div>
-              <span className={styles2.rewardText}>{collectedCount >= 3 ? '완료' : '받기'}</span>
-            </div>
-          </button>
+            )
+          })}
         </div>
       </div>
     </div>
-  </div>
-)
+  )
+}
+
+// 카테고리별 기본 아이콘 매핑
+const CATEGORY_ICON_MAP: Record<string, string> = {
+  CONNECT: imgMission1,
+  GROW: imgMission2,
+  IMPACT: imgMission3,
+}
+
+// 상태 한국어 매핑
+const STATUS_LABEL_MAP: Record<string, string> = {
+  IN_PROGRESS: '참여 중',
+  COMPLETED: '완료',
+  NOT_STARTED: '참여 가능',
+  AVAILABLE: '참여 가능',
+}
+
+// 카테고리별 기본 제목
+const CATEGORY_TITLE_MAP: Record<string, string> = {
+  CONNECT: 'SOLID 카드 5회\n조회하기!',
+  GROW: '나의 SOLID 카드 100% 완성하기',
+  IMPACT: '활동 게시글 작성하기',
+}
 
 // 이번주 미션 리스트
-const WeeklyMission = () => {
-  const missions = [
+const WeeklyMission = ({ missionData }: { missionData: MissionProgressResponse | null }) => {
+  const fallbackMissions = [
     { category: '연결', title: 'SOLID 카드 5회\n조회하기!', status: '참여 중', icon: imgMission1 },
     { category: '성장', title: '나의 SOLID 카드 100% 완성하기', status: '완료', icon: imgMission2 },
     { category: '기여', title: '활동 게시글 작성하기', status: '참여 가능', icon: imgMission3 },
   ]
+
+  const missions = missionData?.weeklyMissions?.length
+    ? missionData.weeklyMissions.map(m => ({
+        category: m.categoryName,
+        title: m.title || CATEGORY_TITLE_MAP[m.category] || '',
+        status: STATUS_LABEL_MAP[m.status] || m.status,
+        icon: m.iconUrl || CATEGORY_ICON_MAP[m.category] || imgMission1,
+      }))
+    : fallbackMissions
+
   return (
     <div className={styles2.weeklyMissionSection}>
       <div className={styles2.missionTitle} style={{ padding: '0 5px' }}>이번주 미션 리스트</div>
@@ -339,14 +387,16 @@ function GrowthPage() {
   const [goalCurrent, setGoalCurrent] = useState(0)
   const [goalTotal, setGoalTotal] = useState(0)
   const [isDataLoaded, setIsDataLoaded] = useState(false)
+  const [missionData, setMissionData] = useState<MissionProgressResponse | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const loadData = async () => {
-      const [profileRes, userRes, goalRes] = await Promise.all([
+      const [profileRes, userRes, goalRes, missionRes] = await Promise.all([
         getProfile().catch(() => null),
         userApi.getMe().catch(() => null),
         goalApi.getFirst().catch(() => null),
+        missionApi.getProgress().catch(() => null),
       ])
       if (profileRes?.success) setProfile(profileRes.data)
       if (userRes?.success && userRes.data?.createdAt) {
@@ -358,6 +408,10 @@ function GrowthPage() {
         setGoalCurrent(goalRes.data.currentIndex)
         setGoalTotal(goalRes.data.totalCount)
       }
+      if (missionRes?.success && missionRes.data) {
+        setMissionData(missionRes.data)
+        setCollectedCount(missionRes.data.earnedPineconeCount)
+      }
       setIsDataLoaded(true)
     }
     loadData()
@@ -367,8 +421,19 @@ function GrowthPage() {
   const isUserVisible = isDataLoaded && phase === 'idle'
   const isSolbangulVisible = isDataLoaded && phase === 'idle'
 
-  const handleCollect = (index: number) => {
+  const handleCollect = async (index: number, category?: MissionCategory) => {
     if (phase !== 'idle' || collectedCount > index) return
+
+    // API로 솔방울 수령
+    if (category) {
+      try {
+        const res = await missionApi.claimPinecone(category)
+        if (!res?.success) return
+      } catch {
+        return
+      }
+    }
+
     containerRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
     setTimeout(() => setPhase('playing'), 300)
   }
@@ -377,6 +442,10 @@ function GrowthPage() {
   const handleCloseUp = () => {
     setCollectedCount(prev => Math.min(prev + 1, 3))
     setShowToast(true)
+    // 미션 데이터 새로고침
+    missionApi.getProgress().then(res => {
+      if (res?.success && res.data) setMissionData(res.data)
+    }).catch(() => {})
   }
 
   // 솔방울 축소 시작 시점: 토스트 자연스럽게 사라짐
@@ -420,8 +489,8 @@ function GrowthPage() {
         <AcquisitionToast visible={showToast} collectedCount={collectedCount} />
 
         <div className={styles2.mainContent}>
-          <HalfYearMission onCollect={handleCollect} collectedCount={collectedCount} />
-          <WeeklyMission />
+          <HalfYearMission onCollect={handleCollect} collectedCount={collectedCount} missionData={missionData} />
+          <WeeklyMission missionData={missionData} />
           <StrengthSection />
           <ProgramSection />
           <Footer />

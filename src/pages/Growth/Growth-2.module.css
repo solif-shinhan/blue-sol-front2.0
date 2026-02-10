@@ -92,13 +92,13 @@
 
 .progressBar {
   position: relative;
-  width: 360px;
+  width: 100%;
   height: 16px;
 }
 
 .progressBg {
   position: absolute;
-  width: 360px;
+  width: 100%;
   height: 16px;
   background-color: #E6EFFF;
   border-radius: 65px;
@@ -106,10 +106,10 @@
 
 .progressFill {
   position: absolute;
-  width: 120px;
   height: 16px;
   background: linear-gradient(90deg, #398FE0 0%, #074ED8 100%);
   border-radius: 20px;
+  transition: width 0.3s ease;
 }
 
 /* 리워드 아이템들 */
@@ -155,7 +155,7 @@
 }
 
 .rewardButtonInactive {
-  border-color: #E6EFFF;
+  border-color: #C8C8C8;
 }
 
 .rewardButtonContent {
@@ -169,6 +169,7 @@
   width: 18px;
   height: 18px;
   overflow: hidden;
+  position: relative;
 }
 
 .rewardIcon img {
@@ -176,6 +177,22 @@
   height: 20px;
   transform: rotate(-29.91deg);
   object-fit: cover;
+}
+
+.rewardIconLock {
+  width: 18px;
+  height: 18px;
+  overflow: hidden;
+  position: relative;
+}
+
+.rewardIconLock img {
+  width: 13px;
+  height: 16px;
+  position: absolute;
+  left: 3px;
+  top: 1px;
+  object-fit: contain;
 }
 
 .rewardText {
@@ -212,7 +229,8 @@
   height: 220px;
   background-color: #FFFFFF;
   border-radius: 24px;
-  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: none;
+  overflow: hidden;
   position: relative;
 }
 
@@ -282,6 +300,7 @@
   color: #222222;
   height: 38px;
   width: 100%;
+  white-space: pre-wrap;
 }
 
 .missionCardStatus {

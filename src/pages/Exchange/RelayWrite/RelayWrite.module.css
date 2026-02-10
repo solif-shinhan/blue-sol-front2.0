@@ -1,0 +1,363 @@
+/* RelayWrite.module.css */
+
+.container {
+  width: 393px;
+  min-height: 852px;
+  position: relative;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F3F6FB 100%);
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Upper Card */
+.upperCard {
+  width: 393px;
+  height: 249px;
+  background: #FFFFFF;
+  border-radius: 20px;
+  box-shadow: 0 0 30px 0 rgba(27, 37, 56, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 24.5px;
+  box-sizing: border-box;
+}
+
+.councilName {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 1.2;
+  letter-spacing: -0.34px;
+  color: #ABC8FF;
+}
+
+/* Image Section */
+.imageSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 14.5px 17px 0;
+}
+
+.imageRow {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.imageRow::-webkit-scrollbar {
+  display: none;
+}
+
+.addImageButton {
+  width: 54px;
+  height: 54px;
+  border-radius: 10px;
+  border: none;
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.addImageIcon {
+  width: 54px;
+  height: 54px;
+}
+
+.imageList {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.imageItem {
+  position: relative;
+  display: inline-grid;
+  flex-shrink: 0;
+}
+
+.imageThumb {
+  width: 54px;
+  height: 54px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-top: 7px;
+}
+
+.imageRemoveButton {
+  position: absolute;
+  top: 0;
+  right: -4px;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: #555555;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+}
+
+.imageRemoveX {
+  color: #FFFFFF;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.titleLabel {
+  font-family: 'OneShinhan', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #222222;
+  margin: 0;
+  padding: 0 5px;
+}
+
+.titleValue {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.2;
+  letter-spacing: -0.64px;
+  color: #222222;
+  margin: 0;
+  padding: 0 5px;
+}
+
+/* Content Section */
+.contentSection {
+  padding: 30px 17px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 393px;
+  box-sizing: border-box;
+}
+
+.guidanceText {
+  font-family: 'OneShinhan', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #222222;
+  margin: 0;
+  padding: 0 5px;
+}
+
+/* Relay Card */
+.relayCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.relayQuestion {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.2;
+  color: #222222;
+  margin: 0;
+  padding: 0 5px;
+}
+
+.relayBody {
+  background: #F3F6FB;
+  border: 1px solid #E6E6E6;
+  border-radius: 12px;
+  padding: 13px 11px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.relayAuthorRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.relayAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: #E6E6E6;
+}
+
+.relayAuthor {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.2;
+  letter-spacing: -0.28px;
+  color: #222222;
+  margin: 0;
+}
+
+.relayText {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: -0.32px;
+  color: #848484;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+/* New Relay Card (writing) */
+.newRelayQuestionRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5px;
+}
+
+.newRelayQuestionText {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.2;
+  color: #222222;
+  margin: 0;
+}
+
+.refreshBtn {
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.newRelayCard {
+  width: 100%;
+  min-height: 120px;
+  background: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 0 30px 0 rgba(27, 37, 56, 0.1);
+  padding: 13px 11px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.newRelayAuthorRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.newRelayAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: #E6E6E6;
+}
+
+.newRelayName {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.2;
+  letter-spacing: -0.28px;
+  color: #000000;
+}
+
+.newRelayTextarea {
+  width: 100%;
+  min-height: 64px;
+  border: none;
+  outline: none;
+  resize: none;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #222222;
+  background: transparent;
+}
+
+.newRelayTextarea::placeholder {
+  color: #848484;
+}
+
+/* Add Relay Button */
+.addRelayBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid #E6E6E6;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  margin: 0 auto;
+}
+
+.addRelayBtn::after {
+  content: '+';
+  font-size: 18px;
+  color: #848484;
+  line-height: 1;
+}
+
+/* Footer */
+.footer {
+  padding: 20px 17px 60px;
+  display: flex;
+  justify-content: center;
+}
+
+.uploadButton {
+  width: 360px;
+  height: 52px;
+  border-radius: 30px;
+  background: #ABC8FF;
+  border: none;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.2;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.uploadButtonActive {
+  background: #074ED8;
+}

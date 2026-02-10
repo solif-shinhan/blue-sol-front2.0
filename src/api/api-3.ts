@@ -375,3 +375,51 @@ export const mentoringApi = {
   getCard: (cardId: number): Promise<ApiResponse<MentoringCardDetail>> =>
     apiClient.get(`/api/v1/mentoring/cards/${cardId}`),
 };
+
+// ============ 미션 API 타입 ============
+
+export type MissionCategory = 'CONNECT' | 'GROW' | 'IMPACT';
+
+export interface CategoryProgress {
+  category: MissionCategory;
+  categoryName: string;
+  completedCount: number;
+  totalCount: number;
+  isPineconeEarned: boolean;
+  canClaimPinecone: boolean;
+}
+
+export interface WeeklyMission {
+  missionId: number;
+  category: MissionCategory;
+  categoryName: string;
+  title: string;
+  status: string;
+  iconUrl?: string;
+}
+
+export interface MissionProgressResponse {
+  currentSeason: string;
+  earnedPineconeCount: number;
+  daysUntilSeasonEnd: number;
+  categoryProgress: CategoryProgress[];
+  weeklyMissions: WeeklyMission[];
+}
+
+export interface PineconeEarnResponse {
+  pineconeId: number;
+  category: string;
+  categoryName: string;
+  seasonKey: string;
+  earnedAt: string;
+}
+
+// ============ 미션 API ============
+
+export const missionApi = {
+  getProgress: (): Promise<ApiResponse<MissionProgressResponse>> =>
+    apiClient.get('/api/v1/missions/progress'),
+
+  claimPinecone: (category: MissionCategory): Promise<ApiResponse<PineconeEarnResponse>> =>
+    apiClient.post(`/api/v1/missions/pinecones/${category}`),
+};

@@ -12,6 +12,7 @@ import imgFooterLogo from '@/assets/images/057453724e8f804d5306e38ceabfcf7513cbe
 
 // 역량강화 섹션
 export const StrengthSection = () => {
+  const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState('사회')
   const categories = ['사회', '인성', '과학', '취업']
   const cards = [
@@ -34,7 +35,7 @@ export const StrengthSection = () => {
       <div className={styles3.strengthHeader}>
         <div className={styles3.strengthTitleRow}>
           <span className={styles3.strengthTitle}>푸른 SOL 역량강화</span>
-          <button className={styles3.moreButton}>더보기</button>
+          <button className={styles3.moreButton} onClick={() => navigate('/growth/strength')}>더보기</button>
         </div>
         <div className={styles3.categoryTabs}>
           {categories.map(cat => (
@@ -119,18 +120,12 @@ export const ProgramSection = () => {
                 <span className={styles3.programOrg}>{program.org}</span>
                 <div className={styles3.programDivider} />
                 <div className={styles3.programStats}>
-                  <div className={styles3.programStat}>
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                      <path d="M9 4L10.5 7H14L11 9.5L12 13L9 11L6 13L7 9.5L4 7H7.5L9 4Z" fill="#C8C8C8"/>
-                    </svg>
-                    <span className={styles3.programStatText}>{program.likes}</span>
-                  </div>
-                  <div className={styles3.programStat}>
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                      <path d="M3 5C3 4.44772 3.44772 4 4 4H14C14.5523 4 15 4.44772 15 5V11C15 11.5523 14.5523 12 14 12H6L3 15V5Z" fill="#C8C8C8"/>
-                    </svg>
-                    <span className={styles3.programStatText}>{program.comments}</span>
-                  </div>
+                  <span className={styles3.programStat}>
+                    <img src="/eyes.svg" alt="" className={styles3.programStatIcon} /> {program.likes}
+                  </span>
+                  <span className={styles3.programStat}>
+                    <img src="/talk.svg" alt="" className={styles3.programStatIcon} /> {program.comments}
+                  </span>
                 </div>
                 <div className={styles3.programDivider} />
                 <span className={styles3.programDate}>{program.date}</span>

@@ -15,27 +15,28 @@
 
 .customMentoringContent {
   padding: 0 20px;
-  flex: 1;
-}
-
-.customMentoringInner {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 10px;
+  position: relative;
+  z-index: 1;
 }
 
 .customMentoringText {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
 .customMentoringSubtitle {
   font-family: 'Pretendard', sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
-  color: #848484;
-  line-height: 1.2;
+  background: linear-gradient(to right, #3971E0, #94BFFF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.4;
   margin: 0;
 }
 
@@ -43,33 +44,31 @@
   font-family: 'Pretendard', sans-serif;
   font-size: 20px;
   font-weight: 700;
-  color: #074ED8;
+  color: #14307C;
   line-height: 1.2;
   margin: 0;
 }
 
 .customMentoringDescription {
   font-family: 'Pretendard', sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   color: #848484;
   line-height: 1.4;
-  margin-top: 4px;
+  margin: 0;
 }
 
 .customMentoringIconWrapper {
-  width: 80px;
-  height: 80px;
-  flex-shrink: 0;
-  margin-right: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: absolute;
+  right: 22px;
+  top: 24px;
+  width: 60px;
+  height: 70px;
 }
 
 .customMentoringMailbox {
-  width: 60px;
-  height: 60px;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
 }
 
@@ -79,66 +78,89 @@
 .reviewList {
   display: flex;
   flex-direction: column;
-  gap: 12px;
 }
 
 .reviewCard {
-  width: 360px;
-  background-color: #FFFFFF;
-  border-radius: 16px;
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.06);
-  display: flex;
-  align-items: stretch;
-  overflow: hidden;
-  padding: 16px;
-  gap: 12px;
+  position: relative;
+  border-bottom: 1px solid #E6E6E6;
+  padding: 15px 0;
   box-sizing: border-box;
 }
 
 .reviewContent {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  min-width: 0;
+  gap: 10px;
+  width: 234px;
 }
 
 .reviewMeta {
   display: flex;
   align-items: center;
-  gap: 4px;
-  flex-wrap: wrap;
+  gap: 6px;
 }
 
 .reviewMentorName {
   font-family: 'Pretendard', sans-serif;
-  font-size: 13px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 600;
   color: #074ED8;
   line-height: 1.4;
 }
 
 .reviewMetaDivider {
-  font-family: 'Pretendard', sans-serif;
-  font-size: 12px;
-  color: #D0D0D0;
-  margin: 0 2px;
+  width: 0;
+  height: 12px;
+  border-left: 1px solid #C8C8C8;
 }
 
-.reviewMetaInfo {
+.reviewMetaIconGroup {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.reviewMetaIconItem {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.reviewMetaIcon {
+  width: 18px;
+  height: 18px;
+}
+
+.reviewMetaCount {
   font-family: 'Pretendard', sans-serif;
   font-size: 12px;
-  font-weight: 500;
-  color: #AAAAAA;
-  line-height: 1.4;
+  font-weight: 600;
+  color: #C8C8C8;
+  line-height: 1.2;
+  letter-spacing: -0.48px;
+}
+
+.reviewMetaDate {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #C8C8C8;
+  line-height: 1.2;
+  letter-spacing: -0.48px;
+}
+
+.reviewTextGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .reviewTitle {
   font-family: 'Pretendard', sans-serif;
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 700;
-  color: #222222;
-  line-height: 1.3;
+  color: #000000;
+  line-height: 1.2;
   margin: 0;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -147,10 +169,10 @@
 
 .reviewText {
   font-family: 'Pretendard', sans-serif;
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 400;
   color: #848484;
-  line-height: 1.5;
+  line-height: 1.4;
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -159,12 +181,14 @@
 }
 
 .reviewImageThumb {
-  width: 80px;
-  height: 80px;
-  border-radius: 12px;
+  position: absolute;
+  right: 0;
+  top: 15px;
+  width: 105px;
+  height: 105px;
+  border-radius: 16px;
   overflow: hidden;
   flex-shrink: 0;
-  background-color: #E8E8E8;
 }
 
 .reviewImageThumb img {
@@ -307,4 +331,71 @@
   height: 13.05px;
   width: 79.093px;
   object-fit: contain;
+}
+
+/* ===================== */
+/* 멘토링 알림 리스트      */
+/* ===================== */
+.notificationList {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.notificationItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px 0;
+  border-bottom: 1px solid #F0F0F0;
+  cursor: pointer;
+}
+
+.notificationDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #074ED8;
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+
+.notificationContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.notificationTitle {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #222222;
+  line-height: 1.4;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.notificationBody {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #848484;
+  line-height: 1.4;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.notificationTime {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #C8C8C8;
+  line-height: 1.2;
 }

@@ -10,7 +10,7 @@ import closeIconSvg from '@/assets/images/receipt/0b7bc06416da92a5ef1b39ad0d8fbf
 import cameraIconSvg from '@/assets/images/receipt/bd13a94209839c4aa3692f23244735564b23ad63.svg'
 import thumbDeleteSvg from '@/assets/images/receipt/3e988d8574a9b447a8297f648d16605371163ce6.svg'
 
-const SCAN_KEYWORDS = ['합계', '결제금액', '총액', '카드결제', 'Total']
+const SCAN_DOTS = ['결제금액 인식 중.', '결제금액 인식 중..', '결제금액 인식 중...']
 const SCAN_DURATION = 3000
 
 interface ReceiptImage {
@@ -23,6 +23,7 @@ interface ReceiptImage {
 
 interface LocationState {
   expenseIndex?: number
+  mode?: 'camera' | 'gallery'
   prevTitle?: string
   prevDateTime?: string
   prevLocation?: string
@@ -38,6 +39,7 @@ function ReceiptAttachPage() {
   const expenseIndex = locationState.expenseIndex ?? 0
 
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const cameraInputRef = useRef<HTMLInputElement>(null)
   const [receiptImages, setReceiptImages] = useState<ReceiptImage[]>([])
   const [isScanning, setIsScanning] = useState(false)
   const [scanKeywordIdx, setScanKeywordIdx] = useState(0)
@@ -45,15 +47,41 @@ function ReceiptAttachPage() {
   const [totalAmount, setTotalAmount] = useState<number>(0)
   const [showResult, setShowResult] = useState(false)
   const [isCompleteMode, setIsCompleteMode] = useState(false)
+  const [showCameraMenu, setShowCameraMenu] = useState(false)
 
   const pendingResultRef = useRef<{ amount: number; imageId: string; fileId: number } | null>(null)
   const scanTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const initialMode = locationState.mode
+
+  // Pick up file selected from WriteReview gallery
+  useEffect(() => {
+    const file = (window as any).__pendingReceiptFile as File | undefined
+    if (file) {
+      delete (window as any).__pendingReceiptFile
+      const preview = URL.createObjectURL(file)
+      const newImage: ReceiptImage = { id: Date.now().toString(), file, preview, amount: 0 }
+      setReceiptImages([newImage])
+      startRecognize(newImage)
+    }
+  }, [])
+
+  // Open the correct input based on mode (camera or gallery)
+  const handleOpenInput = () => {
+    if (initialMode === 'camera') {
+      triggerCameraInput()
+    } else if (initialMode === 'gallery') {
+      triggerFileInput()
+    } else {
+      setShowCameraMenu(true)
+    }
+  }
 
   // Rotate scan keywords during scanning
   useEffect(() => {
     if (!isScanning) return
     const interval = setInterval(() => {
-      setScanKeywordIdx((prev) => (prev + 1) % SCAN_KEYWORDS.length)
+      setScanKeywordIdx((prev) => (prev + 1) % SCAN_DOTS.length)
     }, 600)
     return () => clearInterval(interval)
   }, [isScanning])
@@ -96,17 +124,16 @@ function ReceiptAttachPage() {
 
     setReceiptImages((prev) => [...prev, newImage])
     setShowResult(false)
+    startRecognize(newImage)
   }
 
-  const handleRecognize = async () => {
-    const lastImage = receiptImages[receiptImages.length - 1]
-    if (!lastImage || lastImage.fileId || isScanning) return
+  const startRecognize = async (image: ReceiptImage) => {
+    if (isScanning) return
 
     setIsScanning(true)
     setScanKeywordIdx(0)
     pendingResultRef.current = null
 
-    // Start minimum 3s timer
     let scanDone = false
     let apiDone = false
 
@@ -120,9 +147,9 @@ function ReceiptAttachPage() {
     }, SCAN_DURATION)
 
     try {
-      const uploaded = await uploadFile(lastImage.file, 'COUNCIL_REVIEW')
+      const uploaded = await uploadFile(image.file, 'COUNCIL_REVIEW')
       const amount = await recognizeReceiptOcr(uploaded.fileId)
-      pendingResultRef.current = { amount, imageId: lastImage.id, fileId: uploaded.fileId }
+      pendingResultRef.current = { amount, imageId: image.id, fileId: uploaded.fileId }
       apiDone = true
       tryFinish()
     } catch (err) {
@@ -137,6 +164,22 @@ function ReceiptAttachPage() {
     if (fileInputRef.current) {
       fileInputRef.current.value = ''
       fileInputRef.current.click()
+    }
+  }
+
+  const triggerCameraInput = () => {
+    if (cameraInputRef.current) {
+      cameraInputRef.current.value = ''
+      cameraInputRef.current.click()
+    }
+  }
+
+  const handleCameraMenuSelect = (mode: 'camera' | 'gallery') => {
+    setShowCameraMenu(false)
+    if (mode === 'camera') {
+      triggerCameraInput()
+    } else {
+      triggerFileInput()
     }
   }
 
@@ -177,8 +220,16 @@ function ReceiptAttachPage() {
     }
   }
 
+  // 인식 결과 토스트 3초 후 자동 숨김
+  useEffect(() => {
+    if (!showResult) return
+    const timer = setTimeout(() => setShowResult(false), 3000)
+    return () => clearTimeout(timer)
+  }, [showResult])
+
   const hasImages = receiptImages.length > 0
   const isRecognized = totalAmount > 0
+  const hasMultiple = receiptImages.length >= 2
 
   return (
     <div className={styles.container}>
@@ -186,6 +237,14 @@ function ReceiptAttachPage() {
         ref={fileInputRef}
         type="file"
         accept="image/*"
+        onChange={handleFileSelect}
+        style={{ display: 'none' }}
+      />
+      <input
+        ref={cameraInputRef}
+        type="file"
+        accept="image/*"
+        {...(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ? { capture: 'environment' } : {})}
         onChange={handleFileSelect}
         style={{ display: 'none' }}
       />
@@ -207,7 +266,7 @@ function ReceiptAttachPage() {
         <div className={styles.scanOverlay}>
           <div className={styles.scanLine} />
           <div className={styles.scanKeyword} style={{ top: '45%' }}>
-            {SCAN_KEYWORDS[scanKeywordIdx]} 인식 중...
+            {SCAN_DOTS[scanKeywordIdx]}
           </div>
         </div>
       )}
@@ -232,59 +291,39 @@ function ReceiptAttachPage() {
         </div>
       </header>
 
-      {/* Empty State */}
+      {/* Empty State - click area only */}
       {!hasImages && (
-        <div className={styles.emptyState} onClick={triggerFileInput}>
-          <div className={styles.emptyIcon}>
-            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-              <rect x="4" y="8" width="40" height="32" rx="4" stroke="#AAAAAA" strokeWidth="2"/>
-              <path d="M4 32L16 24L24 30L36 20L44 28" stroke="#AAAAAA" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <circle cx="14" cy="18" r="3" stroke="#AAAAAA" strokeWidth="2"/>
-            </svg>
-          </div>
-          <p className={styles.emptyText}>
-            터치하여 영수증을 촬영하거나<br/>갤러리에서 선택하세요
-          </p>
+        <div className={styles.emptyState} onClick={handleOpenInput}>
         </div>
       )}
 
-      {/* Processing Badge */}
-      {isScanning && (
-        <div className={styles.processingBadge}>
-          <span className={styles.processingText}>영수증 정보를 인식 중입니다.</span>
-        </div>
-      )}
+      {/* Processing Badge removed */}
 
-      {/* Recognition Result Popup */}
+      {/* Recognition Result Toast */}
       {showResult && !isCompleteMode && (
         <div className={styles.recognitionOverlay}>
           <div className={styles.recognitionText}>
             지출액 <span className={styles.recognitionAmount}>
               {lastRecognizedAmount.toLocaleString()}원
-            </span>이<br/>인식되었어요
+            </span>이 인식되었어요
           </div>
-          <button className={styles.recognitionAddBtn} onClick={handleAddMore}>
-            추가 첨부
-          </button>
         </div>
       )}
 
-      {/* Thumbnail Count Badge */}
-      {hasImages && !isCompleteMode && !isScanning && (
+      {/* Thumbnail Count Badge (1개일 때) */}
+      {hasImages && !hasMultiple && !isCompleteMode && !isScanning && (
         <div className={styles.thumbnailBadge}>
-          {receiptImages.length > 0 && (
-            <img
-              src={receiptImages[receiptImages.length - 1].preview}
-              alt=""
-              className={styles.thumbnailBadgeImg}
-            />
-          )}
+          <img
+            src={receiptImages[receiptImages.length - 1].preview}
+            alt=""
+            className={styles.thumbnailBadgeImg}
+          />
           <span className={styles.badgeCount}>{receiptImages.length}</span>
         </div>
       )}
 
-      {/* Thumbnail Strip (complete mode) */}
-      {isCompleteMode && (
+      {/* Thumbnail Strip with delete (2개 이상 또는 완료 모드) */}
+      {(hasMultiple || isCompleteMode) && !isScanning && (
         <div className={styles.thumbnailStrip}>
           {receiptImages.map((img) => (
             <div key={img.id} className={styles.thumbnailItem}>
@@ -310,34 +349,27 @@ function ReceiptAttachPage() {
 
       {/* CTA Area */}
       {hasImages && !isScanning && (
-        <div className={styles.ctaArea}>
+        <div className={styles.ctaArea} style={{ position: 'absolute' }}>
           {isCompleteMode ? (
             <button className={styles.ctaButtonFull} onClick={handleComplete}>
               완료
             </button>
-          ) : showResult ? (
-            <>
-              <button className={styles.cameraButton} onClick={handleAddMore}>
-                <img src={cameraIconSvg} alt="카메라" className={styles.cameraIcon} />
-              </button>
-              <button className={styles.ctaButtonFaded} onClick={handleAddMore}>
-                추가 첨부하기
-              </button>
-            </>
           ) : (
             <>
-              <button className={styles.cameraButton} onClick={triggerFileInput}>
+              <button className={styles.cameraButton} onClick={handleOpenInput}>
                 <img src={cameraIconSvg} alt="카메라" className={styles.cameraIcon} />
               </button>
-              <button
-                className={styles.ctaButtonPrimary}
-                onClick={handleRecognize}
-              >
-                금액 인식하기
+              <button className={styles.ctaButtonPrimary} onClick={handleAddMore}>
+                추가 첨부하기
               </button>
             </>
           )}
         </div>
+      )}
+
+      {/* Camera Menu Overlay */}
+      {showCameraMenu && (
+        <div className={styles.cameraPopoverOverlay} onClick={() => setShowCameraMenu(false)} />
       )}
     </div>
   )

@@ -94,9 +94,11 @@
 
 /* Profile gradient section */
 .profileGradient {
-  width: 392px;
+  width: 100%;
   height: calc(var(--safe-area-top) + 252px);
   background: linear-gradient(180deg, rgba(171, 200, 255, 0.8) 0%, rgba(255, 233, 226, 0.8) 100%);
+  background-size: cover;
+  background-position: center;
   position: relative;
 }
 

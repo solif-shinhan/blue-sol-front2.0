@@ -86,25 +86,12 @@ export function QRCodeModal({
           </div>
         </div>
 
-        {/* 닫기 + 공유하기 버튼 */}
+        {/* 닫기 버튼 */}
         <div className={styles.qrActions}>
           <button className={styles.qrActionButton} onClick={onClose}>
             <div className={styles.qrActionIcon}>
               <img src={iconDismiss} alt="닫기" style={{ width: 34, height: 34 }} />
             </div>
-            <span>닫기</span>
-          </button>
-          <button className={styles.qrActionButton} onClick={() => {
-            if (navigator.share) {
-              navigator.share({ title: `${userName}의 SOLID 카드`, url: shareUrl }).catch(() => {})
-            } else {
-              navigator.clipboard.writeText(shareUrl).catch(() => {})
-            }
-          }}>
-            <div className={styles.qrActionIcon}>
-              <img src={iconShare} alt="공유하기" style={{ width: 36, height: 36 }} />
-            </div>
-            <span>공유하기</span>
           </button>
         </div>
       </div>

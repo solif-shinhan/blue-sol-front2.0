@@ -47,7 +47,6 @@
 .categoryTabs {
   display: flex;
   gap: 6px;
-  box-shadow: 0px 0px 30px rgba(27, 37, 56, 0.1);
 }
 
 .categoryTab {
@@ -218,20 +217,22 @@
 }
 
 .programItem {
-  display: flex;
-  align-items: center;
-  gap: 12px;
   width: 100%;
   height: 140px;
-  padding: 15px 5px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  cursor: pointer;
   border-bottom: 1px solid #E6E6E6;
+  padding: 15px 0 0 0;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .programThumbnail {
   width: 105px;
   height: 105px;
-  border-radius: 16px;
+  border-radius: 13px;
   overflow: hidden;
   flex-shrink: 0;
 }
@@ -243,11 +244,12 @@
 }
 
 .programContent {
-  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  flex: 1;
   min-width: 0;
+  padding-right: 10px;
 }
 
 .programMeta {
@@ -280,20 +282,18 @@
   display: flex;
   align-items: center;
   gap: 2px;
-}
-
-.programStatIcon {
-  width: 18px;
-  height: 18px;
-}
-
-.programStatText {
   font-family: 'Pretendard', sans-serif;
   font-weight: 600;
   font-size: 12px;
   line-height: 1.2;
   letter-spacing: -0.48px;
   color: #C8C8C8;
+}
+
+.programStatIcon {
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
 }
 
 .programDate {

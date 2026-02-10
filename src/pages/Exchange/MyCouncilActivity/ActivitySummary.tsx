@@ -4,8 +4,7 @@ import styles1 from './MyCouncilActivity-1.module.css'
 import styles2 from './MyCouncilActivity-2.module.css'
 const styles = { ...styles1, ...styles2 }
 import characterImg from '@/assets/images/council/05c33597452e16877b22a6b65e9a1498c1d8e724.png'
-import newsIconImg from '@/assets/images/council/bbdba2deec99e2a96b161b98577dda532cef5ac0.png'
-import metaDividerIcon from '@/assets/images/myactivitysummary/Vector 13 (Stroke).svg'
+import newsIconImg from '@/assets/images/home/bbdba2deec99e2a96b161b98577dda532cef5ac0.png'
 import { councilReviewPostApi, CouncilReviewPostSummary } from '@/api/api-3'
 
 interface ActivitySummaryProps {
@@ -109,34 +108,33 @@ function ActivitySummary({ councilId, councilName, currentBudget, totalBudget, a
             pastActivities.map((activity) => (
               <div
                 key={activity.councilReviewPostId}
-                className={styles.pastItem}
+                className={styles.postCard}
                 onClick={() => navigate(`/exchange/council/review/${activity.councilReviewPostId}`)}
-                style={{ cursor: 'pointer' }}
               >
-                <div className={styles.pastItemContent}>
-                  <div className={styles.pastItemMeta}>
-                    <span className={styles.pastItemRegion}>{councilName}</span>
-                    <img src={metaDividerIcon} alt="" className={styles.pastItemMetaDivider} />
-                    <div className={styles.pastItemStats}>
-                      <div className={styles.pastItemStat}>
-                        <img src="/eyes.svg" alt="" className={styles.pastItemStatIcon} />
-                        <span className={styles.pastItemStatText}>{activity.viewCount}</span>
-                      </div>
-                      <div className={styles.pastItemStat}>
-                        <img src="/talk.svg" alt="" className={styles.pastItemStatIcon} />
-                        <span className={styles.pastItemStatText}>{activity.commentCount}</span>
-                      </div>
+                <div className={styles.postContent}>
+                  <div className={styles.postMeta}>
+                    <span className={styles.postCategory}>{councilName}</span>
+                    <div className={styles.postMetaDivider} />
+                    <div className={styles.postStats}>
+                      <span className={styles.postStatsItem}>
+                        <img src="/eyes.svg" alt="" className={styles.postStatsIcon} /> {activity.viewCount}
+                      </span>
+                      <span className={styles.postStatsItem}>
+                        <img src="/talk.svg" alt="" className={styles.postStatsIcon} /> {activity.commentCount}
+                      </span>
                     </div>
-                    <img src={metaDividerIcon} alt="" className={styles.pastItemMetaDivider} />
-                    <span className={styles.pastItemDate}>{formatDate(activity.createdAt)}</span>
+                    <div className={styles.postMetaDivider} />
+                    <span className={styles.postDate}>{formatDate(activity.createdAt)}</span>
                   </div>
-                  <div className={styles.pastItemInfo}>
-                    <h3 className={styles.pastItemTitle}>{activity.postTitle}</h3>
-                    <p className={styles.pastItemDescription}>{activity.activityLocation || ''}</p>
+                  <div className={styles.postTextContent}>
+                    <h3 className={styles.postTitle}>{activity.postTitle}</h3>
+                    <p className={styles.postDescription}>{activity.activityLocation || ''}</p>
                   </div>
                 </div>
                 {activity.thumbnailImageUrl && (
-                  <img src={toFullUrl(activity.thumbnailImageUrl)} alt="" className={styles.pastItemThumb} />
+                  <div className={styles.postThumbnail}>
+                    <img src={toFullUrl(activity.thumbnailImageUrl)} alt="" className={styles.postThumbnailImg} />
+                  </div>
                 )}
               </div>
             ))

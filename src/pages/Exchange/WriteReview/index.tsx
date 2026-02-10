@@ -42,7 +42,9 @@ function WriteReviewPage() {
   const [participants, setParticipants] = useSessionStorage<Participant[]>('write-review:participants', [])
   const [membersLoaded, setMembersLoaded] = useSessionStorage('write-review:membersLoaded', false)
   const imageInputRef = useRef<HTMLInputElement>(null)
+  const receiptGalleryRef = useRef<HTMLInputElement>(null)
   const [showCalendar, setShowCalendar] = useState(false)
+  const [showCameraMenu, setShowCameraMenu] = useState(false)
   const [calendarYear, setCalendarYear] = useState(new Date().getFullYear())
   const [calendarMonth, setCalendarMonth] = useState(new Date().getMonth())
   const [receiptFileId, setReceiptFileId] = useSessionStorage<number | null>('write-review:receiptFileId', null)
@@ -146,10 +148,11 @@ function WriteReviewPage() {
     fetchRandomQuestion(usedQuestionIds)
   }
 
-  const navigateToReceipt = (expenseIndex: number) => {
+  const navigateToReceipt = (expenseIndex: number, mode?: 'camera' | 'gallery') => {
     navigate('/exchange/write/review/receipt', {
       state: {
         expenseIndex,
+        mode,
         prevTitle: title,
         prevDateTime: dateValue,
         prevLocation: locationValue,
@@ -200,8 +203,22 @@ function WriteReviewPage() {
 
   const [isSubmitting, setIsSubmitting] = useState(false)
 
+  // 브라우저 뒤로가기 시 step만 줄어들도록 히스토리 관리
+  useEffect(() => {
+    const handlePopState = () => {
+      setStep((prev) => {
+        if (prev > 1) return prev - 1
+        navigate('/exchange', { replace: true })
+        return prev
+      })
+    }
+    window.addEventListener('popstate', handlePopState)
+    return () => window.removeEventListener('popstate', handlePopState)
+  }, [])
+
   const handleNext = async () => {
     if (step < 3) {
+      window.history.pushState({ step: step + 1 }, '')
       setStep(step + 1)
       return
     }
@@ -291,9 +308,18 @@ function WriteReviewPage() {
     </div>
   )
 
+  const handleReceiptGallerySelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    e.target.value = ''
+    ;(window as any).__pendingReceiptFile = file
+    navigateToReceipt(0, 'gallery')
+  }
+
   return (
     <div className={styles.container}>
       <input ref={imageInputRef} type="file" accept="image/*" onChange={handleImageFileSelect} style={{ display: 'none' }} />
+      <input ref={receiptGalleryRef} type="file" accept="image/*" onChange={handleReceiptGallerySelect} style={{ display: 'none' }} />
       <div className={styles.upperCard}>
         <BackHeader
           title="자치회 활동 후기"
@@ -337,7 +363,7 @@ function WriteReviewPage() {
           <div className={styles.formFields}>
             <div className={styles.formRow}>
               <span className={styles.formLabel}>진행일시</span>
-              <button type="button" className={styles.dateInputButton} onClick={() => setShowCalendar(true)}>
+              <button type="button" className={`${styles.dateInputButton} ${dateValue ? styles.dateInputButtonFilled : ''}`} onClick={() => setShowCalendar(true)}>
                 {dateValue ? <span>{dateValue}</span> : <span className={styles.dateInputPlaceholder}>입력해주세요</span>}
               </button>
             </div>
@@ -348,10 +374,28 @@ function WriteReviewPage() {
             <div className={styles.formRow}>
               <span className={styles.formLabel}>지출 내역</span>
               <div className={styles.receiptRow}>
-                <button type="button" className={styles.receiptButton} onClick={() => navigateToReceipt(0)}>{expenses[0] || '영수증 첨부하기'}</button>
-                <button type="button" className={styles.cameraButton} onClick={() => navigateToReceipt(0)}>
-                  <img src={cameraIcon} alt="카메라" className={styles.cameraIcon} />
-                </button>
+                <input
+                  type="text"
+                  className={styles.receiptButton}
+                  placeholder="영수증 첨부하기"
+                  value={expenses[0] || ''}
+                  onChange={(e) => setExpenses((prev) => { const u = [...prev]; u[0] = e.target.value; return u })}
+                />
+                <div style={{ position: 'relative' }}>
+                  <button type="button" className={styles.cameraButton} onClick={() => setShowCameraMenu(true)}>
+                    <img src={cameraIcon} alt="카메라" className={styles.cameraIcon} />
+                  </button>
+                  {showCameraMenu && (
+                    <div className={styles.cameraPopover}>
+                      <button className={styles.cameraPopoverItem} onClick={() => { setShowCameraMenu(false); navigateToReceipt(0, 'camera') }}>
+                        카메라로 찍기
+                      </button>
+                      <button className={styles.cameraPopoverItem} onClick={() => { setShowCameraMenu(false); receiptGalleryRef.current?.click() }}>
+                        갤러리로 불러오기
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
             <p className={styles.receiptHelper}>사진을 첨부하면 자동으로 금액이 인식됩니다.</p>
@@ -421,6 +465,10 @@ function WriteReviewPage() {
           {step === 3 ? (isSubmitting ? '업로드 중...' : '업로드 하기') : '다음'}
         </button>
       </div>
+
+      {showCameraMenu && (
+        <div className={styles.cameraPopoverOverlay} onClick={() => setShowCameraMenu(false)} />
+      )}
 
       {showCalendar && (
         <CalendarModal calendarYear={calendarYear} calendarMonth={calendarMonth} dateValue={dateValue} onSelectDate={handleSelectDate} onPrevMonth={handlePrevMonth} onNextMonth={handleNextMonth} onClose={() => setShowCalendar(false)} />

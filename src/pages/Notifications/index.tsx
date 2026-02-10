@@ -33,6 +33,7 @@ const SUB_CATEGORY_MAP: Record<string, NotificationSubCategory> = {
   '쪽지': 'MESSAGE',
   '교류': 'NETWORK',
   '자치회 활동': 'COUNCIL',
+  '멘토링': 'MENTORING',
 }
 
 
@@ -41,7 +42,7 @@ function NotificationsPage() {
   const [searchParams] = useSearchParams()
   const [activeMainTab, setActiveMainTab] = useState<'공지사항' | '활동'>('공지사항')
   const [activeFilterTab, setActiveFilterTab] = useState<'전체' | '안읽음'>('전체')
-  const [activeActivityTab, setActiveActivityTab] = useState<'쪽지' | '교류' | '자치회 활동'>('쪽지')
+  const [activeActivityTab, setActiveActivityTab] = useState<'쪽지' | '교류' | '자치회 활동' | '멘토링'>('쪽지')
 
   const [notifications, setNotifications] = useState<NotificationItem[]>([])
   const [unreadCount, setUnreadCount] = useState(0)
@@ -57,6 +58,7 @@ function NotificationsPage() {
       if (sub === 'message') setActiveActivityTab('쪽지')
       else if (sub === 'network') setActiveActivityTab('교류')
       else if (sub === 'council') setActiveActivityTab('자치회 활동')
+      else if (sub === 'mentoring') setActiveActivityTab('멘토링')
     }
   }, [searchParams])
 
@@ -111,10 +113,6 @@ function NotificationsPage() {
     fetchUnreadCount()
   }, [])
 
-  // 쪽지 탭이면 MessageBox 렌더링
-  if (activeMainTab === '활동' && activeActivityTab === '쪽지') {
-    return <MessageBox />
-  }
 
   const handleNotificationClick = (notification: NotificationItem) => {
     if (activeMainTab === '공지사항') {
@@ -175,6 +173,12 @@ function NotificationsPage() {
                   onClick={() => setActiveActivityTab('자치회 활동')}
                 >
                   자치회 활동
+                </button>
+                <button
+                  className={`${styles.filterTab} ${activeActivityTab === '멘토링' ? styles.filterTabActive : ''}`}
+                  onClick={() => setActiveActivityTab('멘토링')}
+                >
+                  멘토링
                 </button>
               </>
             )}

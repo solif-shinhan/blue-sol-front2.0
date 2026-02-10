@@ -131,6 +131,8 @@ export interface NotificationSummary {
   targetId: number;
   isRead: boolean;
   createdAt: string;
+  senderName?: string;
+  senderProfileImage?: string;
 }
 
 export interface NotificationImage {
