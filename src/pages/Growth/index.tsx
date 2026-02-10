@@ -5,6 +5,7 @@ import styles2 from './Growth-2.module.css'
 import styles4 from './Growth-4.module.css'
 
 // 이미지 imports
+import bellIcon from '@/assets/images/bell.svg'
 import imgCharacter from '@/assets/images/e27e5ea17e8d7342655407961c49cef99027dd5a.png'
 import imgGradientFade from '@/assets/images/4fe43b8fc2dc1a748e8b748d5c7ae4ef6fedd022.png'
 import imgDaysLabel from '@/assets/images/grow/frame2147230658.svg'
@@ -21,6 +22,9 @@ import videoTree2 from '@/assets/videos/tree2.mp4'
 
 // 하단 섹션 imports
 import { StrengthSection, ProgramSection, Footer } from './GrowthSections'
+import { getProfile, ProfileData } from '@/services/profileService'
+import { goalApi } from '@/api/api-2'
+import { userApi } from '@/api'
 
 type AnimationPhase = 'idle' | 'playing' | 'completed'
 
@@ -29,23 +33,52 @@ const TopBackground = ({ phase, onPhaseEnd }: {
   phase: AnimationPhase
   onPhaseEnd: () => void
 }) => {
+  const tree1Ref = useRef<HTMLVideoElement>(null)
   const tree2Ref = useRef<HTMLVideoElement>(null)
   const [videoReady, setVideoReady] = useState(false)
   const isPlaying = phase === 'playing'
 
   useEffect(() => {
+    const v = tree1Ref.current
+    if (!v) return
+    // 모바일 브라우저 autoplay 강제 실행
+    v.muted = true
+    v.setAttribute('webkit-playsinline', 'true')
+    v.play().catch(() => {})
+
+    // 자동재생 실패 시 첫 터치에서 재생
+    const playOnTouch = () => {
+      if (v.paused) {
+        v.muted = true
+        v.play().catch(() => {})
+      }
+      document.removeEventListener('touchstart', playOnTouch)
+      document.removeEventListener('click', playOnTouch)
+    }
+    document.addEventListener('touchstart', playOnTouch, { once: true })
+    document.addEventListener('click', playOnTouch, { once: true })
+
+    return () => {
+      document.removeEventListener('touchstart', playOnTouch)
+      document.removeEventListener('click', playOnTouch)
+    }
+  }, [])
+
+  useEffect(() => {
     if (isPlaying && tree2Ref.current) {
       tree2Ref.current.currentTime = 0
+      tree2Ref.current.muted = true
       tree2Ref.current.play().catch(() => {})
     }
   }, [isPlaying])
 
   return (
     <>
-      <div className={styles1.topBackground} style={{ opacity: videoReady ? 1 : 0, transition: 'opacity 0.3s ease' }} />
-      <div className={styles1.topGraphic} style={{ opacity: videoReady ? 1 : 0, transition: 'opacity 0.3s ease' }}>
+      <div className={styles1.topBackground} />
+      <div className={styles1.topGraphic} style={{ opacity: videoReady ? 1 : 0, transition: 'opacity 0.5s ease' }}>
         {/* 기본 루프 영상 (항상 재생) */}
         <video
+          ref={tree1Ref}
           autoPlay
           loop
           muted
@@ -76,54 +109,63 @@ const TopBackground = ({ phase, onPhaseEnd }: {
   )
 }
 
-// 상단 네비게이션
-const TopNav = () => {
+// 상단 네비게이션 - 홈과 동일 구조
+const TopNav = ({ profile }: { profile: ProfileData | null }) => {
   const navigate = useNavigate()
   return (
-    <div className={styles1.topNav}>
-      <div className={styles1.tabMenu}>
-        <button className={styles1.tabItem} onClick={() => navigate('/home')}>
-          <span>홈</span>
-        </button>
-        <button className={styles1.tabItem} onClick={() => navigate('/exchange')}>
-          <span>교류</span>
-        </button>
-        <button className={`${styles1.tabItem} ${styles1.tabItemActive}`}>
-          <span>성장</span>
-        </button>
+    <nav className={styles1.tabNav}>
+      <div className={styles1.tabs}>
+        <button className={styles1.tab} onClick={() => navigate('/home')}>홈</button>
+        <button className={styles1.tab} onClick={() => navigate('/exchange')}>교류</button>
+        <button className={`${styles1.tab} ${styles1.tabActive}`}>성장</button>
       </div>
-      <div className={styles1.rightIcons}>
-        <button className={styles1.bellIcon}>
-          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-            <path d="M14 3C10.134 3 7 6.134 7 10V15L5 17V18H23V17L21 15V10C21 6.134 17.866 3 14 3Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M11 21C11 22.657 12.343 24 14 24C15.657 24 17 22.657 17 21" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+      <div className={styles1.tabNavRight}>
+        <button className={styles1.iconButton} onClick={() => navigate('/notifications')}>
+          <img src={bellIcon} alt="알림" width={28} height={28} />
         </button>
-        <div className={styles1.profileIcon}>
-          <img src={imgCharacter} alt="프로필" />
+        <div
+          className={styles1.profileCircle}
+          onClick={() => navigate('/mypage')}
+          style={profile?.backgroundImageUrl ? { backgroundImage: `url(${profile.backgroundImageUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined}
+        >
+          {profile?.characterImageUrl ? (
+            <img src={profile.characterImageUrl} alt="프로필" style={{ width: '24px', height: '24px', objectFit: 'contain' }} />
+          ) : (
+            <img src={imgCharacter} alt="프로필" style={{ width: '24px', height: '24px', objectFit: 'contain' }} />
+          )}
         </div>
       </div>
-    </div>
+    </nav>
   )
 }
 
 // 사용자 정보 섹션
-const UserSection = ({ visible }: { visible: boolean }) => (
+const UserSection = ({ visible, userName, days, goalCurrent, goalTotal }: {
+  visible: boolean
+  userName: string
+  days: number
+  goalCurrent: number
+  goalTotal: number
+}) => (
   <div className={`${styles1.userSection} ${styles4.transition} ${visible ? '' : styles4.fadeOut}`}>
     <div className={styles1.userInfo}>
       <div className={styles1.daysLabel}>
-        <img src={imgDaysLabel} alt="푸른SOL과 함께한지 374일" />
+        {days > 0 ? (
+          <span className={styles1.daysText}>푸른SOL과 함께한지 {days}일</span>
+        ) : (
+          <img src={imgDaysLabel} alt="푸른SOL과 함께한지" />
+        )}
       </div>
-      <h1 className={styles1.userName}>김솔잎 님의 소나무</h1>
+      <h1 className={styles1.userName}>{userName} 님의 소나무</h1>
     </div>
     <div className={styles1.goalSection}>
       <div className={styles1.goalBadge}>
         <span>나의 목표</span>
       </div>
       <div className={styles1.goalCount}>
-        <span className={styles1.goalCurrent}>3</span>
+        <span className={styles1.goalCurrent}>{goalCurrent}</span>
         <span className={styles1.goalDivider}>/</span>
-        <span className={styles1.goalTotal}>4</span>
+        <span className={styles1.goalTotal}>{goalTotal}</span>
       </div>
     </div>
   </div>
@@ -269,7 +311,32 @@ function GrowthPage() {
   const [phase, setPhase] = useState<AnimationPhase>('idle')
   const [collectedCount, setCollectedCount] = useState(0)
   const [showToast, setShowToast] = useState(false)
+  const [profile, setProfile] = useState<ProfileData | null>(null)
+  const [days, setDays] = useState(0)
+  const [goalCurrent, setGoalCurrent] = useState(0)
+  const [goalTotal, setGoalTotal] = useState(0)
   const containerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const loadData = async () => {
+      const [profileRes, userRes, goalRes] = await Promise.all([
+        getProfile().catch(() => null),
+        userApi.getMe().catch(() => null),
+        goalApi.getFirst().catch(() => null),
+      ])
+      if (profileRes?.success) setProfile(profileRes.data)
+      if (userRes?.success && userRes.data?.createdAt) {
+        const created = new Date(userRes.data.createdAt)
+        const diff = Math.floor((Date.now() - created.getTime()) / (1000 * 60 * 60 * 24))
+        setDays(diff)
+      }
+      if (goalRes?.success && goalRes.data) {
+        setGoalCurrent(goalRes.data.currentIndex)
+        setGoalTotal(goalRes.data.totalCount)
+      }
+    }
+    loadData()
+  }, [])
 
   const isAnimating = phase === 'playing'
   const isUserVisible = phase === 'idle' || phase === 'completed'
@@ -317,8 +384,14 @@ function GrowthPage() {
           className={styles1.gradientFade}
           style={{ position: 'absolute', top: 520, left: 0, width: 393, height: 185, objectFit: 'cover' }}
         />
-        <TopNav />
-        <UserSection visible={isUserVisible} />
+        <TopNav profile={profile} />
+        <UserSection
+          visible={isUserVisible}
+          userName={profile?.userName || '사용자'}
+          days={days}
+          goalCurrent={goalCurrent}
+          goalTotal={goalTotal}
+        />
         <SolbangulButton visible={isSolbangulVisible} collectedCount={collectedCount} />
         <AcquisitionToast visible={showToast} collectedCount={collectedCount} />
 

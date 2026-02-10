@@ -1,17 +1,8 @@
 .container {
   width: 393px;
   min-height: 852px;
-  max-height: 100vh;
   position: relative;
   background: linear-gradient(to bottom, #ffffff, #f3f6fb);
-  overflow-x: hidden;
-  overflow-y: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.container::-webkit-scrollbar {
-  display: none;
 }
 
 .statusBar {
@@ -55,7 +46,7 @@
 
 .headerNav {
   position: absolute;
-  top: 70px;
+  top: var(--safe-area-top);
   left: 0;
   width: 393px;
   height: 40px;

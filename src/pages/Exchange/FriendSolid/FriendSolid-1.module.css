@@ -3,19 +3,10 @@
 .container {
   width: 393px;
   min-height: 852px;
-  max-height: 100vh;
-  overflow-x: hidden;
-  overflow-y: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
   background: #FFFFFF;
   position: relative;
   display: flex;
   flex-direction: column;
-}
-
-.container::-webkit-scrollbar {
-  display: none;
 }
 
 /* Header */
@@ -23,7 +14,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 70px 22px 0;
+  padding: var(--safe-area-top) 22px 0;
   height: 110px;
   box-sizing: border-box;
   flex-shrink: 0;

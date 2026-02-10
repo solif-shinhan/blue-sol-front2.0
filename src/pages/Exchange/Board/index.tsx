@@ -18,6 +18,13 @@ import foundationNewsImg from '@/assets/images/exchage-board/6fecb3f4903a46cbe10
 import shinhanLogo from '@/assets/images/exchage-board/shinhan-logo.png'
 import { FABButton } from '@/components/FABButton'
 
+const API_BASE = import.meta.env.VITE_API_URL || 'https://stg-api.bluesol.site'
+const toFullUrl = (path: string | null | undefined): string | undefined => {
+  if (!path) return undefined
+  if (path.startsWith('http') || path.startsWith('blob')) return path
+  return `${API_BASE}/${path}`
+}
+
 type CardId = 'warm-review' | 'counseling' | 'foundation-news'
 
 interface CategoryCard {
@@ -90,7 +97,7 @@ function mapApiPostToUI(post: ApiPostItem): PostItem {
     viewCount: post.viewCount || 0,
     commentCount: post.commentCount,
     date: formatDate(post.createdAt),
-    image: post.imageUrls?.[0] || null,
+    image: toFullUrl(post.imageUrls?.[0]) || null,
   }
 }
 
@@ -145,7 +152,7 @@ function BoardPage() {
   }, [activeCard, activeFilterIdx])
 
   const handleBack = () => {
-    navigate(-1)
+    navigate('/exchange')
   }
 
   const handleCategoryClick = (cardId: CardId) => {

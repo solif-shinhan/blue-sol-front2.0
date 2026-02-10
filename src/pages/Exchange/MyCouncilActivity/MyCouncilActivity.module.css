@@ -50,7 +50,7 @@
 /* Header over hero */
 .header {
   position: absolute;
-  top: 70px;
+  top: var(--safe-area-top);
   left: 0;
   width: 393px;
   height: 50px;

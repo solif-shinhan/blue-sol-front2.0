@@ -76,7 +76,7 @@
   align-items: center;
   width: 350px;
   height: 40px;
-  margin: 70px auto 0;
+  margin: var(--safe-area-top) auto 0;
 }
 
 .modalHeaderInner {

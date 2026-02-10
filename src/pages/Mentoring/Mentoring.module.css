@@ -27,7 +27,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 70px 22px 0;
+  padding: var(--safe-area-top) 22px 0;
   height: 110px;
   position: relative;
   box-sizing: border-box;
@@ -35,7 +35,7 @@
 
 .backButton {
   position: absolute;
-  top: 70px;
+  top: var(--safe-area-top);
   /* Safe zone 57px + 13px */
   left: 15px;
   width: 24px;

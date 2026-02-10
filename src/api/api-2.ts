@@ -58,7 +58,7 @@ import {
   GoalCountResponse,
 } from './api-1';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || '';
 
 export const authApi = {
   signup: (data: SignupRequest): Promise<ApiResponse<SignupResponse>> =>

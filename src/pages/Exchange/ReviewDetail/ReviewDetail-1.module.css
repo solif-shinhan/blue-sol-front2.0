@@ -3,17 +3,8 @@
 .container {
   width: 393px;
   min-height: 852px;
-  max-height: 100vh;
   position: relative;
-  overflow-x: hidden;
-  overflow-y: auto;
   background: linear-gradient(180deg, #FFFFFF 0%, #F3F6FB 100%);
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.container::-webkit-scrollbar {
-  display: none;
 }
 
 /* Image Carousel */
@@ -54,7 +45,7 @@
 /* Header Overlay */
 .headerOverlay {
   position: absolute;
-  top: 70px;
+  top: var(--safe-area-top);
   left: 0;
   width: 393px;
   height: 40px;

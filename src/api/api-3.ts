@@ -259,7 +259,7 @@ export const fileApi = {
     });
 
     const token = localStorage.getItem('accessToken');
-    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+    const baseUrl = import.meta.env.VITE_API_URL || '';
     const url = `${baseUrl}/api/files${folder ? `?folder=${encodeURIComponent(folder)}` : ''}`;
 
     const response = await fetch(url, {
@@ -305,7 +305,7 @@ export const ocrApi = {
     formData.append('file', file);
 
     const token = localStorage.getItem('accessToken');
-    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+    const baseUrl = import.meta.env.VITE_API_URL || '';
 
     const response = await fetch(`${baseUrl}/api/test/ocr`, {
       method: 'POST',

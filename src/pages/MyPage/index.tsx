@@ -1,58 +1,43 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import styles from './MyPage.module.css'
+import styles1 from './MyPage-1.module.css'
+import styles2 from './MyPage-2.module.css'
+import styles3 from './MyPage-3.module.css'
 import backArrowIcon from '@/assets/images/mypage/23dfd6e669ddf936888f8270626f127c011faae6.svg'
-import chartDonutSvg from '@/assets/images/mypage/8b23fd361e57d34d2357c54920ff44e4c609c123.svg'
-import chartSubtractImg from '@/assets/images/mypage/39327194044d48aceaa2afe1017c4efd5babb5ef.png'
+import arcChartSvg from '@/assets/images/mypage/f075883f52928d0600a872719ed3b430bdb9ef2e.svg'
 import eyeIcon from '@/assets/images/mypage/5ee4482a7735287a01617616a79602ddf46984c6.svg'
 import chatIcon from '@/assets/images/mypage/636ff7bb5ea9cb72d6a37d3ba76abca29b6facbd.svg'
 import dividerSvg from '@/assets/images/mypage/b099e6393132d16bccfec66525724723fa6b700d.svg'
 import footerLogoImg from '@/assets/images/mypage/057453724e8f804d5306e38ceabfcf7513cbed10.png'
 import { getProfile, ProfileData } from '@/services/profileService'
 import { logout } from '@/services/authService'
+import { getMyCouncil } from '@/services'
+import { councilReviewPostApi, CouncilReviewPostSummary } from '@/api/api-3'
 
-const ACTIVITIES = [
-  {
-    id: 1,
-    category: '제주 자치회',
-    title: '우리들의 첫 만남',
-    description: '제주 지역 자치회 구성원들이 처음으로 모이는 자리였습니다. 서로 다른 배경을..',
-    likes: 25,
-    comments: 8,
-    date: '2025.12.26',
-    thumbnail: '/board-thumb-3.jpg',
-  },
-  {
-    id: 2,
-    category: '제주 자치회',
-    title: '공모전 준비 후기',
-    description: '공모전을 준비하면서 아이디어를 구체화하는 과정이 가장 어려웠습니다. 처음에는..',
-    likes: 25,
-    comments: 8,
-    date: '2026.02.19',
-    thumbnail: '/board-thumb-1.jpg',
-  },
-  {
-    id: 3,
-    category: '제주 자치회',
-    title: '봉사활동 다녀온 후',
-    description: '자치회 구성원들과 함께 봉사활동에 참여했습니다. 단순히 활동을 수행하는 것..',
-    likes: 25,
-    comments: 8,
-    date: '2026.01.28',
-    thumbnail: '/board-thumb-2.jpg',
-  },
-]
+const styles = { ...styles1, ...styles2, ...styles3 }
 
 function MyPagePage() {
   const navigate = useNavigate()
   const [profile, setProfile] = useState<ProfileData | null>(null)
+  const [activities, setActivities] = useState<CouncilReviewPostSummary[]>([])
+  const [councilName, setCouncilName] = useState('')
 
   useEffect(() => {
     const loadData = async () => {
       const profileRes = await getProfile().catch(() => null)
       if (profileRes?.success) {
         setProfile(profileRes.data)
+      }
+
+      const councilRes = await getMyCouncil().catch(() => null)
+      if (councilRes?.success && councilRes.data) {
+        setCouncilName(councilRes.data.name)
+        const postsRes = await councilReviewPostApi.getList(councilRes.data.councilId, { page: 0, size: 10 }).catch(() => null)
+        if (postsRes?.success && postsRes.data) {
+          const raw = postsRes.data
+          const list = raw?.content ?? (Array.isArray(raw) ? raw : [])
+          setActivities(list)
+        }
       }
     }
     loadData()
@@ -81,29 +66,35 @@ function MyPagePage() {
       </div>
 
       <div className={styles.content}>
-        <div className={styles.profileGradient}>
-          <div className={styles.avatarFrame}>
-            {characterImageUrl && (
-              <img src={characterImageUrl} alt="" className={styles.avatarImage} />
-            )}
-          </div>
-          <div className={styles.profileBottom}>
-            <div className={styles.profileNameGroup}>
-              <span className={styles.profileName}>{userName}</span>
-              <span className={styles.profileRole}>{userRole}</span>
+        <div className={styles.profileDashboardGroup}>
+          <div
+            className={styles.profileGradient}
+            style={profile?.backgroundImageUrl ? { backgroundImage: `url(${profile.backgroundImageUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined}
+          >
+            <div
+              className={styles.avatarFrame}
+              style={profile?.backgroundImageUrl ? { backgroundImage: `url(${profile.backgroundImageUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined}
+            >
+              {characterImageUrl && (
+                <img src={characterImageUrl} alt="" className={styles.avatarImage} />
+              )}
             </div>
-            <button className={styles.editSolidButton} onClick={() => navigate('/onboarding')}>
-              <span>나의 SOLID 수정</span>
-            </button>
+            <div className={styles.profileBottom}>
+              <div className={styles.profileNameGroup}>
+                <span className={styles.profileName}>{userName}</span>
+                <span className={styles.profileRole}>{userRole}</span>
+              </div>
+              <button className={styles.editSolidButton} onClick={() => navigate('/onboarding')}>
+                <span>나의 SOLID 수정</span>
+              </button>
+            </div>
           </div>
-        </div>
 
-        <section className={styles.dashboardSection}>
-          <div className={styles.sectionHeader}>
-            <span className={styles.sectionTitle}>활동 대시보드</span>
-          </div>
-          <div className={styles.dashboardCard}>
-            <div className={styles.dashboardInner}>
+          <section className={styles.dashboardSection}>
+            <div className={styles.sectionHeader}>
+              <span className={styles.sectionTitle}>활동 대시보드</span>
+            </div>
+            <div className={styles.dashboardCard}>
               <div className={styles.dashboardLeft}>
                 <div className={styles.userTypeGroup}>
                   <span className={styles.userTypeLabel}>{userName} 님은</span>
@@ -111,39 +102,38 @@ function MyPagePage() {
                 </div>
                 <div className={styles.statsRow}>
                   <div className={styles.statItem}>
-                    <span className={styles.statValue}>70</span>
+                    <div className={`${styles.statBadge} ${styles.statBadgeBlue}`}>
+                      <span className={`${styles.statValue} ${styles.statValueWhite}`}>30</span>
+                    </div>
                     <span className={styles.statLabel}>연결</span>
                   </div>
                   <div className={styles.statItem}>
-                    <span className={styles.statValue}>10</span>
+                    <div className={`${styles.statBadge} ${styles.statBadgeLightBlue}`}>
+                      <span className={`${styles.statValue} ${styles.statValueWhite}`}>20</span>
+                    </div>
                     <span className={styles.statLabel}>성장</span>
                   </div>
                   <div className={styles.statItem}>
-                    <span className={styles.statValue}>20</span>
+                    <div className={`${styles.statBadge} ${styles.statBadgeLightBlueII}`}>
+                      <span className={`${styles.statValue} ${styles.statValueBlue}`}>10</span>
+                    </div>
                     <span className={styles.statLabel}>기여</span>
                   </div>
                 </div>
               </div>
               <div className={styles.chartArea}>
-                <div className={styles.chartDonut}>
-                  <img src={chartDonutSvg} alt="" />
+                <div className={styles.chartCharacter}>
+                  {characterImageUrl && (
+                    <img src={characterImageUrl} alt="" />
+                  )}
                 </div>
-                <div className={styles.chartSubtract}>
-                  <img src={chartSubtractImg} alt="" />
-                </div>
-                <div className={`${styles.chartTag} ${styles.chartTagConnection}`}>
-                  <span>연결</span>
-                </div>
-                <div className={`${styles.chartTag} ${styles.chartTagGrowth}`}>
-                  <span>성장</span>
-                </div>
-                <div className={`${styles.chartTag} ${styles.chartTagContribution}`}>
-                  <span>기여</span>
+                <div className={styles.chartArc}>
+                  <img src={arcChartSvg} alt="" />
                 </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </div>
 
         <section className={styles.activitySection}>
           <div className={styles.activityHeader}>
@@ -151,11 +141,11 @@ function MyPagePage() {
             <button className={styles.councilButton}>나의 자치회</button>
           </div>
           <div className={styles.activityList}>
-            {ACTIVITIES.map((activity) => (
-              <div key={activity.id} className={styles.activityRow}>
+            {activities.map((post) => (
+              <div key={post.councilReviewPostId} className={styles.activityRow}>
                 <div className={styles.activityRowContent}>
                   <div className={styles.activityMeta}>
-                    <span className={styles.activityCategory}>{activity.category}</span>
+                    <span className={styles.activityCategory}>{councilName}</span>
                     <div className={styles.metaDivider}>
                       <img src={dividerSvg} alt="" />
                     </div>
@@ -164,28 +154,28 @@ function MyPagePage() {
                         <div className={styles.metaIcon}>
                           <img src={eyeIcon} alt="" />
                         </div>
-                        <span className={styles.metaStatValue}>{activity.likes}</span>
+                        <span className={styles.metaStatValue}>{post.viewCount}</span>
                       </div>
                       <div className={styles.metaStatGroup}>
                         <div className={styles.metaIcon}>
                           <img src={chatIcon} alt="" />
                         </div>
-                        <span className={styles.metaStatValue}>{activity.comments}</span>
+                        <span className={styles.metaStatValue}>{post.commentCount}</span>
                       </div>
                     </div>
                     <div className={styles.metaDivider}>
                       <img src={dividerSvg} alt="" />
                     </div>
-                    <span className={styles.metaDate}>{activity.date}</span>
+                    <span className={styles.metaDate}>{post.createdAt?.slice(0, 10).replace(/-/g, '.')}</span>
                   </div>
                   <div className={styles.activityTextGroup}>
-                    <span className={styles.activityTitle}>{activity.title}</span>
-                    <p className={styles.activityDesc}>{activity.description}</p>
+                    <span className={styles.activityTitle}>{post.postTitle}</span>
+                    <p className={styles.activityDesc}>{post.activityLocation || ''}</p>
                   </div>
                 </div>
-                {activity.thumbnail && (
+                {post.thumbnailImageUrl && (
                   <div className={styles.activityThumb}>
-                    <img src={activity.thumbnail} alt="" />
+                    <img src={post.thumbnailImageUrl} alt="" />
                   </div>
                 )}
               </div>

@@ -226,7 +226,11 @@ function HomePage() {
           <button className={styles.iconButton} onClick={handleBellClick}>
             <img src={bellIcon} alt="알림" width={28} height={28} />
           </button>
-          <div className={styles.profileCircle} onClick={() => navigate('/mypage')}>
+          <div
+            className={styles.profileCircle}
+            onClick={() => navigate('/mypage')}
+            style={profile?.backgroundImageUrl ? { backgroundImage: `url(${profile.backgroundImageUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined}
+          >
             {profile?.characterImageUrl && (
               <img src={profile.characterImageUrl} alt="프로필" style={{ width: '24px', height: '24px', objectFit: 'contain' }} />
             )}
@@ -380,6 +384,7 @@ function HomePage() {
       <QRCodeModal
         isOpen={isQRModalOpen}
         onClose={handleQRModalClose}
+        userId={localStorage.getItem('userId') || ''}
         userName={profile?.userName || '사용자'}
         userRole={profile?.solidGoalName || ''}
         character={cardProps?.character || null}

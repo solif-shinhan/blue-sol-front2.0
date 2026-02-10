@@ -13,6 +13,13 @@ import {
   CATEGORY_REVERSE_MAP,
 } from '@/services'
 
+const API_BASE = import.meta.env.VITE_API_URL || 'https://stg-api.bluesol.site'
+const toFullUrl = (path: string | null | undefined): string | undefined => {
+  if (!path) return undefined
+  if (path.startsWith('http') || path.startsWith('blob')) return path
+  return `${API_BASE}/${path}`
+}
+
 // 시간 포맷 함수
 function formatDateTime(dateString: string): string {
   const date = new Date(dateString)
@@ -100,8 +107,12 @@ function BoardDetailPage() {
   }
 
   useEffect(() => {
-    fetchPost()
-    fetchComments()
+    let ignore = false
+    if (!ignore) {
+      fetchPost()
+      fetchComments()
+    }
+    return () => { ignore = true }
   }, [postId])
 
   const handleBack = () => {
@@ -266,7 +277,7 @@ function BoardDetailPage() {
             {post.imageUrls.map((image, index) => (
               <img
                 key={index}
-                src={image}
+                src={toFullUrl(image) || image}
                 alt=""
                 className={styles.galleryImage}
               />

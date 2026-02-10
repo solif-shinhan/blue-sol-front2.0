@@ -1,8 +1,8 @@
-import { MockUser } from '@/data/mockUsers'
+import { PublicUserData } from '../index'
 import styles from './PublicSolidCard.module.css'
 
 interface PublicSolidCardProps {
-  userData: MockUser
+  userData: PublicUserData
   onAddNetwork: () => void
   isAdded: boolean
 }
@@ -23,15 +23,15 @@ function PublicSolidCard({ userData, onAddNetwork, isAdded }: PublicSolidCardPro
         </div>
 
         <div className={styles.profileSection}>
-          <span className={styles.profileName}>{userData.name}</span>
-          <span className={styles.profileBadge}>{userData.badge}</span>
-          {userData.tag && <span className={styles.profileTag}>{userData.tag}</span>}
+          <span className={styles.profileName}>{userData.userName}</span>
+          <span className={styles.profileBadge}>{userData.solidGoalName}</span>
+          {userData.schoolName && <span className={styles.profileTag}>{userData.schoolName}</span>}
         </div>
 
         <div className={styles.goalList}>
-          {userData.goals[0] && <p className={styles.goalItem1}>{userData.goals[0]}</p>}
-          {userData.goals[1] && <p className={styles.goalItem2}>{userData.goals[1]}</p>}
-          {userData.goals[2] && <p className={styles.goalItem3}>{userData.goals[2]}</p>}
+          {userData.mainGoals[0] && <p className={styles.goalItem1}>{userData.mainGoals[0]}</p>}
+          {userData.mainGoals[1] && <p className={styles.goalItem2}>{userData.mainGoals[1]}</p>}
+          {userData.mainGoals[2] && <p className={styles.goalItem3}>{userData.mainGoals[2]}</p>}
         </div>
 
         <div className={styles.interestTags}>

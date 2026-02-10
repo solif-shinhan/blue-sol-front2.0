@@ -144,8 +144,15 @@ svg {
   position: relative;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   flex-shrink: 0;
+}
+
+.app-container::-webkit-scrollbar {
+  display: none;
 }
 
 .main-content {

@@ -3,26 +3,21 @@
   flex-direction: column;
   width: 393px;
   min-height: 852px;
-  max-height: 100vh;
   background: linear-gradient(180deg, #FFFFFF 0%, var(--color-bg-blue-gray) 100%);
   position: relative;
-  overflow-x: hidden;
-  overflow-y: auto;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.container::-webkit-scrollbar {
-  display: none;
 }
 
 .tabNav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 70px 22px 0;
-  position: relative;
-  z-index: 10;
+  padding: var(--safe-area-top) 22px 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 393px;
+  z-index: 100;
+  background: linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 100%);
 }
 
 .tabs {
@@ -80,6 +75,7 @@
 
 .content {
   position: relative;
+  padding-top: 45px;
 }
 
 .heroSection {

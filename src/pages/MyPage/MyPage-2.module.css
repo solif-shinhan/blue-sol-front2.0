@@ -1,0 +1,166 @@
+/* Dashboard section */
+.dashboardSection {
+  width: 360px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  padding: 0 5px;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.dashboardCard {
+  background: #FFFFFF;
+  border-radius: 24px;
+  box-shadow: 0px 0px 30px rgba(27, 37, 56, 0.1);
+  padding: 22px 20px;
+  width: 360px;
+  box-sizing: border-box;
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.dashboardLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.userTypeGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 123px;
+}
+
+.userTypeLabel {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.2;
+  color: #848484;
+}
+
+.userType {
+  font-family: 'OneShinhan', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #222222;
+}
+
+.statsRow {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.statBadge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 10px;
+  border-radius: 30px;
+}
+
+.statBadgeBlue {
+  background: #074ED8;
+}
+
+.statBadgeLightBlue {
+  background: #ABC8FF;
+}
+
+.statBadgeLightBlueII {
+  background: #E6EFFF;
+}
+
+.statValue {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.2;
+  letter-spacing: -0.4px;
+}
+
+.statValueWhite {
+  color: #FFFFFF;
+}
+
+.statValueBlue {
+  color: #074ED8;
+}
+
+.statLabel {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.4;
+  color: #848484;
+}
+
+/* Chart area - grid layout with overlapping items */
+.chartArea {
+  display: inline-grid;
+  grid-template-columns: max-content;
+  grid-template-rows: max-content;
+  justify-items: start;
+  align-items: start;
+  line-height: 0;
+  flex-shrink: 0;
+}
+
+.chartCharacter {
+  grid-column: 1;
+  grid-row: 1;
+  position: relative;
+  width: 55px;
+  height: 53px;
+  margin-left: 32px;
+  margin-top: 39px;
+  overflow: hidden;
+}
+
+.chartCharacter img {
+  position: absolute;
+  top: -8.37%;
+  left: -3.7%;
+  width: 116.05%;
+  height: 121.83%;
+  max-width: none;
+}
+
+.chartArc {
+  grid-column: 1;
+  grid-row: 1;
+  position: relative;
+  width: 111px;
+  height: 121.195px;
+}
+
+.chartArc img {
+  position: absolute;
+  top: -5.49%;
+  left: -6%;
+  right: -6%;
+  bottom: -5.49%;
+  width: 112%;
+  height: 110.98%;
+  max-width: none;
+}

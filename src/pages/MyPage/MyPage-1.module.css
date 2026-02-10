@@ -1,0 +1,179 @@
+/* Container */
+.container {
+  width: 393px;
+  min-height: 852px;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F3F6FB 100%);
+  position: relative;
+}
+
+/* Header */
+.header {
+  position: absolute;
+  top: var(--safe-area-top);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 393px;
+  height: 40px;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.headerInner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 350px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 241px;
+}
+
+.backButton {
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.backButton img {
+  width: 24px;
+  height: 24px;
+}
+
+.headerTitle {
+  font-family: 'OneShinhan', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #848484;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Content layout */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
+  width: 393px;
+}
+
+.profileDashboardGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+  width: 100%;
+}
+
+/* Shared section title */
+.sectionTitle {
+  font-family: 'OneShinhan', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #222222;
+}
+
+/* Profile gradient section */
+.profileGradient {
+  width: 392px;
+  height: calc(var(--safe-area-top) + 252px);
+  background: linear-gradient(180deg, rgba(171, 200, 255, 0.8) 0%, rgba(255, 233, 226, 0.8) 100%);
+  position: relative;
+}
+
+.avatarFrame {
+  position: absolute;
+  left: 16.5px;
+  top: calc(var(--safe-area-top) + 50px);
+  width: 97px;
+  height: 97px;
+  border-radius: 24px;
+  border: 3px solid #FFFFFF;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(171, 200, 255, 0.8) 0%, rgba(255, 233, 226, 0.8) 100%);
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 24px;
+}
+
+.profileBottom {
+  position: absolute;
+  top: calc(var(--safe-area-top) + 163px);
+  left: 50%;
+  transform: translateX(calc(-50% + 0.5px));
+  width: 360px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-left: 5px;
+}
+
+.profileNameGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 13.091px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.profileName {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 34.364px;
+  line-height: 1;
+  color: #14307C;
+}
+
+.profileRole {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 400;
+  font-size: 14.727px;
+  line-height: 1.2;
+  color: black;
+  opacity: 0.5;
+  letter-spacing: -0.5891px;
+  white-space: nowrap;
+}
+
+.editSolidButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 16px;
+  background-color: rgba(243, 246, 251, 0.8);
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+}
+
+.editSolidButton span {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #14307C;
+}

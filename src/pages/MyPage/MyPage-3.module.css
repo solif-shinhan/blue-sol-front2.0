@@ -1,0 +1,207 @@
+/* Activity section */
+.activitySection {
+  width: 361px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.activityHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5px;
+  width: 100%;
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+
+.councilButton {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #848484;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.activityList {
+  display: flex;
+  flex-direction: column;
+  width: 361px;
+}
+
+.activityRow {
+  height: 140px;
+  border-bottom: 1px solid #E6E6E6;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.activityRowContent {
+  position: absolute;
+  left: calc(50% - 58.5px);
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 234px;
+}
+
+.activityMeta {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.activityCategory {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #074ED8;
+}
+
+.metaDivider {
+  width: 0;
+  height: 12px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.metaDivider img {
+  position: absolute;
+  top: -4.17%;
+  left: -0.5px;
+  width: calc(100% + 1px);
+  height: calc(100% + 8.34%);
+}
+
+.metaStats {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+}
+
+.metaStatGroup {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+}
+
+.metaIcon {
+  width: 18px;
+  height: 18px;
+}
+
+.metaIcon img {
+  width: 100%;
+  height: 100%;
+}
+
+.metaStatValue {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 1.2;
+  letter-spacing: -0.48px;
+  color: #C8C8C8;
+}
+
+.metaDate {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 1.2;
+  letter-spacing: -0.48px;
+  color: #C8C8C8;
+}
+
+.activityTextGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.activityTitle {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.2;
+  color: black;
+}
+
+.activityDesc {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.4;
+  color: #848484;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  margin: 0;
+}
+
+.activityThumb {
+  position: absolute;
+  left: 256px;
+  top: 17px;
+  width: 105px;
+  height: 105px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.activityThumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+/* Footer */
+.footer {
+  display: flex;
+  gap: 13px;
+  height: 160px;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 0;
+  width: 360px;
+}
+
+.footerButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  padding: 10px 16px;
+  background-color: #FFFFFF;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.footerButtonText {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #848484;
+}
+
+.footerLogoImg {
+  width: 80px;
+  height: 16.645px;
+  object-fit: cover;
+}

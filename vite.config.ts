@@ -23,9 +23,14 @@ export default defineConfig({
     open: true,
     proxy: {
       '/api': {
-        target: 'https://api.bluesol.site',
+        target: 'https://stg-api.bluesol.site',
         changeOrigin: true,
         secure: true,
+        configure: (proxy) => {
+          proxy.on('proxyReq', (proxyReq) => {
+            proxyReq.setHeader('Origin', 'https://stg-api.bluesol.site')
+          })
+        },
       },
     },
     // HMR 최적화

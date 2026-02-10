@@ -132,10 +132,14 @@ function ExchangePage() {
           <button className={styles.tab} onClick={() => handleTabClick('성장')}>성장</button>
         </div>
         <div className={styles.tabNavRight}>
-          <button className={styles.iconButton}>
+          <button className={styles.iconButton} onClick={() => navigate('/notifications')}>
             <img src={bellIcon} alt="알림" width={28} height={28} />
           </button>
-          <div className={styles.profileCircle}>
+          <div
+            className={styles.profileCircle}
+            onClick={() => navigate('/mypage')}
+            style={profile?.backgroundImageUrl ? { backgroundImage: `url(${profile.backgroundImageUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined}
+          >
             {profile?.characterImageUrl && (
               <img src={profile.characterImageUrl} alt="프로필" style={{ width: '24px', height: '24px', objectFit: 'contain' }} />
             )}

@@ -3,19 +3,10 @@
 .container {
   width: 393px;
   min-height: 852px;
-  max-height: 100vh;
   position: relative;
-  overflow-x: hidden;
-  overflow-y: auto;
   background: linear-gradient(180deg, #FFFFFF 0%, #F3F6FB 100%);
   display: flex;
   flex-direction: column;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.container::-webkit-scrollbar {
-  display: none;
 }
 
 .safeArea {
@@ -26,7 +17,7 @@
 .header {
   display: flex;
   align-items: center;
-  padding: 70px 22px 0;
+  padding: var(--safe-area-top) 22px 0;
   height: 40px;
   flex-shrink: 0;
 }

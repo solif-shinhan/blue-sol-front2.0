@@ -3,16 +3,8 @@
 .container {
   width: 393px;
   min-height: 852px;
-  max-height: 100vh;
   position: relative;
-  overflow-y: auto;
-  overflow-x: hidden;
   background: linear-gradient(to bottom, #FFFFFF 0%, #F3F6FB 100%);
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-.container::-webkit-scrollbar {
-  display: none;
 }
 
 /* 완료 Button (BackHeader rightContent) */
