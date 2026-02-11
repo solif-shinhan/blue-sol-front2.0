@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate, useParams } from 'react-router-dom'
 import MainLayout from '@components/layout/MainLayout'
 import AuthLayout from '@components/layout/AuthLayout'
 import PublicLayout from '@components/layout/PublicLayout'
@@ -37,7 +37,7 @@ const MentoringApplyPage = lazy(() => import('@pages/Mentoring/Apply'))
 const MentoringPostcardPage = lazy(() => import('@pages/Mentoring/Postcard'))
 const ApplicationHistoryPage = lazy(() => import('@pages/Mentoring/ApplicationHistory'))
 const GoalsPage = lazy(() => import('@pages/Goals'))
-const PublicProfilePage = lazy(() => import('@pages/PublicProfile'))
+
 
 const LoginPage = lazy(() => import('@pages/auth/Login'))
 const RegisterTypePage = lazy(() => import('@pages/auth/Register'))
@@ -57,6 +57,12 @@ const OnboardingCompletePage = lazy(() => import('@pages/auth/Onboarding/Complet
 
 const PageLoader = () => <div style={{ padding: '20px', textAlign: 'center' }}>로딩 중...</div>
 
+/** NFC/QR 접속 시 /profile/:userId → /exchange/network/add/:userId 리다이렉트 */
+function ProfileRedirect() {
+  const { userId } = useParams<{ userId: string }>()
+  return <Navigate to={`/exchange/network/add/${userId}`} replace />
+}
+
 function App() {
   useEffect(() => {
     restoreAuth()
@@ -68,7 +74,7 @@ function App() {
       <Suspense fallback={<PageLoader />}>
         <Routes>
         <Route element={<PublicLayout />}>
-          <Route path="/profile/:userId" element={<PublicProfilePage />} />
+          <Route path="/profile/:userId" element={<ProfileRedirect />} />
         </Route>
 
         <Route element={<AuthLayout />}>
