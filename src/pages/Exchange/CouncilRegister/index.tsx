@@ -328,7 +328,9 @@ export function CouncilRegister() {
                   )
                 })}
                 <button className={styles.addMemberButton} onClick={handleAddMember}>
-                  <img src={plusIcon} alt="추가" className={styles.addMemberIconImg} />
+                  <div className={styles.addMemberCircle}>
+                    <img src={plusIcon} alt="추가" className={styles.addMemberIcon} />
+                  </div>
                   <span className={styles.addMemberLabel}>추가하기</span>
                 </button>
               </div>

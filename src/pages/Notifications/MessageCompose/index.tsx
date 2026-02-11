@@ -1,6 +1,7 @@
 import { useState, useEffect, Fragment } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import styles from './MessageCompose.module.css'
+import { BackHeader } from '@/components/BackHeader'
 import { sendMessage, getNetworkList, type NetworkFriend } from '@/services'
 import { apiClient } from '@/api'
 
@@ -163,34 +164,15 @@ function MessageComposePage() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.topCard}>
-        <header className={styles.header}>
-          <button className={styles.closeButton} onClick={isSearching ? () => setIsSearching(false) : handleClose}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#848484" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              {isSearching ? (
-                <path d="M15 19L8 12L15 5" />
-              ) : (
-                <>
-                  <path d="M18 6L6 18" />
-                  <path d="M6 6l12 12" />
-                </>
-              )}
-            </svg>
-          </button>
-          <span className={styles.headerTitle}>{isSearching ? '받는 사람' : '쪽지 보내기'}</span>
-        </header>
+      <BackHeader
+        title={isSearching ? '받는 사람' : '쪽지 보내기'}
+        icon={isSearching ? 'back' : 'close'}
+        onBack={isSearching ? () => setIsSearching(false) : handleClose}
+      />
 
+      <div className={styles.topCard}>
         {!isSearching ? (
           <>
-            <div className={styles.addButtonArea}>
-              <button className={styles.addButton} onClick={handleOpenSearch}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#074ED8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 5v14" />
-                  <path d="M5 12h14" />
-                </svg>
-              </button>
-            </div>
-
             <div className={styles.formSections}>
               <div className={styles.section}>
                 <p className={styles.sectionLabel}>제목</p>

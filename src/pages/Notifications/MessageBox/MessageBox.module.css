@@ -176,30 +176,32 @@
   white-space: nowrap;
 }
 
-.fab {
+.composeButtonWrap {
   position: fixed;
-  bottom: 40px;
-  right: calc(50% - 393px / 2 + 24px);
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: #074ED8;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0px 4px 12px rgba(7, 78, 216, 0.4);
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 360px;
   z-index: 10;
 }
 
-.fab:hover {
-  background: #0A3A8C;
+.composeButton {
+  width: 100%;
+  height: 52px;
+  background: #E6EFFF;
+  border: 1px solid #ABC8FF;
+  border-radius: 30px;
+  cursor: pointer;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.2;
+  letter-spacing: -0.36px;
+  color: #222222;
 }
 
-.fab svg {
-  width: 24px;
-  height: 24px;
+.composeButton:active {
+  background: #D6E3FF;
 }
 
 .toast {

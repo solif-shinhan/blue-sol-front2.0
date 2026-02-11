@@ -45,8 +45,6 @@ const BOARD_CATEGORIES: { label: string; boardId: number; category?: string }[] 
   { label: '활동 후기', boardId: 1 },
   { label: '학업 고민', boardId: 3, category: 'STUDY' },
   { label: '취업 고민', boardId: 3, category: 'JOB' },
-  { label: '재단소식', boardId: 4 },
-  { label: '장학프로그램', boardId: 5 },
 ]
 
 interface BoardPost {

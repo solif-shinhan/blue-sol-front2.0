@@ -138,18 +138,20 @@
 /* Buttons */
 .addButton {
   padding: 8px 16px;
-  background: #074ED8;
-  border: none;
-  border-radius: 20px;
+  background: #E6EFFF;
+  border: 1px solid #ABC8FF;
+  border-radius: 12px;
   font-family: 'Pretendard', sans-serif;
   font-size: 13px;
   font-weight: 600;
-  color: #FFFFFF;
+  color: #222222;
   cursor: pointer;
 }
 
 .addButton:disabled {
-  background: #ABC8FF;
+  background: #F0F0F0;
+  border-color: #E6E6E6;
+  color: #848484;
   cursor: not-allowed;
 }
 

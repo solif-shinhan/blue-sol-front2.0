@@ -1,12 +1,23 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import styles from './ActivityDetail.module.css'
+import styles1 from './ActivityDetail.module.css'
+import styles2 from './ActivityDetail-2.module.css'
+import { BackHeader } from '@/components/BackHeader'
 import {
   getNotificationDetail,
   markNotificationAsRead,
   deleteMessage,
   type NotificationDetail,
 } from '@/services'
+
+const styles = { ...styles1, ...styles2 }
+
+const API_BASE = import.meta.env.VITE_API_URL || ''
+const toFullUrl = (path: string | null | undefined): string | undefined => {
+  if (!path) return undefined
+  if (path.startsWith('http') || path.startsWith('blob')) return path
+  return `${API_BASE}/${path}`
+}
 
 function formatTime(dateString: string): string {
   const date = new Date(dateString)
@@ -131,7 +142,7 @@ function ActivityDetailPage() {
   }
 
   const category = notification.notificationType === 'MESSAGE' ? '쪽지'
-    : notification.notificationType === 'NETWORK' ? '교류'
+    : (notification.notificationType === 'NETWORK' || notification.notificationType === 'HELP') ? '교류'
     : notification.notificationType === 'COUNCIL' ? '자치회 활동'
     : '활동'
 
@@ -193,7 +204,71 @@ function ActivityDetailPage() {
     )
   }
 
-  // 교류, 자치회 활동 등 기존 활동 상세
+  // 교류 (경험 나누기, 응원하기) 상세 - Figma 매칭
+  if (category === '교류') {
+    const headerTitle = notification.notificationTitle?.includes('경험') ? '경험 나누기'
+      : notification.notificationTitle?.includes('응원') ? '응원하기'
+      : '교류'
+
+    const renderContentWithHighlights = (text: string) => {
+      const parts = text.split(/(#\S+)/g)
+      return parts.map((part, i) =>
+        part.startsWith('#')
+          ? <span key={i} className={styles.networkHighlight}>{part}</span>
+          : part
+      )
+    }
+
+    return (
+      <div className={styles.container}>
+        <BackHeader title={headerTitle} />
+
+        <div className={styles.networkContent}>
+          <div className={styles.networkSenderSection}>
+            <div className={styles.networkSenderInfo}>
+              <div className={styles.networkSenderLeft}>
+                <div className={styles.networkAvatar}>
+                  {notification.senderProfileImage ? (
+                    <img src={toFullUrl(notification.senderProfileImage)} alt="" />
+                  ) : (
+                    <span className={styles.networkAvatarText}>
+                      {(notification.senderName || '?').charAt(0)}
+                    </span>
+                  )}
+                </div>
+                <span className={styles.networkSenderName}>
+                  {notification.senderName || '알 수 없음'}
+                </span>
+              </div>
+              <span className={styles.networkTime}>
+                {formatTime(notification.createdAt)}
+              </span>
+            </div>
+            <h1 className={styles.networkTitle}>
+              {notification.notificationTitle}
+            </h1>
+          </div>
+
+          <div className={styles.networkBody}>
+            <p className={styles.networkBodyText}>
+              {renderContentWithHighlights(notification.notificationContent)}
+            </p>
+          </div>
+        </div>
+
+        <div className={styles.networkCtaSection}>
+          <button className={styles.networkCtaPrimary} onClick={handleViewSolid}>
+            SOLID 보기
+          </button>
+          <button className={styles.networkCtaSecondary} onClick={handleSendMessage}>
+            쪽지
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  // 자치회 활동 등 기타 활동 상세
   return (
     <div className={styles.container}>
       <header className={styles.header}>
@@ -248,17 +323,6 @@ function ActivityDetailPage() {
             </div>
           )}
         </div>
-
-        {category === '교류' && (
-          <div className={styles.ctaSection}>
-            <button className={styles.ctaButtonPrimary} onClick={handleViewSolid}>
-              SOLID 보기
-            </button>
-            <button className={styles.ctaButtonSecondary} onClick={handleSendMessage}>
-              쪽지
-            </button>
-          </div>
-        )}
       </div>
     </div>
   )

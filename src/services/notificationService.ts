@@ -3,7 +3,7 @@ import { apiClient } from '@/api'
 export type NotificationCategory = 'NOTICE' | 'ACTIVITY'
 export type NotificationSubCategory = 'MESSAGE' | 'NETWORK' | 'COUNCIL' | 'MENTORING'
 export type NotificationFilter = 'ALL' | 'UNREAD'
-export type NotificationType = 'NOTICE' | 'MESSAGE' | 'NETWORK' | 'COUNCIL'
+export type NotificationType = 'NOTICE' | 'MESSAGE' | 'NETWORK' | 'COUNCIL' | 'HELP'
 
 export interface NotificationItem {
   notificationId: number

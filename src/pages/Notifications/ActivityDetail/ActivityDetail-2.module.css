@@ -1,0 +1,155 @@
+/* 교류 (NETWORK) 상세 - 경험 나누기 / 응원하기 Figma 매칭 */
+
+.networkContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  width: 393px;
+  padding-top: 26px;
+}
+
+.networkSenderSection {
+  width: 100%;
+  padding: 0 17px 16px;
+  border-bottom: 1px solid #E6E6E6;
+}
+
+.networkSenderInfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 359px;
+  margin: 0 auto;
+}
+
+.networkSenderLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.networkAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #E0E7F5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.networkAvatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.networkAvatarText {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #074ED8;
+}
+
+.networkSenderName {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #222222;
+}
+
+.networkTime {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.2;
+  color: #727272;
+  text-align: right;
+}
+
+.networkTitle {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.2;
+  color: #222222;
+  margin: 12px auto 0;
+  width: 359px;
+}
+
+.networkBody {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 359px;
+  margin: 0 auto;
+}
+
+.networkBodyText {
+  font-family: 'ONE-Shinhan', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #1D1D1D;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.networkHighlight {
+  color: #074ED8;
+}
+
+/* CTA 버튼 영역 */
+.networkCtaSection {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 360px;
+}
+
+.networkCtaPrimary {
+  width: 240px;
+  height: 52px;
+  background: #074ED8;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.2;
+  letter-spacing: -0.36px;
+  color: #FFFFFF;
+}
+
+.networkCtaPrimary:active {
+  background: #0A3A8C;
+}
+
+.networkCtaSecondary {
+  flex: 1;
+  height: 52px;
+  background: #E6EFFF;
+  border: 1px solid #ABC8FF;
+  border-radius: 30px;
+  cursor: pointer;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.2;
+  letter-spacing: -0.36px;
+  color: #222222;
+}
+
+.networkCtaSecondary:active {
+  background: #D6E3FF;
+}
