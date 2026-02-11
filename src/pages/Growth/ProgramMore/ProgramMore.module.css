@@ -1,0 +1,211 @@
+.container {
+  min-height: 100vh;
+  background-color: white;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background-color: white;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.backButton,
+.searchButton {
+  padding: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.backButton:hover,
+.searchButton:hover {
+  opacity: 0.7;
+}
+
+.headerTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.tabContainer {
+  display: flex;
+  gap: 8px;
+  padding: 16px;
+  background-color: white;
+}
+
+.tabButton {
+  flex: 1;
+  padding: 14px 24px;
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 28px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tabButton:hover {
+  background-color: #f8f8f8;
+}
+
+.tabButtonActive {
+  background-color: #0046ff;
+  border-color: #0046ff;
+  color: white;
+  font-weight: 600;
+}
+
+.tabButtonActive:hover {
+  background-color: #0039cc;
+}
+
+.content {
+  padding: 0;
+}
+
+.loading,
+.empty {
+  padding: 60px 20px;
+  text-align: center;
+  color: #999;
+  font-size: 14px;
+}
+
+.programList {
+  display: flex;
+  flex-direction: column;
+}
+
+.programItem {
+  display: flex;
+  gap: 16px;
+  padding: 20px 16px;
+  background: white;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.programItem:hover {
+  background-color: #f8f9fa;
+}
+
+.programItem:last-child {
+  border-bottom: none;
+}
+
+.programContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.programMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #999;
+  flex-wrap: wrap;
+}
+
+.programOrg {
+  color: #0046ff;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.programDivider {
+  width: 1px;
+  height: 10px;
+  background-color: #ddd;
+}
+
+.programStats {
+  display: flex;
+  gap: 10px;
+}
+
+.programStat {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #999;
+  font-size: 13px;
+}
+
+.programStat svg {
+  width: 14px;
+  height: 14px;
+  opacity: 0.7;
+}
+
+.programDate {
+  color: #999;
+  font-size: 13px;
+}
+
+.programTexts {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.programTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.programDesc {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.programThumbnail {
+  flex-shrink: 0;
+  width: 120px;
+  height: 120px;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #f5f5f5;
+}
+
+.programThumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 768px) {
+  .programThumbnail {
+    width: 100px;
+    height: 100px;
+  }
+
+  .programTitle {
+    font-size: 16px;
+  }
+}
