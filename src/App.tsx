@@ -57,10 +57,18 @@ const OnboardingCompletePage = lazy(() => import('@pages/auth/Onboarding/Complet
 
 const PageLoader = () => <div style={{ padding: '20px', textAlign: 'center' }}>로딩 중...</div>
 
-/** NFC/QR 접속 시 /profile/:userId → /exchange/network/add/:userId 리다이렉트 */
+/** NFC/QR 접속 시 /profile/:userId → 로그인 체크 후 리다이렉트 */
 function ProfileRedirect() {
   const { userId } = useParams<{ userId: string }>()
-  return <Navigate to={`/exchange/network/add/${userId}`} replace />
+  const token = localStorage.getItem('token')
+  const destination = `/exchange/network/add/${userId}`
+
+  if (!token) {
+    localStorage.setItem('returnUrl', destination)
+    return <Navigate to="/login" replace />
+  }
+
+  return <Navigate to={destination} replace />
 }
 
 function App() {
