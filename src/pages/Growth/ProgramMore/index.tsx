@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { getRequiredPrograms, getOptionalPrograms } from '@/services/scholarshipService'
 import { ScholarshipProgram } from '@/api/types-scholarship'
 import { BackHeader } from '@/components/BackHeader'
@@ -26,7 +25,6 @@ const truncateContent = (content: string, maxLength = 80): string => {
 }
 
 const ProgramMore = () => {
-  const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState<'required' | 'optional'>('optional')
   const [programs, setPrograms] = useState<ScholarshipProgram[]>([])
   const [loading, setLoading] = useState(true)

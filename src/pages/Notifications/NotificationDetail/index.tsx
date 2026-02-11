@@ -40,6 +40,12 @@ function NotificationDetailPage() {
         const response = await getNotificationDetail(Number(id))
 
         if (response.success) {
+          // NOTICE가 아닌 알림(NETWORK, HELP 등)은 ActivityDetail로 리다이렉트
+          if (response.data.notificationType !== 'NOTICE') {
+            navigate(`/notifications/activity/${id}`, { replace: true })
+            return
+          }
+
           setNotification(response.data)
 
           // 읽음 처리

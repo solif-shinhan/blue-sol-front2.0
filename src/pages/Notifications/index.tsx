@@ -113,9 +113,11 @@ function NotificationsPage() {
 
 
   const handleNotificationClick = (notification: NotificationItem) => {
-    if (activeMainTab === '공지사항') {
+    // 알림 타입에 따라 적절한 상세 페이지로 이동
+    if (notification.notificationType === 'NOTICE') {
       navigate(`/notifications/${notification.notificationId}`)
     } else {
+      // NETWORK, HELP, MESSAGE, COUNCIL → ActivityDetail로 이동
       navigate(`/notifications/activity/${notification.notificationId}`)
     }
   }

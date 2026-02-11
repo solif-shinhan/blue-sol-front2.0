@@ -34,7 +34,8 @@
 }
 
 .solbangulIconFilled img {
-  transform: scale(0.72);
+  width: 46px;
+  height: 46px;
 }
 
 
