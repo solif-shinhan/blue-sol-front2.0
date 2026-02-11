@@ -56,6 +56,7 @@ interface BoardPost {
   comments: number
   date: string
   thumbnail: string | null
+  isNotice: boolean
 }
 
 function formatDate(dateString: string): string {
@@ -78,6 +79,7 @@ function mapPostToBoard(post: PostListItem): BoardPost {
     comments: post.commentCount,
     date: formatDate(post.createdAt),
     thumbnail: post.thumbnailImageUrl ? (post.thumbnailImageUrl.startsWith('http') ? post.thumbnailImageUrl : `${API_BASE}/${post.thumbnailImageUrl}`) : null,
+    isNotice: post.postCategory === 'NOTICE',
   }
 }
 
@@ -418,6 +420,7 @@ function ExchangePage() {
                 <div key={post.id} className={styles.boardItem} onClick={() => navigate(`/exchange/board/${post.id}`)} style={{ cursor: 'pointer' }}>
                   <div className={styles.boardItemContent}>
                     <div className={styles.boardMeta}>
+                      {post.isNotice && <span className={styles.boardCategory}>공지</span>}
                       <span className={styles.boardCategory}>{post.category}</span>
                       <span className={styles.boardSeparator} />
                       <div className={styles.boardStats}>
