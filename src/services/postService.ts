@@ -94,12 +94,20 @@ export const CATEGORY_MAP: Record<string, PostCategory> = {
   '자치회 활동 후기': 'NOTICE',
 }
 
+export const BOARD_NAME_MAP: Record<number, string> = {
+  1: '자치회 활동 후기',
+  2: '멘토링 후기',
+  3: '고민상담',
+  4: '운영공지',
+  5: '프로그램',
+}
+
 export const CATEGORY_REVERSE_MAP: Record<PostCategory, string> = {
   'STUDY': '학업고민',
   'ADMISSION': '진학고민',
   'JOB': '취업/진로',
   'ETC': '자유게시판',
-  'NOTICE': '자치회 활동 후기',
+  'NOTICE': '공지',
   'PROGRAM': '멘토링 후기',
   'REQUIRED': '필수',
   'OPTIONAL': '선택',

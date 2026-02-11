@@ -11,9 +11,10 @@ import {
   unlikePost,
   type Comment as ApiComment,
   CATEGORY_REVERSE_MAP,
+  BOARD_NAME_MAP,
 } from '@/services'
 
-const API_BASE = import.meta.env.VITE_API_URL || 'https://stg-api.bluesol.site'
+const API_BASE = import.meta.env.VITE_API_URL || ''
 const toFullUrl = (path: string | null | undefined): string | undefined => {
   if (!path) return undefined
   if (path.startsWith('http') || path.startsWith('blob')) return path
@@ -69,7 +70,7 @@ function BoardDetailPage() {
         const data = response.data
         setPost({
           id: data.postId,
-          category: CATEGORY_REVERSE_MAP[data.postCategory] || data.postCategory,
+          category: BOARD_NAME_MAP[data.boardId] || CATEGORY_REVERSE_MAP[data.postCategory] || data.postCategory,
           title: data.postTitle,
           content: data.postContent,
           authorName: data.authorName,

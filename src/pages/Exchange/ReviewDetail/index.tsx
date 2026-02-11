@@ -6,7 +6,7 @@ import { likePost, unlikePost } from '@/services/postService'
 import { getComments, type Comment } from '@/services/commentService'
 import shareIcon from '@/assets/images/writing/ef776381b9d92c89076574a4250f5ef294d99f23.svg'
 
-const API_BASE = import.meta.env.VITE_API_URL || 'https://stg-api.bluesol.site'
+const API_BASE = import.meta.env.VITE_API_URL || ''
 const toFullUrl = (path: string | undefined): string | undefined => {
   if (!path) return undefined
   if (path.startsWith('http') || path.startsWith('blob')) return path

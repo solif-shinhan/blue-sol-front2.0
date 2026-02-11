@@ -44,12 +44,9 @@ class ApiClient {
 
     if (!response.ok) {
       const errorText = await response.text()
-      console.error('[apiClient] Error response:', {
-        status: response.status,
-        statusText: response.statusText,
-        url: url,
-        body: errorText
-      })
+      if (import.meta.env.DEV) {
+        console.error('[apiClient] Error:', response.status, endpoint)
+      }
 
       let error: Record<string, unknown> = {}
       try {

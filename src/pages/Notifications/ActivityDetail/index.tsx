@@ -64,7 +64,7 @@ function ActivityDetailPage() {
 
   const handleViewSolid = () => {
     if (notification?.targetId) {
-      navigate(`/exchange/network/friend/${notification.targetId}`)
+      navigate(`/exchange/network/add/${notification.targetId}`)
     }
   }
 

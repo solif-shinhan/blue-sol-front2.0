@@ -16,7 +16,7 @@ interface ActivitySummaryProps {
   monthsSinceCreation: number
 }
 
-const API_BASE = import.meta.env.VITE_API_URL || 'https://stg-api.bluesol.site'
+const API_BASE = import.meta.env.VITE_API_URL || ''
 const toFullUrl = (path: string | null | undefined): string | undefined => {
   if (!path) return undefined
   if (path.startsWith('http')) return path

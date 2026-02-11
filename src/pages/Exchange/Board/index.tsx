@@ -10,6 +10,7 @@ import {
   PostListItem,
   PostCategory,
   CATEGORY_REVERSE_MAP,
+  BOARD_NAME_MAP,
   logout,
 } from '@/services'
 
@@ -19,7 +20,7 @@ import foundationNewsImg from '@/assets/images/exchage-board/6fecb3f4903a46cbe10
 import shinhanLogo from '@/assets/images/exchage-board/shinhan-logo.png'
 import { FABButton } from '@/components/FABButton'
 
-const API_BASE = import.meta.env.VITE_API_URL || 'https://stg-api.bluesol.site'
+const API_BASE = import.meta.env.VITE_API_URL || ''
 const toFullUrl = (path: string | null | undefined): string | undefined => {
   if (!path) return undefined
   if (path.startsWith('http') || path.startsWith('blob')) return path
@@ -70,7 +71,10 @@ const CARD_FILTERS: Record<CardId, FilterConfig[]> = {
     { label: '취업', boardId: 3, category: 'JOB' },
     { label: '기타', boardId: 3, category: 'ETC' },
   ],
-  'foundation-news': [],
+  'foundation-news': [
+    { label: '운영공지', boardId: 4 },
+    { label: '프로그램', boardId: 5 },
+  ],
 }
 
 const DEFAULT_BOARD_ID: Record<CardId, number> = {
@@ -92,7 +96,7 @@ function mapApiPostToUI(post: PostListItem): PostItem {
   const content = post.postContentPreview || ''
   return {
     id: post.postId,
-    category: post.councilName || CATEGORY_REVERSE_MAP[post.postCategory] || post.postCategory,
+    category: post.councilName || BOARD_NAME_MAP[post.boardId] || CATEGORY_REVERSE_MAP[post.postCategory] || post.postCategory,
     title: post.postTitle,
     description: content.length > 60 ? content.slice(0, 60) + '..' : content,
     viewCount: post.viewCount || 0,

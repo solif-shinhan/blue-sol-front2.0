@@ -8,7 +8,7 @@ import { userApi } from '@/api/api-2'
 import { uploadFile } from '@/services/fileService'
 import addImageIcon from '@/assets/images/writing/2d6dd2ec71c992edc2f26de66f36996d63d584d6.svg'
 
-const API_BASE = import.meta.env.VITE_API_URL || 'https://stg-api.bluesol.site'
+const API_BASE = import.meta.env.VITE_API_URL || ''
 const toFullUrl = (path: string | undefined): string | undefined => {
   if (!path) return undefined
   if (path.startsWith('http') || path.startsWith('blob')) return path

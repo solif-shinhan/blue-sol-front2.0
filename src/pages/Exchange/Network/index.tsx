@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import styles1 from './Network-1.module.css'
 import styles2 from './Network-2.module.css'
 import { BackHeader } from '@/components/BackHeader'
@@ -16,7 +16,7 @@ import {
 
 const styles = { ...styles1, ...styles2 }
 
-const API_BASE = import.meta.env.VITE_API_URL || 'https://stg-api.bluesol.site'
+const API_BASE = import.meta.env.VITE_API_URL || ''
 const toFullUrl = (path: string | null | undefined): string | undefined => {
   if (!path) return undefined
   if (path.startsWith('http')) return path
@@ -41,6 +41,8 @@ function getGradient(pattern: string): string {
 
 function NetworkPage() {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const initialUserId = searchParams.get('userId')
   const [friends, setFriends] = useState<NetworkFriend[]>([])
   const [networkCards, setNetworkCards] = useState<NetworkCard[]>([])
   const [activeIndex, setActiveIndex] = useState(0)
@@ -53,8 +55,10 @@ function NetworkPage() {
   const startX = useRef(0)
   const startY = useRef(0)
   const currentX = useRef(0)
-  const clickThreshold = 10 // 클릭과 드래그 구분 threshold
+  const clickThreshold = 10
   const carouselRef = useRef<HTMLDivElement>(null)
+  const friendsScrollRef = useRef<HTMLDivElement>(null)
+  const friendItemRefs = useRef<Map<number, HTMLDivElement>>(new Map())
 
   useEffect(() => {
     const fetch = async () => {
@@ -64,6 +68,10 @@ function NetworkPage() {
         if (res.success) {
           setFriends(res.data.addedFriends)
           setNetworkCards(res.data.networkCards)
+          if (initialUserId) {
+            const idx = res.data.networkCards.findIndex((c) => c.userId === Number(initialUserId))
+            if (idx >= 0) setActiveIndex(idx)
+          }
         }
       } catch (err) {
         console.error('교류망 조회 실패:', err)
@@ -75,6 +83,17 @@ function NetworkPage() {
   }, [])
 
   const activeCard = networkCards[activeIndex]
+
+  // activeIndex 변경 시 상단 친구 목록 자동 스크롤
+  useEffect(() => {
+    if (!activeCard) return
+    const el = friendItemRefs.current.get(activeCard.userId)
+    if (el && friendsScrollRef.current) {
+      const container = friendsScrollRef.current
+      const scrollLeft = el.offsetLeft - container.offsetWidth / 2 + el.offsetWidth / 2
+      container.scrollTo({ left: scrollLeft, behavior: 'smooth' })
+    }
+  }, [activeIndex, activeCard])
 
   const handleSearch = () => navigate('/exchange/network/add')
 
@@ -212,7 +231,7 @@ function NetworkPage() {
 
       {/* 친구 스크롤 */}
       <div className={styles.friendsSection}>
-        <div className={styles.friendsScroll}>
+        <div className={styles.friendsScroll} ref={friendsScrollRef}>
           <button className={styles.addButton} onClick={handleSearch}>
             <div className={styles.addButtonCircle}>
               <img src={plusIcon} alt="추가" className={styles.addButtonIcon} />
@@ -222,7 +241,8 @@ function NetworkPage() {
           {friends.map((friend) => {
             const isActive = activeCard?.userId === friend.userId
             return (
-              <div key={friend.userId} className={styles.friendItem} onClick={() => handleSelectFriend(friend.userId)}>
+              <div key={friend.userId} className={styles.friendItem} onClick={() => handleSelectFriend(friend.userId)}
+                ref={(el) => { if (el) friendItemRefs.current.set(friend.userId, el) }}>
                 <div
                   className={`${styles.friendAvatar} ${isActive ? styles.friendAvatarSelected : ''}`}
                   style={{

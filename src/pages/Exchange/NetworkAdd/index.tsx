@@ -16,7 +16,7 @@ import {
 
 const styles = { ...styles1, ...styles2 }
 
-const API_BASE = import.meta.env.VITE_API_URL || 'https://stg-api.bluesol.site'
+const API_BASE = import.meta.env.VITE_API_URL || ''
 
 /** 상대 경로를 전체 URL로 변환 (characters/char_1.svg → https://…/characters/char_1.svg) */
 const toFullUrl = (path: string | null | undefined): string | undefined => {
@@ -208,7 +208,7 @@ function NetworkAddPage() {
                     <div
                       key={user.userId}
                       className={styles.interestCard}
-                      onClick={() => navigate(`/exchange/network/friend/${user.userId}`, {
+                      onClick={() => navigate(`/exchange/network/add/${user.userId}`, {
                         state: {
                           userName: user.userName,
                           userCharacter: user.userCharacter,
@@ -303,7 +303,18 @@ function NetworkAddPage() {
                 </div>
                 <div className={styles.profileList}>
                   {allUsers.map((user, index) => (
-                    <div key={user.userId} className={styles.profileItem}>
+                    <div key={user.userId} className={styles.profileItem} onClick={() => navigate(`/exchange/network/add/${user.userId}`, {
+                      state: {
+                        userName: user.userName,
+                        userCharacter: user.userCharacter,
+                        characterImageUrl: user.characterImageUrl,
+                        backgroundPattern: user.backgroundPattern,
+                        backgroundImageUrl: user.backgroundImageUrl,
+                        solidGoalName: user.solidGoalName,
+                        interests: user.interests,
+                        councilName: user.councilName,
+                      }
+                    })} style={{ cursor: 'pointer' }}>
                       <div
                         className={styles.profileAvatar}
                         style={{

@@ -10,7 +10,7 @@ import fabCloseIconSvg from '@/assets/images/exchage-board/Vector2.svg'
 import plusIconSvg from '@/assets/figma/4de7b4619a8a7217458e36fa3215adb3643f60eb.svg'
 import { FABButton } from '@/components/FABButton'
 import { useCouncilStatus } from '@/hooks'
-import { logout, getPosts, PostListItem, CATEGORY_REVERSE_MAP, getMyCouncil, getCouncilDetail } from '@/services'
+import { logout, getPosts, PostListItem, CATEGORY_REVERSE_MAP, BOARD_NAME_MAP, getMyCouncil, getCouncilDetail } from '@/services'
 import { councilReviewPostApi } from '@/api/api-3'
 import { getProfile, ProfileData } from '@/services/profileService'
 import { getNetworkList, NetworkFriend } from '@/services/networkService'
@@ -22,7 +22,7 @@ const councilReviewIcon = '/assets/0a341a91133d8fbee7673353b259af623d5146be.png'
 
 const styles = { ...styles1, ...styles2, ...styles3 }
 
-const API_BASE = import.meta.env.VITE_API_URL || 'https://stg-api.bluesol.site'
+const API_BASE = import.meta.env.VITE_API_URL || ''
 const toFullUrl = (path: string | null | undefined): string | undefined => {
   if (!path) return undefined
   if (path.startsWith('http')) return path
@@ -45,7 +45,8 @@ const BOARD_CATEGORIES: { label: string; boardId: number; category?: string }[] 
   { label: '활동 후기', boardId: 1 },
   { label: '학업 고민', boardId: 3, category: 'STUDY' },
   { label: '취업 고민', boardId: 3, category: 'JOB' },
-  { label: '공지', boardId: 4 },
+  { label: '운영공지', boardId: 4 },
+  { label: '프로그램', boardId: 5 },
 ]
 
 interface BoardPost {
@@ -72,7 +73,7 @@ function mapPostToBoard(post: PostListItem): BoardPost {
   const content = post.postContentPreview || ''
   return {
     id: post.postId,
-    category: post.councilName || CATEGORY_REVERSE_MAP[post.postCategory] || post.postCategory,
+    category: post.councilName || BOARD_NAME_MAP[post.boardId] || CATEGORY_REVERSE_MAP[post.postCategory] || post.postCategory,
     title: post.postTitle,
     description: content.length > 60 ? content.slice(0, 60) + '..' : content,
     viewCount: post.viewCount || 0,
@@ -256,8 +257,8 @@ function ExchangePage() {
                 </div>
                 <span className={styles.addFriendText}>추가하기</span>
               </div>
-              {networkFriends.slice(0, 6).map((friend) => (
-                <div key={friend.userId} className={styles.friendItem}>
+              {networkFriends.map((friend) => (
+                <div key={friend.userId} className={styles.friendItem} onClick={() => navigate(`/exchange/network?userId=${friend.userId}`)} style={{ cursor: 'pointer' }}>
                   <div
                     className={styles.friendAvatar}
                     style={{

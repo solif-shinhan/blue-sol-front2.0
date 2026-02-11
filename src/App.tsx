@@ -95,7 +95,7 @@ function App() {
           <Route path="/exchange" element={<ExchangePage />} />
           <Route path="/exchange/network" element={<NetworkPage />} />
           <Route path="/exchange/network/add" element={<NetworkAddPage />} />
-          <Route path="/exchange/network/friend/:userId" element={<FriendSolidPage />} />
+          <Route path="/exchange/network/add/:userId" element={<FriendSolidPage />} />
           <Route path="/exchange/council/register" element={<CouncilRegisterPage />} />
           <Route path="/exchange/council/list" element={<CouncilListPage />} />
           <Route path="/exchange/council/activity" element={<MyCouncilActivityPage />} />

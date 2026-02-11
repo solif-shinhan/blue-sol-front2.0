@@ -15,12 +15,17 @@
     <script>
       (function() {
         if (location.protocol !== 'https:') return;
+        var allowed = ['purun-sol.vercel.app', 'bluesol.site'];
+        var host = location.host;
+        var isAllowed = allowed.some(function(d) { return host === d || host.endsWith('.' + d); });
+        if (!isAllowed) return;
         var ua = navigator.userAgent || '';
         if (/KAKAOTALK|NAVER|Line|Instagram|FBAN|FBAV/i.test(ua)) {
+          var path = location.pathname + location.search + location.hash;
           if (/iPhone|iPad/i.test(ua)) {
-            location.href = 'x-safari-https://' + location.host + location.pathname + location.search + location.hash;
+            location.href = 'x-safari-https://' + host + path;
           } else {
-            location.href = 'intent://' + location.host + location.pathname + location.search + location.hash + '#Intent;scheme=https;package=com.android.chrome;end';
+            location.href = 'intent://' + host + path + '#Intent;scheme=https;package=com.android.chrome;end';
           }
         }
       })();
