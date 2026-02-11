@@ -118,6 +118,7 @@ export interface RecommendationUser {
   councilName?: string
   schoolName?: string
   joinYear?: number
+  userRole?: string
 }
 
 export interface RecommendationsResponse {
@@ -156,8 +157,10 @@ export async function searchNetwork(keyword: string): Promise<SearchResponse> {
   return apiClient.get<SearchResponse>('/api/v1/networks/search', { keyword })
 }
 
-export async function getNetworkRecommendations(): Promise<RecommendationsResponse> {
-  return apiClient.get<RecommendationsResponse>('/api/v1/networks/recommendations')
+export async function getNetworkRecommendations(userType?: string): Promise<RecommendationsResponse> {
+  const params: Record<string, string> = {}
+  if (userType) params.userType = userType
+  return apiClient.get<RecommendationsResponse>('/api/v1/networks/recommendations', params)
 }
 
 export interface UserSolidCardResponse {

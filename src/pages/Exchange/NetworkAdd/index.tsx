@@ -26,6 +26,12 @@ const toFullUrl = (path: string | null | undefined): string | undefined => {
 }
 
 const FILTER_OPTIONS = ['전체', '중고생', '대학생', '졸업생'] as const
+const FILTER_TO_ROLE: Record<string, string | undefined> = {
+  '전체': undefined,
+  '중고생': 'JUNIOR',
+  '대학생': 'SENIOR',
+  '졸업생': 'GRADUATE',
+}
 const TAG_DOT_COLORS = ['#4CAF50', '#FF5252', '#FF9800', '#64B5F6', '#BA68C8']
 const DEFAULT_GRADIENTS = [
   'linear-gradient(rgba(171, 200, 255, 0.6) 0%, rgba(255, 233, 226, 0.6) 100%), linear-gradient(90deg, #FFFFFF 0%, #FFFFFF 100%)',
@@ -48,14 +54,20 @@ function NetworkAddPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [addingUserId, setAddingUserId] = useState<number | null>(null)
 
-  const fetchRecommendations = async () => {
+  const fetchRecommendations = async (filter?: string) => {
     setIsLoading(true)
     try {
-      const response = await getNetworkRecommendations()
+      const userType = filter ? FILTER_TO_ROLE[filter] : undefined
+      const response = await getNetworkRecommendations(userType)
       if (response.success) {
         setInterestBasedUsers(response.data.interestBased.users)
         setInterestTitle(response.data.interestBased.title)
-        setAllUsers(response.data.allUsers.users)
+        const users = response.data.allUsers.users
+        if (userType) {
+          setAllUsers(users.filter(u => u.userRole === userType))
+        } else {
+          setAllUsers(users)
+        }
       }
     } catch (err) {
       console.error('추천 조회 실패:', err)
@@ -295,7 +307,10 @@ function NetworkAddPage() {
                     <button
                       key={option}
                       className={`${styles.filterChip} ${selectedFilter === option ? styles.filterChipActive : ''}`}
-                      onClick={() => setSelectedFilter(option)}
+                      onClick={() => {
+                        setSelectedFilter(option)
+                        fetchRecommendations(option)
+                      }}
                     >
                       {option}
                     </button>
