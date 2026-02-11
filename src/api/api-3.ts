@@ -421,5 +421,5 @@ export const missionApi = {
     apiClient.get('/api/v1/missions/progress'),
 
   claimPinecone: (category: MissionCategory): Promise<ApiResponse<PineconeEarnResponse>> =>
-    apiClient.post(`/api/v1/missions/pinecones/${category}`),
+    apiClient.post(`/api/v1/missions/pinecones/${category}`, {}),
 };

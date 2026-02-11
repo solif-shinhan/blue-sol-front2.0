@@ -67,7 +67,7 @@
   justify-content: center;
   padding: 6px 14px;
   border-radius: 20px;
-  border: none;
+  border: 1px solid #EEEEEE;
   cursor: pointer;
   font-family: 'Pretendard', sans-serif;
   font-weight: 600;
@@ -75,10 +75,12 @@
   line-height: 1.4;
   background: #FFFFFF;
   color: #222222;
+  box-shadow: 0px 0px 30px rgba(27, 37, 56, 0.1);
 }
 
 .filterTabActive {
-  background: #C5ED52;
+  background: #E6EFFF;
+  border: 1px solid #ABC8FF;
 }
 
 .notificationList {
@@ -91,9 +93,12 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 16.5px 17px;
+  padding: 12px 17px;
+  height: 116px;
   border-bottom: 1px solid #E6E6E6;
   cursor: pointer;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .notificationItem:hover {
@@ -114,19 +119,28 @@
 }
 
 .senderAvatar {
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background: linear-gradient(135deg, #074ED8 0%, #0A3A8C 100%);
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.senderAvatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .senderAvatarText {
   font-family: 'Pretendard', sans-serif;
   font-weight: 600;
-  font-size: 10px;
+  font-size: 12px;
   color: #FFFFFF;
 }
 
@@ -213,6 +227,40 @@
   line-height: 1.2;
   letter-spacing: -0.48px;
   color: #C8C8C8;
+}
+
+.loadingState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  color: #848484;
+}
+
+.errorState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  gap: 12px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  color: #848484;
+}
+
+.errorState button {
+  padding: 8px 20px;
+  border-radius: 20px;
+  border: 1px solid #ABC8FF;
+  background: #E6EFFF;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #074ED8;
+  cursor: pointer;
 }
 
 .emptyState {

@@ -13,6 +13,8 @@ import { QRCodeModal } from './components/QRCodeModal'
 import { LECTURE_ITEMS, QUICK_MENU_ITEMS, NEWS_ITEMS } from './Home.constants'
 import { getProfile, ProfileData } from '@/services/profileService'
 import { logout } from '@/services/authService'
+import { getMyCouncil } from '@/services/councilService'
+import { councilReviewPostApi } from '@/api/api-3'
 import { userApi, goalApi } from '@/api'
 import { SolidCardPreview } from '@/features/02-onboarding/components/SolidCardPreview-1'
 import { Character, BackgroundColor, Interest, DARK_PATTERNS } from '@/features/02-onboarding/types/card-1'
@@ -139,11 +141,52 @@ function HomePage() {
 
   const handleQuickMenuClick = (label: string) => {
     switch (label) {
-      case '쪽지함': navigate('/notifications?tab=activity&sub=message'); break
+      case '쪽지함': navigate('/notifications/messagebox'); break
       case '게시판': navigate('/exchange/board'); break
       case '교류망': navigate('/exchange/network'); break
       case '자치회': navigate('/exchange/council/list'); break
       case '멘토링': navigate('/exchange/mentoring'); break
+    }
+  }
+
+  const handleNewsCardClick = async (itemId: number) => {
+    switch (itemId) {
+      case 1: {
+        // 따뜻한 활동 후기 → 최근 1주일 내 릴레이 후기 작성
+        try {
+          const myRes = await getMyCouncil()
+          if (!myRes.success || !myRes.data?.councilId) {
+            alert('소속된 자치회가 없습니다.')
+            return
+          }
+          const reviewRes = await councilReviewPostApi.getList(myRes.data.councilId, { page: 0, size: 10 })
+          if (reviewRes.success && reviewRes.data.content.length > 0) {
+            const oneWeekAgo = new Date()
+            oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
+            const recent = reviewRes.data.content.find(
+              (r) => new Date(r.createdAt) >= oneWeekAgo
+            )
+            if (recent) {
+              navigate(`/exchange/council/review/${recent.councilReviewPostId}/relay`)
+            } else {
+              navigate(`/exchange/council/review/${reviewRes.data.content[0].councilReviewPostId}/relay`)
+            }
+          } else {
+            alert('작성된 활동 후기가 없습니다.')
+          }
+        } catch {
+          alert('활동 후기를 불러오는데 실패했습니다.')
+        }
+        break
+      }
+      case 2:
+        // 멘티가 있어요 → 쪽지함
+        navigate('/notifications/messagebox')
+        break
+      case 3:
+        // 학업 모니터링지 → 공지사항
+        navigate('/notifications')
+        break
     }
   }
 
@@ -265,7 +308,7 @@ function HomePage() {
                         transform: index === currentSlide ? 'scale(1)' : 'scale(0.95)',
                         transition: 'all 0.3s ease',
                       }}
-                      onClick={() => { if (index !== currentSlide) goToSlide(index) }}>
+                      onClick={() => { if (index !== currentSlide) goToSlide(index); else handleNewsCardClick(item.id) }}>
                       <div className={styles.newsCardContent}>
                         <h3>{item.title}</h3>
                         <p>{item.subtitle}</p>

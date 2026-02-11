@@ -173,3 +173,63 @@
 .councilDotActive {
   background-color: var(--color-dark-gray);
 }
+
+/* Mission Complete Banner */
+.missionBanner {
+  width: 359px;
+  height: 110px;
+  border-radius: 26px;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 70, 255, 0.3) 100%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  box-sizing: border-box;
+  margin-top: 16px;
+  animation: missionBannerIn 0.4s ease forwards;
+}
+
+@keyframes missionBannerIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.missionBannerText {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: #FFFFFF;
+  line-height: 1.5;
+  letter-spacing: -0.36px;
+  white-space: nowrap;
+}
+
+.missionBannerBtn {
+  width: 85px;
+  height: 40px;
+  background-color: #14307C;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.missionBannerBtnText {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1.2;
+  letter-spacing: -0.32px;
+}

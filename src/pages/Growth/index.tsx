@@ -247,17 +247,35 @@ const HalfYearMission = ({ onCollect, collectedCount, missionData }: {
   const daysLeft = missionData?.daysUntilSeasonEnd ?? 30
   const progressPercent = Math.round((collectedCount / 3) * 100)
 
-  const getRewardState = (index: number) => {
+  // 카테고리를 상태별로 정렬: earned → claimable → locked
+  // 어떤 카테고리든 완성하면 첫 번째 빈 슬롯부터 받을 수 있음
+  const getOrderedCategories = (): { category: MissionCategory; state: 'earned' | 'claimable' | 'locked' }[] => {
     if (missionData?.categoryProgress) {
-      const cat = missionData.categoryProgress.find(c => c.category === CATEGORY_ORDER[index])
-      if (cat?.isPineconeEarned) return 'earned'
-      if (cat?.canClaimPinecone) return 'claimable'
-      return 'locked'
+      const earned: MissionCategory[] = []
+      const claimable: MissionCategory[] = []
+      const locked: MissionCategory[] = []
+
+      for (const cat of CATEGORY_ORDER) {
+        const progress = missionData.categoryProgress.find(c => c.category === cat)
+        if (progress?.isPineconeEarned) earned.push(cat)
+        else if (progress?.canClaimPinecone) claimable.push(cat)
+        else locked.push(cat)
+      }
+
+      return [
+        ...earned.map(c => ({ category: c, state: 'earned' as const })),
+        ...claimable.map(c => ({ category: c, state: 'claimable' as const })),
+        ...locked.map(c => ({ category: c, state: 'locked' as const })),
+      ]
     }
-    if (collectedCount > index) return 'earned'
-    if (collectedCount === index) return 'claimable'
-    return 'locked'
+    // fallback: collectedCount 기반
+    return CATEGORY_ORDER.map((c, i) => ({
+      category: c,
+      state: collectedCount > i ? 'earned' as const : collectedCount === i ? 'claimable' as const : 'locked' as const,
+    }))
   }
+
+  const orderedCategories = getOrderedCategories()
 
   return (
     <div className={styles2.missionSection}>
@@ -271,8 +289,7 @@ const HalfYearMission = ({ onCollect, collectedCount, missionData }: {
           <div className={styles2.progressFill} style={{ width: `${progressPercent}%` }} />
         </div>
         <div className={styles2.rewardItems}>
-          {CATEGORY_ORDER.map((category, index) => {
-            const state = getRewardState(index)
+          {orderedCategories.map(({ category, state }, index) => {
             const isEarned = state === 'earned'
             const isClaimable = state === 'claimable'
             const isLocked = state === 'locked'

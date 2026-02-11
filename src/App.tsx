@@ -30,6 +30,7 @@ const NotificationsPage = lazy(() => import('@pages/Notifications'))
 const NotificationDetailPage = lazy(() => import('@pages/Notifications/NotificationDetail'))
 const ActivityDetailPage = lazy(() => import('@pages/Notifications/ActivityDetail'))
 const MessageComposePage = lazy(() => import('@pages/Notifications/MessageCompose'))
+const MessageBoxPage = lazy(() => import('@pages/Notifications/MessageBox'))
 const MyPagePage = lazy(() => import('@pages/MyPage'))
 const MentoringPage = lazy(() => import('@pages/Mentoring'))
 const MentoringApplyPage = lazy(() => import('@pages/Mentoring/Apply'))
@@ -121,6 +122,7 @@ function App() {
           <Route path="/notifications/:id" element={<NotificationDetailPage />} />
           <Route path="/notifications/activity/:id" element={<ActivityDetailPage />} />
           <Route path="/notifications/message/compose" element={<MessageComposePage />} />
+          <Route path="/notifications/messagebox" element={<MessageBoxPage />} />
 
           <Route path="/mypage" element={<MyPagePage />} />
         </Route>

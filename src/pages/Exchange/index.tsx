@@ -285,7 +285,7 @@ function ExchangePage() {
 
         <section className={styles.councilSection}>
           <div className={styles.councilHeader}>
-            <h2 className={styles.sectionTitle}>자치회 활동</h2>
+            <h2 className={styles.sectionTitle} style={{ margin: 0 }}>자치회 활동</h2>
             <button className={styles.moreButton} onClick={() => navigate('/exchange/council/list')}>둘러보기</button>
           </div>
           {hasCouncil && councilItems.length > 0 ? (
@@ -379,7 +379,7 @@ function ExchangePage() {
         </section>
 
         <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>멘토링</h2>
+          <h2 className={styles.sectionTitle} style={{ margin: 0 }}>멘토링</h2>
           <div className={styles.mentoringCard} onClick={() => navigate('/exchange/mentoring')} style={{ cursor: 'pointer' }}>
             <div className={styles.mentoringContent}>
               <div className={styles.mentoringTextGroup}>
@@ -394,7 +394,7 @@ function ExchangePage() {
 
         <section className={styles.section}>
           <div className={styles.sectionHeader}>
-            <h2 className={styles.sectionTitle}>게시판</h2>
+            <h2 className={styles.sectionTitle} style={{ margin: 0 }}>게시판</h2>
             <button className={styles.moreButton} onClick={() => navigate('/exchange/board')}>더보기</button>
           </div>
           <div className={styles.categoryTabs}>
