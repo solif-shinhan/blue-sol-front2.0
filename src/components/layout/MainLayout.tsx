@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { Outlet, useLocation, useNavigationType } from 'react-router-dom'
 import styles from './MainLayout.module.css'
+import { useSSE } from '@/hooks'
 
 const TAB_ORDER: Record<string, number> = {
   '/home': 0,
@@ -14,6 +15,9 @@ function MainLayout() {
   const mainRef = useRef<HTMLElement>(null)
   const prevPathRef = useRef(location.pathname)
   const [transitionClass, setTransitionClass] = useState('')
+
+  // SSE 실시간 알림 연결
+  useSSE()
 
   const getTabIndex = useCallback((path: string) => {
     return TAB_ORDER[path] ?? -1
