@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import styles from './NotificationDetail.module.css'
+import { BackHeader } from '@/components/BackHeader'
 import {
   getNotificationDetail,
   markNotificationAsRead,
@@ -57,21 +58,10 @@ function NotificationDetailPage() {
     fetchDetail()
   }, [id])
 
-  const handleBack = () => {
-    navigate(-1)
-  }
-
   if (isLoading) {
     return (
       <div className={styles.container}>
-        <header className={styles.header}>
-          <button className={styles.backButton} onClick={handleBack}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="#848484" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M15 18l-6-6 6-6" />
-            </svg>
-          </button>
-          <span className={styles.headerTitle}>알림</span>
-        </header>
+        <BackHeader title="알림" />
         <div className={styles.loadingState}>
           <p>로딩 중...</p>
         </div>
@@ -82,14 +72,7 @@ function NotificationDetailPage() {
   if (error || !notification) {
     return (
       <div className={styles.container}>
-        <header className={styles.header}>
-          <button className={styles.backButton} onClick={handleBack}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="#848484" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M15 18l-6-6 6-6" />
-            </svg>
-          </button>
-          <span className={styles.headerTitle}>알림</span>
-        </header>
+        <BackHeader title="알림" />
         <div className={styles.emptyState}>
           <div className={styles.emptyIcon}>404</div>
           <p className={styles.emptyText}>{error || '알림을 찾을 수 없습니다'}</p>
@@ -104,14 +87,7 @@ function NotificationDetailPage() {
 
   return (
     <div className={styles.container}>
-      <header className={styles.header}>
-        <button className={styles.backButton} onClick={handleBack}>
-          <svg viewBox="0 0 24 24" fill="none" stroke="#848484" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M15 18l-6-6 6-6" />
-          </svg>
-        </button>
-        <span className={styles.headerTitle}>알림</span>
-      </header>
+      <BackHeader title="알림" />
 
       <div className={styles.content}>
         <div className={styles.senderSection}>

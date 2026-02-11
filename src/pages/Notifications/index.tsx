@@ -32,34 +32,29 @@ const SUB_CATEGORY_MAP: Record<string, NotificationSubCategory> = {
   '쪽지': 'MESSAGE',
   '교류': 'NETWORK',
   '자치회 활동': 'COUNCIL',
-  '멘토링': 'MENTORING',
 }
 
 
 function NotificationsPage() {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
-  const [activeMainTab, setActiveMainTab] = useState<'공지사항' | '활동'>('공지사항')
+
+  // URL params에서 초기 탭 상태를 동기적으로 읽기
+  const initTab = searchParams.get('tab')
+  const initSub = searchParams.get('sub')
+
+  const [activeMainTab, setActiveMainTab] = useState<'공지사항' | '활동'>(
+    initTab === 'activity' ? '활동' : '공지사항'
+  )
   const [activeFilterTab, setActiveFilterTab] = useState<'전체' | '안읽음'>('전체')
-  const [activeActivityTab, setActiveActivityTab] = useState<'쪽지' | '교류' | '자치회 활동' | '멘토링'>('쪽지')
+  const [activeActivityTab, setActiveActivityTab] = useState<'쪽지' | '교류' | '자치회 활동'>(
+    initSub === 'network' ? '교류' : initSub === 'council' ? '자치회 활동' : '쪽지'
+  )
 
   const [notifications, setNotifications] = useState<NotificationItem[]>([])
   const [unreadCount, setUnreadCount] = useState(0)
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-
-  // URL params에서 탭 상태 초기화
-  useEffect(() => {
-    const tab = searchParams.get('tab')
-    const sub = searchParams.get('sub')
-    if (tab === 'activity') {
-      setActiveMainTab('활동')
-      if (sub === 'message') setActiveActivityTab('쪽지')
-      else if (sub === 'network') setActiveActivityTab('교류')
-      else if (sub === 'council') setActiveActivityTab('자치회 활동')
-      else if (sub === 'mentoring') setActiveActivityTab('멘토링')
-    }
-  }, [searchParams])
 
   // 알림 목록 조회
   const fetchNotifications = async () => {
@@ -130,9 +125,10 @@ function NotificationsPage() {
     return notification.notificationType === 'NOTICE' ? 'organization' : 'person'
   }
 
-  // 발신자 이름 (공지사항은 신한장학재단)
+  // 발신자 이름
   const getSenderName = (notification: NotificationItem): string => {
-    return notification.notificationType === 'NOTICE' ? '신한장학재단' : '알림'
+    if (notification.notificationType === 'NOTICE') return '신한장학재단'
+    return notification.senderName || '알림'
   }
 
   return (
@@ -176,12 +172,6 @@ function NotificationsPage() {
                   onClick={() => setActiveActivityTab('자치회 활동')}
                 >
                   자치회 활동
-                </button>
-                <button
-                  className={`${styles.filterTab} ${activeActivityTab === '멘토링' ? styles.filterTabActive : ''}`}
-                  onClick={() => setActiveActivityTab('멘토링')}
-                >
-                  멘토링
                 </button>
               </>
             )}
@@ -227,7 +217,9 @@ function NotificationsPage() {
               <div className={styles.notificationHeader}>
                 <div className={styles.senderInfo}>
                   <div className={`${styles.senderAvatar} ${getSenderType(notification) === 'person' ? styles.senderAvatarPerson : ''}`}>
-                    {getSenderType(notification) === 'organization' ? (
+                    {notification.senderProfileImage ? (
+                      <img src={notification.senderProfileImage} alt="" className={styles.senderAvatarImg} />
+                    ) : getSenderType(notification) === 'organization' ? (
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
                         <path d="M12 2L2 7V17L12 22L22 17V7L12 2Z" fill="white"/>
                       </svg>
