@@ -1,23 +1,17 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import styles from './RelayWrite.module.css'
 import { BackHeader } from '@/components/BackHeader'
+import { ImageUploadSection, type ImageItem } from '@/components/ImageUploadSection'
 import { councilReviewPostApi, councilReviewRelayApi, type CouncilReviewPostDetail, type CouncilReviewRelay } from '@/api/api-3'
 import { getProfile, type ProfileData } from '@/services/profileService'
 import { userApi } from '@/api/api-2'
-import { uploadFile } from '@/services/fileService'
-import addImageIcon from '@/assets/images/writing/2d6dd2ec71c992edc2f26de66f36996d63d584d6.svg'
 
 const API_BASE = import.meta.env.VITE_API_URL || ''
 const toFullUrl = (path: string | undefined): string | undefined => {
   if (!path) return undefined
   if (path.startsWith('http') || path.startsWith('blob')) return path
   return `${API_BASE}/${path}`
-}
-
-interface ImageItem {
-  id: string
-  url: string
 }
 
 function RelayWritePage() {
@@ -34,7 +28,6 @@ function RelayWritePage() {
   const [relayContent, setRelayContent] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [images, setImages] = useState<ImageItem[]>([])
-  const imageInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (!reviewId) return
@@ -69,37 +62,6 @@ function RelayWritePage() {
     }
     loadData()
   }, [reviewId])
-
-  const handleAddImage = () => {
-    if (imageInputRef.current) {
-      imageInputRef.current.value = ''
-      imageInputRef.current.click()
-    }
-  }
-
-  const handleImageFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-    e.target.value = ''
-
-    const localUrl = URL.createObjectURL(file)
-    const tempId = Date.now().toString()
-    setImages((prev) => [...prev, { id: tempId, url: localUrl }])
-
-    uploadFile(file, 'COUNCIL_REVIEW')
-      .then((uploaded) => {
-        setImages((prev) =>
-          prev.map((img) =>
-            img.id === tempId ? { ...img, url: uploaded.url } : img
-          )
-        )
-      })
-      .catch((err) => console.error('이미지 업로드 실패:', err))
-  }
-
-  const handleRemoveImage = (id: string) => {
-    setImages((prev) => prev.filter((img) => img.id !== id))
-  }
 
   const handleAddRelay = async () => {
     if (isWriting) return
@@ -163,7 +125,6 @@ function RelayWritePage() {
 
   return (
     <div className={styles.container}>
-      <input ref={imageInputRef} type="file" accept="image/*" onChange={handleImageFileSelect} style={{ display: 'none' }} />
       <div className={styles.upperCard}>
         <BackHeader
           title="자치회 활동 후기"
@@ -171,23 +132,11 @@ function RelayWritePage() {
           rightContent={<span className={styles.councilName}>{councilName}</span>}
         />
         <div className={styles.imageSection}>
-          <div className={styles.imageRow}>
-            <button className={styles.addImageButton} onClick={handleAddImage}>
-              <img src={addImageIcon} alt="이미지 추가" className={styles.addImageIcon} />
-            </button>
-            {images.length > 0 && (
-              <div className={styles.imageList}>
-                {images.map((img) => (
-                  <div key={img.id} className={styles.imageItem}>
-                    <img src={img.url} alt="" className={styles.imageThumb} />
-                    <button className={styles.imageRemoveButton} onClick={() => handleRemoveImage(img.id)}>
-                      <span className={styles.imageRemoveX}>✕</span>
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+          <ImageUploadSection
+            images={images}
+            setImages={setImages}
+            uploadCategory="COUNCIL_REVIEW"
+          />
           <p className={styles.titleLabel}>제목</p>
           <p className={styles.titleValue}>{postTitle}</p>
         </div>

@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate, useParams } from 'react-router-dom'
 import MainLayout from '@components/layout/MainLayout'
 import AuthLayout from '@components/layout/AuthLayout'
 import PublicLayout from '@components/layout/PublicLayout'
@@ -26,6 +26,7 @@ const ReviewDetailPage = lazy(() => import('@pages/Exchange/ReviewDetail'))
 const RelayWritePage = lazy(() => import('@pages/Exchange/RelayWrite'))
 const GrowthPage = lazy(() => import('@pages/Growth'))
 const StrengthMorePage = lazy(() => import('@pages/Growth/StrengthMore'))
+const PineconeMemoryPage = lazy(() => import('@pages/Growth/PineconeMemory'))
 const ProgramMorePage = lazy(() => import('@pages/Growth/ProgramMore'))
 const NotificationsPage = lazy(() => import('@pages/Notifications'))
 const NotificationDetailPage = lazy(() => import('@pages/Notifications/NotificationDetail'))
@@ -38,7 +39,7 @@ const MentoringApplyPage = lazy(() => import('@pages/Mentoring/Apply'))
 const MentoringPostcardPage = lazy(() => import('@pages/Mentoring/Postcard'))
 const ApplicationHistoryPage = lazy(() => import('@pages/Mentoring/ApplicationHistory'))
 const GoalsPage = lazy(() => import('@pages/Goals'))
-const PublicProfilePage = lazy(() => import('@pages/PublicProfile'))
+
 
 const LoginPage = lazy(() => import('@pages/auth/Login'))
 const RegisterTypePage = lazy(() => import('@pages/auth/Register'))
@@ -58,6 +59,20 @@ const OnboardingCompletePage = lazy(() => import('@pages/auth/Onboarding/Complet
 
 const PageLoader = () => <div style={{ padding: '20px', textAlign: 'center' }}>로딩 중...</div>
 
+/** NFC/QR 접속 시 /profile/:userId → 로그인 체크 후 리다이렉트 */
+function ProfileRedirect() {
+  const { userId } = useParams<{ userId: string }>()
+  const token = localStorage.getItem('accessToken')
+  const destination = `/exchange/network/add/${userId}`
+
+  if (!token) {
+    localStorage.setItem('returnUrl', destination)
+    return <Navigate to="/login" replace />
+  }
+
+  return <Navigate to={destination} replace />
+}
+
 function App() {
   useEffect(() => {
     restoreAuth()
@@ -69,7 +84,7 @@ function App() {
       <Suspense fallback={<PageLoader />}>
         <Routes>
         <Route element={<PublicLayout />}>
-          <Route path="/profile/:userId" element={<PublicProfilePage />} />
+          <Route path="/profile/:userId" element={<ProfileRedirect />} />
         </Route>
 
         <Route element={<AuthLayout />}>
@@ -118,6 +133,7 @@ function App() {
 
           <Route path="/growth" element={<GrowthPage />} />
           <Route path="/growth/strength" element={<StrengthMorePage />} />
+          <Route path="/growth/memory" element={<PineconeMemoryPage />} />
           <Route path="/growth/program" element={<ProgramMorePage />} />
 
           <Route path="/notifications" element={<NotificationsPage />} />

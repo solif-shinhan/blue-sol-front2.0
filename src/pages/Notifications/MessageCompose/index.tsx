@@ -2,6 +2,7 @@ import { useState, useEffect, Fragment } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import styles from './MessageCompose.module.css'
 import { BackHeader } from '@/components/BackHeader'
+import { ImageUploadSection, type ImageItem } from '@/components/ImageUploadSection'
 import { sendMessage, getNetworkList, type NetworkFriend } from '@/services'
 import { apiClient } from '@/api'
 
@@ -35,6 +36,7 @@ function MessageComposePage() {
 
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
+  const [images, setImages] = useState<ImageItem[]>([])
   const [isSending, setIsSending] = useState(false)
 
   // 받는 사람
@@ -128,10 +130,12 @@ function MessageComposePage() {
     if (!isValid || isSending || !recipient) return
     setIsSending(true)
     try {
+      const fileIds = images.map(img => img.fileId).filter((id): id is number => id !== undefined)
       const res = await sendMessage({
         receiverId: recipient.userId,
         messageTitle: title.trim(),
         messageContent: content.trim(),
+        ...(fileIds.length > 0 ? { fileIds } : {}),
       })
       if (res.success) {
         navigate('/notifications?tab=activity&sub=message&sent=true')
@@ -303,6 +307,12 @@ function MessageComposePage() {
                   onChange={e => setContent(e.target.value)}
                 />
               </div>
+              <ImageUploadSection
+                images={images}
+                setImages={setImages}
+                uploadCategory="POST"
+                className={styles.imageUploadWrapper}
+              />
             </div>
           </div>
 

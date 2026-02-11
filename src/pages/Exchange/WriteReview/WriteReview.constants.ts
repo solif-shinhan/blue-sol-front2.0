@@ -1,8 +1,3 @@
-export interface ImageItem {
-  id: string
-  url: string
-}
-
 export interface Participant {
   id: number
   name: string

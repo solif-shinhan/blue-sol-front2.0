@@ -16,7 +16,13 @@ const LoginPageWrapper = () => {
         if (profileRes.success && profileRes.data) {
           const userId = localStorage.getItem('userId');
           localStorage.setItem(`pureun_sol_onboarding_complete_${userId}`, 'true');
-          navigate('/home');
+          const returnUrl = localStorage.getItem('returnUrl');
+          if (returnUrl) {
+            localStorage.removeItem('returnUrl');
+            navigate(returnUrl);
+          } else {
+            navigate('/home');
+          }
           return;
         }
       } catch {
