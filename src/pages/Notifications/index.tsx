@@ -84,9 +84,13 @@ function NotificationsPage() {
       } else {
         setError(response.message || '알림을 불러오는데 실패했습니다.')
       }
-    } catch (err) {
-      console.error('알림 조회 실패:', err)
-      setError('알림을 불러오는데 실패했습니다.')
+    } catch (err: unknown) {
+      const status = (err as { status?: number }).status
+      if (status === 403) {
+        setNotifications([])
+      } else {
+        setError('알림을 불러오는데 실패했습니다.')
+      }
     } finally {
       setIsLoading(false)
     }

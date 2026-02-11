@@ -65,10 +65,10 @@ const CARD_FILTERS: Record<CardId, FilterConfig[]> = {
   ],
   'counseling': [
     { label: '전체', boardId: 3 },
-    { label: '학업 고민', boardId: 3, category: 'STUDY' },
-    { label: '진학 고민', boardId: 3, category: 'ADMISSION' },
-    { label: '취업 고민', boardId: 3, category: 'JOB' },
-    { label: '기타 고민', boardId: 3, category: 'ETC' },
+    { label: '학업', boardId: 3, category: 'STUDY' },
+    { label: '진학', boardId: 3, category: 'ADMISSION' },
+    { label: '취업', boardId: 3, category: 'JOB' },
+    { label: '기타', boardId: 3, category: 'ETC' },
   ],
   'foundation-news': [
     { label: '재단소식', boardId: 4 },
