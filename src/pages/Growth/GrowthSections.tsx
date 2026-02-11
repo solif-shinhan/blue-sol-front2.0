@@ -11,9 +11,7 @@ import {decodeHtmlEntities} from '@/utils/htmlDecode'
 // YouTube hqdefault 썸네일은 검은 바 포함 (4:3) → mqdefault (16:9)로 변환
 const fixThumbnail = (url: string) => url.replace('/hqdefault.', '/mqdefault.')
 
-import imgProgram1 from '@/assets/images/3ce87ab504c87594c1b2c5eba6b473640a497399.png'
-import imgProgram2 from '@/assets/images/f9cdf2005f3ffddb0c78e2a16505ee85e7c83a4e.png'
-import imgProgram3 from '@/assets/images/ad0824640eed8a29aab77ffe6cf64fcf6d1d3801.png'
+
 import imgFooterLogo from '@/assets/images/057453724e8f804d5306e38ceabfcf7513cbed10.png'
 
 // 역량강화 섹션
