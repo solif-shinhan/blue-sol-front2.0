@@ -147,6 +147,35 @@
   border-radius: 20px;
 }
 
+/* Sub-Filter Chips (멘토링 후기) */
+.subFilterSection {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.subFilterButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #222222;
+  white-space: nowrap;
+}
+
+.subFilterButton.active {
+  background: #ABC8FF;
+  color: #14307C;
+}
+
 /* Content Area */
 .contentWrapper {
   display: flex;

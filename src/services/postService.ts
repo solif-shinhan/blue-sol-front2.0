@@ -98,8 +98,8 @@ export const BOARD_NAME_MAP: Record<number, string> = {
   1: '자치회 활동 후기',
   2: '멘토링 후기',
   3: '고민상담',
-  4: '운영공지',
-  5: '프로그램',
+  4: '재단소식',
+  5: '장학프로그램',
 }
 
 export const CATEGORY_REVERSE_MAP: Record<PostCategory, string> = {

@@ -168,3 +168,77 @@
   height: 16.645px;
   object-fit: cover;
 }
+
+.fabOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(18, 18, 18, 0.2);
+  z-index: 99;
+}
+
+.fabMenuWrap {
+  position: fixed;
+  right: calc(50% - 180px);
+  bottom: 61px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  width: 168px;
+}
+
+.fabMenu {
+  width: 168px;
+  background: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0px 0px 30px rgba(27, 37, 56, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.fabMenuItem {
+  width: 100%;
+  padding: 20px 16px;
+  background: none;
+  border: none;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #14307C;
+  text-align: left;
+  cursor: pointer;
+  line-height: 1.4;
+}
+
+.fabMenuItem:hover {
+  background: #F5F5F5;
+}
+
+.fabMenuItemBorder {
+  border-bottom: 1px solid #E6E6E6;
+}
+
+.fabClose {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 4px 12px rgba(7, 78, 216, 0.3);
+}
+
+.fabCloseIcon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  stroke-width: 2px;
+  stroke: var(--Dark-Blue, #14307C);
+}

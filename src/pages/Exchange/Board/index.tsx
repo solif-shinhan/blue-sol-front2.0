@@ -11,13 +11,12 @@ import {
   PostCategory,
   CATEGORY_REVERSE_MAP,
   BOARD_NAME_MAP,
-  logout,
 } from '@/services'
 
 import warmReviewImg from '@/assets/images/exchage-board/f768656256cbf251b006a6560d7a884aecf6a277.png'
 import counselingImg from '@/assets/images/exchage-board/80112dee4520b196fff05166d3abf58e7377c037.png'
 import foundationNewsImg from '@/assets/images/exchage-board/6fecb3f4903a46cbe10992ced7057fb3c483ef00.png'
-import shinhanLogo from '@/assets/images/exchage-board/shinhan-logo.png'
+import fabCloseIconSvg from '@/assets/images/exchage-board/Vector2.svg'
 import { FABButton } from '@/components/FABButton'
 
 const API_BASE = import.meta.env.VITE_API_URL || ''
@@ -66,16 +65,24 @@ const CARD_FILTERS: Record<CardId, FilterConfig[]> = {
   ],
   'counseling': [
     { label: '전체', boardId: 3 },
-    { label: '학업', boardId: 3, category: 'STUDY' },
-    { label: '진학', boardId: 3, category: 'ADMISSION' },
-    { label: '취업', boardId: 3, category: 'JOB' },
-    { label: '기타', boardId: 3, category: 'ETC' },
+    { label: '학업 고민', boardId: 3, category: 'STUDY' },
+    { label: '진학 고민', boardId: 3, category: 'ADMISSION' },
+    { label: '취업 고민', boardId: 3, category: 'JOB' },
+    { label: '기타 고민', boardId: 3, category: 'ETC' },
   ],
   'foundation-news': [
-    { label: '운영공지', boardId: 4 },
-    { label: '프로그램', boardId: 5 },
+    { label: '재단소식', boardId: 4 },
+    { label: '장학프로그램', boardId: 5 },
   ],
 }
+
+const MENTORING_SUB_FILTERS: FilterConfig[] = [
+  { label: '전체', boardId: 2 },
+  { label: '학업', boardId: 2, category: 'STUDY' },
+  { label: '진학', boardId: 2, category: 'ADMISSION' },
+  { label: '취업', boardId: 2, category: 'JOB' },
+  { label: '기타', boardId: 2, category: 'ETC' },
+]
 
 const DEFAULT_BOARD_ID: Record<CardId, number> = {
   'warm-review': 1,
@@ -109,30 +116,35 @@ function mapApiPostToUI(post: PostListItem): PostItem {
 function BoardPage() {
   const navigate = useNavigate()
 
-  const handleLogout = async () => {
-    await logout()
-    navigate('/login')
-  }
-
   const [activeCard, setActiveCard] = useState<CardId>('warm-review')
   const [activeFilterIdx, setActiveFilterIdx] = useState(0)
+  const [subFilterIdx, setSubFilterIdx] = useState(0)
   const [posts, setPosts] = useState<PostItem[]>([])
   const [isLoading, setIsLoading] = useState(false)
+  const [isFabMenuOpen, setIsFabMenuOpen] = useState(false)
 
   const filters = CARD_FILTERS[activeCard]
 
-  const fetchPosts = async (cardId: CardId, filterIdx: number) => {
+  const isMentoringActive = activeCard === 'warm-review' && activeFilterIdx === 1
+
+  const fetchPosts = async (cardId: CardId, filterIdx: number, subIdx: number) => {
     setIsLoading(true)
     try {
-      const filterConfig = CARD_FILTERS[cardId]
       let boardId: number
       let category: PostCategory | undefined
 
-      if (filterConfig.length > 0 && filterConfig[filterIdx]) {
-        boardId = filterConfig[filterIdx].boardId
-        category = filterConfig[filterIdx].category
+      if (cardId === 'warm-review' && filterIdx === 1) {
+        const sub = MENTORING_SUB_FILTERS[subIdx] || MENTORING_SUB_FILTERS[0]
+        boardId = sub.boardId
+        category = sub.category
       } else {
-        boardId = DEFAULT_BOARD_ID[cardId]
+        const filterConfig = CARD_FILTERS[cardId]
+        if (filterConfig.length > 0 && filterConfig[filterIdx]) {
+          boardId = filterConfig[filterIdx].boardId
+          category = filterConfig[filterIdx].category
+        } else {
+          boardId = DEFAULT_BOARD_ID[cardId]
+        }
       }
 
       const response = await getPosts({
@@ -153,13 +165,14 @@ function BoardPage() {
   }
 
   useEffect(() => {
-    fetchPosts(activeCard, activeFilterIdx)
-  }, [activeCard, activeFilterIdx])
+    fetchPosts(activeCard, activeFilterIdx, subFilterIdx)
+  }, [activeCard, activeFilterIdx, subFilterIdx])
 
   const handleCategoryClick = (cardId: CardId) => {
     if (cardId !== activeCard) {
       setActiveCard(cardId)
       setActiveFilterIdx(0)
+      setSubFilterIdx(0)
     }
   }
 
@@ -167,9 +180,6 @@ function BoardPage() {
     navigate(`/exchange/board/${postId}`)
   }
 
-  const handleWritePost = () => {
-    navigate('/exchange/write')
-  }
 
   return (
     <div className={styles.container}>
@@ -209,7 +219,22 @@ function BoardPage() {
             <button
               key={f.label}
               className={`${styles.filterTabButton} ${activeFilterIdx === idx ? styles.active : ''}`}
-              onClick={() => setActiveFilterIdx(idx)}
+              onClick={() => { setActiveFilterIdx(idx); setSubFilterIdx(0) }}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Sub-Filters (멘토링 후기) */}
+      {isMentoringActive && (
+        <div className={styles.subFilterSection} style={{ marginTop: '16px', paddingLeft: '16px' }}>
+          {MENTORING_SUB_FILTERS.map((f, idx) => (
+            <button
+              key={f.label}
+              className={`${styles.subFilterButton} ${subFilterIdx === idx ? styles.active : ''}`}
+              onClick={() => setSubFilterIdx(idx)}
             >
               {f.label}
             </button>
@@ -275,18 +300,30 @@ function BoardPage() {
         )}
       </div>
 
-      {/* Footer */}
-      <div className={styles.footer}>
-        <button type="button" className={styles.footerButton} onClick={handleLogout}>
-          <span className={styles.footerButtonText}>로그아웃</span>
-        </button>
-        <button className={styles.footerButton}>
-          <img src={shinhanLogo} alt="신한장학재단" className={styles.footerLogo} />
-        </button>
-      </div>
+      {isFabMenuOpen && (
+        <div className={styles.fabOverlay} onClick={() => setIsFabMenuOpen(false)}>
+          <div className={styles.fabMenuWrap} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.fabMenu}>
+              <button className={`${styles.fabMenuItem} ${styles.fabMenuItemBorder}`} onClick={() => navigate('/exchange/write/review')}>
+                자치회 활동 후기 작성
+              </button>
+              <button className={`${styles.fabMenuItem} ${styles.fabMenuItemBorder}`} onClick={() => navigate('/exchange/write')}>
+                토닥토닥 고민 상담
+              </button>
+              <button className={styles.fabMenuItem} onClick={() => navigate('/exchange/write/form')}>
+                멘토링 후기 작성
+              </button>
+            </div>
+            <button className={styles.fabClose} onClick={() => setIsFabMenuOpen(false)}>
+              <img src={fabCloseIconSvg} alt="닫기" className={styles.fabCloseIcon} />
+            </button>
+          </div>
+        </div>
+      )}
 
-      {/* FAB Write Button */}
-      <FABButton onClick={handleWritePost} />
+      {!isFabMenuOpen && (
+        <FABButton onClick={() => setIsFabMenuOpen(true)} />
+      )}
     </div>
   )
 }
