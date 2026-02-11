@@ -13,17 +13,15 @@ const toFullUrl = (path: string | null | undefined): string | undefined => {
   if (path.startsWith('http') || path.startsWith('blob')) return path
   return `${API_BASE}/${path}`
 }
-import addImageIcon from '@/assets/images/writing/2d6dd2ec71c992edc2f26de66f36996d63d584d6.svg'
 import cameraIcon from '@/assets/images/writing/7170b38684bc72225666196a022092a11cdc4f45.svg'
 
+import { ImageUploadSection, type ImageItem } from '@/components/ImageUploadSection'
 import {
-  type ImageItem,
   type Participant,
   STEP_TITLES,
 } from './WriteReview.constants'
 import { CalendarModal } from './CalendarModal'
 import { useSessionStorage, clearSessionGroup } from '@/hooks'
-import { uploadFile } from '@/services/fileService'
 import { councilReviewRelayApi, councilReviewPostApi } from '@/api/api-3'
 import { getMyCouncil, getCouncilMembers } from '@/services'
 import { userApi } from '@/api/api-2'
@@ -41,7 +39,6 @@ function WriteReviewPage() {
   const [images, setImages] = useState<ImageItem[]>([])
   const [participants, setParticipants] = useSessionStorage<Participant[]>('write-review:participants', [])
   const [membersLoaded, setMembersLoaded] = useSessionStorage('write-review:membersLoaded', false)
-  const imageInputRef = useRef<HTMLInputElement>(null)
   const receiptGalleryRef = useRef<HTMLInputElement>(null)
   const [showCalendar, setShowCalendar] = useState(false)
   const [showCameraMenu, setShowCameraMenu] = useState(false)
@@ -170,37 +167,6 @@ function WriteReviewPage() {
     return false
   }
 
-  const handleAddImage = () => {
-    if (imageInputRef.current) {
-      imageInputRef.current.value = ''
-      imageInputRef.current.click()
-    }
-  }
-
-  const handleImageFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-    e.target.value = ''
-
-    const localUrl = URL.createObjectURL(file)
-    const tempId = Date.now().toString()
-    setImages((prev) => [...prev, { id: tempId, url: localUrl }])
-
-    uploadFile(file, 'COUNCIL_REVIEW')
-      .then((uploaded) => {
-        setImages((prev) =>
-          prev.map((img) =>
-            img.id === tempId ? { ...img, url: uploaded.url } : img
-          )
-        )
-      })
-      .catch((err) => console.error('이미지 업로드 실패:', err))
-  }
-
-  const handleRemoveImage = (id: string) => {
-    setImages((prev) => prev.filter((img) => img.id !== id))
-  }
-
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   // 브라우저 뒤로가기 시 step만 줄어들도록 히스토리 관리
@@ -318,7 +284,6 @@ function WriteReviewPage() {
 
   return (
     <div className={styles.container}>
-      <input ref={imageInputRef} type="file" accept="image/*" onChange={handleImageFileSelect} style={{ display: 'none' }} />
       <input ref={receiptGalleryRef} type="file" accept="image/*" onChange={handleReceiptGallerySelect} style={{ display: 'none' }} />
       <div className={styles.upperCard}>
         <BackHeader
@@ -326,23 +291,12 @@ function WriteReviewPage() {
           onBack={() => step > 1 ? setStep(step - 1) : navigate('/exchange')}
           rightContent={<span className={styles.councilName}>{councilName}</span>}
         />
-        <div className={styles.imageSection}>
-          <button className={styles.addImageButton} onClick={handleAddImage}>
-            <img src={addImageIcon} alt="이미지 추가" className={styles.addImageIcon} />
-          </button>
-          {images.length > 0 && (
-            <div className={styles.imageList}>
-              {images.map((img) => (
-                <div key={img.id} className={styles.imageItem}>
-                  <img src={img.url} alt="" className={styles.imageThumb} />
-                  <button className={styles.imageRemoveButton} onClick={() => handleRemoveImage(img.id)}>
-                    <span className={styles.imageRemoveX}>✕</span>
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+        <ImageUploadSection
+          images={images}
+          setImages={setImages}
+          uploadCategory="COUNCIL_REVIEW"
+          className={styles.imageSectionPadding}
+        />
         <div className={styles.titleSection}>
           <p className={styles.titleLabel}>제목</p>
           <input type="text" className={styles.titleInput} placeholder="제목을 입력해주세요" value={title} onChange={(e) => setTitle(e.target.value)} />

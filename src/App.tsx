@@ -26,6 +26,7 @@ const ReviewDetailPage = lazy(() => import('@pages/Exchange/ReviewDetail'))
 const RelayWritePage = lazy(() => import('@pages/Exchange/RelayWrite'))
 const GrowthPage = lazy(() => import('@pages/Growth'))
 const StrengthMorePage = lazy(() => import('@pages/Growth/StrengthMore'))
+const PineconeMemoryPage = lazy(() => import('@pages/Growth/PineconeMemory'))
 const NotificationsPage = lazy(() => import('@pages/Notifications'))
 const NotificationDetailPage = lazy(() => import('@pages/Notifications/NotificationDetail'))
 const ActivityDetailPage = lazy(() => import('@pages/Notifications/ActivityDetail'))
@@ -60,7 +61,7 @@ const PageLoader = () => <div style={{ padding: '20px', textAlign: 'center' }}>�
 /** NFC/QR 접속 시 /profile/:userId → 로그인 체크 후 리다이렉트 */
 function ProfileRedirect() {
   const { userId } = useParams<{ userId: string }>()
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem('accessToken')
   const destination = `/exchange/network/add/${userId}`
 
   if (!token) {
@@ -131,6 +132,7 @@ function App() {
 
           <Route path="/growth" element={<GrowthPage />} />
           <Route path="/growth/strength" element={<StrengthMorePage />} />
+          <Route path="/growth/memory" element={<PineconeMemoryPage />} />
 
           <Route path="/notifications" element={<NotificationsPage />} />
           <Route path="/notifications/:id" element={<NotificationDetailPage />} />

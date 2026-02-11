@@ -30,7 +30,11 @@
 .solbangulIcon img {
   width: 46px;
   height: 46px;
-  object-fit: cover;
+  object-fit: contain;
+}
+
+.solbangulIconFilled img {
+  transform: rotate(18deg) scale(0.72);
 }
 
 

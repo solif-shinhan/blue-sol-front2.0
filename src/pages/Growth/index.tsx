@@ -197,21 +197,25 @@ const UserSection = ({ visible, userName, days, goalCurrent, goalTotal }: {
 
 // 솔방울 장식 버튼
 const SolbangulButton = ({ visible, collectedCount }: { visible: boolean; collectedCount: number }) => {
+  const navigate = useNavigate()
   return (
-    <button className={`${styles2.solbangulButton} ${styles4.transition} ${visible ? '' : styles4.fadeOut}`}>
-      <div className={styles2.solbangulIcon}>
+    <button
+      className={`${styles2.solbangulButton} ${styles4.transition} ${visible ? '' : styles4.fadeOut}`}
+      onClick={collectedCount > 0 ? () => navigate('/growth/memory') : undefined}
+    >
+      <div className={`${styles2.solbangulIcon} ${collectedCount >= 1 ? styles2.solbangulIconFilled : ''}`}>
         <img
           src={collectedCount >= 1 ? imgSolbangul : imgSolbangulEmpty}
           alt="솔방울"
         />
       </div>
-      <div className={styles2.solbangulIcon}>
+      <div className={`${styles2.solbangulIcon} ${collectedCount >= 2 ? styles2.solbangulIconFilled : ''}`}>
         <img
           src={collectedCount >= 2 ? imgSolbangul : imgSolbangulEmpty}
           alt="솔방울"
         />
       </div>
-      <div className={styles2.solbangulIcon}>
+      <div className={`${styles2.solbangulIcon} ${collectedCount >= 3 ? styles2.solbangulIconFilled : ''}`}>
         <img
           src={collectedCount >= 3 ? imgSolbangul : imgSolbangulEmpty}
           alt="솔방울"
