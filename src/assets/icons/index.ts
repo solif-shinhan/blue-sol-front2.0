@@ -128,6 +128,10 @@ export const labelToCategoryKey: Record<string, CategoryType> = {
   '독서': 'reading',
   '스터디': 'study',
   '경제': 'economy',
+  // 대체 라벨 (API 응답 호환)
+  '공부': 'study',
+  '미술': 'art',
+  '문화': 'culture',
 };
 
 // 한글 라벨로 아이콘 가져오기 헬퍼 함수

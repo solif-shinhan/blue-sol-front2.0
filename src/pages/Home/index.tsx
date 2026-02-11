@@ -18,6 +18,7 @@ import {missionApi, type CategoryProgress} from '@/api/api-3'
 import {SolidCardPreview} from '@/features/02-onboarding/components/SolidCardPreview-1'
 import {Character, BackgroundColor, Interest, DARK_PATTERNS} from '@/features/02-onboarding/types/card-1'
 import {mockInterests} from '@/features/02-onboarding/api/mock-card-1'
+import {getIconByLabel} from '@assets/icons'
 import {getYoutubeVideos, getYoutubeVideosByCategory} from '@/services/youtubeService'
 import {YoutubeVideo} from '@/api/types-youtube'
 import {decodeHtmlEntities} from '@/utils/htmlDecode'
@@ -34,7 +35,10 @@ const CATEGORY_NAME_MAP: Record<string, string> = {
 const getInterestsWithIcons = (interestNames: string[]): Interest[] => {
     return interestNames.map((name, idx) => {
         const found = mockInterests.find(i => i.name === name)
-        return found || {id: `interest-${idx}`, name, icon: undefined}
+        if (found) return found
+        // mockInterests에 없으면 labelToCategoryKey로 아이콘 조회
+        const icon = getIconByLabel(name)
+        return {id: `interest-${idx}`, name, icon}
     })
 }
 
