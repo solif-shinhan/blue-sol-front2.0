@@ -3,12 +3,11 @@ import {useNavigate} from 'react-router-dom'
 import styles3 from './Growth-3.module.css'
 import {logout} from '@/services'
 import {getYoutubeVideosByCategory} from '@/services/youtubeService'
+import {getScholarshipPrograms} from '@/services/scholarshipService'
 import {YoutubeVideo} from '@/api/types-youtube'
+import {ScholarshipProgram} from '@/api/types-scholarship'
 import {decodeHtmlEntities} from '@/utils/htmlDecode'
 
-import imgProgram1 from '@/assets/images/3ce87ab504c87594c1b2c5eba6b473640a497399.png'
-import imgProgram2 from '@/assets/images/f9cdf2005f3ffddb0c78e2a16505ee85e7c83a4e.png'
-import imgProgram3 from '@/assets/images/ad0824640eed8a29aab77ffe6cf64fcf6d1d3801.png'
 import imgFooterLogo from '@/assets/images/057453724e8f804d5306e38ceabfcf7513cbed10.png'
 
 // 역량강화 섹션
@@ -97,70 +96,86 @@ export const StrengthSection = () => {
 
 // 장학 프로그램 섹션
 export const ProgramSection = () => {
-    const programs = [
-        {
-            org: '신한장학재단',
-            likes: 24,
-            comments: 8,
-            date: '2026.02.19',
-            title: '2025.9.11 임직원 직무 멘토링',
-            desc: '신한금융그룹 임직원분들과 함께 HR, 브랜드, 사회공헌, 투자 직무 멘토링을 진행하...',
-            image: imgProgram1
-        },
-        {
-            org: '신한장학재단',
-            likes: 24,
-            comments: 8,
-            date: '2026.02.19',
-            title: '2025년 신한장학캠프 진행',
-            desc: '신한장학재단에서는 2025년 7월 11일 장학캠프를 개최하였습니다.',
-            image: imgProgram2
-        },
-        {
-            org: '신한장학재단',
-            likes: 24,
-            comments: 8,
-            date: '2026.02.19',
-            title: "신한장학재단 '2025년 자립준...",
-            desc: "지난 3월 21일, 서울 명동에 위치한 신한 익스페이스에서 '자립준비청년 장학지원사...",
-            image: imgProgram3
-        }
-    ]
+    const navigate = useNavigate()
+    const [programs, setPrograms] = useState<ScholarshipProgram[]>([])
+    const [loading, setLoading] = useState(true)
+
+    // 초기 데이터 로드
+    useEffect(() => {
+        loadPrograms()
+    }, [])
+
+    // 장학 프로그램 목록 로드
+    const loadPrograms = async () => {
+        setLoading(true)
+        const data = await getScholarshipPrograms()
+        setPrograms(data)
+        setLoading(false)
+    }
+
+    // 날짜 포맷팅 함수 (ISO 8601 -> YYYY.MM.DD)
+    const formatDate = (isoDate: string): string => {
+        const date = new Date(isoDate)
+        const year = date.getFullYear()
+        const month = String(date.getMonth() + 1).padStart(2, '0')
+        const day = String(date.getDate()).padStart(2, '0')
+        return `${year}.${month}.${day}`
+    }
+
+    // 내용 요약 (첫 50자까지만 표시)
+    const truncateContent = (content: string, maxLength: number = 50): string => {
+        if (content.length <= maxLength) return content
+        return content.substring(0, maxLength) + '...'
+    }
 
     return (
         <div className={styles3.programSection}>
             <div className={styles3.programHeader}>
                 <span className={styles3.programTitle}>장학 프로그램</span>
-                <button className={styles3.moreButton}>더보기</button>
+                <button className={styles3.moreButton} onClick={() => navigate('/growth/program')}>더보기</button>
             </div>
             <div className={styles3.programList}>
-                {programs.map((program, index) => (
-                    <div key={index} className={styles3.programItem}>
-                        <div className={styles3.programContent}>
-                            <div className={styles3.programMeta}>
-                                <span className={styles3.programOrg}>{program.org}</span>
-                                <div className={styles3.programDivider}/>
-                                <div className={styles3.programStats}>
-                  <span className={styles3.programStat}>
-                    <img src="/eyes.svg" alt="" className={styles3.programStatIcon}/> {program.likes}
-                  </span>
-                                    <span className={styles3.programStat}>
-                    <img src="/talk.svg" alt="" className={styles3.programStatIcon}/> {program.comments}
-                  </span>
-                                </div>
-                                <div className={styles3.programDivider}/>
-                                <span className={styles3.programDate}>{program.date}</span>
-                            </div>
-                            <div className={styles3.programTexts}>
-                                <span className={styles3.programItemTitle}>{program.title}</span>
-                                <p className={styles3.programDesc}>{program.desc}</p>
-                            </div>
-                        </div>
-                        <div className={styles3.programThumbnail}>
-                            <img src={program.image} alt={program.title}/>
-                        </div>
+                {loading ? (
+                    <div style={{padding: '40px', textAlign: 'center', color: '#666'}}>
+                        장학 프로그램을 불러오는 중입니다...
                     </div>
-                ))}
+                ) : programs.length > 0 ? (
+                    programs.slice(0, 3).map((program) => (
+                        <div key={program.postId} className={styles3.programItem}>
+                            <div className={styles3.programContent}>
+                                <div className={styles3.programMeta}>
+                                    <span className={styles3.programOrg}>신한장학재단</span>
+                                    <div className={styles3.programDivider}/>
+                                    <div className={styles3.programStats}>
+                                        <span className={styles3.programStat}>
+                                            <img src="/eyes.svg" alt=""
+                                                 className={styles3.programStatIcon}/> {program.viewCount}
+                                        </span>
+                                        <span className={styles3.programStat}>
+                                            <img src="/talk.svg" alt=""
+                                                 className={styles3.programStatIcon}/> {program.commentCount}
+                                        </span>
+                                    </div>
+                                    <div className={styles3.programDivider}/>
+                                    <span className={styles3.programDate}>{formatDate(program.createdAt)}</span>
+                                </div>
+                                <div className={styles3.programTexts}>
+                                    <span className={styles3.programItemTitle}>{program.title}</span>
+                                    <p className={styles3.programDesc}>{truncateContent(program.content)}</p>
+                                </div>
+                            </div>
+                            {program.thumbnailUrl && (
+                                <div className={styles3.programThumbnail}>
+                                    <img src={program.thumbnailUrl} alt={program.title}/>
+                                </div>
+                            )}
+                        </div>
+                    ))
+                ) : (
+                    <div style={{padding: '40px', textAlign: 'center', color: '#666'}}>
+                        등록된 장학 프로그램이 없습니다.
+                    </div>
+                )}
             </div>
         </div>
     )

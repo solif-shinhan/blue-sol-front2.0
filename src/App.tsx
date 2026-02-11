@@ -27,6 +27,7 @@ const RelayWritePage = lazy(() => import('@pages/Exchange/RelayWrite'))
 const GrowthPage = lazy(() => import('@pages/Growth'))
 const StrengthMorePage = lazy(() => import('@pages/Growth/StrengthMore'))
 const PineconeMemoryPage = lazy(() => import('@pages/Growth/PineconeMemory'))
+const ProgramMorePage = lazy(() => import('@pages/Growth/ProgramMore'))
 const NotificationsPage = lazy(() => import('@pages/Notifications'))
 const NotificationDetailPage = lazy(() => import('@pages/Notifications/NotificationDetail'))
 const ActivityDetailPage = lazy(() => import('@pages/Notifications/ActivityDetail'))
@@ -133,6 +134,7 @@ function App() {
           <Route path="/growth" element={<GrowthPage />} />
           <Route path="/growth/strength" element={<StrengthMorePage />} />
           <Route path="/growth/memory" element={<PineconeMemoryPage />} />
+          <Route path="/growth/program" element={<ProgramMorePage />} />
 
           <Route path="/notifications" element={<NotificationsPage />} />
           <Route path="/notifications/:id" element={<NotificationDetailPage />} />
