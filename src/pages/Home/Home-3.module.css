@@ -246,14 +246,24 @@
   color: #E6EFFF;
   line-height: 1.2;
   letter-spacing: -0.32px;
-  white-space: pre-line;
   width: 143px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  word-break: keep-all;
+  white-space: pre-line;
 }
 
 .lectureSpeaker {
   font-family: 'Pretendard', sans-serif;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 400;
   color: #ABC8FF;
   line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 143px;
 }
