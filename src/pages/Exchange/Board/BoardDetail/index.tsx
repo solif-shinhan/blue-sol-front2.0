@@ -353,7 +353,9 @@ function BoardDetailPage() {
           disabled={!commentText.trim() || isSubmitting}
           onClick={handleCommentSubmit}
         >
-          <span className={styles.sendIcon}>→</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className={styles.sendIcon}>
+            <path d="M3 20L21 12L3 4V10L15 12L3 14V20Z" fill="white" />
+          </svg>
         </button>
       </div>
     </div>

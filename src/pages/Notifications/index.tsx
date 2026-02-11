@@ -10,7 +10,6 @@ import {
   type NotificationSubCategory,
   type NotificationFilter,
 } from '@/services'
-import MessageBox from './MessageBox'
 
 // 시간 포맷 함수
 function formatTime(dateString: string): string {

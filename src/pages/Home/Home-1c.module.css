@@ -1,7 +1,8 @@
 /* Home-1c.module.css - 하단 섹션, 퀵메뉴, 푸터 */
 
 .bottomSection {
-  margin-top: -350px;
+  transform: translateY(-350px);
+  margin-bottom: -350px;
   position: relative;
   z-index: 10;
 }

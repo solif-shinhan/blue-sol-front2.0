@@ -3,7 +3,7 @@
   min-height: 852px;
   position: relative;
   background: linear-gradient(180deg, #FFFFFF 0%, #F3F6FB 100%);
-  overflow-x: hidden;
+  overflow-x: clip;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }

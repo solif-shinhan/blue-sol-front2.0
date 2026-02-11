@@ -161,12 +161,6 @@ export const CardColorSelect: React.FC<CardColorSelectProps> = ({
     zIndex: 5,
   };
 
-  const fixedBottomStyle: React.CSSProperties = {
-    flexShrink: 0,
-    width: '100%',
-    backgroundColor: colors.white,
-  };
-
   const paletteContainerStyle: React.CSSProperties = {
     position: 'absolute',
     top: '456px',
@@ -175,18 +169,6 @@ export const CardColorSelect: React.FC<CardColorSelectProps> = ({
     zIndex: 10,
     paddingTop: '12px',
     boxSizing: 'border-box',
-  };
-
-  const buttonContainerStyle: React.CSSProperties = {
-    display: 'flex',
-    justifyContent: 'center',
-    paddingTop: '20px',
-    paddingBottom: '60px',
-    width: '100%',
-  };
-
-  const buttonInnerStyle: React.CSSProperties = {
-    width: '360px',
   };
 
   return (

@@ -3,7 +3,6 @@ import styles1 from '../Home-1.module.css'
 import styles2 from '../Home-2.module.css'
 import styles3 from '../Home-3.module.css'
 import iconDismiss from '@/assets/images/solid/icon-dismiss.svg'
-import iconShare from '@/assets/images/solid/icon-share.svg'
 import { Character, BackgroundColor } from '@/features/02-onboarding/types/card-1'
 
 const styles = { ...styles1, ...styles2, ...styles3 }

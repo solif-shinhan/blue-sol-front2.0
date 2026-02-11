@@ -174,15 +174,6 @@ function ReceiptAttachPage() {
     }
   }
 
-  const handleCameraMenuSelect = (mode: 'camera' | 'gallery') => {
-    setShowCameraMenu(false)
-    if (mode === 'camera') {
-      triggerCameraInput()
-    } else {
-      triggerFileInput()
-    }
-  }
-
   const handleAddMore = () => {
     setShowResult(false)
     triggerFileInput()

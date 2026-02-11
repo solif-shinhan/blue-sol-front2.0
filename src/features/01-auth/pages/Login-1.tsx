@@ -26,7 +26,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
     width: `${frameSize.width}px`,
     minHeight: `${frameSize.height}px`,
     backgroundColor: colors.white,
-    overflow: 'hidden',
+    overflow: 'visible',
   };
 
   const formSectionStyle: React.CSSProperties = {

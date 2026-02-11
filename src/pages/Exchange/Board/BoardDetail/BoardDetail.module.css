@@ -243,75 +243,80 @@
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 12px 20px;
-  padding-bottom: 34px;
+  height: 50px;
   background: #FFFFFF;
-  border-top: 1px solid #F0F0F0;
   display: flex;
-  gap: 12px;
   align-items: center;
 }
 
 .anonymousCheckbox {
+  width: 70px;
+  height: 50px;
   display: flex;
   align-items: center;
-  gap: 4px;
-  font-family: 'Pretendard', sans-serif;
-  font-size: 12px;
-  color: #8B95A1;
-  cursor: pointer;
+  justify-content: center;
+  gap: 6px;
+  border-right: 1px solid #EEEEEE;
   flex-shrink: 0;
+  cursor: pointer;
 }
 
 .anonymousCheckbox input {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
+  margin: 0;
   accent-color: #074ED8;
+}
+
+.anonymousCheckbox span {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #222222;
+  letter-spacing: -0.48px;
+  line-height: 1.2;
 }
 
 .commentInput {
   flex: 1;
-  height: 40px;
-  padding: 0 16px;
-  border: 1px solid #E5E8EB;
-  border-radius: 20px;
+  height: 50px;
+  padding: 0 10px;
+  border: none;
+  background: transparent;
   font-family: 'Pretendard', sans-serif;
   font-size: 14px;
-  color: #191F28;
+  font-weight: 600;
+  color: #222222;
   outline: none;
 }
 
-.commentInput:focus {
-  border-color: #074ED8;
-}
-
 .commentInput::placeholder {
-  color: #ADB5BD;
+  color: #C9C9C9;
+  font-weight: 600;
 }
 
 .sendButton {
-  width: 40px;
-  height: 40px;
+  width: 34px;
+  min-width: 34px;
+  height: 34px;
   border-radius: 50%;
-  background: #074ED8;
+  background: linear-gradient(180deg, #ABC8FF 0%, #E6EFFF 100%);
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s ease;
+  flex-shrink: 0;
+  margin-right: 9px;
 }
 
 .sendButton:disabled {
-  background: #E5E8EB;
+  background: linear-gradient(180deg, #D6E3FF 0%, #F0F4FF 100%);
   cursor: not-allowed;
 }
 
-.sendButton:not(:disabled):hover {
-  background: #0645C0;
-}
-
 .sendIcon {
-  color: #FFFFFF;
-  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

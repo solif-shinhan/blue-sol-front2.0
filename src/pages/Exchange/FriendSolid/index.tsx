@@ -55,7 +55,7 @@ function FriendSolidPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [isAdded, setIsAdded] = useState(false)
   const [isAdding, setIsAdding] = useState(false)
-  const [showToast, setShowToast] = useState(false)
+  const [showToast] = useState(false)
   const [isSending, setIsSending] = useState(false)
   const [showActionToast, setShowActionToast] = useState(false)
 
