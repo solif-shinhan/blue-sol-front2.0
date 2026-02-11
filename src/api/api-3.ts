@@ -414,6 +414,29 @@ export interface PineconeEarnResponse {
   earnedAt: string;
 }
 
+// ============ 솔방울 추억 회상 타입 ============
+
+export interface MemoryDetail {
+  memoryType: 'MESSAGE' | 'POST' | 'COMMENT' | 'MENTORING';
+  sourceId: number;
+  memoryContent: string;
+  relatedUserName?: string;
+  createdAt: string;
+}
+
+export interface CompletedMission {
+  missionTitle: string;
+  isCompleted: boolean;
+  hasMemoryDetail: boolean;
+  memoryDetail?: MemoryDetail;
+}
+
+export interface PineconeMemoryResponse {
+  category: MissionCategory;
+  categoryName: string;
+  completedMissions: CompletedMission[];
+}
+
 // ============ 미션 API ============
 
 export const missionApi = {
@@ -422,4 +445,7 @@ export const missionApi = {
 
   claimPinecone: (category: MissionCategory): Promise<ApiResponse<PineconeEarnResponse>> =>
     apiClient.post(`/api/v1/missions/pinecones/${category}`, {}),
+
+  getMemories: (category: MissionCategory): Promise<ApiResponse<PineconeMemoryResponse>> =>
+    apiClient.get(`/api/v1/missions/pinecones/${category}/memories`),
 };

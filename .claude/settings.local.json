@@ -61,7 +61,11 @@
       "mcp__figma__get_metadata",
       "mcp__figma__get_variable_defs",
       "Bash(xargs -I {} sh -c 'echo \"\"=== {} ===\"\" && head -20 {}')",
-      "Bash(xargs:*)"
+      "Bash(xargs:*)",
+      "Bash(echo:*)",
+      "Bash(npx vercel:*)",
+      "Bash(nslookup:*)",
+      "WebFetch(domain:www.youtube.com)"
     ]
   }
 }

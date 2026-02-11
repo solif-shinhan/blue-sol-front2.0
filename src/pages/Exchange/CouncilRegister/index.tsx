@@ -9,7 +9,7 @@ import { uploadFile } from '@/services/fileService'
 import characterCat from '@/assets/images/character-cat.png'
 import logoShinhan from '@/assets/images/logo-shinhan-foundation.png'
 import removeIcon from '@/assets/images/council/4d69de4e468b2fc4fdb0dd71f55c582bcd74c605.svg'
-import plusIcon from '@/assets/images/council/4de7b4619a8a7217458e36fa3215adb3643f60eb.svg'
+import plusIcon from '@/assets/figma/4de7b4619a8a7217458e36fa3215adb3643f60eb.svg'
 
 const styles = { ...styles1, ...styles2 }
 
@@ -327,12 +327,12 @@ export function CouncilRegister() {
                     </div>
                   )
                 })}
-                <button className={styles.addMemberButton} onClick={handleAddMember}>
+                <div className={styles.addMemberButton} onClick={handleAddMember}>
                   <div className={styles.addMemberCircle}>
                     <img src={plusIcon} alt="추가" className={styles.addMemberIcon} />
                   </div>
                   <span className={styles.addMemberLabel}>추가하기</span>
-                </button>
+                </div>
               </div>
             </section>
 

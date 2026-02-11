@@ -6,9 +6,10 @@ import { getCouncilRules, addCouncilRule, deleteCouncilRule, CouncilRule } from 
 
 interface ActivityRulesProps {
   councilId: number
+  isMember: boolean
 }
 
-function ActivityRules({ councilId }: ActivityRulesProps) {
+function ActivityRules({ councilId, isMember }: ActivityRulesProps) {
   const [rules, setRules] = useState<CouncilRule[]>([])
   const [isAddingRule, setIsAddingRule] = useState(false)
   const [newRuleText, setNewRuleText] = useState('')
@@ -94,38 +95,40 @@ function ActivityRules({ councilId }: ActivityRulesProps) {
     <div className={styles.rulesSection}>
       <div className={styles.rulesSectionHeader}>
         <h2 className={styles.rulesSectionTitle}>자치회 활동 규칙</h2>
-        <div className={styles.rulesSectionActions}>
-          <button
-            className={styles.ruleActionButton}
-            onClick={() => {
-              if (isDeletingMode) {
-                setIsDeletingMode(false)
-                setSelectedForDelete([])
-              } else {
-                setIsDeletingMode(true)
-                setIsAddingRule(false)
-              }
-            }}
-          >
-            삭제
-          </button>
-          <div className={styles.ruleActionDivider} />
-          <button
-            className={styles.ruleActionButton}
-            onClick={() => {
-              if (isAddingRule) {
-                setIsAddingRule(false)
-                setNewRuleText('')
-              } else {
-                setIsAddingRule(true)
-                setIsDeletingMode(false)
-                setSelectedForDelete([])
-              }
-            }}
-          >
-            추가
-          </button>
-        </div>
+        {isMember && (
+          <div className={styles.rulesSectionActions}>
+            <button
+              className={styles.ruleActionButton}
+              onClick={() => {
+                if (isDeletingMode) {
+                  setIsDeletingMode(false)
+                  setSelectedForDelete([])
+                } else {
+                  setIsDeletingMode(true)
+                  setIsAddingRule(false)
+                }
+              }}
+            >
+              삭제
+            </button>
+            <div className={styles.ruleActionDivider} />
+            <button
+              className={styles.ruleActionButton}
+              onClick={() => {
+                if (isAddingRule) {
+                  setIsAddingRule(false)
+                  setNewRuleText('')
+                } else {
+                  setIsAddingRule(true)
+                  setIsDeletingMode(false)
+                  setSelectedForDelete([])
+                }
+              }}
+            >
+              추가
+            </button>
+          </div>
+        )}
       </div>
       <div className={styles.rulesList}>
         {isAddingRule && (

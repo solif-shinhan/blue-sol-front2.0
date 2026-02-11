@@ -16,62 +16,6 @@
   display: none;
 }
 
-/* Header */
-.header {
-  position: absolute;
-  top: 70px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 393px;
-  height: 40px;
-  overflow: hidden;
-}
-
-.headerInner {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 350px;
-  display: flex;
-  align-items: center;
-}
-
-.headerLeft {
-  display: flex;
-  flex: 1;
-  align-items: center;
-}
-
-.closeButton {
-  width: 24px;
-  height: 24px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.closeButton img {
-  width: 24px;
-  height: 24px;
-}
-
-.headerTitle {
-  font-family: 'OneShinhan', sans-serif;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 1.4;
-  letter-spacing: -0.36px;
-  color: #848484;
-  text-align: center;
-  margin-left: 4px;
-}
-
 /* Content */
 .content {
   position: absolute;

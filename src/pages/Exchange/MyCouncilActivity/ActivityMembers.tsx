@@ -48,9 +48,10 @@ function getAvatarBackground(member: MemberDisplay): string {
 
 interface ActivityMembersProps {
   councilId: number
+  isMember: boolean
 }
 
-function ActivityMembers({ councilId }: ActivityMembersProps) {
+function ActivityMembers({ councilId, isMember }: ActivityMembersProps) {
   const navigate = useNavigate()
   const [members, setMembers] = useState<MemberDisplay[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -88,10 +89,12 @@ function ActivityMembers({ councilId }: ActivityMembersProps) {
     <div className={styles.memberSection}>
       <div className={styles.memberHeader}>
         <h2 className={styles.memberTitle}>자치회 멤버</h2>
-        <button
-          className={styles.memberAddButton}
-          onClick={() => navigate('/exchange/council/member/add')}
-        >멤버 추가하기</button>
+        {isMember && (
+          <button
+            className={styles.memberAddButton}
+            onClick={() => navigate('/exchange/council/member/add')}
+          >멤버 추가하기</button>
+        )}
       </div>
       <div className={styles.memberList}>
         {isLoading ? (

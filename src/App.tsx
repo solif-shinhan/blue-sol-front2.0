@@ -116,6 +116,7 @@ function App() {
           <Route path="/exchange/council/register" element={<CouncilRegisterPage />} />
           <Route path="/exchange/council/list" element={<CouncilListPage />} />
           <Route path="/exchange/council/activity" element={<MyCouncilActivityPage />} />
+          <Route path="/exchange/council/:councilId" element={<MyCouncilActivityPage />} />
           <Route path="/exchange/council/member/add" element={<MemberAddPage />} />
           <Route path="/exchange/mentoring" element={<MentoringPage />} />
           <Route path="/exchange/mentoring/apply" element={<MentoringApplyPage />} />

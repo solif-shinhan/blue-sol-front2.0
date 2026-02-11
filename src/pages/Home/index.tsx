@@ -14,6 +14,7 @@ import {QUICK_MENU_ITEMS, NEWS_ITEMS} from './Home.constants'
 import {getProfile, ProfileData} from '@/services/profileService'
 import {logout} from '@/services/authService'
 import {userApi, goalApi} from '@/api'
+import {missionApi, type CategoryProgress} from '@/api/api-3'
 import {SolidCardPreview} from '@/features/02-onboarding/components/SolidCardPreview-1'
 import {Character, BackgroundColor, Interest, DARK_PATTERNS} from '@/features/02-onboarding/types/card-1'
 import {mockInterests} from '@/features/02-onboarding/api/mock-card-1'
@@ -24,6 +25,12 @@ import {decodeHtmlEntities} from '@/utils/htmlDecode'
 const styles = {...styles1, ...styles1c, ...styles2, ...styles3, ...styles4}
 
 // 프로필 interests(이름 배열)를 Interest 객체 배열로 변환
+const CATEGORY_NAME_MAP: Record<string, string> = {
+    CONNECT: '연결',
+    GROW: '성장',
+    IMPACT: '기여',
+}
+
 const getInterestsWithIcons = (interestNames: string[]): Interest[] => {
     return interestNames.map((name, idx) => {
         const found = mockInterests.find(i => i.name === name)
@@ -63,6 +70,8 @@ function HomePage() {
     const [goalData, setGoalData] = useState({mainGoal: '', completedCount: 0, totalCount: 0})
     const [lectureItems, setLectureItems] = useState<YoutubeVideo[]>([])
     const [selectedCategory, setSelectedCategory] = useState('전체')
+    const [claimableCategory, setClaimableCategory] = useState<CategoryProgress | null>(null)
+    const [showMissionPopup, setShowMissionPopup] = useState(false)
     const containerRef = useRef<HTMLDivElement>(null)
     const newsRef = useRef<HTMLDivElement>(null)
     const newsDragging = useRef(false)
@@ -79,11 +88,12 @@ function HomePage() {
             setIsLoading(true)
             try {
                 // 프로필 + 유저 정보 + 목표 + YouTube 동영상 조회 (각각 실패해도 다른 요청에 영향 없도록)
-                const [profileRes, userRes, goalFirstRes, youtubeVideos] = await Promise.all([
+                const [profileRes, userRes, goalFirstRes, youtubeVideos, missionRes] = await Promise.all([
                     getProfile().catch(() => null),
                     userApi.getMe().catch(() => null),
                     goalApi.getFirst().catch(() => null),
                     getYoutubeVideos().catch(() => []),
+                    missionApi.getProgress().catch(() => null),
                 ])
                 if (profileRes && profileRes.success) {
                     setProfile(profileRes.data)
@@ -111,6 +121,17 @@ function HomePage() {
                     })
                 }
 
+                // 미션 진행도 확인 - 클레임 가능한 솔방울이 있으면 팝업
+                if (missionRes && missionRes.success && missionRes.data) {
+                    const claimable = missionRes.data.categoryProgress.find(
+                        (c: CategoryProgress) => c.canClaimPinecone && !c.isPineconeEarned
+                    )
+                    if (claimable) {
+                        setClaimableCategory(claimable)
+                        setShowMissionPopup(true)
+                    }
+                }
+
                 // YouTube 동영상 설정 - API로만
                 setLectureItems(youtubeVideos)
 
@@ -130,7 +151,21 @@ function HomePage() {
     }
 
     const handleCardClick = () => setIsCardModalOpen(true)
-    const handleCardModalClose = () => setIsCardModalOpen(false)
+    const handleCardModalClose = () => {
+        setIsCardModalOpen(false)
+        // SOLID 카드 모달 닫은 후 미션 달성 여부 재확인
+        missionApi.getProgress().then(res => {
+            if (res?.success && res.data) {
+                const claimable = res.data.categoryProgress.find(
+                    (c: CategoryProgress) => c.canClaimPinecone && !c.isPineconeEarned
+                )
+                if (claimable) {
+                    setClaimableCategory(claimable)
+                    setShowMissionPopup(true)
+                }
+            }
+        }).catch(() => {})
+    }
     const handleShare = () => setIsQRModalOpen(true)
     const handleQRModalClose = () => setIsQRModalOpen(false)
     const handleEdit = () => navigate('/onboarding')
@@ -448,6 +483,25 @@ function HomePage() {
                 school={school}
                 sinceYear="2026"
             />
+
+            {showMissionPopup && claimableCategory && (
+                <div className={styles.missionPopupOverlay} onClick={() => setShowMissionPopup(false)}>
+                    <div className={styles.missionBanner} style={{ marginTop: 0 }} onClick={e => e.stopPropagation()}>
+                        <div className={styles.missionBannerText}>
+                            <p style={{ margin: 0 }}>미션 완료!</p>
+                            <p style={{ margin: 0 }}>
+                                {CATEGORY_NAME_MAP[claimableCategory.category] || claimableCategory.categoryName} 솔방울 받으러 가기
+                            </p>
+                        </div>
+                        <button className={styles.missionBannerBtn} onClick={() => {
+                            setShowMissionPopup(false)
+                            navigate('/growth')
+                        }}>
+                            <span className={styles.missionBannerBtnText}>확인하기</span>
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

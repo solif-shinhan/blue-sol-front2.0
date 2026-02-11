@@ -6,6 +6,9 @@ import { logout } from '@/services'
 import { getYoutubeVideos, getYoutubeVideosByCategory } from '@/services/youtubeService'
 import { YoutubeVideo } from '@/api/types-youtube'
 import { decodeHtmlEntities } from '@/utils/htmlDecode'
+
+// YouTube hqdefault 썸네일은 검은 바 포함 (4:3) → mqdefault (16:9)로 변환
+const fixThumbnail = (url: string) => url.replace('/hqdefault.', '/mqdefault.')
 import imgFooterLogo from '@/assets/images/057453724e8f804d5306e38ceabfcf7513cbed10.png'
 
 const CATEGORIES = ['전체', '인성', '사회', '과학', '창업', '취업']
@@ -81,7 +84,7 @@ function StrengthMorePage() {
                 style={{ cursor: 'pointer' }}
               >
                 <div className={styles.cardImageWrap}>
-                  <img src={video.thumbnailUrl} alt={video.category} className={styles.cardImage} />
+                  <img src={fixThumbnail(video.thumbnailUrl)} alt={video.category} className={styles.cardImage} />
                 </div>
                 <div className={styles.cardDarkOverlay} />
                 <div className={styles.cardBottom}>

@@ -76,7 +76,7 @@ function CouncilListPage() {
           ) : (
             <div className={styles.councilList}>
               {councils.map((council) => (
-                <div key={council.councilId} className={styles.councilListItem}>
+                <div key={council.councilId} className={styles.councilListItem} onClick={() => navigate(`/exchange/council/${council.councilId}`)}>
                   <img
                     src={council.profileImageUrl || defaultThumbnail}
                     alt=""

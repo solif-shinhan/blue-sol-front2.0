@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import styles1 from './MyCouncilActivity-1.module.css'
 import styles2 from './MyCouncilActivity-2.module.css'
 const styles = { ...styles1, ...styles2 }
@@ -11,8 +11,16 @@ import ActivityMembers from './ActivityMembers'
 import ActivityRules from './ActivityRules'
 import { getMyCouncil, getCouncilDetail, CouncilDetail, logout } from '@/services'
 
+const API_BASE = import.meta.env.VITE_API_URL || ''
+const toFullUrl = (path: string | null | undefined): string | undefined => {
+  if (!path) return undefined
+  if (path.startsWith('http') || path.startsWith('blob')) return path
+  return `${API_BASE}/${path}`
+}
+
 function MyCouncilActivityPage() {
   const navigate = useNavigate()
+  const { councilId: councilIdParam } = useParams<{ councilId: string }>()
   const [activeTab, setActiveTab] = useState('활동 요약')
   const [council, setCouncil] = useState<CouncilDetail | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -22,11 +30,18 @@ function MyCouncilActivityPage() {
     const fetchCouncil = async () => {
       setIsLoading(true)
       try {
-        const myRes = await getMyCouncil()
-        if (myRes.success && myRes.data) {
-          const detailRes = await getCouncilDetail(myRes.data.councilId)
+        if (councilIdParam) {
+          const detailRes = await getCouncilDetail(Number(councilIdParam))
           if (detailRes.success && detailRes.data) {
             setCouncil(detailRes.data)
+          }
+        } else {
+          const myRes = await getMyCouncil()
+          if (myRes.success && myRes.data) {
+            const detailRes = await getCouncilDetail(myRes.data.councilId)
+            if (detailRes.success && detailRes.data) {
+              setCouncil(detailRes.data)
+            }
           }
         }
       } catch (err) {
@@ -37,7 +52,7 @@ function MyCouncilActivityPage() {
     }
 
     fetchCouncil()
-  }, [])
+  }, [councilIdParam])
 
   const handleLogout = async () => {
     await logout()
@@ -68,20 +83,27 @@ function MyCouncilActivityPage() {
     )
   }
 
+  const isMember = council.isMember
+  const isLeader = council.myRole === 'LEADER'
+  const headerTitle = isMember ? '나의 자치회' : `${council.region} 자치회`
+  const heroImgUrl = toFullUrl(council.profileImageUrl) || heroBgImg
+
   return (
     <div className={styles.container}>
       <div className={styles.headerOverlay}>
         <BackHeader
-          title="나의 자치회"
+          title={headerTitle}
           rightContent={
-            <button className={styles.editButton}>편집</button>
+            isMember && isLeader ? (
+              <button className={styles.editButton}>편집</button>
+            ) : undefined
           }
         />
       </div>
 
       <div className={styles.hero}>
         <div className={styles.heroBg}>
-          <img src={heroBgImg} alt="" />
+          <img src={heroImgUrl} alt="" />
         </div>
         <div className={styles.heroGradient} />
 
@@ -127,10 +149,15 @@ function MyCouncilActivityPage() {
             totalBudget={council.totalBudget}
             activityCount={council.activityCount}
             monthsSinceCreation={council.monthsSinceCreation}
+            isMember={isMember}
           />
         )}
-        {activeTab === '활동 멤버' && <ActivityMembers councilId={council.councilId} />}
-        {activeTab === '활동 규칙' && <ActivityRules councilId={council.councilId} />}
+        {activeTab === '활동 멤버' && (
+          <ActivityMembers councilId={council.councilId} isMember={isMember} />
+        )}
+        {activeTab === '활동 규칙' && (
+          <ActivityRules councilId={council.councilId} isMember={isMember} />
+        )}
       </div>
 
       <footer className={styles.footer}>

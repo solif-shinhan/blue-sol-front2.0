@@ -14,6 +14,7 @@ interface ActivitySummaryProps {
   totalBudget: number
   activityCount: number
   monthsSinceCreation: number
+  isMember: boolean
 }
 
 const API_BASE = import.meta.env.VITE_API_URL || ''
@@ -23,7 +24,7 @@ const toFullUrl = (path: string | null | undefined): string | undefined => {
   return `${API_BASE}/${path}`
 }
 
-function ActivitySummary({ councilId, councilName, currentBudget, totalBudget, activityCount, monthsSinceCreation }: ActivitySummaryProps) {
+function ActivitySummary({ councilId, councilName, currentBudget, totalBudget, activityCount, monthsSinceCreation, isMember }: ActivitySummaryProps) {
   const navigate = useNavigate()
   const [pastActivities, setPastActivities] = useState<CouncilReviewPostSummary[]>([])
 
@@ -59,40 +60,44 @@ function ActivitySummary({ councilId, councilName, currentBudget, totalBudget, a
 
   return (
     <>
-      <div className={styles.activitySummary}>
-        <div className={styles.activityCount}>
-          <div className={styles.activityCountText}>
-            {monthsSinceCreation}개월 동안 우리는<br />
-            <span className={styles.activityCountHighlight}>{activityCount}개 활동</span>을 함께 했어요
+      {isMember && (
+        <>
+          <div className={styles.activitySummary}>
+            <div className={styles.activityCount}>
+              <div className={styles.activityCountText}>
+                {monthsSinceCreation}개월 동안 우리는<br />
+                <span className={styles.activityCountHighlight}>{activityCount}개 활동</span>을 함께 했어요
+              </div>
+            </div>
+            <div className={styles.activityCharacter}>
+              <img src={characterImg} alt="" />
+            </div>
           </div>
-        </div>
-        <div className={styles.activityCharacter}>
-          <img src={characterImg} alt="" />
-        </div>
-      </div>
 
-      <div className={styles.budgetSection}>
-        <div className={styles.budgetRow}>
-          <span className={styles.budgetLabel}>남은 예산</span>
-          <span className={styles.budgetValue}>{formatCurrency(currentBudget)}</span>
-        </div>
-        <div className={styles.budgetBar}>
-          <div className={styles.budgetBarFill} style={{ width: `${budgetRemainingPercent}%` }} />
-        </div>
-      </div>
+          <div className={styles.budgetSection}>
+            <div className={styles.budgetRow}>
+              <span className={styles.budgetLabel}>남은 예산</span>
+              <span className={styles.budgetValue}>{formatCurrency(currentBudget)}</span>
+            </div>
+            <div className={styles.budgetBar}>
+              <div className={styles.budgetBarFill} style={{ width: `${budgetRemainingPercent}%` }} />
+            </div>
+          </div>
 
-      <div className={styles.newsSection}>
-        <h2 className={styles.newsSectionTitle}>새로운 소식</h2>
-        <div className={styles.newsCard}>
-          <div className={styles.newsCardContent}>
-            <p className={styles.newsCardTitle}>따뜻한 활동 후기가 도착했어요</p>
-            <p className={styles.newsCardSubtitle}>릴레이로 후기를 작성해볼까요?</p>
+          <div className={styles.newsSection}>
+            <h2 className={styles.newsSectionTitle}>새로운 소식</h2>
+            <div className={styles.newsCard}>
+              <div className={styles.newsCardContent}>
+                <p className={styles.newsCardTitle}>따뜻한 활동 후기가 도착했어요</p>
+                <p className={styles.newsCardSubtitle}>릴레이로 후기를 작성해볼까요?</p>
+              </div>
+              <div className={styles.newsCardIcon}>
+                <img src={newsIconImg} alt="" />
+              </div>
+            </div>
           </div>
-          <div className={styles.newsCardIcon}>
-            <img src={newsIconImg} alt="" />
-          </div>
-        </div>
-      </div>
+        </>
+      )}
 
       <div className={styles.pastSection}>
         <div className={styles.pastSectionHeader}>

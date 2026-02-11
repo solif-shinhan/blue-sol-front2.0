@@ -233,3 +233,24 @@
   line-height: 1.2;
   letter-spacing: -0.32px;
 }
+
+/* Mission Popup Overlay (Home page) */
+.missionPopupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 120px;
+  animation: missionOverlayIn 0.3s ease forwards;
+}
+
+@keyframes missionOverlayIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
