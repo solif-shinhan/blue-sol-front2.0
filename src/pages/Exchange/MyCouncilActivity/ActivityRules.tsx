@@ -24,7 +24,8 @@ function ActivityRules({ councilId, isMember }: ActivityRulesProps) {
       try {
         const response = await getCouncilRules(councilId)
         if (response.success) {
-          setRules(Array.isArray(response.data) ? response.data : [])
+          const list = response.data
+          setRules(Array.isArray(list) ? list : (list as any)?.content ?? [])
         }
       } catch (err) {
         console.error('규칙 조회 실패:', err)
@@ -45,7 +46,8 @@ function ActivityRules({ councilId, isMember }: ActivityRulesProps) {
       if (response.success) {
         const rulesRes = await getCouncilRules(councilId)
         if (rulesRes.success) {
-          setRules(rulesRes.data)
+          const list = rulesRes.data
+          setRules(Array.isArray(list) ? list : (list as any)?.content ?? [])
         }
         setNewRuleText('')
         setIsAddingRule(false)

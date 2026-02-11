@@ -188,7 +188,7 @@ function HomePage() {
     const handleQuickMenuClick = (label: string) => {
         switch (label) {
             case '쪽지함':
-                navigate('/notifications?tab=activity&sub=message');
+                navigate('/notifications/messagebox');
                 break
             case '게시판':
                 navigate('/exchange/board');

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import styles1 from './Board-1.module.css'
 import styles2 from './Board-2.module.css'
 import { BackHeader } from '@/components/BackHeader'
@@ -50,6 +50,7 @@ interface PostItem {
   commentCount: number
   date: string
   image: string | null
+  isNotice: boolean
 }
 
 const CATEGORY_CARDS: CategoryCard[] = [
@@ -110,14 +111,24 @@ function mapApiPostToUI(post: PostListItem): PostItem {
     commentCount: post.commentCount,
     date: formatDate(post.createdAt),
     image: toFullUrl(post.thumbnailImageUrl) || null,
+    isNotice: post.postCategory === 'NOTICE',
   }
 }
 
 function BoardPage() {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
 
-  const [activeCard, setActiveCard] = useState<CardId>('warm-review')
-  const [activeFilterIdx, setActiveFilterIdx] = useState(0)
+  const [activeCard, setActiveCard] = useState<CardId>(() => {
+    const tab = searchParams.get('tab')
+    if (tab === 'mentoring') return 'warm-review'
+    return 'warm-review'
+  })
+  const [activeFilterIdx, setActiveFilterIdx] = useState(() => {
+    const tab = searchParams.get('tab')
+    if (tab === 'mentoring') return 1
+    return 0
+  })
   const [subFilterIdx, setSubFilterIdx] = useState(0)
   const [posts, setPosts] = useState<PostItem[]>([])
   const [isLoading, setIsLoading] = useState(false)
@@ -262,6 +273,7 @@ function BoardPage() {
               >
                 <div className={styles.postContent}>
                   <div className={styles.postMeta}>
+                    {post.isNotice && <span className={styles.noticeBadge}>공지</span>}
                     <span className={styles.postCategory}>{post.category}</span>
                     <div className={styles.postMetaDivider} />
                     <div className={styles.postStats}>

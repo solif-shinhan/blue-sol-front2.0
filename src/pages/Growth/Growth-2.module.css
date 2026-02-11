@@ -34,7 +34,7 @@
 }
 
 .solbangulIconFilled img {
-  transform: rotate(18deg) scale(0.72);
+  transform: scale(0.72);
 }
 
 
@@ -179,7 +179,6 @@
 .rewardIcon img {
   width: 20px;
   height: 20px;
-  transform: rotate(-29.91deg);
   object-fit: cover;
 }
 

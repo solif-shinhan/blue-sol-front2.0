@@ -465,7 +465,7 @@ function ExchangePage() {
               <button className={`${styles.fabMenuItem} ${styles.fabMenuItemBorder}`} onClick={() => navigate('/exchange/write')}>
                 토닥토닥 고민 상담
               </button>
-              <button className={styles.fabMenuItem} onClick={() => navigate('/exchange/board')}>
+              <button className={styles.fabMenuItem} onClick={() => navigate('/exchange/board?tab=mentoring')}>
                 멘토링 후기 작성
               </button>
             </div>

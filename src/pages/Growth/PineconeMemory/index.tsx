@@ -83,7 +83,7 @@ function PineconeMemoryPage() {
         const firstEarned = res.data.categoryProgress.find(c => c.isPineconeEarned)
         if (firstEarned) setSelectedCategory(firstEarned.category)
       }
-    }).catch(() => {})
+    }).catch((err) => { console.error('미션 진행도 조회 실패:', err) })
   }, [])
 
   useEffect(() => {
@@ -103,7 +103,8 @@ function PineconeMemoryPage() {
       } else {
         setMissions([])
       }
-    }).catch(() => {
+    }).catch((err) => {
+      console.error('미션 추억 조회 실패:', err)
       setMissions([])
     }).finally(() => {
       setIsLoadingMemories(false)

@@ -18,11 +18,8 @@
 
 /* Content */
 .content {
-  position: absolute;
-  top: 136px;
-  left: 50%;
-  transform: translateX(-50%);
   width: 361px;
+  margin: 26px auto 0;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -79,7 +76,6 @@
 .badgeImage {
   width: 65.228px;
   height: 65.228px;
-  transform: rotate(-29.91deg);
   position: relative;
 }
 
