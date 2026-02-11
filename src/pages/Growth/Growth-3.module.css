@@ -166,8 +166,14 @@
   line-height: 1.2;
   letter-spacing: -0.32px;
   color: #E6EFFF;
-  height: 38px;
   width: 143px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  word-break: keep-all;
+  white-space: pre-line;
 }
 
 .strengthCardAuthor {
@@ -180,9 +186,13 @@
 .strengthCardAuthor span {
   font-family: 'Pretendard', sans-serif;
   font-weight: 400;
-  font-size: 12px;
+  font-size: 11px;
   line-height: 1.2;
   color: #ABC8FF;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 143px;
 }
 
 /* 장학 프로그램 섹션 */
