@@ -1,0 +1,285 @@
+/* PineconeMemory-1.module.css - 추억 회상하기 페이지 */
+
+.container {
+  width: 393px;
+  min-height: 852px;
+  max-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F3F6FB 100%);
+  position: relative;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Header */
+.header {
+  position: absolute;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 393px;
+  height: 40px;
+  overflow: hidden;
+}
+
+.headerInner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 350px;
+  display: flex;
+  align-items: center;
+}
+
+.headerLeft {
+  display: flex;
+  flex: 1;
+  align-items: center;
+}
+
+.closeButton {
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.closeButton img {
+  width: 24px;
+  height: 24px;
+}
+
+.headerTitle {
+  font-family: 'OneShinhan', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #848484;
+  text-align: center;
+  margin-left: 4px;
+}
+
+/* Content */
+.content {
+  position: absolute;
+  top: 136px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 361px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 40px;
+}
+
+/* Badge Row */
+.badgeRow {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.badge {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0px 0px 30px rgba(27, 37, 56, 0.1);
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.badge:disabled {
+  cursor: default;
+}
+
+.badgeBg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 110px;
+  height: 110px;
+  background: #FFFFFF;
+  border-radius: 24px;
+}
+
+.badgeImageWrapper {
+  position: absolute;
+  right: -7.06px;
+  top: calc(50% - 17.47px);
+  transform: translateY(-50%);
+  width: 89.065px;
+  height: 89.065px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.badgeImage {
+  width: 65.228px;
+  height: 65.228px;
+  transform: rotate(-29.91deg);
+  position: relative;
+}
+
+.badgeImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.badgeImageFaded {
+  position: relative;
+}
+
+.badgeImageFaded img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.badgeImageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #FFFFFF 100%);
+  z-index: 1;
+}
+
+.badgeLabel {
+  position: absolute;
+  left: 12px;
+  top: 55px;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.4;
+  color: #222222;
+  white-space: nowrap;
+  text-align: left;
+  z-index: 2;
+}
+
+.badgeLabel p {
+  margin: 0;
+}
+
+.badgeLabelInactive {
+  opacity: 0.3;
+  color: #14307C;
+}
+
+/* Section Title */
+.sectionTitle {
+  font-family: 'OneShinhan', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #222222;
+  padding: 0 5px;
+}
+
+/* Mission List */
+.missionList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.missionCard {
+  background: #FFFFFF;
+  border-radius: 24px;
+  box-shadow: 0px 0px 30px rgba(27, 37, 56, 0.1);
+  padding: 24px 18px;
+  width: 100%;
+}
+
+.missionCardContent {
+  display: flex;
+  align-items: flex-start;
+  gap: 17px;
+  width: 100%;
+}
+
+.missionCardLeft {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+  min-width: 0;
+}
+
+.missionTitle {
+  font-family: 'OneShinhan', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.36px;
+  color: #14307C;
+  white-space: pre-wrap;
+}
+
+.missionStatus {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.missionStatusText {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #222222;
+}
+
+.missionDivider {
+  width: 1px;
+  height: 12px;
+  background: #C8C8C8;
+  flex-shrink: 0;
+}
+
+.missionNote {
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.2;
+  color: #848484;
+}
+
+.missionCardIcon {
+  width: 87px;
+  height: 87px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.missionCardIcon img {
+  width: 79px;
+  height: 79px;
+  object-fit: contain;
+}
